@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /settings
+Disallow: /profile
+Disallow: /sign-in
+Disallow: /two-factor
+Disallow: /friends
+Disallow: /members
+
+Sitemap: https://30anow.github.io/sitemap.xml

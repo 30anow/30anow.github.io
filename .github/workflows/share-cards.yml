@@ -1,12 +1,25 @@
-# Regenerates the per-event share stubs (e/<id>.html) so shared links
-# unfurl into real cards. Scheduled ~20 minutes after the event imports
-# in the app repo (10:00 & 17:00 UTC) so fresh events get stubs same-day.
+# Regenerates everything built from the events table: the per-event share
+# stubs (e/<id>.html) so shared links unfurl into real cards, and the
+# crawlable pages (lineup/, tonight/, venues/<slug>/, sitemap.xml,
+# robots.txt) so a search for what is on along 30A can find this site at
+# all. Scheduled ~20 minutes after the event imports in the app repo
+# (10:00 & 17:00 UTC) so fresh events get their pages same-day, plus one run
+# across beach midnight so /tonight/ turns over when the day does: 05:10 UTC
+# is 00:10 CDT in summer and 23:10 CST in winter, and tonightWindow rolls
+# the last hour of the day forward so the winter run already describes the
+# night that is about to start.
 name: Share cards
 
 on:
   schedule:
+    - cron: '10 5 * * *'
     - cron: '20 10,17 * * *'
   workflow_dispatch:
+    inputs:
+      allow_shrink:
+        description: 'Publish even if the event count has collapsed (real off-season drop, not a bad fetch)'
+        type: boolean
+        default: false
 
 jobs:
   refresh:
@@ -18,11 +31,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      # The generator's pure functions, with no dependencies to install. A
+      # failing test stops the run before a broken page reaches the site.
+      - run: node --test scripts/site.test.mjs
       - run: node scripts/share-cards.mjs
+        env:
+          ALLOW_SHRINK: ${{ inputs.allow_shrink }}
       - name: Commit if changed
         run: |
           git config user.name "30a-now-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A e
-          git diff --cached --quiet || git commit -m "Refresh event share cards"
+          git add -A e lineup tonight venues sitemap.xml robots.txt
+          git diff --cached --quiet || git commit -m "Refresh event share cards and pages"
           git push
