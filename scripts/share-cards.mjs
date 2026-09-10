@@ -29,7 +29,13 @@ import {
 // its bundle. Anonymous reads see approved events only (enforced by RLS).
 const SUPABASE_URL = 'https://jbswxdkcpjjbqulsykvu.supabase.co';
 const ANON_KEY = 'sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ';
-const UA = '30anow-scraper/1.0 (+https://30anow.app)';
+
+// The contact URL a host can actually resolve. It read https://30anow.app
+// until 9 Sep 2026, which has no A record at all (Cloudflare DoH: NXDOMAIN,
+// status 3) — and some WordPress firewalls read a contact that does not
+// resolve as a bot signal. These probes go to the same hosts the scraper
+// reads, and the scraper is the app's entire supply of content.
+const UA = '30anow-scraper/1.0 (+https://30anow.github.io)';
 
 const SELECT =
   'id,title,venue,area,category,starts_at,ends_at,price,description,url,image_url,lat,lng';

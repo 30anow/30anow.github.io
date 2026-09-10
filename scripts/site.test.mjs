@@ -6,6 +6,7 @@ import { describe, it } from 'node:test';
 
 import {
   addBeachDays,
+  ARRIVAL,
   beachDayKey,
   beachIso,
   beachWallToUtc,
@@ -358,7 +359,7 @@ describe('pages', () => {
     assert.doesNotMatch(html, /Tonight Trivia/);
     assert.match(html, /Open in 30A Now/);
     assert.match(html, /Get it for iPhone/);
-    assert.match(html, /<a class="live" href="\/weekend">/);
+    assert.match(html, /<a class="live" href="\/weekend\?s=seo-lineup">/);
     const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1]);
     assert.equal(ld.length, 2);
     assert.deepEqual(ld.map((e) => e.name).sort(), ['Jazz Night', 'Sunrise Yoga']);
@@ -370,7 +371,7 @@ describe('pages', () => {
     assert.doesNotMatch(html, /Lunch Set/);
     assert.doesNotMatch(html, /Jazz Night/);
     assert.match(html, /app-argument=thirtyanow:\/\/feed"/);
-    assert.match(html, /<a class="live" href="\/feed">/);
+    assert.match(html, /<a class="live" href="\/feed\?s=seo-tonight">/);
   });
 
   it('tonight names the night it lists, not the moment it was generated', () => {
@@ -403,7 +404,7 @@ describe('pages', () => {
     assert.match(html, /<h1>The Red Bar<\/h1>/);
     assert.match(html, /70 Hotz Ave, Grayton Beach/);
     assert.match(html, /theredbar.com/);
-    assert.match(html, /href="\/venue\/The%20Red%20Bar"/);
+    assert.match(html, /href="\/venue\/The%20Red%20Bar\?s=seo-venue"/);
     assert.match(html, /app-argument=thirtyanow:\/\/venue\/The%20Red%20Bar"/);
     assert.match(html, /Dread Clampitt/);
     assert.doesNotMatch(html, /Sunrise Yoga/);
@@ -460,7 +461,10 @@ describe('share stub', () => {
     assert.match(html, /<img class="poster" src="https:\/\/30a.com\/p.png"/);
     assert.match(html, /<p class="d">Two sets.<\/p>/);
     assert.match(html, /Listing on 30a.com/);
-    assert.match(html, new RegExp(`<a class="live" href="/event/${e.id}">See it on the live map</a>`));
+    assert.match(
+      html,
+      new RegExp(`<a class="live" href="/event/${e.id}\\?s=seo-event">See it on the live map</a>`),
+    );
     assert.match(html, new RegExp(`data-app="thirtyanow://event/${e.id}"`));
     assert.match(html, /Get it for iPhone/);
     const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1]);
@@ -478,9 +482,113 @@ describe('share stub', () => {
   });
   it('carries the query through to the live link and escapes the feed', () => {
     const html = renderStub(row({ title: 'A <b>"night"</b>', venue: 'Bud & Alley\'s', area: '' }), { now }).html;
-    assert.match(html, /live\[i\]\.href\+=location\.search/);
+    assert.deepEqual(forward(html, '?s=share', ['/event/abc?s=seo-event']), ['/event/abc?s=share']);
     assert.match(html, /<title>A &lt;b&gt;&quot;night&quot;&lt;\/b&gt; — 30A Now<\/title>/);
     assert.match(html, /<p class="lead">Bud &amp; Alley&#39;s|<p class="lead">Bud &amp; Alley's/);
+  });
+});
+
+/**
+ * Runs a page's own forwarder the way a browser would: the anchors read
+ * their href back absolute, as a real <a> does, and hand back the attribute
+ * the script left behind.
+ */
+function forward(html, search, hrefs) {
+  const js = /<script>\n([\s\S]*?)<\/script>/.exec(html)[1];
+  const links = hrefs.map((h) => {
+    const a = { attr: h };
+    Object.defineProperty(a, 'href', {
+      get: () => new URL(a.attr, 'https://30anow.github.io/lineup/').toString(),
+      set: (v) => {
+        a.attr = v;
+      },
+    });
+    return a;
+  });
+  const env = {
+    location: { search },
+    navigator: { userAgent: 'node' },
+    document: {
+      hidden: false,
+      getElementById: () => null,
+      querySelectorAll: (sel) => (sel.includes('a[href^="/"]') ? links : []),
+    },
+    URL,
+    URLSearchParams,
+    Date,
+    setTimeout,
+  };
+  new Function(...Object.keys(env), js)(...Object.values(env));
+  return links.map((a) => a.attr);
+}
+
+describe('arrival tags', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venues = venuePages(rows, now);
+
+  it('gives every way into the live app a tag, so an arrival from Google is countable', () => {
+    // Until 9 Sep 2026 every cta() caller passed a bare path. app_open fires
+    // only for a member or a guest and web_arrival only on a tag, so a
+    // visitor who found /lineup/ in Google and clicked through wrote no row
+    // at all — the one channel whose point is new people, with no data.
+    assert.match(renderLineup(rows, venues, now).html, /class="live" href="\/weekend\?s=seo-lineup"/);
+    assert.match(renderTonight(rows, venues, now).html, /class="live" href="\/feed\?s=seo-tonight"/);
+    assert.match(renderVenue(venues[0], now).html, /class="live" href="[^"]*\?s=seo-venue"/);
+    assert.match(renderVenuesIndex(venues, now).html, /class="live" href="\/\?s=seo-venue-index"/);
+    assert.match(renderStub(rows[0], { now }).html, /class="live" href="[^"]*\?s=seo-event"/);
+  });
+
+  it('names the page that fed the click on the row link, not just the stub', () => {
+    // Without this every SEO arrival collapses into seo-event, because the
+    // stub's own CTA is the last hop, and "is the weekend list working or
+    // are the venue pages?" stays unanswerable.
+    assert.match(renderLineup(rows, venues, now).html, new RegExp(`href="/e/${rows[0].id}\\?s=seo-lineup"`));
+    assert.match(renderVenue(venues[0], now).html, new RegExp(`href="/e/${rows[0].id}\\?s=seo-venue"`));
+  });
+
+  it('merges the visitor’s own tag into internal links instead of concatenating', () => {
+    // `live[i].href+=location.search` was fine while the links were bare.
+    // With a tag of their own it produced "/weekend?s=seo-lineup?utm_source=x",
+    // which parseArrival reads as one value and drops against ^[\w.-]+$ —
+    // the tag silently lost on exactly the visits worth counting.
+    const html = renderLineup(rows, venues, now).html;
+    assert.deepEqual(
+      forward(html, '?s=fb&utm_source=x', [
+        '/weekend?s=seo-lineup',
+        `/e/${rows[0].id}?s=seo-lineup`,
+        '/venues/the-red-bar/',
+      ]),
+      ['/weekend?s=fb', `/e/${rows[0].id}?s=fb`, '/venues/the-red-bar/?s=fb'],
+    );
+  });
+
+  it('leaves the page’s own tag alone when the visitor carries none, and rides ref through', () => {
+    const html = renderLineup(rows, venues, now).html;
+    assert.deepEqual(forward(html, '', ['/weekend?s=seo-lineup']), ['/weekend?s=seo-lineup']);
+    assert.deepEqual(forward(html, '?utm_medium=email', ['/weekend?s=seo-lineup']), ['/weekend?s=seo-lineup']);
+    assert.deepEqual(forward(html, '?ref=the-red-bar', ['/weekend?s=seo-lineup']), [
+      '/weekend?s=seo-lineup&ref=the-red-bar',
+    ]);
+  });
+
+  it('rewrites the nav and the rows, but not the footer boilerplate', () => {
+    // Privacy and Terms are the only footer links that are also SPA routes,
+    // and a reader opening one from a share stub would be counted as a
+    // second arrival. They live outside <main>, so the selector says so.
+    const html = renderLineup(rows, venues, now).html;
+    assert.equal(
+      /querySelectorAll\('([^']+)'\)/.exec(html)[1],
+      'header a[href^="/"],main a[href^="/"]',
+    );
+    assert.match(html, /<footer>[\s\S]*legal\/privacy/);
+  });
+
+  it('keeps every tag inside what parseArrival will accept', () => {
+    for (const tag of Object.values(ARRIVAL)) {
+      assert.match(tag, /^[\w.-]+$/);
+      assert.ok(tag.length <= 40);
+    }
   });
 });
 

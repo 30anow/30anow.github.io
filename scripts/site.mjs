@@ -412,6 +412,50 @@ export function jsonLdScript(events, posterOf = () => null) {
 }
 
 // ---------------------------------------------------------------------------
+// Arrival tags
+// ---------------------------------------------------------------------------
+
+/**
+ * The `s=` value each generated page hands the live app.
+ *
+ * Until now a visitor who found /lineup/ in Google and clicked through
+ * produced no row at all: app_open fires only once someone is a member or
+ * has tapped "browse as guest", and web_arrival only when the URL carries a
+ * tag (src/state/AppContext.tsx:984), so an untagged web visitor is neither
+ * and nothing is written. The one channel whose whole point is new people
+ * was the one channel with no data, and an empty bucket could not tell
+ * "nobody clicked" from "nothing was tagged".
+ *
+ * One value per page rather than a flat "seo", so December's question — is
+ * the weekend list working, or the venue pages? — is a group-by and not a
+ * guess. `like 'seo%'` counts the crawlable site as a whole. Values stay
+ * inside parseArrival's ^[\w.-]+$ and its 40-character cap.
+ *
+ * A tag on an internal /e/<id> link does create a second URL for a crawler,
+ * which is why Google tells you not to campaign-tag your own site. Every
+ * stub already carries a self-referencing canonical and the sitemap lists
+ * only clean URLs, so the duplicates consolidate — and without it every
+ * arrival collapses into seo-event and the page that did the work is lost.
+ */
+export const ARRIVAL = {
+  lineup: 'seo-lineup',
+  tonight: 'seo-tonight',
+  venue: 'seo-venue',
+  venues: 'seo-venue-index',
+  event: 'seo-event',
+};
+
+/** `path` with the tags that are set appended, merging with any query it already has. */
+export function tagged(path, params = {}) {
+  const q = Object.entries(params)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .join('&');
+  if (!q) return path;
+  return `${path}${path.includes('?') ? '&' : '?'}${q}`;
+}
+
+// ---------------------------------------------------------------------------
 // HTML
 // ---------------------------------------------------------------------------
 
@@ -452,8 +496,21 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // 1.5 s; a desktop click goes straight to the store. Safari shows its
 // "cannot open" alert when the app is absent — universal links would need
 // an AASA file and a new binary, so this is the honest version for now.
-// The second block carries ?s=fb (or any query) through to the live SPA
-// link so app_open on web can count where a visit came from.
+//
+// The second block carries the visitor's own tag (?s=fb from a Thursday
+// post, ?s=share off a shared link, ?ref=<venue> off a partner strip)
+// across every internal hop, so however many of these pages a reader walks
+// before leaping into the app, the arrival still names where they came in.
+// It MERGES the two query strings. `live[i].href+=location.search` was fine
+// while the links were bare, but now that they carry ?s=seo-lineup a
+// visitor with a utm string produced "/weekend?s=seo-lineup?utm_source=x":
+// parseArrival splits on & only, reads the value as "seo-lineup?utm_source=x"
+// and drops it against ^[\w.-]+$ — the tag silently lost on exactly the
+// visits worth counting. Only s and ref are forwarded, the two keys the app
+// reads, so no third-party campaign junk can shape a value again. The nav
+// and the rows, not the footer: Privacy and Terms are the two boilerplate
+// links that are also SPA routes, and a reader opening one from a share
+// stub would otherwise be counted as a second arrival.
 const SCRIPT = `<script>
 (function(){
   var open=document.getElementById('open');
@@ -466,8 +523,18 @@ const SCRIPT = `<script>
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>`;
@@ -510,11 +577,11 @@ ${extraHead}<style>${CSS}</style>
 `;
 }
 
-function cta({ appArgument, livePath, liveLabel }) {
+function cta({ appArgument, livePath, liveLabel, tag = '' }) {
   return `<div class="cta">
 <a class="btn" id="open" href="${APP_STORE_URL}" data-app="${esc(appArgument)}">Open in 30A Now</a>
 <a class="btn alt" href="${APP_STORE_URL}">Get it for iPhone</a>
-<a class="live" href="${esc(livePath)}">${esc(liveLabel)}</a>
+<a class="live" href="${esc(tagged(livePath, { s: tag }))}">${esc(liveLabel)}</a>
 </div>
 `;
 }
@@ -556,8 +623,12 @@ function hostOf(url) {
  * One row. The title links to the share page (/e/<id>, which opens the
  * live event), the venue to its page when it has one, and the source
  * link is the listing the scraper read.
+ *
+ * `tag`/`ref` ride on the share link so the page that fed the click is
+ * named in the arrival; the stub's own forwarder carries whichever it is
+ * on into the live app.
  */
-export function rowHtml(e, venueSlugs = new Map(), { showVenue = true } = {}) {
+export function rowHtml(e, venueSlugs = new Map(), { showVenue = true, tag = '' } = {}) {
   const slug = venueSlugs.get(String(e.venue ?? '').trim().toLowerCase());
   const venue = !showVenue
     ? ''
@@ -576,7 +647,8 @@ export function rowHtml(e, venueSlugs = new Map(), { showVenue = true } = {}) {
   const source = host
     ? `<div class="s"><a href="${esc(link)}" rel="nofollow noopener">Listing on ${esc(host)}</a></div>`
     : '';
-  return `<li class="ev" id="e-${esc(e.id)}"><a class="t" href="/e/${esc(e.id)}">${esc(e.title)}</a><div class="m">${meta}</div>${desc}${source}</li>`;
+  const href = tagged(`/e/${esc(e.id)}`, { s: tag });
+  return `<li class="ev" id="e-${esc(e.id)}"><a class="t" href="${href}">${esc(e.title)}</a><div class="m">${meta}</div>${desc}${source}</li>`;
 }
 
 function daySection(day, venueSlugs, opts) {
@@ -621,9 +693,14 @@ export function renderLineup(events, venues, now, posters = new Map()) {
     `<h1>This weekend on 30A</h1>
 <p class="lead">${esc(range)} · ${countLabel(main, 'event', 'events')}${classes ? ` + ${countLabel(classes, 'class', 'classes')}` : ''} · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
-    cta({ appArgument: 'thirtyanow://weekend', livePath: '/weekend', liveLabel: 'See it live on the map' }) +
+    cta({
+      appArgument: 'thirtyanow://weekend',
+      livePath: '/weekend',
+      liveLabel: 'See it live on the map',
+      tag: ARRIVAL.lineup,
+    }) +
     (days.length
-      ? days.map((d) => daySection(d, slugMap(venues))).join('\n')
+      ? days.map((d) => daySection(d, slugMap(venues), { tag: ARRIVAL.lineup })).join('\n')
       : `<p class="quiet">Nothing listed for the weekend yet — the calendars are read twice a day, so check back.</p>`) +
     `<section><h2>Also</h2><p><a href="/tonight/">Tonight on 30A</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
@@ -663,9 +740,14 @@ export function renderTonight(events, venues, now, posters = new Map()) {
     `<h1>Tonight on 30A</h1>
 <p class="lead">${esc(day)} · from 4 PM · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
-    cta({ appArgument: 'thirtyanow://feed', livePath: '/feed', liveLabel: 'See it live in the app' }) +
+    cta({
+      appArgument: 'thirtyanow://feed',
+      livePath: '/feed',
+      liveLabel: 'See it live in the app',
+      tag: ARRIVAL.tonight,
+    }) +
     (days.length
-      ? days.map((d) => daySection(d, slugMap(venues))).join('\n')
+      ? days.map((d) => daySection(d, slugMap(venues), { tag: ARRIVAL.tonight })).join('\n')
       : `<p class="quiet">Quiet night — nothing listed after 4 PM. <a href="/lineup/">Here is the weekend.</a></p>`) +
     `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
@@ -703,8 +785,10 @@ export function renderVenue(venue, now, posters = new Map()) {
     `<h1>${esc(name)}</h1>
 <p class="lead">${area && area !== name ? `${esc(area)} · ` : ''}${countLabel(events.length, 'upcoming event', 'upcoming events')} · updated ${esc(fmtStamp(now))} beach time</p>
 ${card}` +
-    cta({ appArgument, livePath, liveLabel: `See ${name} live in the app` }) +
-    days.map((d) => daySection(d, new Map(), { showVenue: false })).join('\n') +
+    cta({ appArgument, livePath, liveLabel: `See ${name} live in the app`, tag: ARRIVAL.venue }) +
+    days
+      .map((d) => daySection(d, new Map(), { showVenue: false, tag: ARRIVAL.venue }))
+      .join('\n') +
     `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
     foot();
@@ -724,7 +808,12 @@ export function renderVenuesIndex(venues, now) {
     `<h1>Venues on 30A</h1>
 <p class="lead">${venues.length} places with something coming up · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
-    cta({ appArgument: 'thirtyanow://', livePath: '/', liveLabel: 'Open the live map' }) +
+    cta({
+      appArgument: 'thirtyanow://',
+      livePath: '/',
+      liveLabel: 'Open the live map',
+      tag: ARRIVAL.venues,
+    }) +
     `<ul class="venues">${venues
       .map(
         (v) =>
@@ -788,7 +877,7 @@ export function renderStub(e, { poster = null, now = Date.now(), venueSlugs = ne
 <p class="lead">${lead}</p>
 ` +
     (poster ? `<img class="poster" src="${esc(poster)}" alt="">\n` : '') +
-    cta({ appArgument, livePath: live, liveLabel: 'See it on the live map' }) +
+    cta({ appArgument, livePath: live, liveLabel: 'See it on the live map', tag: ARRIVAL.event }) +
     desc +
     source +
     `<section><h2>Also</h2><p><a href="/tonight/">Tonight on 30A</a> · <a href="/lineup/">This weekend</a> · <a href="/venues/">Every venue</a></p></section>
