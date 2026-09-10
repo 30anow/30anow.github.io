@@ -5,7 +5,9 @@
 // crawler with HTTP 404. These generators write the same rows the app shows
 // as plain HTML with one JSON-LD Event per row, then hand the reader to the
 // app: /lineup/ (Fri–Sun), /tonight/, /venues/<slug>/ for every venue with
-// three or more upcoming rows, plus sitemap.xml and robots.txt.
+// three or more upcoming rows, plus sitemap.xml and robots.txt — and
+// /embed/<venue>/, the partner strip, for the same reason: it was an SPA
+// route that answered a partner's iframe with HTTP 404 and a 3.0 MB bundle.
 //
 // Pure functions only — share-cards.mjs fetches the rows and writes files.
 // Every date on these pages is beach time (America/Chicago); the helpers
@@ -16,6 +18,13 @@ export const SITE = 'https://30anow.github.io';
 export const APP_STORE_ID = '6792965952';
 export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
 export const BEACH_TZ = 'America/Chicago';
+
+// The PUBLIC client credentials — the same pair the web app ships in its
+// bundle. Anonymous reads see approved events only and anonymous writes may
+// only insert a usage row with a null user_id, both enforced by RLS. Here so
+// the generator and the embed strip's one-line beacon share one copy.
+export const SUPABASE_URL = 'https://jbswxdkcpjjbqulsykvu.supabase.co';
+export const ANON_KEY = 'sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ';
 
 // ---------------------------------------------------------------------------
 // Beach time
@@ -455,6 +464,24 @@ export function tagged(path, params = {}) {
   return `${path}${path.includes('?') ? '&' : '?'}${q}`;
 }
 
+/**
+ * The ?ref= tag for a venue's embed strip — a port of embedRef in
+ * src/data/venues.ts, character for character, so the static strip and the
+ * one the app renders on native count under the same key. Built on the
+ * card's spelling (knownVenue, the pages copy of venueCard) so a SoWal
+ * "Red Bar" and a card's "The Red Bar" are one venue.
+ */
+export function embedRef(venue) {
+  const name = knownVenue(venue)?.name ?? String(venue ?? '').trim();
+  return name
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+    .replace(/-+$/g, '');
+}
+
 // ---------------------------------------------------------------------------
 // HTML
 // ---------------------------------------------------------------------------
@@ -626,28 +653,35 @@ function hostOf(url) {
  *
  * `tag`/`ref` ride on the share link so the page that fed the click is
  * named in the arrival; the stub's own forwarder carries whichever it is
- * on into the live app.
+ * on into the live app. `compact` is the partner strip: no scraped blurb,
+ * no "Listing on sowal.com" — an aggregator's link has no business on the
+ * bar's own homepage — and no neighbourhood, which the strip's header
+ * says once instead of on all fourteen rows.
  */
-export function rowHtml(e, venueSlugs = new Map(), { showVenue = true, tag = '' } = {}) {
+export function rowHtml(
+  e,
+  venueSlugs = new Map(),
+  { showVenue = true, compact = false, tag = '', ref = '' } = {},
+) {
   const slug = venueSlugs.get(String(e.venue ?? '').trim().toLowerCase());
   const venue = !showVenue
     ? ''
     : slug
       ? `<a href="/venues/${slug}/">${esc(e.venue)}</a>`
       : esc(e.venue);
-  const area = e.area && e.area !== e.venue ? esc(e.area) : '';
+  const area = !compact && e.area && e.area !== e.venue ? esc(e.area) : '';
   const meta = [venue, area, esc(fmtWhen(e)), e.price ? esc(e.price) : '']
     .filter(Boolean)
     .join(' · ');
-  const desc = e.description && e.description.trim() !== e.title.trim()
+  const desc = !compact && e.description && e.description.trim() !== e.title.trim()
     ? `<p class="d">${esc(e.description.trim())}</p>`
     : '';
-  const link = safeUrl(e.url);
+  const link = compact ? '' : safeUrl(e.url);
   const host = hostOf(link);
   const source = host
     ? `<div class="s"><a href="${esc(link)}" rel="nofollow noopener">Listing on ${esc(host)}</a></div>`
     : '';
-  const href = tagged(`/e/${esc(e.id)}`, { s: tag });
+  const href = tagged(`/e/${esc(e.id)}`, { s: tag, ref });
   return `<li class="ev" id="e-${esc(e.id)}"><a class="t" href="${href}">${esc(e.title)}</a><div class="m">${meta}</div>${desc}${source}</li>`;
 }
 
@@ -823,6 +857,227 @@ export function renderVenuesIndex(venues, now) {
 ` +
     foot();
   return { html: body };
+}
+
+// ---------------------------------------------------------------------------
+// The partner strip
+// ---------------------------------------------------------------------------
+
+/**
+ * /embed/<venue>/ — "This week at <venue>", the strip a bar drops into its
+ * own site with one line of HTML.
+ *
+ * Until now this was the SPA route app/embed/[venue].tsx, and the export
+ * wrote it as embed/[venue].html — a literal-bracket file matching no real
+ * URL. So https://30anow.github.io/embed/The%20Red%20Bar answered HTTP 404
+ * (checked 9 Sep 2026: 404, 26,940 bytes of shell) and only rendered at all
+ * because GitHub Pages serves 404.html, whose body +html.tsx hides until
+ * the app boots — after a 3.0 MB bundle, inside an iframe, on beach wifi.
+ * It works, but it is a 404 that has to download the whole app to show six
+ * rows on someone else's website, and one missing chunk after a redeploy
+ * leaves the partner a blank box with nothing to report it.
+ *
+ * Static HTML answers 200, needs no bundle and cannot go blank: the rows
+ * are in the file. Same rows the venue page renders (rowHtml), compact —
+ * no scraped blurb, no link to an aggregator on the bar's own homepage —
+ * over the same seven-day window venueWeek uses in the app. Every link
+ * carries ?ref=<venue> and opens in a new tab (<base target="_blank">), so
+ * the host page is never navigated away from inside its own iframe and an
+ * install off the strip is attributable. noindex: the crawlable page for
+ * this venue is /venues/<slug>/.
+ */
+export const EMBED_DAYS = 7;
+
+/** The seven-day window the native strip shows: not yet over, starting inside a week. */
+export function embedWeek(events, now) {
+  const cutoff = now + EMBED_DAYS * 24 * 3600 * 1000;
+  return events
+    .filter((e) => Date.parse(e.ends_at) > now && Date.parse(e.starts_at) < cutoff)
+    .sort(byStart);
+}
+
+/**
+ * Venues whose strip URL is already in someone's hands. The snippet in
+ * docs/featured-shows.md (app repo) went out to these; their iframe has to
+ * answer 200 in a week with nothing on it, so they keep a page with an
+ * honest empty state instead of falling back through the 404 shell.
+ */
+export const PUBLISHED_EMBEDS = [
+  'The Red Bar',
+  "Stinky's Bait Shack",
+  'Red Fish Taco',
+  'Old Florida Fish House',
+];
+
+/**
+ * One strip per venue with anything still ahead of it — a venue page needs
+ * three rows to be worth a crawl, a strip needs one to be worth pasting —
+ * plus the published four however quiet they are.
+ */
+export function embedVenues(events, now) {
+  const out = venuePages(events, now, 1);
+  const byKey = new Map(out.map((v) => [v.name.toLowerCase(), v]));
+  const seenRef = new Set(out.map((v) => embedRef(v.name)));
+  const seenSlug = new Set(out.map((v) => v.slug));
+  const add = (name, area, rows) => {
+    const ref = embedRef(name);
+    if (seenRef.has(ref)) return null;
+    const base = slugify(name);
+    let slug = base;
+    for (let n = 2; seenSlug.has(slug); n += 1) slug = `${base}-${n}`;
+    seenRef.add(ref);
+    seenSlug.add(slug);
+    const group = { name, area, events: rows, slug, known: knownVenue(name) };
+    out.push(group);
+    byKey.set(name.toLowerCase(), group);
+    return group;
+  };
+  // venuePages keeps only rows still ahead of `now` — right for a page of
+  // upcoming events, wrong for a strip on the bar's own homepage at 9 PM,
+  // where the band that went on at 7 is the whole point. Put back what is
+  // playing right now, and give a venue with nothing but that its strip.
+  for (const e of events) {
+    if (Date.parse(e.starts_at) >= now || Date.parse(e.ends_at) <= now) continue;
+    const name = String(e.venue ?? '').trim();
+    if (!name) continue;
+    const group = byKey.get(name.toLowerCase()) ?? add(name, e.area ?? '', []);
+    if (group) group.events.push(e);
+  }
+  for (const name of PUBLISHED_EMBEDS) add(name, '', []);
+  for (const group of out) group.events.sort(byStart);
+  return out;
+}
+
+/**
+ * The venue's own name as a directory, or '' when it cannot safely be one.
+ *
+ * The published snippet uses the name, not the slug, so that spelling has
+ * to keep answering — but a venue string is scraped text. A "/" would write
+ * outside embed/, and : * ? " < > | make a tree that cannot be cloned on
+ * Windows at all, which would take the whole site's deploy down with it.
+ */
+export function embedNameDir(name) {
+  const s = String(name ?? '').trim();
+  if (!s || s.length > 80 || s === '.' || s === '..') return '';
+  // Control characters, and the punctuation Windows refuses in a path.
+  if (/[\u0000-\u001f\u007f\/\\:*?"<>|]/.test(s)) return '';
+  if (s.endsWith('.')) return ''; // Windows strips a trailing dot silently
+  if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(s)) return '';
+  return s;
+}
+
+/**
+ * Every directory to write, in order: /embed/<slug>/ for each venue, plus
+ * /embed/<its own name>/ where that is a different path.
+ *
+ * "Different" is judged case-INSENSITIVELY, and that is the whole reason
+ * this is a function. "Crackings" and its slug "crackings" are two paths on
+ * the Linux box that builds the site and one path on the Windows and macOS
+ * machines that clone it — two git entries over one file, a working tree
+ * that can never be clean. The slug wins, since it is the spelling
+ * /venues/<slug>/ already uses.
+ */
+export function embedDirs(venues) {
+  const taken = new Set();
+  const out = [];
+  for (const venue of venues) {
+    for (const dir of [venue.slug, embedNameDir(venue.name)]) {
+      if (!dir || taken.has(dir.toLowerCase())) continue;
+      taken.add(dir.toLowerCase());
+      out.push({ dir, venue });
+    }
+  }
+  return out;
+}
+
+const EMBED_CSS = `
+:root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--border:#E3EBEE}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;background:#fff;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.hd{display:flex;align-items:center;gap:10px}
+.hd h1{margin:1px 0 0;font-size:19px;font-weight:900;line-height:1.15}
+.over{margin:0;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--teal)}
+.where{margin:1px 0 0;font-size:12.5px;color:var(--sub)}
+.dir{flex:none;padding:7px 10px;border:1.5px solid var(--teal);border-radius:10px;font-size:12.5px;font-weight:800;color:var(--teal);text-decoration:none}
+h2{margin:12px 0 2px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sub)}
+ul.rows{list-style:none;margin:0;padding:0}
+li.ev{padding:8px 0;border-top:1px solid var(--border)}
+.t{display:block;font-size:14.5px;font-weight:700;color:var(--ink);text-decoration:none}
+.m{margin-top:1px;font-size:12px;color:var(--sub)}
+.quiet{padding:22px 0;text-align:center;font-size:13.5px;color:var(--sub)}
+.foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
+.foot b{color:var(--teal)}
+.stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+`;
+
+/**
+ * embed_view, without the component it used to ride on. One POST, the same
+ * name, props and shape the native strip sends (src/lib/telemetry.ts), so
+ * an existing count over usage_events keeps working; app_version says
+ * "pages" so the static strip is still tellable from the app's. Anonymous
+ * insert with a null user_id is all the RLS policy allows, and the key is
+ * the one the web bundle already ships. Wrapped in try/catch and failing
+ * silent: a partner's homepage must never see anything from this.
+ */
+function embedBeacon(venue) {
+  const name = JSON.stringify(venue).replace(/</g, '\\u003c');
+  return `<script>
+(function(){
+  function ping(n){
+    try{
+      var p={venue:${name},platform:'web'};
+      if(document.referrer){try{p.host=new URL(document.referrer).hostname;}catch(e){}}
+      fetch(${JSON.stringify(`${SUPABASE_URL}/rest/v1/usage_events`)},{method:'POST',keepalive:true,
+        headers:{apikey:${JSON.stringify(ANON_KEY)},Authorization:${JSON.stringify(`Bearer ${ANON_KEY}`)},
+          'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({name:n,props:p,platform:'web',app_version:'pages'})}).catch(function(){});
+    }catch(e){}
+  }
+  ping('embed_view');
+  var a=document.getElementById('pitch');
+  if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>`;
+}
+
+/** The strip for one venue, whole in itself: inline CSS, no bundle, no fetch. */
+export function renderEmbed(venue, now) {
+  const { name, area, events } = venue;
+  const ref = embedRef(name);
+  const where = area && area !== name ? `<p class="where">${esc(area)}</p>` : '';
+  const rows = embedWeek(events, now);
+  // Coordinates from any row at this venue, past ones included: a bar
+  // between lineups is still at its address.
+  const spot = events.find((e) => Number.isFinite(e.lat) && Number.isFinite(e.lng));
+  const dir = spot
+    ? `<a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=${spot.lat},${spot.lng}">Directions</a>`
+    : '';
+  const body = rows.length
+    ? groupByDay(rows)
+        .map(
+          (d) =>
+            `<h2>${esc(d.label)}</h2><ul class="rows">${[...d.main, ...d.fitness]
+              .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))
+              .map((e) => rowHtml(e, new Map(), { showVenue: false, compact: true, ref }))
+              .join('')}</ul>`,
+        )
+        .join('\n')
+    : `<p class="quiet">Nothing posted for the next seven days.</p>`;
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>This week at ${esc(name)} — 30A Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<base target="_blank">
+<style>${EMBED_CSS}</style>
+</head><body>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>${esc(name)}</h1>${where}</div>${dir}</div>
+${body}
+<a class="foot" id="pitch" href="${esc(tagged('/', { ref }))}" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
+<p class="stamp">Updated ${esc(fmtStamp(now))} beach time</p>
+${embedBeacon(name)}
+</body></html>
+`;
 }
 
 /**

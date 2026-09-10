@@ -3,6 +3,8 @@
 //                          unfurls as, and where it lands
 //   lineup/, tonight/,     plain HTML a crawler can read, with JSON-LD
 //   venues/<slug>/         (see site.mjs for why)
+//   embed/<venue>/         the strip a partner pastes into their own site,
+//                          under both its slug and its own name
 //   sitemap.xml, robots.txt
 // Runs on a schedule after the event imports land (.github/workflows/
 // share-cards.yml). One paged read of the events table feeds all of it, and
@@ -10,8 +12,12 @@
 import { mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 
 import {
+  ANON_KEY,
   checkedPoster,
+  embedDirs,
+  embedVenues,
   fmtStamp,
+  renderEmbed,
   renderLineup,
   renderStub,
   renderTonight,
@@ -20,15 +26,11 @@ import {
   robotsTxt,
   shrinkRefusal,
   sitemapXml,
+  SUPABASE_URL,
   truncationRefusal,
   venuePages,
   withJsonLd,
 } from './site.mjs';
-
-// The PUBLIC client credentials — identical to what the web app ships in
-// its bundle. Anonymous reads see approved events only (enforced by RLS).
-const SUPABASE_URL = 'https://jbswxdkcpjjbqulsykvu.supabase.co';
-const ANON_KEY = 'sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ';
 
 // The contact URL a host can actually resolve. It read https://30anow.app
 // until 9 Sep 2026, which has no A record at all (Cloudflare DoH: NXDOMAIN,
@@ -59,6 +61,7 @@ const posters = await checkPosters(events);
 const venues = venuePages(events, now);
 await writeStubs(events, venues, now, posters);
 await writeSite(events, venues, now, posters);
+await writeEmbeds(events, now);
 
 async function fetchEvents(now) {
   const since = new Date(now - 24 * 3600 * 1000).toISOString();
@@ -190,4 +193,29 @@ async function writeSite(events, venues, now, posters) {
     `Wrote lineup (${lineup.count} rows), tonight (${tonight.count} rows), ` +
       `${venues.length} venue pages, sitemap and robots — ${fmtStamp(now)} beach time.`,
   );
+}
+
+/**
+ * The partner strips, under both spellings: /embed/<slug>/ and
+ * /embed/<venue name>/, because docs/featured-shows.md handed partners the
+ * name-encoded URL and GitHub Pages redirects the no-slash form to it.
+ *
+ * Only the directories this script wrote are cleared. embed/[venue].html is
+ * the expo export's own artifact — a literal-bracket file the web deploy
+ * writes — and deleting it here would start a fight between two workflows
+ * over the same path on every run. It is also the fallback for a venue with
+ * no generated strip: Pages serves 404.html, the SPA boots and renders it.
+ */
+async function writeEmbeds(events, now) {
+  const venues = embedVenues(events, now);
+  for (const entry of await readdir('embed', { withFileTypes: true }).catch(() => [])) {
+    if (entry.isDirectory()) await rm(`embed/${entry.name}`, { recursive: true, force: true });
+  }
+  const pages = embedDirs(venues);
+  const html = new Map(venues.map((v) => [v, renderEmbed(v, now)]));
+  for (const { dir, venue } of pages) {
+    await mkdir(`embed/${dir}`, { recursive: true });
+    await writeFile(`embed/${dir}/index.html`, html.get(venue));
+  }
+  console.log(`Wrote ${pages.length} embed strips for ${venues.length} venues.`);
 }

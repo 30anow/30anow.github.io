@@ -10,11 +10,18 @@ import {
   beachDayKey,
   beachIso,
   beachWallToUtc,
+  embedDirs,
+  embedNameDir,
+  embedRef,
+  embedVenues,
+  embedWeek,
   eventJsonLd,
   groupByDay,
   inWindow,
   knownVenue,
   priceNumber,
+  PUBLISHED_EMBEDS,
+  renderEmbed,
   renderLineup,
   renderStub,
   renderTonight,
@@ -589,6 +596,131 @@ describe('arrival tags', () => {
       assert.match(tag, /^[\w.-]+$/);
       assert.ok(tag.length <= 40);
     }
+  });
+});
+
+describe('embed strip', () => {
+  const now = noonOn('2026-09-08');
+  const soon = row({ title: 'Dread Clampitt' }); // Fri Sep 11
+  const later = row({ title: 'Far Off', starts_at: '2026-10-20T23:00:00Z', ends_at: '2026-10-21T02:00:00Z' });
+  const other = row({ title: 'Yoga', venue: 'Seaside Fitness Center', area: 'Seaside' });
+  const venue = () => embedVenues([soon, later, other], now).find((v) => v.slug === 'the-red-bar');
+
+  it('is a whole page with the rows in it — no bundle to download, nothing to go blank', () => {
+    // /embed/The%20Red%20Bar answered HTTP 404 with the 26,940-byte SPA
+    // shell (checked 9 Sep 2026) and only painted once a 3.0 MB bundle had
+    // booted inside a partner's iframe. This file is the answer itself.
+    const html = renderEmbed(venue(), now);
+    assert.match(html, /^<!doctype html>/);
+    assert.match(html, /<title>This week at The Red Bar — 30A Now<\/title>/);
+    assert.match(html, /<meta name="robots" content="noindex">/);
+    assert.match(html, /Dread Clampitt/);
+    assert.ok(html.length < 20_000, `strip is ${html.length} bytes`);
+    assert.doesNotMatch(html, /_expo|\.js"/); // no bundle, no external script
+  });
+
+  it('shows the next seven days and nothing beyond them', () => {
+    const html = renderEmbed(venue(), now);
+    assert.match(html, /Dread Clampitt/);
+    assert.doesNotMatch(html, /Far Off/);
+    assert.doesNotMatch(html, /Yoga/); // another venue's row
+  });
+
+  it('still shows the band that went on an hour ago', () => {
+    // venuePages keeps only rows starting after `now` — right for a page of
+    // upcoming events, wrong for a strip on the bar's homepage during the
+    // set. The whole pipeline is tested, not embedWeek alone: the row was
+    // dropped one step earlier than the window.
+    const live = row({ title: 'On Now', starts_at: '2026-09-08T15:00:00Z', ends_at: '2026-09-08T21:00:00Z' });
+    const only = embedVenues([live], now).find((v) => v.slug === 'the-red-bar');
+    assert.ok(only, 'a venue with nothing but a show in progress still gets a strip');
+    assert.match(renderEmbed(only, now), /On Now/);
+    assert.match(renderEmbed(embedVenues([live, soon], now).find((v) => v.slug === 'the-red-bar'), now), /On Now/);
+    // Over is over.
+    const done = row({ title: 'Finished', starts_at: '2026-09-08T12:00:00Z', ends_at: '2026-09-08T14:00:00Z' });
+    assert.equal(embedWeek([done, live, later], now).length, 1);
+  });
+
+  it('opens every link in a new tab, tagged with the venue', () => {
+    const html = renderEmbed(venue(), now);
+    assert.match(html, /<base target="_blank">/);
+    assert.match(html, new RegExp(`href="/e/${soon.id}\\?ref=the-red-bar"`));
+    assert.match(html, /id="pitch" href="\/\?ref=the-red-bar"/);
+    // The ref must be the key embedRef() mints in the app, or the strip's
+    // installs land in a bucket of their own.
+    assert.equal(embedRef('Red Bar'), 'the-red-bar');
+    assert.equal(embedRef("Stinky's Bait Shack"), 'stinkys-bait-shack');
+    assert.equal(embedRef('  '), '');
+  });
+
+  it('says so honestly when the week is empty, instead of showing nothing', () => {
+    const html = renderEmbed({ name: 'The Red Bar', area: '', events: [later], slug: 'the-red-bar' }, now);
+    assert.match(html, /Nothing posted for the next seven days\./);
+    assert.match(html, /This week at The Red Bar/);
+  });
+
+  it('leaves the scraped blurb and the aggregator link off a partner’s homepage', () => {
+    const e = row({ description: 'Two sets.', url: 'https://www.sowal.com/e/1' });
+    const html = renderEmbed({ name: 'The Red Bar', area: '', events: [e], slug: 'the-red-bar' }, now);
+    assert.doesNotMatch(html, /sowal.com/);
+    assert.doesNotMatch(html, /Two sets\./);
+  });
+
+  it('keeps a page for the strips already handed out, however quiet the week', () => {
+    // docs/featured-shows.md gave partners /embed/<name>, so those URLs
+    // cannot 404 in an off week.
+    const names = embedVenues([], now).map((v) => v.name);
+    for (const n of PUBLISHED_EMBEDS) assert.ok(names.includes(n), `${n} lost its strip`);
+    // One strip per venue with anything at all ahead — a page needs three.
+    assert.deepEqual(
+      embedVenues([soon, other], now).map((v) => v.slug).sort(),
+      ['old-florida-fish-house', 'red-fish-taco', 'seaside-fitness-center', 'stinkys-bait-shack', 'the-red-bar'],
+    );
+  });
+
+  it('refuses a venue name that cannot safely be a directory', () => {
+    assert.equal(embedNameDir('The Red Bar'), 'The Red Bar');
+    assert.equal(embedNameDir("Stinky's Bait Shack"), "Stinky's Bait Shack");
+    assert.equal(embedNameDir('Seaside’s Central Square'), 'Seaside’s Central Square');
+    assert.equal(embedNameDir('Bud & Alley\'s'), "Bud & Alley's");
+    // A "/" would write outside embed/; the rest make a tree Windows cannot
+    // check out, which would take the whole site's deploy with it.
+    assert.equal(embedNameDir('Cafe / Bar'), '');
+    assert.equal(embedNameDir('..'), '');
+    assert.equal(embedNameDir('Bar: The Sequel'), '');
+    assert.equal(embedNameDir('What?'), '');
+    assert.equal(embedNameDir('Trailing.'), '');
+    assert.equal(embedNameDir('NUL'), '');
+    assert.equal(embedNameDir(''), '');
+  });
+
+  it('writes both spellings, but never two paths that differ only in case', () => {
+    // /embed/The%20Red%20Bar is the URL docs/featured-shows.md handed out.
+    const dirs = embedDirs(embedVenues([soon, other], now)).map((d) => d.dir);
+    assert.ok(dirs.includes('the-red-bar'));
+    assert.ok(dirs.includes('The Red Bar'));
+    // "Crackings" and "crackings" are two paths on the Linux box that builds
+    // the site and one on the Windows machine that clones it: two git
+    // entries over one file, and a tree that can never be clean.
+    const one = [{ name: 'Crackings', slug: 'crackings' }];
+    assert.deepEqual(embedDirs(one).map((d) => d.dir), ['crackings']);
+    // Nor may one venue's name take another's slug.
+    assert.deepEqual(
+      embedDirs([
+        { name: 'The Red Bar', slug: 'the-red-bar' },
+        { name: 'THE-RED-BAR', slug: 'the-red-bar-2' },
+      ]).map((d) => d.dir),
+      ['the-red-bar', 'The Red Bar', 'the-red-bar-2'],
+    );
+  });
+
+  it('escapes the venue name into its own beacon', () => {
+    const html = renderEmbed(
+      { name: 'x</script><script>alert(1)', area: '', events: [], slug: 'x' },
+      now,
+    );
+    assert.doesNotMatch(html, /<\/script><script>alert/);
+    assert.match(html, /embed_view/);
   });
 });
 

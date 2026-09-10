@@ -1,8 +1,9 @@
 # Regenerates everything built from the events table: the per-event share
-# stubs (e/<id>.html) so shared links unfurl into real cards, and the
-# crawlable pages (lineup/, tonight/, venues/<slug>/, sitemap.xml,
-# robots.txt) so a search for what is on along 30A can find this site at
-# all. Scheduled ~20 minutes after the event imports in the app repo
+# stubs (e/<id>.html) so shared links unfurl into real cards, the crawlable
+# pages (lineup/, tonight/, venues/<slug>/, sitemap.xml, robots.txt) so a
+# search for what is on along 30A can find this site at all, and the partner
+# strips (embed/<venue>/) a bar pastes into its own site.
+# Scheduled ~20 minutes after the event imports in the app repo
 # (10:00 & 17:00 UTC) so fresh events get their pages same-day, plus one run
 # across beach midnight so /tonight/ turns over when the day does: 05:10 UTC
 # is 00:10 CDT in summer and 23:10 CST in winter, and tonightWindow rolls
@@ -41,6 +42,6 @@ jobs:
         run: |
           git config user.name "30a-now-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A e lineup tonight venues sitemap.xml robots.txt
+          git add -A e lineup tonight venues embed sitemap.xml robots.txt
           git diff --cached --quiet || git commit -m "Refresh event share cards and pages"
           git push
