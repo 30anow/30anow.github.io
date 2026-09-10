@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>This week at Red Fish Taco — 30A Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<base target="_blank">
+<style>
+:root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--border:#E3EBEE}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;background:#fff;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.hd{display:flex;align-items:center;gap:10px}
+.hd h1{margin:1px 0 0;font-size:19px;font-weight:900;line-height:1.15}
+.over{margin:0;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--teal)}
+.where{margin:1px 0 0;font-size:12.5px;color:var(--sub)}
+.dir{flex:none;padding:7px 10px;border:1.5px solid var(--teal);border-radius:10px;font-size:12.5px;font-weight:800;color:var(--teal);text-decoration:none}
+h2{margin:12px 0 2px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sub)}
+ul.rows{list-style:none;margin:0;padding:0}
+li.ev{padding:8px 0;border-top:1px solid var(--border)}
+.t{display:block;font-size:14.5px;font-weight:700;color:var(--ink);text-decoration:none}
+.m{margin-top:1px;font-size:12px;color:var(--sub)}
+.quiet{padding:22px 0;text-align:center;font-size:13.5px;color:var(--sub)}
+.foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
+.foot b{color:var(--teal)}
+.stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+</style>
+</head><body>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Red Fish Taco</h1><p class="where">Blue Mountain</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.341,-86.20022">Directions</a></div>
+<h2>Friday, Sep 11</h2><ul class="rows"><li class="ev" id="e-173966ae-548e-4566-bdae-b13c9519732c"><a class="t" href="/e/173966ae-548e-4566-bdae-b13c9519732c?ref=red-fish-taco">Stevie Monce</a><div class="m">Fri, Sep 11 · 6:00 PM – 9:00 PM</div></li></ul>
+<h2>Saturday, Sep 12</h2><ul class="rows"><li class="ev" id="e-c25f40d5-6c93-4bca-b3fd-2270725a574b"><a class="t" href="/e/c25f40d5-6c93-4bca-b3fd-2270725a574b?ref=red-fish-taco">Zack Miller</a><div class="m">Sat, Sep 12 · 6:00 PM – 9:00 PM</div></li></ul>
+<h2>Monday, Sep 14</h2><ul class="rows"><li class="ev" id="e-e8bc346e-4215-4c20-bfdb-f8f2eb8e60cc"><a class="t" href="/e/e8bc346e-4215-4c20-bfdb-f8f2eb8e60cc?ref=red-fish-taco">Brett Stafford</a><div class="m">Mon, Sep 14 · 6:30 PM – 9:00 PM</div></li></ul>
+<h2>Tuesday, Sep 15</h2><ul class="rows"><li class="ev" id="e-1e29461d-4656-4baf-8d0d-9eb34fdf1b0a"><a class="t" href="/e/1e29461d-4656-4baf-8d0d-9eb34fdf1b0a?ref=red-fish-taco">Casey Kearney Band</a><div class="m">Tue, Sep 15 · 6:00 PM – 9:00 PM</div></li></ul>
+<h2>Wednesday, Sep 16</h2><ul class="rows"><li class="ev" id="e-da3e308f-ced8-4df2-b51f-e004ba5bca5f"><a class="t" href="/e/da3e308f-ced8-4df2-b51f-e004ba5bca5f?ref=red-fish-taco">Queens Handsome</a><div class="m">Wed, Sep 16 · 6:00 PM – 9:00 PM</div></li></ul>
+<a class="foot" id="pitch" href="/?ref=red-fish-taco" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
+<p class="stamp">Updated Wed, Sep 9, 9:10 PM beach time</p>
+<script>
+(function(){
+  function ping(n){
+    try{
+      var p={venue:"Red Fish Taco",platform:'web'};
+      if(document.referrer){try{p.host=new URL(document.referrer).hostname;}catch(e){}}
+      fetch("https://jbswxdkcpjjbqulsykvu.supabase.co/rest/v1/usage_events",{method:'POST',keepalive:true,
+        headers:{apikey:"sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",Authorization:"Bearer sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",
+          'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({name:n,props:p,platform:'web',app_version:'pages'})}).catch(function(){});
+    }catch(e){}
+  }
+  ping('embed_view');
+  var a=document.getElementById('pitch');
+  if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+</body></html>

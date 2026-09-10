@@ -2,17 +2,17 @@
 <html lang="en"><head><meta charset="utf-8">
 <title>Stinky's Brunch &amp; Live Music — 30A Now</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Dune Allen · Sun, Sep 27 · 10:00 AM – 3:00 PM — on the 30A Now live map.">
+<meta name="description" content="Stinky's Bait Shack · Dune Allen · Sun, Sep 27 · 10:00 AM – 3:00 PM — on the 30A Now live map.">
 <link rel="canonical" href="https://30anow.github.io/e/c4827c7c-6fd0-473c-b199-84cf5bf1dc92">
 <meta name="apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow://event/c4827c7c-6fd0-473c-b199-84cf5bf1dc92">
 <meta property="og:site_name" content="30A Now">
 <meta property="og:title" content="Stinky's Brunch &amp; Live Music — 30A Now">
-<meta property="og:description" content="Dune Allen · Sun, Sep 27 · 10:00 AM – 3:00 PM — on the 30A Now live map.">
+<meta property="og:description" content="Stinky's Bait Shack · Dune Allen · Sun, Sep 27 · 10:00 AM – 3:00 PM — on the 30A Now live map.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://30anow.github.io/e/c4827c7c-6fd0-473c-b199-84cf5bf1dc92">
 <meta property="og:image" content="https://30anow.github.io/og-default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/c4827c7c-6fd0-473c-b199-84cf5bf1dc92"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -46,16 +46,16 @@ summary{cursor:pointer;color:var(--sub);font-size:14px;padding:6px 0}
 .venues li{break-inside:avoid;margin:2px 0}
 footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-size:13px;border-top:1px solid var(--border)}
 </style>
-<script type="application/ld+json">[{"@context":"https://schema.org","@type":"Event","name":"Stinky's Brunch & Live Music","startDate":"2026-09-27T10:00:00-05:00","endDate":"2026-09-27T15:00:00-05:00","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Dune Allen","address":{"@type":"PostalAddress","addressLocality":"Dune Allen, Santa Rosa Beach","addressRegion":"FL","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":30.3507,"longitude":-86.2423}},"url":"https://30anow.github.io/e/c4827c7c-6fd0-473c-b199-84cf5bf1dc92"}]</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"Event","name":"Stinky's Brunch & Live Music","startDate":"2026-09-27T10:00:00-05:00","endDate":"2026-09-27T15:00:00-05:00","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Stinky's Bait Shack","address":{"@type":"PostalAddress","streetAddress":"5994 W County Hwy 30A","addressLocality":"Dune Allen","addressRegion":"FL","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":30.35072,"longitude":-86.24307}},"url":"https://30anow.github.io/e/c4827c7c-6fd0-473c-b199-84cf5bf1dc92"}]</script>
 </head><body>
 <header><a class="brand" href="/">30A Now</a><nav><a href="/lineup/">This weekend</a><a href="/tonight/">Tonight</a><a href="/venues/">Venues</a></nav></header>
 <main>
 <h1>Stinky's Brunch &amp; Live Music</h1>
-<p class="lead"><a href="/venues/dune-allen/">Dune Allen</a> · Sun, Sep 27 · 10:00 AM – 3:00 PM</p>
+<p class="lead"><a href="/venues/stinkys-bait-shack/">Stinky's Bait Shack</a> · Dune Allen · Sun, Sep 27 · 10:00 AM – 3:00 PM</p>
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/c4827c7c-6fd0-473c-b199-84cf5bf1dc92">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/event/c4827c7c-6fd0-473c-b199-84cf5bf1dc92">See it on the live map</a>
+<a class="live" href="/event/c4827c7c-6fd0-473c-b199-84cf5bf1dc92?s=seo-event">See it on the live map</a>
 </div>
 <section><h2>Also</h2><p><a href="/tonight/">Tonight on 30A</a> · <a href="/lineup/">This weekend</a> · <a href="/venues/">Every venue</a></p></section>
 </main>
@@ -72,8 +72,18 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>

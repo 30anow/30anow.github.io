@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>This week at Shunk Gulley Oyster Bar — 30A Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<base target="_blank">
+<style>
+:root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--border:#E3EBEE}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;background:#fff;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.hd{display:flex;align-items:center;gap:10px}
+.hd h1{margin:1px 0 0;font-size:19px;font-weight:900;line-height:1.15}
+.over{margin:0;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--teal)}
+.where{margin:1px 0 0;font-size:12.5px;color:var(--sub)}
+.dir{flex:none;padding:7px 10px;border:1.5px solid var(--teal);border-radius:10px;font-size:12.5px;font-weight:800;color:var(--teal);text-decoration:none}
+h2{margin:12px 0 2px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sub)}
+ul.rows{list-style:none;margin:0;padding:0}
+li.ev{padding:8px 0;border-top:1px solid var(--border)}
+.t{display:block;font-size:14.5px;font-weight:700;color:var(--ink);text-decoration:none}
+.m{margin-top:1px;font-size:12px;color:var(--sub)}
+.quiet{padding:22px 0;text-align:center;font-size:13.5px;color:var(--sub)}
+.foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
+.foot b{color:var(--teal)}
+.stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+</style>
+</head><body>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Shunk Gulley Oyster Bar</h1><p class="where">Gulf Place</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.347537,-86.229729">Directions</a></div>
+<h2>Thursday, Sep 10</h2><ul class="rows"><li class="ev" id="e-f9f98f22-e2a7-424b-a787-29b5b88d70ce"><a class="t" href="/e/f9f98f22-e2a7-424b-a787-29b5b88d70ce?ref=shunk-gulley-oyster-bar">Trevor Finlay</a><div class="m">Thu, Sep 10 · 4:00 PM – 8:00 PM</div></li></ul>
+<h2>Friday, Sep 11</h2><ul class="rows"><li class="ev" id="e-3b5bca5c-2d24-4d7f-ba36-74dc8ac33158"><a class="t" href="/e/3b5bca5c-2d24-4d7f-ba36-74dc8ac33158?ref=shunk-gulley-oyster-bar">Trevor Finlay</a><div class="m">Fri, Sep 11 · 4:00 PM – 8:00 PM</div></li></ul>
+<a class="foot" id="pitch" href="/?ref=shunk-gulley-oyster-bar" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
+<p class="stamp">Updated Wed, Sep 9, 9:10 PM beach time</p>
+<script>
+(function(){
+  function ping(n){
+    try{
+      var p={venue:"Shunk Gulley Oyster Bar",platform:'web'};
+      if(document.referrer){try{p.host=new URL(document.referrer).hostname;}catch(e){}}
+      fetch("https://jbswxdkcpjjbqulsykvu.supabase.co/rest/v1/usage_events",{method:'POST',keepalive:true,
+        headers:{apikey:"sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",Authorization:"Bearer sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",
+          'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({name:n,props:p,platform:'web',app_version:'pages'})}).catch(function(){});
+    }catch(e){}
+  }
+  ping('embed_view');
+  var a=document.getElementById('pitch');
+  if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+</body></html>

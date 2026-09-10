@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/4510ae07-eb8d-4498-b2c2-249c6d895ed2">
 <meta property="og:image" content="https://cdn.seasidefl.com/wp-content/uploads/2026/01/13213430/A110_C299_092990_001.01_19_29_17.Still080-scaled.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/4510ae07-eb8d-4498-b2c2-249c6d895ed2"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -56,7 +56,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/4510ae07-eb8d-4498-b2c2-249c6d895ed2">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/event/4510ae07-eb8d-4498-b2c2-249c6d895ed2">See it on the live map</a>
+<a class="live" href="/event/4510ae07-eb8d-4498-b2c2-249c6d895ed2?s=seo-event">See it on the live map</a>
 </div>
 <p class="d">Vinyasa Yoga Classes are held at 8:30 AM every day from March 1, 2026, until October 31, 2026, unless there is inclement weather. Please bring your own mat or towel and something to hydrate! Classes are held at the Seaside Pavilion behind SEASIDE® Pop-Up District on the Gulf. There is no need to preregister – just arrive a few minutes before class to get settled!
 Email: seasideflyoga@yahoo.com | Phone: 1 (850) 865-9863
@@ -77,8 +77,18 @@ Classes are $25 via Venmo payment, cash, or check.</p>
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>

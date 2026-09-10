@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/venues/ed-walline-beach-access/">
 <meta property="og:image" content="https://30anow.github.io/og.png">
 <meta name="twitter:card" content="summary">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
 *{box-sizing:border-box}
@@ -50,16 +50,16 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <header><a class="brand" href="/">30A Now</a><nav><a href="/lineup/">This weekend</a><a href="/tonight/">Tonight</a><a href="/venues/">Venues</a></nav></header>
 <main>
 <h1>Ed Walline Beach Access</h1>
-<p class="lead">Gulf Place · 4 upcoming events · updated Wed, Sep 9, 6:59 PM beach time</p>
+<p class="lead">Gulf Place · 4 upcoming events · updated Wed, Sep 9, 9:10 PM beach time</p>
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://venue/Ed%20Walline%20Beach%20Access">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/venue/Ed%20Walline%20Beach%20Access">See Ed Walline Beach Access live in the app</a>
+<a class="live" href="/venue/Ed%20Walline%20Beach%20Access?s=seo-venue">See Ed Walline Beach Access live in the app</a>
 </div>
-<section><h2>Sunday, Sep 13</h2><ul class="rows"><li class="ev" id="e-da0845c0-8792-4a8a-9711-9fb3b06b10dc"><a class="t" href="/e/da0845c0-8792-4a8a-9711-9fb3b06b10dc">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 13 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
-<section><h2>Sunday, Sep 20</h2><ul class="rows"><li class="ev" id="e-916e02db-4d16-412c-85af-dc6aaab3b92f"><a class="t" href="/e/916e02db-4d16-412c-85af-dc6aaab3b92f">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 20 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
-<section><h2>Sunday, Sep 27</h2><ul class="rows"><li class="ev" id="e-1d10ba10-0d2f-44b0-87be-2e66fa0e4f80"><a class="t" href="/e/1d10ba10-0d2f-44b0-87be-2e66fa0e4f80">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 27 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
-<section><h2>Sunday, Oct 4</h2><ul class="rows"><li class="ev" id="e-aebea5cc-d0e5-421a-b90c-7a6b746298a7"><a class="t" href="/e/aebea5cc-d0e5-421a-b90c-7a6b746298a7">Church on the Beach</a><div class="m">Gulf Place · Sun, Oct 4 · 8:00 AM – 9:00 AM · Free</div></li></ul></section><section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
+<section><h2>Sunday, Sep 13</h2><ul class="rows"><li class="ev" id="e-da0845c0-8792-4a8a-9711-9fb3b06b10dc"><a class="t" href="/e/da0845c0-8792-4a8a-9711-9fb3b06b10dc?s=seo-venue">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 13 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
+<section><h2>Sunday, Sep 20</h2><ul class="rows"><li class="ev" id="e-916e02db-4d16-412c-85af-dc6aaab3b92f"><a class="t" href="/e/916e02db-4d16-412c-85af-dc6aaab3b92f?s=seo-venue">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 20 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
+<section><h2>Sunday, Sep 27</h2><ul class="rows"><li class="ev" id="e-1d10ba10-0d2f-44b0-87be-2e66fa0e4f80"><a class="t" href="/e/1d10ba10-0d2f-44b0-87be-2e66fa0e4f80?s=seo-venue">Church on the Beach</a><div class="m">Gulf Place · Sun, Sep 27 · 8:00 AM – 9:00 AM · Free</div></li></ul></section>
+<section><h2>Sunday, Oct 4</h2><ul class="rows"><li class="ev" id="e-aebea5cc-d0e5-421a-b90c-7a6b746298a7"><a class="t" href="/e/aebea5cc-d0e5-421a-b90c-7a6b746298a7?s=seo-venue">Church on the Beach</a><div class="m">Gulf Place · Sun, Oct 4 · 8:00 AM – 9:00 AM · Free</div></li></ul></section><section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 </main>
 <footer>30A Now · the live map of Scenic Highway 30A, Santa Rosa Beach, FL · <a href="/legal/privacy">Privacy</a> · <a href="/legal/terms">Terms</a></footer>
 <script>
@@ -74,8 +74,18 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>

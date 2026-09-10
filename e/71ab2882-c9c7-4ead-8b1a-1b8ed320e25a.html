@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/71ab2882-c9c7-4ead-8b1a-1b8ed320e25a">
 <meta property="og:image" content="https://cdn.seasidefl.com/wp-content/uploads/2025/11/25220512/Seaside_6_23_0031-1.webp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/71ab2882-c9c7-4ead-8b1a-1b8ed320e25a"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -56,7 +56,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/71ab2882-c9c7-4ead-8b1a-1b8ed320e25a">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/event/71ab2882-c9c7-4ead-8b1a-1b8ed320e25a">See it on the live map</a>
+<a class="live" href="/event/71ab2882-c9c7-4ead-8b1a-1b8ed320e25a?s=seo-event">See it on the live map</a>
 </div>
 <p class="d">Join us at the SEASIDE® Farmers Market, a beloved weekly tradition in Seaside, Florida, held in the Amphitheater from 9:00 AM – 1:00 PM. This outdoor market brings together local farmers, growers, and artisans, offering fresh produce, baked goods, and specialty foods. Browse the market, support local vendors, and enjoy live music in the heart of Seaside. This event is rain or shine, unless inclement weather creates unsafe conditions.</p>
 <div class="s"><a href="https://seasidefl.com/event/seaside-farmers-market/2026-09-26/" rel="nofollow noopener">Listing on seasidefl.com</a></div>
@@ -75,8 +75,18 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>

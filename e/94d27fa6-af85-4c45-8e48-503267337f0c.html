@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/94d27fa6-af85-4c45-8e48-503267337f0c">
 <meta property="og:image" content="https://30anow.github.io/og-default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/94d27fa6-af85-4c45-8e48-503267337f0c"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -55,7 +55,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/94d27fa6-af85-4c45-8e48-503267337f0c">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/event/94d27fa6-af85-4c45-8e48-503267337f0c">See it on the live map</a>
+<a class="live" href="/event/94d27fa6-af85-4c45-8e48-503267337f0c?s=seo-event">See it on the live map</a>
 </div>
 <p class="d">Start your day on the courts with Eye-Opener Clinics at the Seaside Athletic Club, a daily morning tennis program designed to energize your routine and elevate your game. Clinics are held every day at 8:00 AM with additional sessions at 9:00 AM and 10:00 AM, Monday through Thursday only. These clinics offer focused instruction, skill-building drills, and match-style play in a welcoming, small-group setting.
 For players wanting more practice, we also offer an extended Friday clinic from 9:00 AM to 10:30 AM, giving you extra time on the court to refine your skills and build confidence.</p>
@@ -75,8 +75,18 @@ For players wanting more practice, we also offer an extended Friday clinic from 
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>

@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/b5e81b00-2aa0-42d6-8d33-c67d7102feb0">
 <meta property="og:image" content="https://30a.com/wp-content/uploads/2026/05/651715680_18072299315552288_5143763626697786404_n.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Wed, Sep 9, 6:59 PM">
+<meta name="generator" content="30anow share-cards Wed, Sep 9, 9:10 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/b5e81b00-2aa0-42d6-8d33-c67d7102feb0"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -56,7 +56,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/b5e81b00-2aa0-42d6-8d33-c67d7102feb0">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
-<a class="live" href="/event/b5e81b00-2aa0-42d6-8d33-c67d7102feb0">See it on the live map</a>
+<a class="live" href="/event/b5e81b00-2aa0-42d6-8d33-c67d7102feb0?s=seo-event">See it on the live map</a>
 </div>
 <p class="d">Clear Kayaks with lights underneath!
 Conveniently located at the WaterColor Boathouse in 30A, our rentals are perfect for all ages. Unforgettable memories and family fun are guaranteed on this one of a kind experience.
@@ -77,8 +77,18 @@ We offer different time slots available at 6 PM, 7 PM, 8 PM, and 9 PM. To book y
     });
   }
   if(location.search){
-    var live=document.querySelectorAll('a.live');
-    for(var i=0;i<live.length;i++){live[i].href+=location.search;}
+    try{
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
+      if(s||r){
+        var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
+        for(var i=0;i<links.length;i++){
+          var u=new URL(links[i].href);
+          if(s)u.searchParams.set('s',s);
+          if(r)u.searchParams.set('ref',r);
+          links[i].href=u.pathname+u.search;
+        }
+      }
+    }catch(e){}
   }
 })();
 </script>
