@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "4T9964KM6T.com.thirtyanow.app",
+        "paths": ["/e/*", "/event/*", "/venue/*", "/weekend"],
+        "components": [
+          { "/": "/e/*" },
+          { "/": "/event/*" },
+          { "/": "/venue/*" },
+          { "/": "/weekend" }
+        ]
+      }
+    ]
+  }
+}
