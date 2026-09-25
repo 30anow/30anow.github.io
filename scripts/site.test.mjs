@@ -745,25 +745,21 @@ describe('unfurl card', () => {
     assert.equal(OG_DEFAULT, 'https://30anow.github.io/og-default.png');
   });
 
-  it('lets the weekly lineup unfurl with a real poster when a show has one the host served', () => {
+  it('unfurls the weekly lineup as the branded card with its size, even when every show has a served poster', () => {
+    // 24 Sep 2026: the first checked poster in time order was a Friday
+    // 9:30 AM gig's month calendar, a 1080x1920 portrait flyer shared by
+    // two rows, cropped to a strip on every invite and weekend share.
+    const morning = row({ title: 'Steven Theriot', image_url: 'https://30a.com/september-live-music.jpg' });
     const flyer = row({ title: 'Dread Clampitt', image_url: 'https://30a.com/dread.png' });
-    const yoga = row({ category: 'fitness', title: 'Beach Yoga', image_url: 'https://30a.com/yoga.png' });
     const served = new Map([
+      ['https://30a.com/september-live-music.jpg', true],
       ['https://30a.com/dread.png', true],
-      ['https://30a.com/yoga.png', true],
     ]);
-    const html = renderLineup([yoga, flyer], venuePages([yoga, flyer], now), now, served).html;
-    assert.match(html, /<meta property="og:image" content="https:\/\/30a.com\/dread.png">/);
-    assert.match(html, /twitter:card" content="summary_large_image"/);
-    // A poster's size is not known here; a wrong pair is worse than none.
-    assert.doesNotMatch(html, /og:image:width/);
-    // A class's flyer is not the weekend, and a poster the host refused is
-    // the broken unfurl the probe exists to prevent.
-    const classOnly = renderLineup([yoga], venuePages([yoga], now), now, served).html;
-    assert.match(classOnly, LARGE[0]);
-    const blocked = renderLineup([flyer], venuePages([flyer], now), now, new Map([[flyer.image_url, false]])).html;
-    assert.match(blocked, LARGE[0]);
-    assert.match(blocked, LARGE[1]);
+    const page = renderLineup([morning, flyer], venuePages([morning, flyer], now), now, served);
+    for (const meta of LARGE) assert.match(page.html, meta);
+    assert.doesNotMatch(page.html, /og:image" content="https:\/\/30a\.com/);
+    // The posters still ride in the JSON-LD, where each belongs to its row.
+    assert.match(page.jsonLd, /dread\.png/);
   });
 
   it('keeps the stub’s own poster as its card, without a size it cannot know', () => {

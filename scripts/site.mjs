@@ -652,8 +652,8 @@ const SCRIPT = `<script>
  * Shared <head>. Every page unfurls as the large card: the branded
  * 1200x630 og-default.png with its size declared, so Facebook draws the
  * full-width card on the first share rather than after it has fetched the
- * image, or a page's own poster when it passes one (the event stub, and
- * the weekly lineup when a checked poster exists). A poster's size is not
+ * image, or a page's own poster when it passes one (the event stub only).
+ * A poster's size is not
  * known here, so only the default declares one — a wrong pair is worse
  * than none. `extraHead` is for the stub's <noscript> refresh.
  */
@@ -816,16 +816,13 @@ export function renderLineup(events, venues, now, posters = new Map()) {
   const description = main
     ? `${countLabel(main, 'event', 'events')} on 30A this weekend (${range}): ${picks} and more, with times, venues and the live map.`
     : `What's on along 30A this weekend (${range}), with times, venues and the live map.`;
-  // The first checked poster among the weekend's shows (classes aside: a
-  // yoga flyer is not the weekend), so the Thursday post unfurls with a
-  // real flyer when one exists and the branded card when none does. Only a
-  // poster share-cards.mjs probed and the host served, for the reason the
-  // stub gives: a broken image is worse than the default card.
-  const poster =
-    rows
-      .filter((e) => e.category !== 'fitness')
-      .map((e) => checkedPoster(e, posters))
-      .find(Boolean) ?? null;
+  // The branded card, never a show's poster. The page is the whole
+  // weekend, and the first checked poster in time order was a Friday
+  // morning gig's: on 24 Sep 2026 it was Crackings' 1080x1920 September
+  // calendar ("9:30AM-12:30PM"), shared by two rows, which a large card
+  // crops to a strip of names - and with no size to declare, Facebook drew
+  // it only after fetching it. Every invite, weekend share and Thursday
+  // group post unfurls from this URL.
   const body =
     head({
       title: `This weekend on 30A — live music, markets and events ${range}`,
@@ -833,7 +830,6 @@ export function renderLineup(events, venues, now, posters = new Map()) {
       path: '/lineup/',
       appArgument: 'thirtyanow://weekend',
       updated: fmtStamp(now),
-      image: poster || OG_DEFAULT,
     }) +
     `<h1>This weekend on 30A</h1>
 <p class="lead">${esc(range)} · ${countLabel(main, 'event', 'events')}${classes ? ` + ${countLabel(classes, 'class', 'classes')}` : ''} · updated ${esc(fmtStamp(now))} beach time</p>

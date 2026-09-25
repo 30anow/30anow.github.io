@@ -44,4 +44,10 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add -A e lineup tonight venues embed sitemap.xml robots.txt
           git diff --cached --quiet || git commit -m "Refresh event share cards and pages"
-          git push
+          # The app repo's Deploy web workflow pushes a new bundle here minutes
+          # after every client merge, and a run takes 75-90 s from checkout to
+          # push: a deploy inside that window made a bare push fail as
+          # non-fast-forward, and the refresh was thrown away until the next
+          # scheduled run. The deploy touches only the bundle, never the names
+          # added above, so a rebase over it is clean. Both sides now retry.
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 15; done; exit 1
