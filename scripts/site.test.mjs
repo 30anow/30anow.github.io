@@ -6,6 +6,8 @@ import { describe, it } from 'node:test';
 
 import {
   addBeachDays,
+  APP_STORE_PROVIDER_TOKEN,
+  APP_STORE_URL,
   ARRIVAL,
   beachDayKey,
   beachIso,
@@ -21,6 +23,7 @@ import {
   groupByDay,
   inWindow,
   knownVenue,
+  OG_DEFAULT,
   ownerFooter,
   priceNumber,
   PUBLISHED_EMBEDS,
@@ -36,6 +39,7 @@ import {
   shrinkRefusal,
   sitemapXml,
   slugify,
+  storeUrl,
   SUPPORT_EMAIL,
   tonightWindow,
   truncationRefusal,
@@ -502,7 +506,9 @@ describe('share stub', () => {
 /**
  * Runs a page's own forwarder the way a browser would: the anchors read
  * their href back absolute, as a real <a> does, and hand back the attribute
- * the script left behind.
+ * the script left behind. The script asks for two kinds of anchor, the
+ * internal links and the store links, and gets the ones whose href says
+ * which it is.
  */
 function forward(html, search, hrefs) {
   const js = /<script>\n([\s\S]*?)<\/script>/.exec(html)[1];
@@ -522,7 +528,12 @@ function forward(html, search, hrefs) {
     document: {
       hidden: false,
       getElementById: () => null,
-      querySelectorAll: (sel) => (sel.includes('a[href^="/"]') ? links : []),
+      querySelectorAll: (sel) =>
+        sel.includes('a[href^="/"]')
+          ? links.filter((a) => a.attr.startsWith('/'))
+          : sel.includes('apps.apple.com')
+            ? links.filter((a) => a.attr.startsWith('https://apps.apple.com/'))
+            : [],
     },
     URL,
     URLSearchParams,
@@ -600,6 +611,166 @@ describe('arrival tags', () => {
       assert.match(tag, /^[\w.-]+$/);
       assert.ok(tag.length <= 40);
     }
+  });
+
+  it('carries the invite and the share the app hands out into the live app', () => {
+    // The app's "Join me on 30A Now" invite and the weekend page's share
+    // button both point at /lineup/ with these two tags since 25 Sep 2026
+    // (app/(tabs)/friends.tsx, app/weekend.tsx in the app repo); before
+    // that they pointed at the /weekend shell with no tag, so neither was
+    // countable. This is the hop that keeps them so.
+    const html = renderLineup(rows, venues, now).html;
+    for (const tag of ['invite', 'share']) {
+      assert.deepEqual(
+        forward(html, `?s=${tag}`, ['/weekend?s=seo-lineup', `/e/${rows[0].id}?s=seo-lineup`]),
+        [`/weekend?s=${tag}`, `/e/${rows[0].id}?s=${tag}`],
+      );
+    }
+  });
+});
+
+/**
+ * App Store Connect attributes downloads per campaign tag for free, but
+ * only on a link that carries both pt= and ct= — Apple ignores a ct without
+ * a pt. Until the provider token is filled in every store link on the site
+ * is the bare listing, so nothing changes for a visitor on the day it is.
+ */
+describe('campaign links', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venues = venuePages(rows, now);
+  const CAMPAIGN = 'https://apps.apple.com/app/id6792965952?pt=123456&ct=seo-lineup&mt=8';
+
+  it('is the bare listing while the provider token is empty, and a campaign link once it is set', () => {
+    assert.equal(storeUrl('seo-lineup', ''), APP_STORE_URL);
+    assert.equal(storeUrl('seo-lineup', '123456'), CAMPAIGN);
+    assert.equal(storeUrl('', '123456'), APP_STORE_URL);
+  });
+
+  it('holds the tag to what parseArrival accepts and to Apple’s forty, and every page tag survives it', () => {
+    assert.match(storeUrl('bud & alley’s', '123456'), /&ct=budalleys&mt=8$/);
+    assert.match(storeUrl('x'.repeat(60), '123456'), /&ct=x{40}&mt=8$/);
+    for (const tag of Object.values(ARRIVAL)) {
+      assert.match(storeUrl(tag, '123456'), new RegExp(`&ct=${tag}&mt=8$`));
+    }
+  });
+
+  it('ships with the token the checklist says to fill, or a numeric one', () => {
+    // Apple's provider token is a number; anything else is a paste of the
+    // whole campaign link, which would produce pt=https://...
+    assert.match(APP_STORE_PROVIDER_TOKEN, /^\d*$/);
+  });
+
+  it('puts the page’s tag on both store buttons of every page', () => {
+    const pages = {
+      'seo-lineup': renderLineup(rows, venues, now).html,
+      'seo-tonight': renderTonight(rows, venues, now).html,
+      'seo-venue': renderVenue(venues[0], now).html,
+      'seo-venue-index': renderVenuesIndex(venues, now).html,
+      'seo-event': renderStub(rows[0], { now }).html,
+    };
+    for (const [tag, html] of Object.entries(pages)) {
+      const want = storeUrl(tag);
+      assert.equal((html.split(`href="${want}"`).length - 1), 2, `${tag}: two store buttons`);
+      // The token is empty in this checkout, so the buttons are the bare
+      // listing and no page says pt= anywhere.
+      if (!APP_STORE_PROVIDER_TOKEN) assert.doesNotMatch(html, /[?&]pt=/);
+    }
+  });
+
+  it('rewrites ct= to the visitor’s own tag, so an invite install is not counted as seo-lineup', () => {
+    const html = renderLineup(rows, venues, now).html;
+    assert.deepEqual(forward(html, '?s=invite', [CAMPAIGN, '/weekend?s=seo-lineup']), [
+      'https://apps.apple.com/app/id6792965952?pt=123456&ct=invite&mt=8',
+      '/weekend?s=invite',
+    ]);
+    assert.deepEqual(forward(html, '?s=fb', [CAMPAIGN]), [
+      'https://apps.apple.com/app/id6792965952?pt=123456&ct=fb&mt=8',
+    ]);
+    // Off a partner's strip the arrival carries ref=, and the store link is
+    // tagged embed-<venue>: the key the app's own front page would mint.
+    assert.deepEqual(forward(html, '?ref=the-red-bar', [CAMPAIGN]), [
+      'https://apps.apple.com/app/id6792965952?pt=123456&ct=embed-the-red-bar&mt=8',
+    ]);
+  });
+
+  it('leaves a store link alone when there is nothing honest to write on it', () => {
+    const html = renderLineup(rows, venues, now).html;
+    // No tag on the visit; a tag parseArrival would refuse whole, as it
+    // does rather than keep the letters (so "<x>" is no campaign "x"); a
+    // tag past forty, cut where parseArrival cuts; a bare listing with no
+    // ct= to rewrite (the token is empty).
+    assert.deepEqual(forward(html, '', [CAMPAIGN]), [CAMPAIGN]);
+    assert.deepEqual(forward(html, '?utm_source=x', [CAMPAIGN]), [CAMPAIGN]);
+    assert.deepEqual(forward(html, '?s=%3Cx%3E', [CAMPAIGN]), [CAMPAIGN]);
+    assert.deepEqual(forward(html, `?s=${'y'.repeat(50)}`, [CAMPAIGN]), [
+      `https://apps.apple.com/app/id6792965952?pt=123456&ct=${'y'.repeat(40)}&mt=8`,
+    ]);
+    assert.deepEqual(forward(html, '?s=invite', [APP_STORE_URL]), [APP_STORE_URL]);
+  });
+});
+
+/**
+ * What a share of these pages unfurls as. Until 25 Sep 2026 the lineup,
+ * tonight and venue pages asked Facebook for the small "summary" card with
+ * the 1024x1024 icon, so the Thursday post into groups of ~250K, 40K and
+ * 36K members showed a square thumbnail instead of the full-width card,
+ * although the 1200x630 og-default.png sat at the site root and was used
+ * only by the posterless event stubs.
+ */
+describe('unfurl card', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venues = venuePages(rows, now);
+  const LARGE = [
+    /<meta property="og:image" content="https:\/\/30anow.github.io\/og-default.png">/,
+    /<meta property="og:image:width" content="1200">/,
+    /<meta property="og:image:height" content="630">/,
+    /<meta name="twitter:card" content="summary_large_image">/,
+  ];
+
+  it('asks for the large branded card on every listing page and the posterless stub', () => {
+    const pages = [
+      renderLineup(rows, venues, now).html,
+      renderTonight(rows, venues, now).html,
+      renderVenue(venues[0], now).html,
+      renderVenuesIndex(venues, now).html,
+      renderStub(rows[0], { now }).html,
+    ];
+    for (const html of pages) {
+      for (const meta of LARGE) assert.match(html, meta);
+      assert.doesNotMatch(html, /og\.png/);
+      assert.doesNotMatch(html, /twitter:card" content="summary"/);
+    }
+    assert.equal(OG_DEFAULT, 'https://30anow.github.io/og-default.png');
+  });
+
+  it('lets the weekly lineup unfurl with a real poster when a show has one the host served', () => {
+    const flyer = row({ title: 'Dread Clampitt', image_url: 'https://30a.com/dread.png' });
+    const yoga = row({ category: 'fitness', title: 'Beach Yoga', image_url: 'https://30a.com/yoga.png' });
+    const served = new Map([
+      ['https://30a.com/dread.png', true],
+      ['https://30a.com/yoga.png', true],
+    ]);
+    const html = renderLineup([yoga, flyer], venuePages([yoga, flyer], now), now, served).html;
+    assert.match(html, /<meta property="og:image" content="https:\/\/30a.com\/dread.png">/);
+    assert.match(html, /twitter:card" content="summary_large_image"/);
+    // A poster's size is not known here; a wrong pair is worse than none.
+    assert.doesNotMatch(html, /og:image:width/);
+    // A class's flyer is not the weekend, and a poster the host refused is
+    // the broken unfurl the probe exists to prevent.
+    const classOnly = renderLineup([yoga], venuePages([yoga], now), now, served).html;
+    assert.match(classOnly, LARGE[0]);
+    const blocked = renderLineup([flyer], venuePages([flyer], now), now, new Map([[flyer.image_url, false]])).html;
+    assert.match(blocked, LARGE[0]);
+    assert.match(blocked, LARGE[1]);
+  });
+
+  it('keeps the stub’s own poster as its card, without a size it cannot know', () => {
+    const e = row({ image_url: 'https://30a.com/p.png' });
+    const html = renderStub(e, { poster: e.image_url, now }).html;
+    assert.match(html, /<meta property="og:image" content="https:\/\/30a.com\/p.png">/);
+    assert.doesNotMatch(html, /og:image:width/);
   });
 });
 

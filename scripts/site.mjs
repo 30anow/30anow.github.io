@@ -19,6 +19,40 @@ export const APP_STORE_ID = '6792965952';
 export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
 export const BEACH_TZ = 'America/Chicago';
 
+// The provider token for App Store Connect campaign links — EMPTY until the
+// first campaign exists (docs/app-store-checklist.md in the app repo,
+// "Campaign links", has the clicks). App Store Connect attributes downloads
+// per campaign tag for free, but only on a link that carries both pt= and
+// ct=: Apple ignores a ct without a pt. Every store link on this site was
+// the bare listing until 25 Sep 2026, so nothing could say whether a single
+// install came from the web. src/config.ts in the app repo carries a
+// constant of the same name; both take the same number.
+export const APP_STORE_PROVIDER_TOKEN = '';
+
+// The branded 1200x630 card at the site root, and the icon. The listing
+// pages asked for the small "summary" card with the 1024x1024 icon, so the
+// Thursday post into groups of ~250K, 40K and 36K members showed a square
+// thumbnail instead of the full-width card that og-default.png already was
+// for the posterless event stubs.
+export const OG_DEFAULT = `${SITE}/og-default.png`;
+export const OG_DEFAULT_SIZE = { width: 1200, height: 630 };
+
+/**
+ * The App Store link for one page, tagged so App Analytics can count it:
+ * seo-lineup, seo-tonight, seo-venue, seo-venue-index and seo-event on the
+ * pages' own buttons, and the visitor's own tag where they arrived with one
+ * (the forwarder in SCRIPT rewrites ct= the way it rewrites s=). The tag is
+ * held to the characters parseArrival accepts in the app and to Apple's
+ * forty, so the two counts share one spelling; a tag that sanitises to
+ * nothing is no campaign at all. `pt` is a parameter only so the tests can
+ * set one.
+ */
+export function storeUrl(ct, pt = APP_STORE_PROVIDER_TOKEN) {
+  const tag = String(ct ?? '').replace(/[^\w.-]/g, '').slice(0, 40);
+  if (!pt || !tag) return APP_STORE_URL;
+  return `${APP_STORE_URL}?pt=${encodeURIComponent(pt)}&ct=${tag}&mt=8`;
+}
+
 // Where the app's own forms fall back to when the table cannot take the
 // row (app/advertise.tsx, app/hire.tsx and app/support.tsx in the app
 // repo): the founder's address, which the web bundle on this site already
@@ -558,6 +592,13 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // links that are also SPA routes, and a reader opening one from a share
 // stub would otherwise be counted as a second arrival.
 //
+// The store links get the same treatment once they carry a campaign tag
+// (cta, storeUrl): ct= becomes the visitor's s, or embed-<venue> off a
+// strip's ref, so an invite recipient who taps "Get it for iPhone" on
+// /lineup/?s=invite is counted by App Store Connect under invite and not
+// under seo-lineup, the page's own tag. Only a link that already carries a
+// ct= is touched, so nothing changes while the provider token is empty.
+//
 // The third block is the venue page's copy button, and does nothing on the
 // pages that have none. navigator.clipboard where the page may use it (a
 // secure origin and a click — both true here), else the old select-and-
@@ -586,6 +627,13 @@ const SCRIPT = `<script>
           if(r)u.searchParams.set('ref',r);
           links[i].href=u.pathname+u.search;
         }
+        var ct=s||('embed-'+r);
+        var store=/^[A-Za-z0-9_.-]+$/.test(ct)?document.querySelectorAll('main a[href^="https://apps.apple.com/"]'):[];
+        ct=ct.slice(0,40);
+        for(var j=0;j<store.length;j++){
+          var su=new URL(store[j].href);
+          if(su.searchParams.has('ct')){su.searchParams.set('ct',ct);store[j].href=su.toString();}
+        }
       }
     }catch(e){}
   }
@@ -601,9 +649,13 @@ const SCRIPT = `<script>
 </script>`;
 
 /**
- * Shared <head>. The listing pages unfurl as the app icon (og.png, a
- * summary card); an event stub passes its poster and asks for the large
- * card. `extraHead` is for the stub's <noscript> refresh.
+ * Shared <head>. Every page unfurls as the large card: the branded
+ * 1200x630 og-default.png with its size declared, so Facebook draws the
+ * full-width card on the first share rather than after it has fetched the
+ * image, or a page's own poster when it passes one (the event stub, and
+ * the weekly lineup when a checked poster exists). A poster's size is not
+ * known here, so only the default declares one — a wrong pair is worse
+ * than none. `extraHead` is for the stub's <noscript> refresh.
  */
 function head({
   title,
@@ -611,11 +663,17 @@ function head({
   path,
   appArgument,
   updated,
-  image = `${SITE}/og.png`,
-  card = 'summary',
+  image = OG_DEFAULT,
+  card = 'summary_large_image',
   extraHead = '',
 }) {
   const url = `${SITE}${path}`;
+  const size =
+    image === OG_DEFAULT
+      ? `<meta property="og:image:width" content="${OG_DEFAULT_SIZE.width}">
+<meta property="og:image:height" content="${OG_DEFAULT_SIZE.height}">
+`
+      : '';
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <title>${esc(title)}</title>
@@ -629,7 +687,7 @@ function head({
 <meta property="og:type" content="website">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${esc(image)}">
-<meta name="twitter:card" content="${card}">
+${size}<meta name="twitter:card" content="${card}">
 <meta name="generator" content="30anow share-cards ${esc(updated)}">
 ${extraHead}<style>${CSS}</style>
 </head><body>
@@ -638,10 +696,17 @@ ${extraHead}<style>${CSS}</style>
 `;
 }
 
+/**
+ * The three ways off a page: into the app if it is installed, to the store,
+ * and to the live map on the web. `tag` names the page on all three — the
+ * store links carry it as ct= once the provider token is set (storeUrl),
+ * the live link as s=.
+ */
 function cta({ appArgument, livePath, liveLabel, tag = '' }) {
+  const store = storeUrl(tag);
   return `<div class="cta">
-<a class="btn" id="open" href="${APP_STORE_URL}" data-app="${esc(appArgument)}">Open in 30A Now</a>
-<a class="btn alt" href="${APP_STORE_URL}">Get it for iPhone</a>
+<a class="btn" id="open" href="${store}" data-app="${esc(appArgument)}">Open in 30A Now</a>
+<a class="btn alt" href="${store}">Get it for iPhone</a>
 <a class="live" href="${esc(tagged(livePath, { s: tag }))}">${esc(liveLabel)}</a>
 </div>
 `;
@@ -751,6 +816,16 @@ export function renderLineup(events, venues, now, posters = new Map()) {
   const description = main
     ? `${countLabel(main, 'event', 'events')} on 30A this weekend (${range}): ${picks} and more, with times, venues and the live map.`
     : `What's on along 30A this weekend (${range}), with times, venues and the live map.`;
+  // The first checked poster among the weekend's shows (classes aside: a
+  // yoga flyer is not the weekend), so the Thursday post unfurls with a
+  // real flyer when one exists and the branded card when none does. Only a
+  // poster share-cards.mjs probed and the host served, for the reason the
+  // stub gives: a broken image is worse than the default card.
+  const poster =
+    rows
+      .filter((e) => e.category !== 'fitness')
+      .map((e) => checkedPoster(e, posters))
+      .find(Boolean) ?? null;
   const body =
     head({
       title: `This weekend on 30A — live music, markets and events ${range}`,
@@ -758,6 +833,7 @@ export function renderLineup(events, venues, now, posters = new Map()) {
       path: '/lineup/',
       appArgument: 'thirtyanow://weekend',
       updated: fmtStamp(now),
+      image: poster || OG_DEFAULT,
     }) +
     `<h1>This weekend on 30A</h1>
 <p class="lead">${esc(range)} · ${countLabel(main, 'event', 'events')}${classes ? ` + ${countLabel(classes, 'class', 'classes')}` : ''} · updated ${esc(fmtStamp(now))} beach time</p>
@@ -1205,8 +1281,7 @@ export function renderStub(e, { poster = null, now = Date.now(), venueSlugs = ne
       path,
       appArgument,
       updated: fmtStamp(now),
-      image: poster || `${SITE}/og-default.png`,
-      card: 'summary_large_image',
+      image: poster || OG_DEFAULT,
       extraHead: `<noscript><meta http-equiv="refresh" content="3;url=${live}"></noscript>\n`,
     }) +
     `<h1>${esc(e.title)}</h1>
