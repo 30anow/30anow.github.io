@@ -4,12 +4,14 @@
     "details": [
       {
         "appID": "4T9964KM6T.com.thirtyanow.app",
-        "paths": ["/e/*", "/event/*", "/venue/*", "/weekend"],
+        "paths": ["/e/*", "/event/*", "/venue/*", "/weekend", "/lineup", "/lineup/*"],
         "components": [
           { "/": "/e/*" },
           { "/": "/event/*" },
           { "/": "/venue/*" },
-          { "/": "/weekend" }
+          { "/": "/weekend" },
+          { "/": "/lineup" },
+          { "/": "/lineup/*" }
         ]
       }
     ]
