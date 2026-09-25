@@ -10,9 +10,9 @@
 <meta property="og:description" content="51 events on 30A this weekend (Fri, Sep 25 – Sun, Sep 27): Steven Theriot, Jared Herzog, Moana Luau Experience and Family Movie Night: Original Moana and more, with times, venues and the live map.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://30anow.github.io/lineup/">
-<meta property="og:image" content="https://30anow.github.io/og.png">
-<meta name="twitter:card" content="summary">
-<meta name="generator" content="30anow share-cards Thu, Sep 24, 7:14 PM">
+<meta property="og:image" content="https://30a.com/wp-content/uploads/2026/08/september-live-music.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="generator" content="30anow share-cards Thu, Sep 24, 9:17 PM">
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
 *{box-sizing:border-box}
@@ -54,7 +54,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <header><a class="brand" href="/">30A Now</a><nav><a href="/lineup/">This weekend</a><a href="/tonight/">Tonight</a><a href="/venues/">Venues</a></nav></header>
 <main>
 <h1>This weekend on 30A</h1>
-<p class="lead">Fri, Sep 25 – Sun, Sep 27 · 51 events + 13 classes · updated Thu, Sep 24, 7:14 PM beach time</p>
+<p class="lead">Fri, Sep 25 – Sun, Sep 27 · 51 events + 13 classes · updated Thu, Sep 24, 9:17 PM beach time</p>
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://weekend">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
@@ -179,6 +179,13 @@ Round Robins are ideal for intermediate and advanced players seeking friendly co
           if(s)u.searchParams.set('s',s);
           if(r)u.searchParams.set('ref',r);
           links[i].href=u.pathname+u.search;
+        }
+        var ct=s||('embed-'+r);
+        var store=/^[A-Za-z0-9_.-]+$/.test(ct)?document.querySelectorAll('main a[href^="https://apps.apple.com/"]'):[];
+        ct=ct.slice(0,40);
+        for(var j=0;j<store.length;j++){
+          var su=new URL(store[j].href);
+          if(su.searchParams.has('ct')){su.searchParams.set('ct',ct);store[j].href=su.toString();}
         }
       }
     }catch(e){}

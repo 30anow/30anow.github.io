@@ -10,9 +10,11 @@
 <meta property="og:description" content="34 venues along 30A with events coming up, from AJ's and The Red Bar in Grayton Beach to Seaside and Rosemary Beach. Every listing, on the live map.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://30anow.github.io/venues/">
-<meta property="og:image" content="https://30anow.github.io/og.png">
-<meta name="twitter:card" content="summary">
-<meta name="generator" content="30anow share-cards Thu, Sep 24, 7:14 PM">
+<meta property="og:image" content="https://30anow.github.io/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="generator" content="30anow share-cards Thu, Sep 24, 9:17 PM">
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
 *{box-sizing:border-box}
@@ -53,7 +55,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <header><a class="brand" href="/">30A Now</a><nav><a href="/lineup/">This weekend</a><a href="/tonight/">Tonight</a><a href="/venues/">Venues</a></nav></header>
 <main>
 <h1>Venues on 30A</h1>
-<p class="lead">34 places with something coming up · updated Thu, Sep 24, 7:14 PM beach time</p>
+<p class="lead">34 places with something coming up · updated Thu, Sep 24, 9:17 PM beach time</p>
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
@@ -62,7 +64,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <ul class="venues"><li><a href="/venues/tennis-pickleball-courts/">Tennis &amp; Pickleball Courts</a> <span class="m">76</span></li>
 <li><a href="/venues/seaside-pavilion/">Seaside Pavilion</a> <span class="m">30</span></li>
 <li><a href="/venues/seaside-fitness-center/">Seaside Fitness Center</a> <span class="m">28</span></li>
-<li><a href="/venues/ajs-grayton-beach/">AJ's Grayton Beach</a> <span class="m">27</span></li>
+<li><a href="/venues/ajs-grayton-beach/">AJ's Grayton Beach</a> <span class="m">26</span></li>
 <li><a href="/venues/the-red-bar/">The Red Bar</a> <span class="m">22</span></li>
 <li><a href="/venues/seaside-amphitheater/">Seaside Amphitheater</a> <span class="m">14</span></li>
 <li><a href="/venues/old-florida-fish-house/">Old Florida Fish House</a> <span class="m">13</span></li>
@@ -116,6 +118,13 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
           if(s)u.searchParams.set('s',s);
           if(r)u.searchParams.set('ref',r);
           links[i].href=u.pathname+u.search;
+        }
+        var ct=s||('embed-'+r);
+        var store=/^[A-Za-z0-9_.-]+$/.test(ct)?document.querySelectorAll('main a[href^="https://apps.apple.com/"]'):[];
+        ct=ct.slice(0,40);
+        for(var j=0;j<store.length;j++){
+          var su=new URL(store[j].href);
+          if(su.searchParams.has('ct')){su.searchParams.set('ct',ct);store[j].href=su.toString();}
         }
       }
     }catch(e){}
