@@ -19,6 +19,14 @@ export const APP_STORE_ID = '6792965952';
 export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
 export const BEACH_TZ = 'America/Chicago';
 
+// Where the app's own forms fall back to when the table cannot take the
+// row (app/advertise.tsx, app/hire.tsx and app/support.tsx in the app
+// repo): the founder's address, which the web bundle on this site already
+// ships. The venue page's owner footer mails the same place with the same
+// subject line as the advertise form, so a lead from either lands in the
+// one thread.
+export const SUPPORT_EMAIL = 'joeledomassey@gmail.com';
+
 // The PUBLIC client credentials — the same pair the web app ships in its
 // bundle. Anonymous reads see approved events only and anonymous writes may
 // only insert a usage row with a null user_id, both enforced by RLS. Here so
@@ -452,6 +460,13 @@ export const ARRIVAL = {
   venue: 'seo-venue',
   venues: 'seo-venue-index',
   event: 'seo-event',
+  // The venue page's owner footer, on its "Feature a show" link into the
+  // advertise form. Its own value rather than seo-venue because it answers
+  // a different question — did anyone who runs the place come through the
+  // block — and on the web it is the only signal that one did: the native
+  // page's venue_owner_tap ping never fires here. Still `seo-`, since it is
+  // an arrival off the crawlable site like the rest.
+  owner: 'seo-venue-owner',
 };
 
 /** `path` with the tags that are set appended, merging with any query it already has. */
@@ -517,6 +532,10 @@ summary{cursor:pointer;color:var(--sub);font-size:14px;padding:6px 0}
 .venues{columns:2;column-gap:20px;font-size:15px}
 .venues li{break-inside:avoid;margin:2px 0}
 footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-size:13px;border-top:1px solid var(--border)}
+.owner{max-width:720px;margin:30px auto 0;padding:16px;font-size:14px;border-top:1px solid var(--border)}
+.owner p{margin:0 0 8px}
+.owner pre{margin:8px 0;padding:10px 12px;background:var(--teal-soft);border-radius:8px;font-size:12px;white-space:pre-wrap;word-break:break-all}
+.owner button{padding:8px 14px;border:1.5px solid var(--teal);border-radius:10px;background:#fff;color:var(--teal-dark);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 `;
 
 // Tries the app first on an iPhone and falls back to the App Store after
@@ -538,6 +557,13 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // and the rows, not the footer: Privacy and Terms are the two boilerplate
 // links that are also SPA routes, and a reader opening one from a share
 // stub would otherwise be counted as a second arrival.
+//
+// The third block is the venue page's copy button, and does nothing on the
+// pages that have none. navigator.clipboard where the page may use it (a
+// secure origin and a click — both true here), else the old select-and-
+// execCommand path, so an owner on an older phone gets the snippet onto the
+// clipboard rather than a dead button. What is copied is the text of the
+// <code> beside the button, so it is exactly what is shown.
 const SCRIPT = `<script>
 (function(){
   var open=document.getElementById('open');
@@ -562,6 +588,14 @@ const SCRIPT = `<script>
         }
       }
     }catch(e){}
+  }
+  var copy=document.getElementById('copy'),code=document.getElementById('snippet');
+  if(copy&&code){
+    copy.addEventListener('click',function(){
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},2000);};
+      var select=function(){try{var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);if(document.execCommand('copy'))done();}catch(e){}};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
+    });
   }
 })();
 </script>`;
@@ -613,9 +647,10 @@ function cta({ appArgument, livePath, liveLabel, tag = '' }) {
 `;
 }
 
-function foot() {
+/** `extra` goes between </main> and the footer: outside the forwarder's reach (see SCRIPT). */
+function foot(extra = '') {
   return `</main>
-<footer>30A Now · the live map of Scenic Highway 30A, Santa Rosa Beach, FL · <a href="/legal/privacy">Privacy</a> · <a href="/legal/terms">Terms</a></footer>
+${extra}<footer>30A Now · the live map of Scenic Highway 30A, Santa Rosa Beach, FL · <a href="/legal/privacy">Privacy</a> · <a href="/legal/terms">Terms</a></footer>
 ${SCRIPT}
 </body></html>
 `;
@@ -793,7 +828,53 @@ export function renderTonight(events, venues, now, posters = new Map()) {
   };
 }
 
-/** /venues/<slug>/ — everything ahead at one venue, with its card when we know it. */
+/**
+ * The one line of HTML a venue pastes to put its week on its own site: the
+ * /embed/<slug>/ strip, in the shape docs/featured-shows.md (app repo) hands
+ * out by hand. The slug rather than the venue's own name: the name form
+ * needs %20s a page editor will mangle, and it is not written at all for a
+ * name embedNameDir refuses, while every venue page's slug is a strip
+ * (embedVenues orders as venuePages does, and the test holds it), so this
+ * URL always answers 200. The trailing slash skips the 301 GitHub Pages
+ * sends the bare form through. The title is attribute-escaped, since the
+ * snippet is HTML and a "Bud & Alley's" has to survive being pasted.
+ */
+export function embedSnippet(slug, name) {
+  return `<iframe src="${SITE}/embed/${slug}/" width="100%" height="420" style="border:0" title="${esc(`This week at ${name}`)}"></iframe>`;
+}
+
+/**
+ * The owner footer. A bar owner Googling their own place lands on
+ * /venues/<slug>/ — the reason the page exists — and until 24 Sep 2026 the
+ * live Red Bar page had the schedule, two App Store buttons and nothing
+ * for them. The native venue page has carried its "Own this venue?" line
+ * since launch; the crawlable one is where an owner actually arrives from
+ * a search. Three things, in the order they cost: the strip for free, a
+ * featured show for $25 (docs/featured-shows.md: the first one free), and
+ * the address the app's own advertise form falls back to, with the same
+ * subject line, so an owner who would rather write an email lands in the
+ * same thread as one who filled the form.
+ *
+ * It sits OUTSIDE <main>, on purpose. The forwarder rewrites `s=` on every
+ * link inside <main> to the visitor's own tag, which is right for a reader
+ * who came off the Thursday post; but seo-venue-owner names the block, not
+ * the visit, and it is the only web signal that anyone who runs the place
+ * came through it. So it stays, whatever the reader arrived with.
+ */
+export function ownerFooter({ name, slug }) {
+  const snippet = embedSnippet(slug, name);
+  const advertise = tagged('/advertise', { business: name, s: ARRIVAL.owner });
+  const mail = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Advertising on 30A Now — ${name}`)}`;
+  return `<section class="owner">
+<p><strong>Run ${esc(name)}?</strong> Put this week's lineup on your site, free. Paste this where the schedule goes — it keeps itself up to date and needs no account.</p>
+<pre><code id="snippet">${esc(snippet)}</code></pre>
+<p><button type="button" id="copy">Copy</button></p>
+<p><a href="${esc(advertise)}">Feature a show — $25, first one free</a> · or email <a href="${esc(mail)}">${esc(SUPPORT_EMAIL)}</a></p>
+</section>
+`;
+}
+
+/** /venues/<slug>/ — everything ahead at one venue, with its card when we know it, and the owner footer. */
 export function renderVenue(venue, now, posters = new Map()) {
   const { name, area, events, slug, known } = venue;
   const days = groupByDay(events);
@@ -825,7 +906,7 @@ ${card}` +
       .join('\n') +
     `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
-    foot();
+    foot(ownerFooter(venue));
   return { html: body, jsonLd: jsonLdScript(events, (e) => checkedPoster(e, posters)) };
 }
 

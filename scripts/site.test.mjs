@@ -13,12 +13,15 @@ import {
   embedDirs,
   embedNameDir,
   embedRef,
+  embedSnippet,
   embedVenues,
   embedWeek,
+  esc,
   eventJsonLd,
   groupByDay,
   inWindow,
   knownVenue,
+  ownerFooter,
   priceNumber,
   PUBLISHED_EMBEDS,
   renderEmbed,
@@ -33,6 +36,7 @@ import {
   shrinkRefusal,
   sitemapXml,
   slugify,
+  SUPPORT_EMAIL,
   tonightWindow,
   truncationRefusal,
   venuePages,
@@ -596,6 +600,126 @@ describe('arrival tags', () => {
       assert.match(tag, /^[\w.-]+$/);
       assert.ok(tag.length <= 40);
     }
+  });
+});
+
+describe('owner footer', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venue = venuePages(rows, now)[0];
+  const snippet =
+    '<iframe src="https://30anow.github.io/embed/the-red-bar/" width="100%" height="420" style="border:0" title="This week at The Red Bar"></iframe>';
+
+  it('hands the owner the strip snippet for this slug, the tagged advertise link and the mail fallback', () => {
+    // The live Red Bar page on 24 Sep 2026 had the schedule, two App Store
+    // buttons and nothing for the person most likely to read it to the
+    // bottom: the one who runs the place.
+    const html = renderVenue(venue, now).html;
+    assert.match(html, /<strong>Run The Red Bar\?<\/strong> Put this week's lineup on your site, free/);
+    assert.equal(embedSnippet('the-red-bar', 'The Red Bar'), snippet);
+    assert.ok(html.includes(`<code id="snippet">${esc(snippet)}</code>`));
+    assert.match(html, /<button type="button" id="copy">Copy<\/button>/);
+    assert.match(
+      html,
+      /href="\/advertise\?business=The%20Red%20Bar&amp;s=seo-venue-owner">Feature a show — \$25, first one free</,
+    );
+    // The subject the app's own advertise form uses for its mail fallback.
+    assert.match(
+      html,
+      new RegExp(`href="mailto:${SUPPORT_EMAIL}\\?subject=Advertising%20on%2030A%20Now%20%E2%80%94%20The%20Red%20Bar"`),
+    );
+    assert.equal(ARRIVAL.owner, 'seo-venue-owner');
+  });
+
+  it('writes the snippet as HTML an owner can paste, then escapes it once more to show it', () => {
+    // The title attribute inside the snippet is HTML, so an ampersand in the
+    // name is &amp; there; the page escapes the whole snippet a second time
+    // so the browser shows the tag instead of rendering an iframe.
+    assert.equal(
+      embedSnippet('bud-alleys', "Bud & Alley's"),
+      `<iframe src="https://30anow.github.io/embed/bud-alleys/" width="100%" height="420" style="border:0" title="This week at Bud &amp; Alley's"></iframe>`,
+    );
+    const html = ownerFooter({ name: "Bud & Alley's", slug: 'bud-alleys' });
+    assert.match(html, /&lt;iframe src=&quot;https:\/\/30anow\.github\.io\/embed\/bud-alleys\/&quot;/);
+    assert.match(html, /title=&quot;This week at Bud &amp;amp; Alley's&quot;/);
+    assert.doesNotMatch(html, /<iframe/);
+    assert.match(html, /business=Bud%20%26%20Alley's&amp;s=seo-venue-owner/);
+  });
+
+  it('sits outside <main>, so the forwarder leaves its tag alone', () => {
+    // Inside <main> a reader who arrived off the Thursday post would turn
+    // the link into ?s=fb, and the one web signal that an owner came through
+    // the block would be gone with it.
+    const html = renderVenue(venue, now).html;
+    const main = html.indexOf('</main>');
+    const owner = html.indexOf('<section class="owner">');
+    const footer = html.indexOf('<footer>');
+    assert.ok(main > 0 && main < owner && owner < footer, `${main} ${owner} ${footer}`);
+    assert.equal(/querySelectorAll\('([^']+)'\)/.exec(html)[1], 'header a[href^="/"],main a[href^="/"]');
+    // And only the venue page carries it.
+    assert.doesNotMatch(renderLineup(rows, [venue], now).html, /class="owner"/);
+    assert.doesNotMatch(renderStub(rows[0], { now }).html, /class="owner"/);
+  });
+
+  it('every venue page has a strip under its own slug, so the snippet never points at a 404', () => {
+    // venuePages needs three rows and embedVenues one; both order by how
+    // much is on, so a slug a page takes is taken first among the strips
+    // too — the -2 a collision hands out included.
+    const many = [
+      ...rows,
+      row({ venue: 'Crackings', title: 'A' }),
+      row({ venue: 'Crackings', title: 'B' }),
+      row({ venue: 'Crackings', title: 'C' }),
+      row({ venue: 'CRACKINGS!', title: 'D' }),
+      row({ venue: 'CRACKINGS!', title: 'E' }),
+      row({ venue: 'CRACKINGS!', title: 'F' }),
+      row({ venue: "Pickle's", title: 'one row' }),
+      row({ venue: 'Now Playing', title: 'on stage', starts_at: '2026-09-08T16:00:00Z', ends_at: '2026-09-08T20:00:00Z' }),
+    ];
+    const pages = venuePages(many, now);
+    const dirs = new Set(embedDirs(embedVenues(many, now)).map((d) => d.dir));
+    assert.ok(pages.some((p) => p.slug === 'crackings-2'));
+    for (const p of pages) assert.ok(dirs.has(p.slug), `${p.name} -> /embed/${p.slug}/`);
+  });
+
+  it('copies the snippet, by running the button', async () => {
+    // navigator.clipboard where the page may use it, select-and-execCommand
+    // where it may not; either way the text is the <code> beside the
+    // button, so what is copied is what is shown.
+    const js = /<script>\n([\s\S]*?)<\/script>/.exec(renderVenue(venue, now).html)[1];
+    const press = (clipboard) => {
+      const handlers = {};
+      const button = { textContent: 'Copy', addEventListener: (ev, fn) => { handlers[ev] = fn; } };
+      const selected = [];
+      const env = {
+        location: { search: '' },
+        navigator: { userAgent: 'node', ...(clipboard ? { clipboard } : {}) },
+        document: {
+          hidden: false,
+          getElementById: (id) => ({ copy: button, snippet: { textContent: snippet } })[id] ?? null,
+          querySelectorAll: () => [],
+          createRange: () => ({ selectNodeContents: (el) => selected.push(el.textContent) }),
+          execCommand: (cmd) => cmd === 'copy',
+        },
+        getSelection: () => ({ removeAllRanges() {}, addRange() {} }),
+        URL,
+        URLSearchParams,
+        Date,
+        setTimeout: () => {}, // the 2 s reset back to "Copy" is not the test
+      };
+      new Function(...Object.keys(env), js)(...Object.values(env));
+      handlers.click();
+      return { button, selected };
+    };
+    let copied = '';
+    const modern = press({ writeText: (t) => { copied = t; return Promise.resolve(); } });
+    await Promise.resolve();
+    assert.equal(copied, snippet);
+    assert.equal(modern.button.textContent, 'Copied');
+    assert.deepEqual(modern.selected, []);
+    const legacy = press(null);
+    assert.deepEqual(legacy.selected, [snippet]);
+    assert.equal(legacy.button.textContent, 'Copied');
   });
 });
 
