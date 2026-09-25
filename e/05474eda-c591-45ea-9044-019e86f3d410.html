@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/05474eda-c591-45ea-9044-019e86f3d410">
 <meta property="og:image" content="https://30anow.github.io/og-default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Thu, Sep 24, 3:32 PM">
+<meta name="generator" content="30anow share-cards Thu, Sep 24, 7:14 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/05474eda-c591-45ea-9044-019e86f3d410"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -45,6 +45,10 @@ summary{cursor:pointer;color:var(--sub);font-size:14px;padding:6px 0}
 .venues{columns:2;column-gap:20px;font-size:15px}
 .venues li{break-inside:avoid;margin:2px 0}
 footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-size:13px;border-top:1px solid var(--border)}
+.owner{max-width:720px;margin:30px auto 0;padding:16px;font-size:14px;border-top:1px solid var(--border)}
+.owner p{margin:0 0 8px}
+.owner pre{margin:8px 0;padding:10px 12px;background:var(--teal-soft);border-radius:8px;font-size:12px;white-space:pre-wrap;word-break:break-all}
+.owner button{padding:8px 14px;border:1.5px solid var(--teal);border-radius:10px;background:#fff;color:var(--teal-dark);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 </style>
 <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Event","name":"Tennis: Round Robins","startDate":"2026-10-17T09:00:00-05:00","endDate":"2026-10-17T10:30:00-05:00","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Tennis & Pickleball Courts","address":{"@type":"PostalAddress","addressLocality":"Seaside, Santa Rosa Beach","addressRegion":"FL","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":30.3202,"longitude":-86.1377}},"url":"https://30anow.github.io/e/05474eda-c591-45ea-9044-019e86f3d410","description":"Join fellow players for Tennis Round Robins, a fun and competitive way to sharpen your skills and connect with the local tennis community. Held Saturday and Sunday from 9:00 AM to 10:30 AM, these structured match-play sessions rotate partners and opponents, ensuring fast-paced action and a great workout on our Har-Tru courts.\nRound Robins are ideal for intermediate and advanced players seeking friendly competition, improved strategy, and a social, welcoming environment. Advanced sign-up is highly encouraged. Please call the pro shop at 850-830-6861 to reserve your spot."}]</script>
 </head><body>
@@ -87,6 +91,14 @@ Round Robins are ideal for intermediate and advanced players seeking friendly co
         }
       }
     }catch(e){}
+  }
+  var copy=document.getElementById('copy'),code=document.getElementById('snippet');
+  if(copy&&code){
+    copy.addEventListener('click',function(){
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},2000);};
+      var select=function(){try{var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);if(document.execCommand('copy'))done();}catch(e){}};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
+    });
   }
 })();
 </script>
