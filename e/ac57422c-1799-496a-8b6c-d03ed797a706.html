@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/ac57422c-1799-496a-8b6c-d03ed797a706">
 <meta property="og:image" content="https://30a.com/wp-content/uploads/2026/05/651715680_18072299315552288_5143763626697786404_n.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Sun, Sep 27, 3:12 PM">
+<meta name="generator" content="30anow share-cards Sun, Sep 27, 6:21 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/ac57422c-1799-496a-8b6c-d03ed797a706"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -82,15 +82,21 @@ We offer different time slots available at 6 PM, 7 PM, 8 PM, and 9 PM. To book y
   }
   if(location.search){
     try{
-      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
-      if(s||r){
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref'),f=q.get('from');
+      f=f&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(f)?f.toLowerCase():null;
+      if(s||r||f){
         var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
         for(var i=0;i<links.length;i++){
           var u=new URL(links[i].href);
           if(s)u.searchParams.set('s',s);
           if(r)u.searchParams.set('ref',r);
+          if(f)u.searchParams.set('from',f);
           links[i].href=u.pathname+u.search;
         }
+        var app=open&&open.getAttribute('data-app');
+        if(f&&app)open.setAttribute('data-app',app+(app.indexOf('?')<0?'?':'&')+'from='+f);
+      }
+      if(s||r){
         var ct=s||('embed-'+r);
         var store=/^[A-Za-z0-9_.-]+$/.test(ct)?document.querySelectorAll('main a[href^="https://apps.apple.com/"]'):[];
         ct=ct.slice(0,40);
