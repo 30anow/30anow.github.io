@@ -586,11 +586,25 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // visitor with a utm string produced "/weekend?s=seo-lineup?utm_source=x":
 // parseArrival splits on & only, reads the value as "seo-lineup?utm_source=x"
 // and drops it against ^[\w.-]+$ — the tag silently lost on exactly the
-// visits worth counting. Only s and ref are forwarded, the two keys the app
-// reads, so no third-party campaign junk can shape a value again. The nav
-// and the rows, not the footer: Privacy and Terms are the two boilerplate
-// links that are also SPA routes, and a reader opening one from a share
-// stub would otherwise be counted as a second arrival.
+// visits worth counting. Only s, ref and from are forwarded, the keys the
+// app reads, so no third-party campaign junk can shape a value again. The
+// nav and the rows, not the footer: Privacy and Terms are the two
+// boilerplate links that are also SPA routes, and a reader opening one from
+// a share stub would otherwise be counted as a second arrival.
+//
+// from= rides the same hops since 27 Sep 2026. The app's friend invite
+// links /lineup/?s=invite&from=<member id>, and the live Weekend screen
+// turns the id into "Add <name> to your crew?" (app/weekend.tsx and
+// src/utils/invite.ts in the app repo); until then an invite said nothing
+// about who sent it, and made a friendship only when the invitee had the
+// inviter's number in their contacts. Only a uuid is carried, lowercased,
+// and nothing on these pages reads or shows it: the page is the same for
+// everyone, and the name is the app's to look up. It also goes onto the
+// "Open in 30A Now" button's thirtyanow:// link, the only way into the
+// app from here on a binary older than the /lineup universal link claim
+// (1.0.0 and 1.1.0), which would otherwise open the Weekend screen
+// without it. s= and ref= stay off that link, as before: the app counts
+// arrivals on the web only.
 //
 // The store links get the same treatment once they carry a campaign tag
 // (cta, storeUrl): ct= becomes the visitor's s, or embed-<venue> off a
@@ -618,15 +632,21 @@ const SCRIPT = `<script>
   }
   if(location.search){
     try{
-      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref');
-      if(s||r){
+      var q=new URLSearchParams(location.search),s=q.get('s'),r=q.get('ref'),f=q.get('from');
+      f=f&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(f)?f.toLowerCase():null;
+      if(s||r||f){
         var links=document.querySelectorAll('header a[href^="/"],main a[href^="/"]');
         for(var i=0;i<links.length;i++){
           var u=new URL(links[i].href);
           if(s)u.searchParams.set('s',s);
           if(r)u.searchParams.set('ref',r);
+          if(f)u.searchParams.set('from',f);
           links[i].href=u.pathname+u.search;
         }
+        var app=open&&open.getAttribute('data-app');
+        if(f&&app)open.setAttribute('data-app',app+(app.indexOf('?')<0?'?':'&')+'from='+f);
+      }
+      if(s||r){
         var ct=s||('embed-'+r);
         var store=/^[A-Za-z0-9_.-]+$/.test(ct)?document.querySelectorAll('main a[href^="https://apps.apple.com/"]'):[];
         ct=ct.slice(0,40);

@@ -711,6 +711,98 @@ describe('campaign links', () => {
 });
 
 /**
+ * Runs a page's forwarder with its "Open in 30A Now" button present, and
+ * answers with the button's app link afterwards. `forward` has no button
+ * (getElementById answers null there), and the phone-only click handler is
+ * kept out by the user agent: what is under test is the attribute.
+ */
+function openLink(html, search) {
+  const js = /<script>\n([\s\S]*?)<\/script>/.exec(html)[1];
+  let dataApp = /id="open" href="[^"]*" data-app="([^"]*)"/.exec(html)[1];
+  const open = {
+    href: 'https://apps.apple.com/app/id6792965952',
+    getAttribute: (name) => (name === 'data-app' ? dataApp : null),
+    setAttribute: (name, v) => {
+      if (name === 'data-app') dataApp = v;
+    },
+    addEventListener: () => {},
+  };
+  const env = {
+    location: { search },
+    navigator: { userAgent: 'node' },
+    document: {
+      hidden: false,
+      getElementById: (id) => (id === 'open' ? open : null),
+      querySelectorAll: () => [],
+    },
+    URL,
+    URLSearchParams,
+    Date,
+    setTimeout,
+  };
+  new Function(...Object.keys(env), js)(...Object.values(env));
+  return dataApp;
+}
+
+/**
+ * The app's friend invite names who sent it since 27 Sep 2026: the link is
+ * /lineup/?s=invite&from=<member id>, and the live Weekend screen turns the
+ * id into "Add <name> to your crew?". Before that an invite said nothing
+ * about its sender, and made a friendship only when the invitee happened
+ * to have the inviter's number in their contacts. These pages are the hop
+ * in between, so they carry from= into the app exactly as they carry s=.
+ */
+describe('invite links', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venues = venuePages(rows, now);
+  const html = renderLineup(rows, venues, now).html;
+  const SAM = '3f2a9c1e-7b4d-4e8a-9c21-5d6e7f8a9b0c';
+  const CAMPAIGN = 'https://apps.apple.com/app/id6792965952?pt=123456&ct=seo-lineup&mt=8';
+
+  it('carries the inviter onto every link into the live app, beside the invite tag, and nothing else', () => {
+    assert.deepEqual(
+      forward(html, `?s=invite&from=${SAM}`, ['/weekend?s=seo-lineup', `/e/${rows[0].id}?s=seo-lineup`]),
+      [`/weekend?s=invite&from=${SAM}`, `/e/${rows[0].id}?s=invite&from=${SAM}`],
+    );
+    // Lowercased, so the app sees one spelling of one member.
+    assert.deepEqual(forward(html, `?s=invite&from=${SAM.toUpperCase()}`, ['/weekend?s=seo-lineup']), [
+      `/weekend?s=invite&from=${SAM}`,
+    ]);
+    // Only a member id: the link travels through share sheets and group
+    // chats, and the app would only send anything else to the lookup.
+    for (const bad of ['abc', `${SAM}0`, '%3Cscript%3E', `${SAM.slice(0, -1)}g`, '']) {
+      assert.deepEqual(forward(html, `?s=invite&from=${bad}`, ['/weekend?s=seo-lineup']), [
+        '/weekend?s=invite',
+      ]);
+    }
+  });
+
+  it('carries from= alone without inventing a store campaign for it', () => {
+    // The store rewrite reads s or ref; run on from= alone it would write
+    // ct=embed-null onto the buttons.
+    assert.deepEqual(forward(html, `?from=${SAM}`, [CAMPAIGN, '/weekend?s=seo-lineup']), [
+      CAMPAIGN,
+      `/weekend?s=seo-lineup&from=${SAM}`,
+    ]);
+    // And the invite's store link is still counted as the invite.
+    assert.deepEqual(forward(html, `?s=invite&from=${SAM}`, [CAMPAIGN]), [
+      'https://apps.apple.com/app/id6792965952?pt=123456&ct=invite&mt=8',
+    ]);
+  });
+
+  it('puts the inviter on the Open in 30A Now link, for a phone that has the app', () => {
+    // A 1.0.0 or 1.1.0 binary does not claim /lineup as a universal link,
+    // so this button is the way in; without from= it opened the Weekend
+    // screen with no idea who had sent the invite.
+    assert.equal(openLink(html, `?s=invite&from=${SAM}`), `thirtyanow://weekend?from=${SAM}`);
+    assert.equal(openLink(html, '?s=invite'), 'thirtyanow://weekend');
+    assert.equal(openLink(html, '?s=invite&from=abc'), 'thirtyanow://weekend');
+    assert.equal(openLink(html, ''), 'thirtyanow://weekend');
+  });
+});
+
+/**
  * What a share of these pages unfurls as. Until 25 Sep 2026 the lineup,
  * tonight and venue pages asked Facebook for the small "summary" card with
  * the 1024x1024 icon, so the Thursday post into groups of ~250K, 40K and
