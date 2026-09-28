@@ -26,8 +26,10 @@ export const BEACH_TZ = 'America/Chicago';
 // ct=: Apple ignores a ct without a pt. Every store link on this site was
 // the bare listing until 25 Sep 2026, so nothing could say whether a single
 // install came from the web. src/config.ts in the app repo carries a
-// constant of the same name; both take the same number.
-export const APP_STORE_PROVIDER_TOKEN = '';
+// constant of the same name; both take the same number. Filled in on
+// 28 Sep 2026 from App Store Connect's campaign link generator: the
+// provider token is the account's, and public on every campaign link.
+export const APP_STORE_PROVIDER_TOKEN = '129198813';
 
 // The branded 1200x630 card at the site root, and the icon. The listing
 // pages asked for the small "summary" card with the 1024x1024 icon, so the
