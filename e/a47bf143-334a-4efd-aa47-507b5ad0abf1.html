@@ -4,7 +4,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Seaside Farmers Market · Seaside · Tue, Sep 29 · 9:00 AM – 1:00 PM · Free — on the 30A Now live map.">
 <link rel="canonical" href="https://30anow.github.io/e/a47bf143-334a-4efd-aa47-507b5ad0abf1">
-<meta name="apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow://event/a47bf143-334a-4efd-aa47-507b5ad0abf1">
+<script>(function(){var a="thirtyanow://event/a47bf143-334a-4efd-aa47-507b5ad0abf1",f=null;try{f=new URLSearchParams(location.search).get('from');}catch(e){}if(f&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(f))a+=(a.indexOf('?')<0?'?':'&amp;')+'from='+f.toLowerCase();document.write('<meta name="apple-itunes-app" content="app-id=6792965952, app-argument='+a+'">');})();</script>
+<noscript><meta name="apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow://event/a47bf143-334a-4efd-aa47-507b5ad0abf1"></noscript>
 <meta property="og:site_name" content="30A Now">
 <meta property="og:title" content="Farmers Market — 30A Now">
 <meta property="og:description" content="Seaside Farmers Market · Seaside · Tue, Sep 29 · 9:00 AM – 1:00 PM · Free — on the 30A Now live map.">
@@ -12,7 +13,7 @@
 <meta property="og:url" content="https://30anow.github.io/e/a47bf143-334a-4efd-aa47-507b5ad0abf1">
 <meta property="og:image" content="https://30a.com/wp-content/uploads/2026/01/141011-seaside-016-3000.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Sun, Sep 27, 6:21 PM">
+<meta name="generator" content="30anow share-cards Sun, Sep 27, 7:50 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/a47bf143-334a-4efd-aa47-507b5ad0abf1"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -27,6 +28,8 @@ h1{font-size:26px;line-height:1.2;margin:8px 0 4px}
 h2{font-size:17px;margin:26px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
 .lead{color:var(--sub);margin:0 0 14px;font-size:15px}
 .cta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 6px}
+.invited{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
+.invited[hidden]{display:none}
 .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none}
 .btn.alt{background:var(--teal-soft);color:var(--teal-dark)}
 .live{font-size:14px}
@@ -57,6 +60,7 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 <h1>Farmers Market</h1>
 <p class="lead"><a href="/venues/seaside-farmers-market/">Seaside Farmers Market</a> · Seaside · Tue, Sep 29 · 9:00 AM – 1:00 PM · Free</p>
 <img class="poster" src="https://30a.com/wp-content/uploads/2026/01/141011-seaside-016-3000.jpg" alt="">
+<p class="invited" id="invited" hidden>A friend invited you. Install 30A Now, then come back to this link and tap Open in 30A Now to add them.</p>
 <div class="cta">
 <a class="btn" id="open" href="https://apps.apple.com/app/id6792965952" data-app="thirtyanow://event/a47bf143-334a-4efd-aa47-507b5ad0abf1">Open in 30A Now</a>
 <a class="btn alt" href="https://apps.apple.com/app/id6792965952">Get it for iPhone</a>
@@ -97,6 +101,8 @@ The Seaside Farmers Market consists of local growers and crafts people who offer
         }
         var app=open&&open.getAttribute('data-app');
         if(f&&app)open.setAttribute('data-app',app+(app.indexOf('?')<0?'?':'&')+'from='+f);
+        var inv=document.getElementById('invited');
+        if(f&&inv)inv.hidden=false;
       }
       if(s||r){
         var ct=s||('embed-'+r);
