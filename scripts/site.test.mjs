@@ -9,6 +9,7 @@ import {
   APP_STORE_PROVIDER_TOKEN,
   APP_STORE_URL,
   ARRIVAL,
+  bannerMeta,
   beachDayKey,
   beachIso,
   beachWallToUtc,
@@ -21,6 +22,7 @@ import {
   esc,
   eventJsonLd,
   groupByDay,
+  INVITED_LINE,
   inWindow,
   knownVenue,
   OG_DEFAULT,
@@ -800,7 +802,82 @@ describe('invite links', () => {
     assert.equal(openLink(html, '?s=invite&from=abc'), 'thirtyanow://weekend');
     assert.equal(openLink(html, ''), 'thirtyanow://weekend');
   });
+
+  it('says what to do with the invite, only on a page opened with one', () => {
+    // An App Store install drops from=: someone who installs from here
+    // opens a fresh app that knows nothing of the invite.
+    assert.match(html, new RegExp(`<p class="invited" id="invited" hidden>${INVITED_LINE}</p>`));
+    assert.match(INVITED_LINE, /come back to this link and tap Open in 30A Now/);
+    assert.equal(invitedShown(html, `?s=invite&from=${SAM}`), true);
+    assert.equal(invitedShown(html, `?s=invite&from=${SAM.toUpperCase()}`), true);
+    assert.equal(invitedShown(html, '?s=invite'), false);
+    assert.equal(invitedShown(html, '?s=invite&from=abc'), false);
+    assert.equal(invitedShown(html, ''), false);
+  });
+
+  it('puts the inviter on the Smart App Banner’s OPEN, which Safari reads before the forwarder runs', () => {
+    assert.equal(banner(html, `?s=invite&from=${SAM}`), `thirtyanow://weekend?from=${SAM}`);
+    assert.equal(banner(html, `?s=invite&from=${SAM.toUpperCase()}`), `thirtyanow://weekend?from=${SAM}`);
+    for (const bad of ['', '?s=invite', '?s=invite&from=abc', `?from=${SAM}0`, '?from=%22%3E%3Cscript%3E']) {
+      assert.equal(banner(html, bad), 'thirtyanow://weekend', bad);
+    }
+    // Without JavaScript, the plain banner.
+    assert.match(
+      html,
+      /<noscript><meta name="apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow:\/\/weekend"><\/noscript>/,
+    );
+    // Written once, in <head>, and never as a bare meta beside it.
+    const head = html.slice(0, html.indexOf('</head>'));
+    assert.equal(head.split('apple-itunes-app').length - 1, 2);
+    assert.equal(html.indexOf('apple-itunes-app', html.indexOf('</head>')), -1);
+  });
+
+  it('keeps an argument that already has a query, and escapes what it writes', () => {
+    const meta = bannerMeta('thirtyanow://venue/AJ%27s?x=1');
+    const written = runBanner(meta, `?from=${SAM}`);
+    assert.equal(written, `<meta name="apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow://venue/AJ%27s?x=1&amp;from=${SAM}">`);
+    assert.doesNotMatch(bannerMeta('x"><script>alert(1)</script>'), /"><script>alert/);
+  });
 });
+
+/** Runs a page's (or a meta's) banner script and answers what it wrote. */
+function runBanner(html, search) {
+  const js = /<script>(\(function\(\)\{var a=[\s\S]*?)<\/script>/.exec(html)[1];
+  let written = '';
+  new Function('location', 'document', 'URLSearchParams', js)(
+    { search },
+    { write: (s) => (written += s) },
+    URLSearchParams,
+  );
+  return written;
+}
+
+/** The app-argument a page's banner script writes, as Safari reads it. */
+function banner(html, search) {
+  const arg = /app-argument=([^"]*)"/.exec(runBanner(html, search))[1];
+  return arg.replace(/&amp;/g, '&');
+}
+
+/** Whether the forwarder unhides the invite line. */
+function invitedShown(html, search) {
+  const js = /<script>\n([\s\S]*?)<\/script>/.exec(html)[1];
+  const invited = { hidden: true };
+  const env = {
+    location: { search },
+    navigator: { userAgent: 'node' },
+    document: {
+      hidden: false,
+      getElementById: (id) => (id === 'invited' ? invited : null),
+      querySelectorAll: () => [],
+    },
+    URL,
+    URLSearchParams,
+    Date,
+    setTimeout,
+  };
+  new Function(...Object.keys(env), js)(...Object.values(env));
+  return !invited.hidden;
+}
 
 /**
  * What a share of these pages unfurls as. Until 25 Sep 2026 the lineup,

@@ -548,6 +548,8 @@ h1{font-size:26px;line-height:1.2;margin:8px 0 4px}
 h2{font-size:17px;margin:26px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
 .lead{color:var(--sub);margin:0 0 14px;font-size:15px}
 .cta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 6px}
+.invited{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
+.invited[hidden]{display:none}
 .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none}
 .btn.alt{background:var(--teal-soft);color:var(--teal-dark)}
 .live{font-size:14px}
@@ -604,7 +606,10 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // app from here on a binary older than the /lineup universal link claim
 // (1.0.0 and 1.1.0), which would otherwise open the Weekend screen
 // without it. s= and ref= stay off that link, as before: the app counts
-// arrivals on the web only.
+// arrivals on the web only. A member id in from= also unhides the invite
+// line above the buttons (INVITED_LINE), which says to come back and use
+// that button after installing - the store drops from=, and the banner
+// is written with it in <head> (bannerMeta).
 //
 // The store links get the same treatment once they carry a campaign tag
 // (cta, storeUrl): ct= becomes the visitor's s, or embed-<venue> off a
@@ -645,6 +650,8 @@ const SCRIPT = `<script>
         }
         var app=open&&open.getAttribute('data-app');
         if(f&&app)open.setAttribute('data-app',app+(app.indexOf('?')<0?'?':'&')+'from='+f);
+        var inv=document.getElementById('invited');
+        if(f&&inv)inv.hidden=false;
       }
       if(s||r){
         var ct=s||('embed-'+r);
@@ -667,6 +674,31 @@ const SCRIPT = `<script>
   }
 })();
 </script>`;
+
+/**
+ * Safari's Smart App Banner. Its OPEN is the most prominent button on the
+ * page for anyone who has the app, and it opens `app-argument` - which
+ * named no inviter, so an invite opened that way reached the Weekend
+ * screen with no idea who had sent it. Safari reads the meta as <head> is
+ * parsed, long before the forwarder at the end of <body> runs, so the meta
+ * is written by a one-line script right here instead, with the page's own
+ * from= on the argument: a member id only, lowercased, as the forwarder
+ * takes it. A browser without JavaScript gets the plain meta from the
+ * <noscript> copy. The script opens on the same line as its tag, so the
+ * tests' reading of the forwarder (the first "<script>" and a newline)
+ * still finds the forwarder.
+ */
+export function bannerMeta(appArgument) {
+  const arg = esc(appArgument);
+  const js =
+    `(function(){var a=${JSON.stringify(arg)},f=null;` +
+    `try{f=new URLSearchParams(location.search).get('from');}catch(e){}` +
+    `if(f&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(f))` +
+    `a+=(a.indexOf('?')<0?'?':'&amp;')+'from='+f.toLowerCase();` +
+    `document.write('<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}, app-argument='+a+'">');})();`;
+  return `<script>${js}</script>
+<noscript><meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}, app-argument=${arg}"></noscript>`;
+}
 
 /**
  * Shared <head>. Every page unfurls as the large card: the branded
@@ -700,7 +732,7 @@ function head({
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
-<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}, app-argument=${esc(appArgument)}">
+${bannerMeta(appArgument)}
 <meta property="og:site_name" content="30A Now">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -717,6 +749,17 @@ ${extraHead}<style>${CSS}</style>
 }
 
 /**
+ * Shown above the buttons, by the forwarder, only when the page was opened
+ * with a member id as from= - an invite. An App Store install drops from=
+ * (the store takes no argument through to the app), so someone who installs
+ * from here opens a fresh app that knows nothing of the invite; only the
+ * "Open in 30A Now" button below carries it. Nothing on the page said so,
+ * and nothing said who had sent it. The name is the app's to look up.
+ */
+export const INVITED_LINE =
+  'A friend invited you. Install 30A Now, then come back to this link and tap Open in 30A Now to add them.';
+
+/**
  * The three ways off a page: into the app if it is installed, to the store,
  * and to the live map on the web. `tag` names the page on all three — the
  * store links carry it as ct= once the provider token is set (storeUrl),
@@ -724,7 +767,8 @@ ${extraHead}<style>${CSS}</style>
  */
 function cta({ appArgument, livePath, liveLabel, tag = '' }) {
   const store = storeUrl(tag);
-  return `<div class="cta">
+  return `<p class="invited" id="invited" hidden>${esc(INVITED_LINE)}</p>
+<div class="cta">
 <a class="btn" id="open" href="${store}" data-app="${esc(appArgument)}">Open in 30A Now</a>
 <a class="btn alt" href="${store}">Get it for iPhone</a>
 <a class="live" href="${esc(tagged(livePath, { s: tag }))}">${esc(liveLabel)}</a>
