@@ -57,11 +57,11 @@ export function storeUrl(ct, pt = APP_STORE_PROVIDER_TOKEN) {
 
 // Where the app's own forms fall back to when the table cannot take the
 // row (app/advertise.tsx, app/hire.tsx and app/support.tsx in the app
-// repo): the founder's address, which the web bundle on this site already
+// repo): the app's own address (CONTACT_EMAIL in src/config.ts there), which the web bundle on this site already
 // ships. The venue page's owner footer mails the same place with the same
 // subject line as the advertise form, so a lead from either lands in the
 // one thread.
-export const SUPPORT_EMAIL = 'joeledomassey@gmail.com';
+export const SUPPORT_EMAIL = 'thirtyanow.app@gmail.com';
 
 // The PUBLIC client credentials — the same pair the web app ships in its
 // bundle. Anonymous reads see approved events only and anonymous writes may
