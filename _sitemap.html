@@ -2,6 +2,8 @@
 (function(){var m=document.querySelector('meta[name="apple-itunes-app"]');if(!m)return;
 var p=location.pathname;if(p.indexOf('/e/')===0)p='/event/'+p.slice(3);
 p=p.replace(/^[/]+|[/]+$/g,'');
+var f=null;try{f=new URLSearchParams(location.search).get('from');}catch(e){}
+if(f&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(f))p+='?from='+f.toLowerCase();
 m.setAttribute('content','app-id=6792965952, app-argument=thirtyanow://'+p);})();
 </script><style>
 html[data-embed] body { visibility: hidden; }</style><script>
@@ -507,5 +509,5 @@ input::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-web
 @keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
 @keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
 @keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
-@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script><link rel="icon" href="/favicon.ico" /></head><body><div id="root"><div class="css-g5y9jx r-13awgt0"></div></div><script src="/_expo/static/js/web/entry-4dcc5689162d52175255f2eb9436363e.js" defer></script>
+@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script><link rel="icon" href="/favicon.ico" /></head><body><div id="root"><div class="css-g5y9jx r-13awgt0"></div></div><script src="/_expo/static/js/web/entry-d8d1e887b93f4d748692119e5f303198.js" defer></script>
 </body></html>
