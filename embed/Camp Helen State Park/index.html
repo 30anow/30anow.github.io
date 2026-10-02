@@ -22,12 +22,14 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 .foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
 .foot b{color:var(--teal)}
 .stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+[hidden]{display:none!important}
 </style>
 </head><body>
 <div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Camp Helen State Park</h1><p class="where">Inlet Beach</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.2755,-86.0118">Directions</a></div>
-<h2>Saturday, Oct 3</h2><ul class="rows"><li class="ev" id="e-4167d5d8-7073-460c-bfc8-03e32ee14de9"><a class="t" href="/e/4167d5d8-7073-460c-bfc8-03e32ee14de9?ref=camp-helen-state-park">Camp Helen State Park: Guided History Tour</a><div class="m">Sat, Oct 3 · 10:00 AM – 11:00 AM</div></li></ul>
+<section><h2>Saturday, Oct 3</h2><ul class="rows"><li class="ev" id="e-4167d5d8-7073-460c-bfc8-03e32ee14de9" data-end="1791043200000"><a class="t" href="/e/4167d5d8-7073-460c-bfc8-03e32ee14de9?ref=camp-helen-state-park">Camp Helen State Park: Guided History Tour</a><div class="m">Sat, Oct 3 · 10:00 AM – 11:00 AM</div></li></ul></section>
+<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
 <a class="foot" id="pitch" href="/?ref=camp-helen-state-park" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
-<p class="stamp">Updated Thu, Oct 1, 4:50 PM beach time</p>
+<p class="stamp">Updated Thu, Oct 1, 7:01 PM beach time</p>
 <script>
 (function(){
   function ping(n){
@@ -43,6 +45,23 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
   ping('embed_view');
   var a=document.getElementById('pitch');
   if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+<script>
+(function(){
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
 })();
 </script>
 </body></html>

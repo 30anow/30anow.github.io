@@ -15,7 +15,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Thu, Oct 1, 4:50 PM">
+<meta name="generator" content="30anow share-cards Thu, Oct 1, 7:01 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/43484745-e770-4c97-a428-9c616ba64b77"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -30,8 +30,8 @@ h1{font-size:26px;line-height:1.2;margin:8px 0 4px}
 h2{font-size:17px;margin:26px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
 .lead{color:var(--sub);margin:0 0 14px;font-size:15px}
 .cta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 6px}
-.invited{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
-.invited[hidden]{display:none}
+.invited,.done{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
+[hidden]{display:none!important}
 .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none}
 .btn.alt{background:var(--teal-soft);color:var(--teal-dark)}
 .live{font-size:14px}
@@ -119,6 +119,19 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
     });
   }
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
 })();
 </script>
 </body></html>
