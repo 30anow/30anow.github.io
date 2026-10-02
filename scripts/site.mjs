@@ -323,12 +323,62 @@ export const AREA_NAMES = [
  * lineup on your site, free" and a $25 featured-show pitch to the USPS.
  * Handled like a town (`owner: false`): the page and its rows stay, the
  * pitch goes. Not NOT_A_VENUE, which would take the page with it.
+ *
+ * The post office was not the only one. Read against the live sitemap on
+ * 1 Oct 2026, 12 more of the 41 venue pages pitched a place no one sells a
+ * show from. NO_OWNER_KIND knows eight of them by their last words, and so
+ * the next one like them: a church, a chapel, a town hall, two squares, a
+ * beach access, a sports complex and a set of tennis courts. No word gives
+ * the other four away, so they are named here. All twelve keep their
+ * strips, since every one had handed out its slug (embed/published.json).
+ * Matched on the slug, so "Hope on the Beach – Orange Street" with an en
+ * dash is the same place.
+ *
+ * The sitemap was not the whole of it. Four more places had rows in the
+ * feed, or a strip in embed/ the week before, and no page only because none
+ * had three rows ahead; the run that gave one its third would have closed
+ * its page on "Run <it>?" and the $25 pitch. A public school is caught by
+ * kind now (NO_OWNER_KIND); the other three are named below. The two whose
+ * strips were still in embed/ on 1 Oct 2026 keep them, like the twelve.
  */
-export const NO_OWNER = ['Post Office'];
+export const NO_OWNER = [
+  'Post Office',
+  // Seaside's open-air stage on Central Square (Sounds of Seaside, the
+  // farmers market) and two of its pavilions (morning yoga, beach volleyball).
+  'Seaside Amphitheater',
+  'Seaside Pavilion',
+  'Coleman Pavilion',
+  // A Sunday service on the Orange Street beach access.
+  'Hope on the Beach - Orange Street',
+  // Alys Beach's open-air stage, the same kind of place as Seaside's (a
+  // wellness morning on 9 Oct 2026), and its town park (the Alys Classics
+  // films in late Sep).
+  'Alys Beach Amphitheatre',
+  'Central Park Alys Beach',
+  // A St. Joe neighbourhood like WaterColor and WaterSound (PorchFest, 11
+  // Oct). Not in AREA_NAMES, which has to match the app's own list of areas.
+  'Watersound Origins',
+];
+
+/**
+ * The kinds of place no one there could buy a featured show for, by the
+ * words their names end in: post offices, town and city halls, libraries,
+ * churches and chapels, beach accesses, state parks, public squares, sports
+ * complexes and courts, and public schools (Dune Lakes Elementary School
+ * hosts a kids' soccer club); and "The Chapel at …", "Church of …", which
+ * lead with the word. Last words only, so Church Street Bistro and The
+ * Library Bar keep their pitch. Not a bare "school": 30A Surf School sells
+ * lessons. Not "pavilion" or "amphitheater": Peddlers Pavilion books a band
+ * most nights, and a ticketed amphitheater is a business. Not a plain "park"
+ * either, since a water park or an RV park is one too; a town park goes in
+ * NO_OWNER by name when it turns up, as Central Park Alys Beach did.
+ */
+export const NO_OWNER_KIND =
+  /\b(?:post office|town hall|city hall|library|church|chapel|beach access|state park|square|sports complex|courts|elementary school|middle school|high school)$|^(?:the )?(?:chapel|church) (?:at|of|on|in)\b/;
 
 const placeholderKeys = new Set(NOT_A_VENUE.map((n) => n.toLowerCase()));
 const areaKeys = new Set(AREA_NAMES.map((n) => n.toLowerCase()));
-const noOwnerKeys = new Set(NO_OWNER.map((n) => n.toLowerCase()));
+const noOwnerSlugs = new Set(NO_OWNER.map(slugify));
 
 /** Whether a venue string names no place at all: empty, or a placeholder (NOT_A_VENUE). No page, no strip. */
 export function isPlaceholderVenue(name) {
@@ -339,15 +389,16 @@ export function isPlaceholderVenue(name) {
 /**
  * Whether a venue string names a place someone runs, and so may have an
  * owner footer and a strip: not a placeholder, not a neighbourhood, not a
- * place no one runs (NO_OWNER), and not the row's own area (which catches
- * an area the copy above has not heard of yet).
+ * place no one runs (NO_OWNER by name, NO_OWNER_KIND by kind), and not the
+ * row's own area (which catches an area the copy above has not heard of yet).
  */
 export function isVenueName(name, area = '') {
   const key = String(name ?? '').trim().toLowerCase();
   return (
     !isPlaceholderVenue(key) &&
     !areaKeys.has(key) &&
-    !noOwnerKeys.has(key) &&
+    !noOwnerSlugs.has(slugify(key)) &&
+    !NO_OWNER_KIND.test(key) &&
     key !== String(area ?? '').trim().toLowerCase()
   );
 }
@@ -1174,7 +1225,7 @@ export function ownerFooter({ name, slug }) {
 /**
  * /venues/<slug>/ — everything ahead at one venue, with its card when we
  * know it, and the owner footer unless no one runs the place (`owner:
- * false`, a neighbourhood: venuePages).
+ * false`, a neighbourhood or a NO_OWNER place: venuePages).
  */
 export function renderVenue(venue, now, posters = new Map()) {
   const { name, area, events, slug, known } = venue;

@@ -250,7 +250,9 @@ describe('names that are not a venue', () => {
       assert.equal(isVenueName(name), false, String(name));
     }
     assert.equal(isVenueName('Santa Rosa Beach', 'Santa Rosa Beach'), false); // an area the copy has not heard of
-    for (const name of ['The Red Bar', 'Seaside Pavilion', 'Alys Beach Amphitheatre', 'WaterColor Inn & Resort']) {
+    // A business whose name holds a town's is still a business. (Until 1 Oct
+    // 2026 this list held Seaside Pavilion, which is a pavilion: see below.)
+    for (const name of ['The Red Bar', "AJ's Grayton Beach", 'The Boathouse at WaterColor', 'WaterColor Inn & Resort']) {
       assert.equal(isVenueName(name, 'Seaside'), true, name);
     }
     // Seaside's post office, where the Walking Club meets: a place, not a
@@ -286,6 +288,156 @@ describe('names that are not a venue', () => {
     const seeded = publishedStrips(seedPublished([{ dir: 'post-office', html: '<h1>Post Office</h1>' }]), pages);
     const strip = embedDirs(embedVenues([...walks, ...bar], now, seeded)).find((d) => d.dir === 'post-office');
     assert.match(renderEmbed(strip.venue, now), /Walking Club/);
+  });
+
+  // Every venue page on https://30anow.github.io/sitemap.xml on 1 Oct 2026,
+  // with its area. Twelve of them besides the post office closed on "Run
+  // <it>?" and the $25 pitch: a Baptist church, a chapel, a Sunday service
+  // on a beach access, a town hall, two squares, another beach access, a
+  // sports complex, and Seaside's courts, stage and two pavilions.
+  const PITCHED = [
+    ['Old Florida Fish House', 'Seagrove'], ['The Big Chill 30A', 'WaterSound'],
+    ["Stinky's Bait Shack", 'Dune Allen'], ['The Red Bar', 'Grayton Beach'],
+    ['Crackings', 'Grayton Beach'], ['Red Fish Taco', 'Blue Mountain'],
+    ['Seaside Fitness Center', 'Seaside'], ['The Boathouse at WaterColor', 'WaterColor'],
+    ["AJ's Grayton Beach", 'Grayton Beach'], ['Peddlers Pavilion', 'Rosemary Beach'],
+    ['Havana Beach Bar & Grill', 'Rosemary Beach'], ['Watersound Town Center', 'WaterSound'],
+    ['Idyll Hound Proper', 'Inlet Beach'], ['Seaside Athletic Club', 'Seaside'],
+    ['Shades Bar & Grill', 'Inlet Beach'], ["Pickle's Sandbar", 'Seaside'],
+    ['The Shrimp Shack & Boardwalk Bar', 'Seaside'], ['Fish Out of Water', 'WaterColor'],
+    ['Hibiscus Guesthouse', 'Grayton Beach'], ['NEAT Bottle Shop', 'Alys Beach'],
+    ['Seaside Farmers Market', 'Seaside'], ["Stinky's Fish Camp", 'Dune Allen'],
+    ['WaterColor Inn & Resort', 'WaterColor'], ['WaterColor Store', 'WaterColor'],
+  ];
+  const NOT_PITCHED = [
+    ['Tennis & Pickleball Courts', 'Seaside'], ['Seaside Pavilion', 'Seaside'],
+    ['Seaside Amphitheater', 'Seaside'], ['Coleman Pavilion', 'Seaside'],
+    ['Rosemary Beach Town Hall', 'Rosemary Beach'], ['The Chapel at Seaside', 'Seaside'],
+    ['Seaside’s Central Square', 'Seaside'], ['Ed Walline Beach Access', 'Gulf Place'],
+    ['Hope on the Beach - Orange Street', 'Inlet Beach'], ['North Barrett Square', 'Rosemary Beach'],
+    ['Post Office', 'Seaside'], ['Seagrove Baptist Church', 'Seagrove'],
+    ['Walton Sports Complex', 'Seaside'],
+    // The four towns, as since the first cut on 1 Oct 2026.
+    ['Alys Beach', 'Alys Beach'], ['Rosemary Beach', 'Rosemary Beach'],
+    ['WaterColor', 'WaterColor'], ['Grayton Beach', 'Grayton Beach'],
+  ];
+
+  it('pitches only the businesses among the live venue pages of 1 Oct 2026', () => {
+    assert.equal(PITCHED.length + NOT_PITCHED.length, 41);
+    for (const [name, area] of PITCHED) assert.equal(isVenueName(name, area), true, name);
+    for (const [name, area] of NOT_PITCHED) assert.equal(isVenueName(name, area), false, name);
+    // Through venuePages, as the run sees them.
+    const rows = [...PITCHED, ...NOT_PITCHED].flatMap(([venue, area]) =>
+      [1, 2, 3].map(() => row({ title: `On at ${venue}`, venue, area })),
+    );
+    const pages = venuePages(rows, now);
+    assert.equal(pages.length, 41);
+    const pitched = pages.filter((p) => p.owner).map((p) => p.name).sort();
+    assert.deepEqual(pitched, PITCHED.map(([name]) => name).sort());
+    const html = pages.map((v) => renderVenue(v, now).html).join('\n');
+    assert.equal(html.match(/<strong>Run /g).length, PITCHED.length);
+    for (const [name] of NOT_PITCHED) assert.ok(!html.includes(`Run ${esc(name)}?`), name);
+  });
+
+  it('knows the kind and the other spellings, and leaves a business named after one alone', () => {
+    for (const name of [
+      'hope on the beach – orange street', // en dash
+      "Seaside's Central Square", // straight apostrophe
+      ' SEASIDE AMPHITHEATER ',
+      'Coastal Branch Library',
+      'Santa Rosa Beach Town Hall',
+      'Christ the King Church',
+      'Church of the Holy Spirit',
+      'Chapel at the Beach',
+      'Grayton Beach State Park',
+      'Pickleball Courts',
+      'Santa Clara Beach Access',
+      // Found after the first cut on 1 Oct 2026: a public school, Alys
+      // Beach's stage and park, a St. Joe neighbourhood.
+      'Dune Lakes Elementary School',
+      'Emerald Coast Middle School',
+      'South Walton High School',
+      'Alys Beach Amphitheatre',
+      'central park, alys beach',
+      'Watersound Origins',
+    ]) {
+      assert.equal(isVenueName(name, 'Seaside'), false, name);
+    }
+    for (const name of [
+      'Church Street Bistro',
+      'The Library Bar',
+      'Square One',
+      'The Courtyard',
+      'Big Kahuna’s Water Park',
+      'Peddlers Pavilion', // books a band most nights
+      'Seaside Post Office Coffee',
+      '30A Surf School', // sells lessons
+      'Watersound Origins Town Center',
+    ]) {
+      assert.equal(isVenueName(name, 'Seaside'), true, name);
+    }
+  });
+
+  it('keeps their pages, rows and handed-out strips, and drops the pitch', () => {
+    const places = ['Seagrove Baptist Church', 'Seaside Amphitheater', 'Tennis & Pickleball Courts'];
+    const rows = places.flatMap((venue) => [1, 2, 3].map(() => row({ title: `On at ${venue}`, venue, area: 'Seaside' })));
+    const pages = venuePages([...rows, ...bar], now);
+    const index = renderVenuesIndex(pages, now).html;
+    const xml = sitemapXml([...rows, ...bar], pages, now);
+    for (const venue of places) {
+      const page = pages.find((p) => p.name === venue);
+      assert.equal(page.owner, false, venue);
+      assert.match(index, new RegExp(`/venues/${page.slug}/`));
+      assert.match(xml, new RegExp(`/venues/${page.slug}/`));
+      const html = renderVenue(page, now).html;
+      assert.ok(html.includes(`On at ${esc(venue)}`), venue);
+      assert.doesNotMatch(html, /class="owner"|Run .*\?<\/strong>|Feature a show|id="copy"/, venue);
+      assert.ok(!html.includes(`embed/${page.slug}/`), venue);
+    }
+    // No new strip handed out; the ones their footers gave out before
+    // 1 Oct 2026 (all twelve are in embed/published.json) stay, rows and all.
+    assert.deepEqual(publishedStrips([], pages).map((p) => p.slug), ['the-red-bar']);
+    const seeded = publishedStrips(
+      seedPublished([{ dir: 'seagrove-baptist-church', html: '<h1>Seagrove Baptist Church</h1>' }]),
+      pages,
+    );
+    const dirs = embedDirs(embedVenues([...rows, ...bar], now, seeded));
+    assert.ok(!dirs.some((d) => d.dir === 'seaside-amphitheater'));
+    const strip = dirs.find((d) => d.dir === 'seagrove-baptist-church');
+    assert.match(renderEmbed(strip.venue, now), /On at Seagrove Baptist Church/);
+  });
+
+  it('drops the pitch from the four places on their way to a page, and keeps the strips in embed/', () => {
+    // Each was in the feed or embed/ on 1 Oct 2026 with no page yet; the
+    // run that gave it a third row ahead would have pitched it.
+    const places = [
+      ['Dune Lakes Elementary School', 'Seaside', 'Soccer Sessions for Kids!'],
+      ['Central Park Alys Beach', 'Alys Beach', 'Alys Classics: Parent Trap'],
+      ['Alys Beach Amphitheatre', 'Alys Beach', 'Alo in Motion'],
+      ['Watersound Origins', 'WaterSound', 'Watersound PorchFest'],
+    ];
+    const rows = places.flatMap(([venue, area, title]) => [1, 2, 3].map(() => row({ title, venue, area })));
+    const pages = venuePages([...rows, ...bar], now);
+    for (const [venue, , title] of places) {
+      const page = pages.find((p) => p.name === venue);
+      assert.equal(page.owner, false, venue);
+      const html = renderVenue(page, now).html;
+      assert.ok(html.includes(esc(title)), venue);
+      assert.doesNotMatch(html, /class="owner"|Run .*\?<\/strong>|Feature a show|id="copy"/, venue);
+    }
+    assert.deepEqual(publishedStrips([], pages).map((p) => p.slug), ['the-red-bar']);
+    // The amphitheatre's and Watersound Origins' strips were in embed/ that
+    // day, so the seed keeps them; the school's and the park's had gone.
+    const seeded = publishedStrips(
+      seedPublished([
+        { dir: 'alys-beach-amphitheatre', html: '<h1>Alys Beach Amphitheatre</h1>' },
+        { dir: 'watersound-origins', html: '<h1>Watersound Origins</h1>' },
+      ]),
+      pages,
+    );
+    const dirs = embedDirs(embedVenues([...rows, ...bar], now, seeded)).map((d) => d.dir);
+    assert.ok(dirs.includes('alys-beach-amphitheatre') && dirs.includes('watersound-origins'));
+    assert.ok(!dirs.includes('dune-lakes-elementary-school') && !dirs.includes('central-park-alys-beach'));
   });
 
   it('gives a placeholder no venue page, no index entry and no sitemap line', () => {
