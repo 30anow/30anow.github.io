@@ -5,11 +5,15 @@
 //   venues/<slug>/         (see site.mjs for why)
 //   embed/<venue>/         the strip a partner pastes into their own site,
 //                          under both its slug and its own name
+//   embed/published.json   every strip slug a venue page has handed out,
+//                          so a pasted strip outlives a quiet spell
 //   sitemap.xml, robots.txt
 // Runs on a schedule after the event imports land (.github/workflows/
 // share-cards.yml). One paged read of the events table feeds all of it, and
 // nothing is deleted until that read has proved itself (refuseImplausible).
-import { mkdir, readdir, rm, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { promisify } from 'node:util';
 
 import {
   ANON_KEY,
@@ -17,6 +21,10 @@ import {
   embedDirs,
   embedVenues,
   fmtStamp,
+  FOOTER_LOG_ARGS,
+  lostFooterPages,
+  parsePublished,
+  publishedStrips,
   renderEmbed,
   renderLineup,
   renderStub,
@@ -24,6 +32,7 @@ import {
   renderVenue,
   renderVenuesIndex,
   robotsTxt,
+  seedPublished,
   shrinkRefusal,
   sitemapXml,
   SUPABASE_URL,
@@ -59,9 +68,12 @@ await refuseImplausible(events);
 
 const posters = await checkPosters(events);
 const venues = venuePages(events, now);
+// Read before anything is written: a list that will not parse stops the
+// run here, with every page still up.
+const published = publishedStrips(await readPublished(), venues);
 await writeStubs(events, venues, now, posters);
 await writeSite(events, venues, now, posters);
-await writeEmbeds(events, now);
+await writeEmbeds(events, now, published);
 
 async function fetchEvents(now) {
   const since = new Date(now - 24 * 3600 * 1000).toISOString();
@@ -205,9 +217,14 @@ async function writeSite(events, venues, now, posters) {
  * writes — and deleting it here would start a fight between two workflows
  * over the same path on every run. It is also the fallback for a venue with
  * no generated strip: Pages serves 404.html, the SPA boots and renders it.
+ *
+ * `published` is every slug a venue page has handed out (publishedStrips);
+ * each keeps a strip whether or not its venue has anything on, and the list
+ * goes back to embed/published.json for the next run. A file, not a
+ * directory, so the clear-out below passes it by.
  */
-async function writeEmbeds(events, now) {
-  const venues = embedVenues(events, now);
+async function writeEmbeds(events, now, published) {
+  const venues = embedVenues(events, now, published);
   for (const entry of await readdir('embed', { withFileTypes: true }).catch(() => [])) {
     if (entry.isDirectory()) await rm(`embed/${entry.name}`, { recursive: true, force: true });
   }
@@ -217,5 +234,62 @@ async function writeEmbeds(events, now) {
     await mkdir(`embed/${dir}`, { recursive: true });
     await writeFile(`embed/${dir}/index.html`, html.get(venue));
   }
-  console.log(`Wrote ${pages.length} embed strips for ${venues.length} venues.`);
+  await writeFile('embed/published.json', `${JSON.stringify(published, null, 2)}\n`);
+  console.log(
+    `Wrote ${pages.length} embed strips for ${venues.length} venues (${published.length} handed out).`,
+  );
+}
+
+/**
+ * The strips handed out so far. Until the list exists, the strips on the
+ * site and the venue pages in git history stand in for it (seedPublished);
+ * a list that is there but will not parse throws, before anything has been
+ * written.
+ */
+async function readPublished() {
+  try {
+    return parsePublished(await readFile('embed/published.json', 'utf8'));
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err;
+  }
+  const dirs = [];
+  for (const entry of await readdir('embed', { withFileTypes: true }).catch(() => [])) {
+    if (!entry.isDirectory()) continue;
+    const html = await readFile(`embed/${entry.name}/index.html`, 'utf8').catch(() => '');
+    dirs.push({ dir: entry.name, html });
+  }
+  const lost = await lostPagesFromHistory(dirs.map((d) => d.dir));
+  const seeded = seedPublished(dirs, lost);
+  console.log(
+    `No embed/published.json yet: starting it from ${seeded.length} strips ` +
+      `(${lost.length} of them gone from the site, read out of git history).`,
+  );
+  return seeded;
+}
+
+/**
+ * Every venue page since the owner footer shipped whose strip is no longer
+ * on the site, as it last stood: [{ dir, html }]. The old generator deleted
+ * a strip the run after its venue's last row ended, and it ran until this
+ * one replaced it, so the strips on the site are not all the slugs handed
+ * out. The checkout is one commit deep; share-cards.yml fetches the rest
+ * for this run. Without it this warns and gives none, and the seed is the
+ * strips on the site plus GONE_BEFORE_THE_LIST (site.mjs), as of 1 Oct 2026.
+ */
+async function lostPagesFromHistory(have) {
+  const run = promisify(execFile);
+  const git = async (...args) => (await run('git', args, { maxBuffer: 64 * 1024 * 1024 })).stdout;
+  try {
+    const pages = [];
+    for (const { slug, at } of lostFooterPages(await git(...FOOTER_LOG_ARGS), have)) {
+      pages.push({ dir: slug, html: await git('show', `${at}:venues/${slug}/index.html`) });
+    }
+    return pages;
+  } catch (err) {
+    console.warn(
+      `::warning::Could not read the venue pages out of git history (${String(err.message).split('\n')[0]}). ` +
+        'The list starts from the strips on the site and Crackings; any other slug whose strip has already gone is not on it.',
+    );
+    return [];
+  }
 }

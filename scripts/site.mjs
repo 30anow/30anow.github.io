@@ -182,12 +182,18 @@ export function weekendWindow(now) {
  * Saturday lands on Monday, and the window would swallow all of Sunday.
  *
  * The last hour of the day describes *tomorrow* night. The page is static
- * between runs, and the run that covers beach midnight (05:10 UTC) falls at
- * 23:10 in winter and 00:10 in summer; without the roll-forward, winter's
- * copy would spend the small hours stamped with yesterday's date over shows
- * that ended at midnight. An hour early with the date printed on the page
- * beats five hours late. Everything on the page — title, lead and JSON-LD —
- * is labelled from `start`, never from the moment of generation.
+ * between runs, and the run scheduled across beach midnight (05:10 UTC)
+ * would fall at 23:10 in winter and 00:10 in summer; without the
+ * roll-forward, winter's copy would spend the small hours stamped with
+ * yesterday's date over shows that ended at midnight. An hour early with
+ * the date printed on the page beats five hours late. Everything on the
+ * page — title, lead and JSON-LD — is labelled from `start`, never from the
+ * moment of generation.
+ *
+ * GitHub has in fact started that run 4 to 6.5 hours late every night it
+ * has been scheduled (10-30 Sep 2026), so the page does not count on it:
+ * EXPIRE hides finished rows in the reader's browser and says when the
+ * night the page covers is over.
  */
 export function tonightWindow(now) {
   const today = beachDayKey(now);
@@ -279,23 +285,94 @@ export function groupByDay(events) {
   return [...days.values()];
 }
 
+// ---------------------------------------------------------------------------
+// Names that are not a venue
+// ---------------------------------------------------------------------------
+
+/**
+ * Venue strings the importer writes when no venue is the answer. "Venues
+ * along 30A" is CORRIDOR_WIDE in scraper/scrape.mjs (app repo): the
+ * Songwriters Festival plays thirty rooms, so no bar is its venue. The rest
+ * are the source names the importer falls back to when a listing names no
+ * place at all (`|| source.name` there). Until 1 Oct 2026 each of these
+ * could earn a venue page like a bar's - /venues/venues-along-30a/ was live
+ * and in the sitemap, closing on "Run Venues along 30A? Put this week's
+ * lineup on your site" and a $25 featured-show pitch.
+ */
+export const NOT_A_VENUE = ['Venues along 30A', '30A.com', '30A.com day view', 'SoWal', 'Visit South Walton'];
+
+/**
+ * The 30A neighbourhoods: a copy of AREAS in src/data/areas.ts (app repo),
+ * keep the two in step. A row that names only its neighbourhood is filed
+ * under that name as its venue ("the last resort and not an answer", in
+ * the importer's words), so /venues/grayton-beach/ was every unplaced
+ * Grayton row under "Run Grayton Beach?". A town is not a business, so its
+ * page has no owner footer and offers no strip (`owner: false`); but the
+ * page stays. /venues/alys-beach/ and the rest are indexed, and past this
+ * weekend they are the only crawlable list of those rows.
+ */
+export const AREA_NAMES = [
+  'Dune Allen', 'Gulf Place', 'Blue Mountain', 'Grayton Beach', 'WaterColor', 'Seaside',
+  'Seagrove', 'WaterSound', 'Alys Beach', 'Rosemary Beach', 'Inlet Beach',
+];
+
+/**
+ * Places that host events but are not a business anyone there could put a
+ * strip on: the Walking Club meets at Seaside's post office, and until 1 Oct
+ * 2026 /venues/post-office/ closed on "Run Post Office? Put this week's
+ * lineup on your site, free" and a $25 featured-show pitch to the USPS.
+ * Handled like a town (`owner: false`): the page and its rows stay, the
+ * pitch goes. Not NOT_A_VENUE, which would take the page with it.
+ */
+export const NO_OWNER = ['Post Office'];
+
+const placeholderKeys = new Set(NOT_A_VENUE.map((n) => n.toLowerCase()));
+const areaKeys = new Set(AREA_NAMES.map((n) => n.toLowerCase()));
+const noOwnerKeys = new Set(NO_OWNER.map((n) => n.toLowerCase()));
+
+/** Whether a venue string names no place at all: empty, or a placeholder (NOT_A_VENUE). No page, no strip. */
+export function isPlaceholderVenue(name) {
+  const key = String(name ?? '').trim().toLowerCase();
+  return key === '' || placeholderKeys.has(key);
+}
+
+/**
+ * Whether a venue string names a place someone runs, and so may have an
+ * owner footer and a strip: not a placeholder, not a neighbourhood, not a
+ * place no one runs (NO_OWNER), and not the row's own area (which catches
+ * an area the copy above has not heard of yet).
+ */
+export function isVenueName(name, area = '') {
+  const key = String(name ?? '').trim().toLowerCase();
+  return (
+    !isPlaceholderVenue(key) &&
+    !areaKeys.has(key) &&
+    !noOwnerKeys.has(key) &&
+    key !== String(area ?? '').trim().toLowerCase()
+  );
+}
+
 /**
  * One page per venue with `min` or more rows still ahead of `now`. Venue
  * strings are grouped case-insensitively (the scraper canonicalises them,
  * but a community post can still type "the red bar"); the spelling seen
  * first wins. Slugs that collide get -2, -3… so two pages never share a path.
+ * A placeholder gets no page; a neighbourhood or a NO_OWNER place gets one
+ * with `owner: false` (isVenueName), which renderVenue, embedVenues and
+ * publishedStrips read.
  */
 export function venuePages(events, now, min = 3) {
   const groups = new Map();
   for (const e of events) {
     const name = String(e.venue ?? '').trim();
-    if (!name || Date.parse(e.starts_at) < now) continue;
+    if (isPlaceholderVenue(name) || Date.parse(e.starts_at) < now) continue;
     const key = name.toLowerCase();
     let g = groups.get(key);
     if (!g) {
-      g = { name, area: e.area ?? '', events: [] };
+      g = { name, area: e.area ?? '', events: [], owner: true };
       groups.set(key, g);
     }
+    if (!isVenueName(name, e.area)) g.owner = false;
     g.events.push(e);
   }
   const taken = new Set();
@@ -550,8 +627,8 @@ h1{font-size:26px;line-height:1.2;margin:8px 0 4px}
 h2{font-size:17px;margin:26px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
 .lead{color:var(--sub);margin:0 0 14px;font-size:15px}
 .cta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 6px}
-.invited{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
-.invited[hidden]{display:none}
+.invited,.done{margin:14px 0 -6px;padding:10px 12px;border-radius:12px;background:var(--teal-soft);color:var(--teal-dark);font-size:14px;font-weight:600}
+[hidden]{display:none!important}
 .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none}
 .btn.alt{background:var(--teal-soft);color:var(--teal-dark)}
 .live{font-size:14px}
@@ -575,6 +652,46 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 .owner pre{margin:8px 0;padding:10px 12px;background:var(--teal-soft);border-radius:8px;font-size:12px;white-space:pre-wrap;word-break:break-all}
 .owner button{padding:8px 14px;border:1.5px solid var(--teal);border-radius:10px;background:#fff;color:var(--teal-dark);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 `;
+
+/**
+ * A static page cannot know the time, so it is told when each row ends
+ * (data-end on every li.ev, rowHtml) and this hides what has finished, in
+ * the reader's browser: a row once its end has passed, then any day
+ * <section> or fitness <details> left with nothing in it. A page with a
+ * "has finished" line (#done) shows it once every row on it has ended or,
+ * on a page with no rows, once the day it names (data-day, the beach day
+ * key it covers) is over on the beach clock. Never while a
+ * row is still on: a 10 PM set runs past midnight, and until 1 Oct 2026
+ * the day being over was enough, so at 12:10 AM the line said everything
+ * had finished above the set the page was still showing. Beach time, never
+ * the device's: a reader in Atlanta at 12:30 AM is still on the beach's
+ * 11:30 PM.
+ *
+ * Why the browser and not the schedule: the 05:10 UTC run that was meant
+ * to turn /tonight/ over at beach midnight has never started before 09:13
+ * UTC (every night 10-30 Sep 2026: GitHub started it 4 to 6.5 hours late,
+ * and no scheduled run at all between 21:27 and 09:12 UTC). So from
+ * midnight to dawn /tonight/ read "Tonight on 30A - Wednesday" over shows
+ * that had ended hours before, and every partner strip led with the
+ * previous night's finished sets.
+ *
+ * Re-run each minute only where there are rows to watch - a strip on a
+ * bar's TV, a tab left open - and silent on any failure: the page is right
+ * as written, this only keeps it right.
+ */
+const EXPIRE = `  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'${BEACH_TZ}',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}`;
 
 // Tries the app first on an iPhone and falls back to the App Store after
 // 1.5 s; a desktop click goes straight to the store. Safari shows its
@@ -626,6 +743,8 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
 // execCommand path, so an owner on an older phone gets the snippet onto the
 // clipboard rather than a dead button. What is copied is the text of the
 // <code> beside the button, so it is exactly what is shown.
+//
+// The last block is EXPIRE (above): finished rows off the page.
 const SCRIPT = `<script>
 (function(){
   var open=document.getElementById('open');
@@ -674,6 +793,7 @@ const SCRIPT = `<script>
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
     });
   }
+${EXPIRE}
 })();
 </script>`;
 
@@ -710,10 +830,22 @@ export function bannerMeta(appArgument) {
  * A poster's size is not
  * known here, so only the default declares one — a wrong pair is worse
  * than none. `extraHead` is for the stub's <noscript> refresh.
+ *
+ * `ogTitle` and `ogDescription` are what the card says, when that must
+ * differ from the <title> and description a search engine reads. Facebook
+ * keys its card on og:url and re-reads it only every 30 days (or on "Scrape
+ * Again" in its Sharing Debugger), and after 50 likes, shares and comments
+ * the title can never change again. Every Thursday post, weekend share and
+ * friend invite is /lineup/ under one og:url, so a dated card shows
+ * whichever weekend Facebook read first: from the second Thursday on, the
+ * card under the post named last weekend's dates and picks. A page whose
+ * content turns over under a fixed URL passes text with no date in it.
  */
 function head({
   title,
   description,
+  ogTitle = title,
+  ogDescription = description,
   path,
   appArgument,
   updated,
@@ -736,8 +868,8 @@ function head({
 <link rel="canonical" href="${url}">
 ${bannerMeta(appArgument)}
 <meta property="og:site_name" content="30A Now">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
+<meta property="og:title" content="${esc(ogTitle)}">
+<meta property="og:description" content="${esc(ogDescription)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${esc(image)}">
@@ -848,7 +980,10 @@ export function rowHtml(
     ? `<div class="s"><a href="${esc(link)}" rel="nofollow noopener">Listing on ${esc(host)}</a></div>`
     : '';
   const href = tagged(`/e/${esc(e.id)}`, { s: tag, ref });
-  return `<li class="ev" id="e-${esc(e.id)}"><a class="t" href="${href}">${esc(e.title)}</a><div class="m">${meta}</div>${desc}${source}</li>`;
+  // When the row is over, for EXPIRE to hide it in the reader's browser.
+  const endMs = Date.parse(e.ends_at);
+  const end = Number.isFinite(endMs) ? ` data-end="${endMs}"` : '';
+  return `<li class="ev" id="e-${esc(e.id)}"${end}><a class="t" href="${href}">${esc(e.title)}</a><div class="m">${meta}</div>${desc}${source}</li>`;
 }
 
 function daySection(day, venueSlugs, opts) {
@@ -863,6 +998,20 @@ function daySection(day, venueSlugs, opts) {
 }
 
 const slugMap = (venues) => new Map(venues.map((v) => [v.name.toLowerCase(), v.slug]));
+
+/**
+ * The line EXPIRE shows once everything on a page has ended, or once the
+ * day a page with nothing on it covers is over on the beach clock: hidden
+ * as written, so a crawler and a reader in the right hours see the page as
+ * it is. Inside <main>, so the forwarder carries the visitor's tag onto its
+ * link like any other. No day on a venue page, which is never written
+ * without rows: there the line waits only for the last of them to end.
+ */
+function doneLine(dayKey, what, livePath, liveLabel, tag) {
+  const day = dayKey ? ` data-day="${esc(dayKey)}"` : '';
+  return `<p class="done" id="done"${day} hidden>Everything listed for ${esc(what)} has finished. <a href="${esc(tagged(livePath, { s: tag }))}">${esc(liveLabel)}</a></p>
+`;
+}
 
 const countLabel = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
@@ -888,11 +1037,15 @@ export function renderLineup(events, venues, now, posters = new Map()) {
   // calendar ("9:30AM-12:30PM"), shared by two rows, which a large card
   // crops to a strip of names - and with no size to declare, Facebook drew
   // it only after fetching it. Every invite, weekend share and Thursday
-  // group post unfurls from this URL.
+  // group post unfurls from this URL - which is also why the card's own
+  // text names no weekend (see head): the search title and description
+  // keep the dates, the card cannot.
   const body =
     head({
       title: `This weekend on 30A — live music, markets and events ${range}`,
       description,
+      ogTitle: 'This weekend on 30A — live music, markets and events',
+      ogDescription: 'Every show, market and event on 30A this weekend, with times, venues and the live map.',
       path: '/lineup/',
       appArgument: 'thirtyanow://weekend',
       updated: fmtStamp(now),
@@ -900,6 +1053,7 @@ export function renderLineup(events, venues, now, posters = new Map()) {
     `<h1>This weekend on 30A</h1>
 <p class="lead">${esc(range)} · ${countLabel(main, 'event', 'events')}${classes ? ` + ${countLabel(classes, 'class', 'classes')}` : ''} · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
+    doneLine(beachDayKey(window.end), range, '/weekend', 'See the coming weekend live', ARRIVAL.lineup) +
     cta({
       appArgument: 'thirtyanow://weekend',
       livePath: '/weekend',
@@ -940,6 +1094,9 @@ export function renderTonight(events, venues, now, posters = new Map()) {
     head({
       title: `Tonight on 30A — ${day}`,
       description,
+      // One URL every night, so the card names none (see head).
+      ogTitle: 'Tonight on 30A — live music and events from 4 PM',
+      ogDescription: "What's on along 30A tonight from 4 PM, with times, venues and the live map.",
       path: '/tonight/',
       appArgument: 'thirtyanow://feed',
       updated: fmtStamp(now),
@@ -947,6 +1104,7 @@ export function renderTonight(events, venues, now, posters = new Map()) {
     `<h1>Tonight on 30A</h1>
 <p class="lead">${esc(day)} · from 4 PM · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
+    doneLine(beachDayKey(window.start), day, '/feed', "See what's on now, live in the app", ARRIVAL.tonight) +
     cta({
       appArgument: 'thirtyanow://feed',
       livePath: '/feed',
@@ -972,8 +1130,9 @@ export function renderTonight(events, venues, now, posters = new Map()) {
  * out by hand. The slug rather than the venue's own name: the name form
  * needs %20s a page editor will mangle, and it is not written at all for a
  * name embedNameDir refuses, while every venue page's slug is a strip
- * (embedVenues orders as venuePages does, and the test holds it), so this
- * URL always answers 200. The trailing slash skips the 301 GitHub Pages
+ * (embedVenues orders as venuePages does, and the test holds it), and
+ * stays one once handed out (publishedStrips), so this URL always answers
+ * 200. The trailing slash skips the 301 GitHub Pages
  * sends the bare form through. The title is attribute-escaped, since the
  * snippet is HTML and a "Bud & Alley's" has to survive being pasted.
  */
@@ -1012,7 +1171,11 @@ export function ownerFooter({ name, slug }) {
 `;
 }
 
-/** /venues/<slug>/ — everything ahead at one venue, with its card when we know it, and the owner footer. */
+/**
+ * /venues/<slug>/ — everything ahead at one venue, with its card when we
+ * know it, and the owner footer unless no one runs the place (`owner:
+ * false`, a neighbourhood: venuePages).
+ */
 export function renderVenue(venue, now, posters = new Map()) {
   const { name, area, events, slug, known } = venue;
   const days = groupByDay(events);
@@ -1027,10 +1190,18 @@ export function renderVenue(venue, now, posters = new Map()) {
     : '';
   const livePath = `/venue/${encodeURIComponent(name)}`;
   const appArgument = `thirtyanow://venue/${encodeURIComponent(name)}`;
+  const liveLabel = `See ${name} live in the app`;
+  // The lead counts what was ahead at the run, and a venue at the three-row
+  // floor with all three sets on one evening can be over hours before the
+  // next run takes the page down. Until review on 1 Oct 2026 EXPIRE hid
+  // every row and day there and left nothing under "3 upcoming events" but
+  // the buttons and "Also"; now it shows this line, as /tonight/ does.
   const body =
     head({
       title: `${name} — upcoming events and live music | 30A Now`,
       description,
+      // The page is shared under one URL for good; "next up" is a date.
+      ogDescription: `Upcoming events and live music at ${place} on 30A. Times, prices and the live map on 30A Now.`,
       path: `/venues/${slug}/`,
       appArgument,
       updated: fmtStamp(now),
@@ -1038,13 +1209,14 @@ export function renderVenue(venue, now, posters = new Map()) {
     `<h1>${esc(name)}</h1>
 <p class="lead">${area && area !== name ? `${esc(area)} · ` : ''}${countLabel(events.length, 'upcoming event', 'upcoming events')} · updated ${esc(fmtStamp(now))} beach time</p>
 ${card}` +
-    cta({ appArgument, livePath, liveLabel: `See ${name} live in the app`, tag: ARRIVAL.venue }) +
+    doneLine('', name, livePath, liveLabel, ARRIVAL.venue) +
+    cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.venue }) +
     days
       .map((d) => daySection(d, new Map(), { showVenue: false, tag: ARRIVAL.venue }))
       .join('\n') +
     `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
-    foot(ownerFooter(venue));
+    foot(venue.owner === false ? '' : ownerFooter(venue));
   return { html: body, jsonLd: jsonLdScript(events, (e) => checkedPoster(e, posters)) };
 }
 
@@ -1131,10 +1303,27 @@ export const PUBLISHED_EMBEDS = [
 /**
  * One strip per venue with anything still ahead of it — a venue page needs
  * three rows to be worth a crawl, a strip needs one to be worth pasting —
- * plus the published four however quiet they are.
+ * plus the published four however quiet they are, plus every strip a venue
+ * page has handed out (`published`, from publishedStrips).
+ *
+ * That last part since 1 Oct 2026. Every venue page's owner footer has
+ * given out /embed/<slug>/ since 25 Sep, and its snippet promises a URL
+ * that always answers - but the strip lived only while the venue had a row
+ * ahead. When the last one ended the next run deleted the directory, and a
+ * bar that had pasted the snippet showed the 404 shell and a 3 MB bundle
+ * inside its own homepage, under "THIS WEEK AT pickles-sandbar" (the SPA
+ * could not read a slug). Crackings lost its strip that way on 30 Sep. A
+ * handed-out slug now keeps the honest empty strip under the venue's own
+ * name; and where its venue is still on under another slug - a collision's
+ * -2 that moved, another spelling of the same bar - it is that strip.
+ *
+ * A neighbourhood's page offers no strip (`owner: false`), so a town gets
+ * one only where its page handed one out before 1 Oct 2026 and the list
+ * kept it: then it is the town's strip like any other, rows and all.
  */
-export function embedVenues(events, now) {
-  const out = venuePages(events, now, 1);
+export function embedVenues(events, now, published = []) {
+  const handedOut = new Set(published.map((p) => p.slug));
+  const out = venuePages(events, now, 1).filter((v) => v.owner || handedOut.has(v.slug));
   const byKey = new Map(out.map((v) => [v.name.toLowerCase(), v]));
   const seenRef = new Set(out.map((v) => embedRef(v.name)));
   const seenSlug = new Set(out.map((v) => v.slug));
@@ -1154,17 +1343,138 @@ export function embedVenues(events, now) {
   // venuePages keeps only rows still ahead of `now` — right for a page of
   // upcoming events, wrong for a strip on the bar's own homepage at 9 PM,
   // where the band that went on at 7 is the whole point. Put back what is
-  // playing right now, and give a venue with nothing but that its strip.
+  // playing right now, and give a venue with nothing but that its strip -
+  // a town only where its strip was handed out.
   for (const e of events) {
     if (Date.parse(e.starts_at) >= now || Date.parse(e.ends_at) <= now) continue;
     const name = String(e.venue ?? '').trim();
-    if (!name) continue;
-    const group = byKey.get(name.toLowerCase()) ?? add(name, e.area ?? '', []);
+    if (isPlaceholderVenue(name)) continue;
+    const mayAdd = isVenueName(name, e.area) || handedOut.has(slugify(name));
+    const group = byKey.get(name.toLowerCase()) ?? (mayAdd ? add(name, e.area ?? '', []) : null);
     if (group) group.events.push(e);
   }
   for (const name of PUBLISHED_EMBEDS) add(name, '', []);
+  for (const { slug, name } of published) {
+    if (seenSlug.has(slug) || isPlaceholderVenue(name)) continue;
+    seenSlug.add(slug);
+    const ref = embedRef(name);
+    const same = ref && out.find((v) => embedRef(v.name) === ref);
+    if (same) {
+      same.alias = [...(same.alias ?? []), slug];
+    } else {
+      seenRef.add(ref);
+      out.push({ name, area: '', events: [], slug, known: knownVenue(name) });
+    }
+  }
   for (const group of out) group.events.sort(byStart);
   return out;
+}
+
+/** What a strip slug may look like: slugify's output, so never a path that leaves embed/. */
+export const STRIP_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/**
+ * The list of strips handed out, as share-cards.mjs keeps it in
+ * embed/published.json: what it held, plus every venue page this run with
+ * an owner footer (each one hands out its slug; a neighbourhood's page has
+ * none), one entry per slug with the name last seen on it. Only ever grows
+ * - a pasted snippet does not expire - except that a slug that cannot be a
+ * directory, or a placeholder name (isPlaceholderVenue), is dropped. A
+ * town's slug that a page handed out before 1 Oct 2026 stays like any
+ * other: a town events team may have pasted it. Sorted, so the file
+ * changes only when the list does.
+ */
+export function publishedStrips(prev, venues) {
+  const bySlug = new Map(prev.map((p) => [p.slug, p.name]));
+  for (const v of venues) if (v.owner !== false) bySlug.set(v.slug, v.name);
+  return [...bySlug]
+    .filter(([slug, name]) => STRIP_SLUG.test(slug) && !isPlaceholderVenue(name))
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+    .map(([slug, name]) => ({ slug, name }));
+}
+
+/**
+ * embed/published.json, read back. A file that does not parse as a list
+ * throws: the run stops before a strip is deleted, which is the safe side
+ * (a red Action leaves the strips up). An entry that is not a strip slug
+ * and a name is dropped - the slug becomes a directory.
+ */
+export function parsePublished(text) {
+  const list = JSON.parse(text);
+  if (!Array.isArray(list)) throw new Error('embed/published.json is not a list');
+  return list
+    .filter((p) => p && typeof p.slug === 'string' && STRIP_SLUG.test(p.slug) && typeof p.name === 'string')
+    .map((p) => ({ slug: p.slug, name: p.name.trim() }))
+    .filter((p) => p.name && p.name.length <= 200);
+}
+
+/** The commit here that shipped the owner footer (25 Sep 2026): every venue page from it on handed out its slug. */
+export const FOOTER_SHIPPED = '106958c86c0043a8aea7823afc3a6842b878d9af';
+
+/**
+ * The git log share-cards.mjs reads those pages out of: each commit since
+ * FOOTER_SHIPPED (it included), newest first, as "commit <sha>" and then
+ * every venue page it wrote.
+ */
+export const FOOTER_LOG_ARGS = [
+  'log', '--format=commit %H', '--name-only', '--no-renames', '--diff-filter=AM',
+  `${FOOTER_SHIPPED}^..HEAD`, '--', 'venues/',
+];
+
+/**
+ * The venue pages in that log whose slug has no strip on the site now
+ * (`have`, embed/'s directory names): [{ slug, at }], `at` the last commit
+ * that wrote the page, for share-cards.mjs to read its <h1> back from.
+ */
+export function lostFooterPages(log, have) {
+  const strips = new Set(have);
+  const lost = new Map();
+  let at = '';
+  for (const line of String(log ?? '').split('\n')) {
+    const text = line.replace(/\r$/, '');
+    const commit = /^commit ([0-9a-f]{40})$/.exec(text);
+    if (commit) {
+      at = commit[1];
+      continue;
+    }
+    const slug = /^venues\/([^/]+)\/index\.html$/.exec(text)?.[1];
+    if (at && slug && STRIP_SLUG.test(slug) && !strips.has(slug) && !lost.has(slug)) lost.set(slug, at);
+  }
+  return [...lost].map(([slug, at]) => ({ slug, at }));
+}
+
+/**
+ * Slugs a footer handed out whose strip had already gone when the list was
+ * written, checked against this repo's history and embed/ on 1 Oct 2026:
+ * only Crackings - its page went on 28 Sep, its strip on 30 Sep. A run
+ * that reads the history (lostFooterPages) finds it there too; this is for
+ * one that cannot.
+ */
+const GONE_BEFORE_THE_LIST = [{ slug: 'crackings', name: 'Crackings' }];
+
+/**
+ * The first run that keeps the list has none to read, and the footers have
+ * been handing out slugs since 25 Sep 2026. So it starts from the strips
+ * already on the site: every slug directory, under the name in its <h1>;
+ * plus every venue page that handed out a slug whose strip has gone since
+ * (`lost`, read out of git history by share-cards.mjs, its <h1> the name
+ * too); plus GONE_BEFORE_THE_LIST. The strips alone would not do: until
+ * this generator replaces the old one, that one goes on deleting a strip
+ * the run after its venue's last row ends, and a slug missing from the
+ * seed stays missing. That is a few one-row venues more than the footers
+ * ever offered, which is the safe side of the line. `dirs` and `lost` are
+ * [{ dir, html }].
+ */
+export function seedPublished(dirs, lost = []) {
+  const unescape = (s) =>
+    s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  const seen = [];
+  for (const { dir, html } of [...dirs, ...lost]) {
+    if (!STRIP_SLUG.test(dir) || seen.some((p) => p.slug === dir)) continue;
+    const name = unescape(/<h1>([^<]*)<\/h1>/.exec(html ?? '')?.[1] ?? '').trim();
+    if (name) seen.push({ slug: dir, name });
+  }
+  return [...seen, ...GONE_BEFORE_THE_LIST.filter((g) => !seen.some((p) => p.slug === g.slug))];
 }
 
 /**
@@ -1194,13 +1504,14 @@ export function embedNameDir(name) {
  * the Linux box that builds the site and one path on the Windows and macOS
  * machines that clone it — two git entries over one file, a working tree
  * that can never be clean. The slug wins, since it is the spelling
- * /venues/<slug>/ already uses.
+ * /venues/<slug>/ already uses. A handed-out slug that now belongs to a
+ * venue on under another one (`alias`, embedVenues) is the same strip again.
  */
 export function embedDirs(venues) {
   const taken = new Set();
   const out = [];
   for (const venue of venues) {
-    for (const dir of [venue.slug, embedNameDir(venue.name)]) {
+    for (const dir of [venue.slug, ...(venue.alias ?? []), embedNameDir(venue.name)]) {
       if (!dir || taken.has(dir.toLowerCase())) continue;
       taken.add(dir.toLowerCase());
       out.push({ dir, venue });
@@ -1227,6 +1538,7 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 .foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
 .foot b{color:var(--teal)}
 .stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+[hidden]{display:none!important}
 `;
 
 /**
@@ -1271,17 +1583,22 @@ export function renderEmbed(venue, now) {
   const dir = spot
     ? `<a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=${spot.lat},${spot.lng}">Directions</a>`
     : '';
+  // Each day is a <section> so EXPIRE can drop it once its sets are over,
+  // and the empty line is written hidden beside the rows for the hour
+  // they have all ended - a strip read at 2 AM listed the night's
+  // finished sets until the morning run (see EXPIRE).
+  const quiet = `<p class="quiet"${rows.length ? ' id="done" hidden' : ''}>Nothing posted for the next seven days.</p>`;
   const body = rows.length
     ? groupByDay(rows)
         .map(
           (d) =>
-            `<h2>${esc(d.label)}</h2><ul class="rows">${[...d.main, ...d.fitness]
+            `<section><h2>${esc(d.label)}</h2><ul class="rows">${[...d.main, ...d.fitness]
               .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))
               .map((e) => rowHtml(e, new Map(), { showVenue: false, compact: true, ref }))
-              .join('')}</ul>`,
+              .join('')}</ul></section>`,
         )
-        .join('\n')
-    : `<p class="quiet">Nothing posted for the next seven days.</p>`;
+        .join('\n') + `\n${quiet}`
+    : quiet;
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <title>This week at ${esc(name)} — 30A Now</title>
@@ -1295,7 +1612,7 @@ ${body}
 <a class="foot" id="pitch" href="${esc(tagged('/', { ref }))}" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
 <p class="stamp">Updated ${esc(fmtStamp(now))} beach time</p>
 ${embedBeacon(name)}
-</body></html>
+${rows.length ? `<script>\n(function(){\n${EXPIRE}\n})();\n</script>\n` : ''}</body></html>
 `;
 }
 

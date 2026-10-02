@@ -2,6 +2,7 @@
 // before the generator so a broken page never reaches the site. Every
 // assertion holds in any machine timezone; that is the point of beach time.
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 import {
@@ -21,14 +22,21 @@ import {
   embedWeek,
   esc,
   eventJsonLd,
+  FOOTER_LOG_ARGS,
+  FOOTER_SHIPPED,
   groupByDay,
   INVITED_LINE,
   inWindow,
+  isPlaceholderVenue,
+  isVenueName,
   knownVenue,
+  lostFooterPages,
   OG_DEFAULT,
   ownerFooter,
+  parsePublished,
   priceNumber,
   PUBLISHED_EMBEDS,
+  publishedStrips,
   renderEmbed,
   renderLineup,
   renderStub,
@@ -38,6 +46,7 @@ import {
   robotsTxt,
   rowHtml,
   safeUrl,
+  seedPublished,
   shrinkRefusal,
   sitemapXml,
   slugify,
@@ -217,6 +226,150 @@ describe('venuePages', () => {
       ...[1, 2, 3, 4].map(() => row()),
     ];
     assert.deepEqual(venuePages(rows, now).map((p) => p.name), ['The Red Bar', 'Crackings']);
+  });
+});
+
+/**
+ * Until 1 Oct 2026 /venues/venues-along-30a/ was live and in the sitemap -
+ * the importer's name for the Songwriters Festival, which plays thirty
+ * rooms - closing on "Run Venues along 30A? Put this week's lineup on your
+ * site, free" and a $25 pitch, and /venues/grayton-beach/, /watercolor/,
+ * /alys-beach/ and /rosemary-beach/ said the same of whole towns. The
+ * placeholder loses its page. A town keeps its listing - indexed, and the
+ * only crawlable list of its rows past this weekend - without the pitch.
+ */
+describe('names that are not a venue', () => {
+  const now = noonOn('2026-09-08');
+  const festival = [1, 2, 3, 4].map(() => row({ title: '30A Songwriters Festival', venue: 'Venues along 30A', area: 'Seaside' }));
+  const grayton = [1, 2, 3].map(() => row({ title: 'Grayton Market', venue: 'Grayton Beach', area: 'Grayton Beach' }));
+  const bar = [1, 2, 3].map(() => row());
+  const all = [...festival, ...grayton, ...bar];
+
+  it('knows a placeholder, a neighbourhood and a row’s own area from a venue', () => {
+    for (const name of ['Venues along 30A', 'venues along 30a ', 'SoWal', '30A.com', 'Grayton Beach', 'WATERCOLOR', 'Rosemary Beach', 'Alys Beach', 'Seaside', '', '  ', null]) {
+      assert.equal(isVenueName(name), false, String(name));
+    }
+    assert.equal(isVenueName('Santa Rosa Beach', 'Santa Rosa Beach'), false); // an area the copy has not heard of
+    for (const name of ['The Red Bar', 'Seaside Pavilion', 'Alys Beach Amphitheatre', 'WaterColor Inn & Resort']) {
+      assert.equal(isVenueName(name, 'Seaside'), true, name);
+    }
+    // Seaside's post office, where the Walking Club meets: a place, not a
+    // business anyone there could put a strip on.
+    for (const name of ['Post Office', 'post office ']) {
+      assert.equal(isVenueName(name, 'Seaside'), false, name);
+    }
+    // Only the placeholders lose the listing too.
+    for (const name of ['Venues along 30A', ' SOWAL', '30A.com day view', 'Visit South Walton', '', null]) {
+      assert.equal(isPlaceholderVenue(name), true, String(name));
+    }
+    for (const name of ['Grayton Beach', 'Santa Rosa Beach', 'The Red Bar', 'Post Office']) {
+      assert.equal(isPlaceholderVenue(name), false, name);
+    }
+  });
+
+  it('keeps the post office’s page and its strip, and drops the pitch', () => {
+    // Until 1 Oct 2026 /venues/post-office/ closed on "Run Post Office? Put
+    // this week's lineup on your site, free" and "Feature a show — $25".
+    const walks = [1, 2, 3, 4].map(() => row({ title: 'Walking Club', venue: 'Post Office', area: 'Seaside' }));
+    const pages = venuePages([...walks, ...bar], now);
+    const office = pages.find((p) => p.slug === 'post-office');
+    assert.equal(office.owner, false);
+    assert.match(renderVenuesIndex(pages, now).html, /<a href="\/venues\/post-office\/">Post Office<\/a>/);
+    assert.match(sitemapXml([...walks, ...bar], pages, now), /\/venues\/post-office\//);
+    const html = renderVenue(office, now).html;
+    assert.match(html, /Walking Club/);
+    assert.doesNotMatch(html, /class="owner"|Run Post Office\?|embed\/post-office|Feature a show|id="copy"/);
+    // Its page hands out nothing new, but the strip it handed out before
+    // 1 Oct 2026 (the seed) stays, rows and all.
+    assert.deepEqual(publishedStrips([], pages).map((p) => p.slug), ['the-red-bar']);
+    assert.ok(!embedDirs(embedVenues([...walks, ...bar], now)).some((d) => d.dir === 'post-office'));
+    const seeded = publishedStrips(seedPublished([{ dir: 'post-office', html: '<h1>Post Office</h1>' }]), pages);
+    const strip = embedDirs(embedVenues([...walks, ...bar], now, seeded)).find((d) => d.dir === 'post-office');
+    assert.match(renderEmbed(strip.venue, now), /Walking Club/);
+  });
+
+  it('gives a placeholder no venue page, no index entry and no sitemap line', () => {
+    const pages = venuePages(all, now);
+    assert.deepEqual(pages.map((p) => p.slug), ['grayton-beach', 'the-red-bar']);
+    const index = renderVenuesIndex(pages, now).html;
+    const xml = sitemapXml(all, pages, now);
+    assert.doesNotMatch(index, /\/venues\/venues-along-30a\//);
+    assert.doesNotMatch(xml, /\/venues\/venues-along-30a\//);
+    // Its rows are still listed, with the place as plain text.
+    const lineup = renderLineup(all, pages, now).html;
+    assert.match(lineup, /30A Songwriters Festival/);
+    assert.match(lineup, /<div class="m">Venues along 30A · Seaside · /);
+    const venueSlugs = new Map(pages.map((v) => [v.name.toLowerCase(), v.slug]));
+    assert.match(renderStub(festival[0], { now, venueSlugs }).html, /<p class="lead">Venues along 30A · Seaside · /);
+  });
+
+  it('keeps a neighbourhood’s listing page, in the index and the sitemap, with no one to pitch', () => {
+    // A first cut on 1 Oct 2026 dropped these pages with the pitch, which
+    // would have taken /venues/alys-beach/ (8 rows that day),
+    // /rosemary-beach/, /watercolor/ and /grayton-beach/ out of the sitemap
+    // and answered 404 where Google had them.
+    const pages = venuePages(all, now);
+    const town = pages.find((p) => p.slug === 'grayton-beach');
+    assert.equal(town.owner, false);
+    assert.equal(pages.find((p) => p.slug === 'the-red-bar').owner, true);
+    assert.match(renderVenuesIndex(pages, now).html, /<a href="\/venues\/grayton-beach\/">Grayton Beach<\/a>/);
+    assert.match(sitemapXml(all, pages, now), /\/venues\/grayton-beach\//);
+    const html = renderVenue(town, now).html;
+    assert.match(html, /<h1>Grayton Beach<\/h1>/);
+    assert.match(html, /Grayton Market/);
+    // An area the copy has not heard of, named as its own rows' area, too.
+    const srb = [1, 2, 3].map(() => row({ venue: 'Santa Rosa Beach', area: 'Santa Rosa Beach' }));
+    assert.equal(venuePages(srb, now)[0].owner, false);
+  });
+
+  it('never offers a neighbourhood to an owner: no "Run …?" block and no snippet', () => {
+    const pages = venuePages(all, now);
+    const town = renderVenue(pages.find((p) => p.slug === 'grayton-beach'), now).html;
+    assert.doesNotMatch(town, /class="owner"|Run Grayton Beach\?|embed\/grayton-beach|Feature a show|id="copy"/);
+    assert.match(renderVenue(pages.find((p) => p.slug === 'the-red-bar'), now).html, /Run The Red Bar\?/);
+    assert.doesNotMatch(pages.map((v) => renderVenue(v, now).html).join('\n'), /Run Venues along 30A\?/);
+    // Nor does its page add its slug to the strips handed out.
+    assert.deepEqual(publishedStrips([], pages), [{ slug: 'the-red-bar', name: 'The Red Bar' }]);
+  });
+
+  it('gives them no strip, not even while one of their rows is on', () => {
+    const on = { starts_at: '2026-09-08T15:00:00Z', ends_at: '2026-09-08T21:00:00Z' };
+    const live = [
+      row({ venue: 'Venues along 30A', area: 'Seaside', ...on }),
+      row({ venue: 'Grayton Beach', area: 'Grayton Beach', ...on }),
+    ];
+    const dirs = embedDirs(embedVenues([...all, ...live], now)).map((d) => d.dir);
+    for (const dir of ['venues-along-30a', 'Venues along 30A', 'grayton-beach', 'Grayton Beach']) {
+      assert.ok(!dirs.includes(dir), dir);
+    }
+    assert.ok(dirs.includes('the-red-bar'));
+  });
+
+  it('keeps a town’s strip its page handed out before 1 Oct 2026, with its rows, and never the placeholder’s', () => {
+    // From 25 Sep to 1 Oct /venues/grayton-beach/ offered /embed/grayton-beach/,
+    // and a town's events team may have pasted it. The first run seeds the
+    // list from the strips on the site.
+    const seeded = seedPublished([
+      { dir: 'grayton-beach', html: '<h1>Grayton Beach</h1>' },
+      { dir: 'venues-along-30a', html: '<h1>Venues along 30A</h1>' },
+    ]);
+    const published = publishedStrips(seeded, venuePages(all, now));
+    assert.deepEqual(published.map((p) => p.slug), ['crackings', 'grayton-beach', 'the-red-bar']);
+    const on = { starts_at: '2026-09-08T15:00:00Z', ends_at: '2026-09-08T21:00:00Z' };
+    const live = row({ title: 'Grayton Morning Market', venue: 'Grayton Beach', area: 'Grayton Beach', ...on });
+    const dirs = embedDirs(embedVenues([...all, live], now, published));
+    const strip = dirs.find((d) => d.dir === 'grayton-beach');
+    assert.ok(strip, 'the slug its footer gave out still answers');
+    const html = renderEmbed(strip.venue, now);
+    assert.match(html, /Grayton Market/);
+    assert.match(html, /Grayton Morning Market/); // on now
+    assert.ok(!dirs.some((d) => d.dir === 'venues-along-30a' || d.dir === 'Venues along 30A'));
+    // On now and nothing after it: still the town's own rows.
+    const only = embedDirs(embedVenues([...bar, live], now, published)).find((d) => d.dir === 'grayton-beach');
+    assert.match(renderEmbed(only.venue, now), /Grayton Morning Market/);
+    // Then the honest empty strip, once the town has nothing on.
+    const quiet = embedDirs(embedVenues(bar, now, published)).find((d) => d.dir === 'grayton-beach');
+    assert.match(renderEmbed(quiet.venue, now), /Nothing posted for the next seven days\./);
   });
 });
 
@@ -937,6 +1090,47 @@ describe('unfurl card', () => {
     assert.match(html, /<meta property="og:image" content="https:\/\/30a.com\/p.png">/);
     assert.doesNotMatch(html, /og:image:width/);
   });
+
+  it('names no date on the card of a page that turns over under one URL', () => {
+    // Every Thursday post, weekend share and invite is /lineup/ under one
+    // og:url. Facebook re-reads a card every 30 days and freezes its title
+    // after 50 interactions, so from the second Thursday the card under
+    // the post read "… Fri, Oct 2 – Sun, Oct 4" over the next weekend's.
+    const og = (html) => ({
+      title: /<meta property="og:title" content="([^"]*)">/.exec(html)[1],
+      description: /<meta property="og:description" content="([^"]*)">/.exec(html)[1],
+      url: /<meta property="og:url" content="([^"]*)">/.exec(html)[1],
+      page: /<title>([^<]*)<\/title>/.exec(html)[1],
+    });
+    // A weekday, a month, a day of the month or a count of what is on.
+    const day = /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b|\b\d{1,2}\b(?! PM)|\d+ (events?|classes)/;
+    const dated = (s) => day.test(s);
+    const thu1 = Date.parse('2026-10-01T17:00:00Z');
+    const thu8 = Date.parse('2026-10-08T17:00:00Z');
+    const weekend = [
+      row({ title: 'Steven Theriot', starts_at: '2026-10-02T23:00:00Z', ends_at: '2026-10-03T02:00:00Z' }),
+      row({ title: 'Emily Bass', starts_at: '2026-10-09T23:00:00Z', ends_at: '2026-10-10T02:00:00Z' }),
+      row({ title: 'Wed Trivia', starts_at: '2026-10-01T23:00:00Z', ends_at: '2026-10-02T02:00:00Z' }),
+      row({ title: 'Thu Trivia', starts_at: '2026-10-08T23:00:00Z', ends_at: '2026-10-09T02:00:00Z' }),
+    ];
+    for (const render of [renderLineup, renderTonight]) {
+      const a = og(render(weekend, [], thu1).html);
+      const b = og(render(weekend, [], thu8).html);
+      assert.equal(a.url, b.url);
+      assert.deepEqual([a.title, a.description], [b.title, b.description], 'the card is the same every week');
+      assert.ok(!dated(a.title), a.title);
+      assert.ok(!dated(a.description), a.description);
+      // Search still gets the dated title, and it does move on.
+      assert.notEqual(a.page, b.page);
+      assert.ok(dated(a.page), a.page);
+    }
+    assert.equal(og(renderLineup(weekend, [], thu1).html).title, 'This weekend on 30A — live music, markets and events');
+    assert.equal(og(renderTonight(weekend, [], thu1).html).title, 'Tonight on 30A — live music and events from 4 PM');
+    // A venue page is one URL for good too; its "next up" is a date.
+    const v = og(renderVenue(venues[0], now).html);
+    assert.ok(!dated(v.description), v.description);
+    assert.match(v.description, /The Red Bar \(Grayton Beach\)/);
+  });
 });
 
 describe('owner footer', () => {
@@ -1000,8 +1194,11 @@ describe('owner footer', () => {
   it('every venue page has a strip under its own slug, so the snippet never points at a 404', () => {
     // venuePages needs three rows and embedVenues one; both order by how
     // much is on, so a slug a page takes is taken first among the strips
-    // too — the -2 a collision hands out included.
+    // too — the -2 a collision hands out included. A town's page offers
+    // no snippet and gets no strip, and taking it out does not move a slug.
+    const town = [1, 2, 3, 4, 5].map((n) => row({ venue: 'Grayton Beach', title: `Market ${n}` }));
     const many = [
+      ...town,
       ...rows,
       row({ venue: 'Crackings', title: 'A' }),
       row({ venue: 'Crackings', title: 'B' }),
@@ -1015,7 +1212,12 @@ describe('owner footer', () => {
     const pages = venuePages(many, now);
     const dirs = new Set(embedDirs(embedVenues(many, now)).map((d) => d.dir));
     assert.ok(pages.some((p) => p.slug === 'crackings-2'));
-    for (const p of pages) assert.ok(dirs.has(p.slug), `${p.name} -> /embed/${p.slug}/`);
+    assert.equal(pages[0].slug, 'grayton-beach');
+    assert.ok(!dirs.has('grayton-beach'));
+    for (const p of pages) {
+      if (p.owner) assert.ok(dirs.has(p.slug), `${p.name} -> /embed/${p.slug}/`);
+      else assert.doesNotMatch(renderVenue(p, now).html, /<iframe|class="owner"/, p.name);
+    }
   });
 
   it('copies the snippet, by running the button', async () => {
@@ -1181,6 +1383,364 @@ describe('embed strip', () => {
     );
     assert.doesNotMatch(html, /<\/script><script>alert/);
     assert.match(html, /embed_view/);
+  });
+});
+
+/**
+ * Every venue page's owner footer has handed out /embed/<slug>/ since
+ * 25 Sep 2026, but a strip lived only while its venue had a row ahead: the
+ * run after the last one ended deleted it, and a bar that had pasted the
+ * snippet showed the 404 shell inside its own homepage, under "THIS WEEK AT
+ * pickles-sandbar". Crackings lost its strip that way on 30 Sep.
+ */
+describe('handed-out strips', () => {
+  const oct1 = Date.parse('2026-10-01T17:00:00Z');
+  const pickles = (day) =>
+    row({ venue: "Pickle's Sandbar", area: 'Seagrove', starts_at: `2026-10-${day}T21:00:00Z`, ends_at: `2026-10-${day}T23:00:00Z` });
+  const fridays = [pickles('09'), pickles('16'), pickles('23')];
+  const after = Date.parse('2026-10-24T11:00:00Z'); // Sat 6 AM, the last Friday set long over
+
+  it('keeps a strip for a venue whose page handed one out, after its last row has ended', () => {
+    const published = publishedStrips([], venuePages(fridays, oct1));
+    assert.deepEqual(published, [{ slug: 'pickles-sandbar', name: "Pickle's Sandbar" }]);
+    // What the old run did: nothing ahead, so no directory at all.
+    assert.ok(!embedDirs(embedVenues(fridays, after)).some((d) => d.dir === 'pickles-sandbar'));
+    const dirs = embedDirs(embedVenues(fridays, after, published));
+    const strip = dirs.find((d) => d.dir === 'pickles-sandbar');
+    assert.ok(strip, 'the slug the footer gave out still answers');
+    assert.ok(dirs.some((d) => d.dir === "Pickle's Sandbar"), 'and so does the name');
+    const html = renderEmbed(strip.venue, after);
+    assert.match(html, /<h1>Pickle's Sandbar<\/h1>/);
+    assert.match(html, /<p class="quiet">Nothing posted for the next seven days\.<\/p>/);
+  });
+
+  it('is the venue’s live strip when the slug it handed out now belongs to another spelling', () => {
+    // A page under "Red Bar" handed out red-bar; the rows now come in as
+    // "The Red Bar", whose strip is the-red-bar. red-bar is that strip too.
+    const published = [{ slug: 'red-bar', name: 'Red Bar' }];
+    const dirs = embedDirs(embedVenues([row({ title: 'Jazz Night' })], noonOn('2026-09-08'), published));
+    const alias = dirs.find((d) => d.dir === 'red-bar');
+    assert.equal(alias.venue.slug, 'the-red-bar');
+    assert.match(renderEmbed(alias.venue, noonOn('2026-09-08')), /Jazz Night/);
+  });
+
+  it('keeps the list in embed/published.json: it only grows, by slug, sorted, and never with a placeholder', () => {
+    const prev = [
+      { slug: 'pickles-sandbar', name: "Pickle's Sandbar" },
+      { slug: 'crackings', name: 'Crackings' },
+      { slug: 'venues-along-30a', name: 'Venues along 30A' },
+    ];
+    const red = () => row({ starts_at: '2026-10-02T23:00:00Z', ends_at: '2026-10-03T02:00:00Z' });
+    const pages = venuePages([red(), red(), red(), ...fridays], oct1);
+    assert.deepEqual(publishedStrips(prev, pages), [
+      { slug: 'crackings', name: 'Crackings' },
+      { slug: 'pickles-sandbar', name: "Pickle's Sandbar" },
+      { slug: 'the-red-bar', name: 'The Red Bar' },
+    ]);
+    // What the run writes is what the next run reads.
+    const list = publishedStrips(prev, pages);
+    assert.deepEqual(parsePublished(`${JSON.stringify(list, null, 2)}\n`), list);
+  });
+
+  it('reads the list back safely: a broken file stops the run, a bad entry never becomes a path', () => {
+    assert.throws(() => parsePublished('{not json'));
+    assert.throws(() => parsePublished('{"slug":"x","name":"X"}'), /not a list/);
+    assert.deepEqual(
+      parsePublished(JSON.stringify([
+        { slug: '../../e', name: 'Escape' },
+        { slug: 'Pickles Sandbar', name: 'Spaces' },
+        { slug: 'ok-one', name: '  OK One  ' },
+        { slug: 'no-name', name: '' },
+        { slug: 'no-name-2' },
+        null,
+      ])),
+      [{ slug: 'ok-one', name: 'OK One' }],
+    );
+  });
+
+  it('starts the list, the first time, from the strips already on the site', () => {
+    const red = renderEmbed({ name: "Bud & Alley's", area: '', events: [], slug: 'bud-alleys' }, oct1);
+    const seeded = seedPublished([
+      { dir: 'bud-alleys', html: red },
+      { dir: "Bud & Alley's", html: red }, // the name spelling of the same strip
+      { dir: 'empty', html: '' },
+    ]);
+    assert.deepEqual(seeded, [
+      { slug: 'bud-alleys', name: "Bud & Alley's" },
+      // Handed out by its page from 25 to 28 Sep, deleted with its strip on 30 Sep.
+      { slug: 'crackings', name: 'Crackings' },
+    ]);
+    // Once only, whatever is already on the site.
+    assert.equal(seedPublished([{ dir: 'crackings', html: '<h1>Crackings</h1>' }]).length, 1);
+  });
+
+  it('starts it from git history too, so a strip the old run deleted before this one landed still counts', () => {
+    // The old generator runs until this one replaces it. Pickle's Sandbar's
+    // last set ends Fri 23 Oct, the old run deletes embed/pickles-sandbar/
+    // on the Saturday, this one first runs on the Sunday: the strips on the
+    // site no longer have it, the venue pages in history do.
+    const [a, b] = ['a'.repeat(40), 'b'.repeat(40)];
+    const log = [
+      `commit ${a}`, '', 'venues/the-red-bar/index.html', 'venues/pickles-sandbar/index.html', '',
+      `commit ${b}`, '', 'venues/index.html', 'venues/pickles-sandbar/index.html', 'venues/crackings/index.html',
+      'venues/Not A Slug/index.html', 'venues/crackings/extra.html', '',
+    ].join('\n');
+    const lost = lostFooterPages(log, ['the-red-bar', 'The Red Bar']);
+    // Each at the newest commit that wrote it; the strips still up are not lost.
+    assert.deepEqual(lost, [{ slug: 'pickles-sandbar', at: a }, { slug: 'crackings', at: b }]);
+    assert.deepEqual(lostFooterPages(log.replace(/\n/g, '\r\n'), ['the-red-bar']), lost);
+    assert.deepEqual(lostFooterPages('', []), []);
+
+    // The page as it last stood names the venue in its <h1>, like a strip.
+    const page = renderVenue(venuePages(fridays, oct1)[0], oct1).html;
+    const red = renderEmbed({ name: 'The Red Bar', area: '', events: [], slug: 'the-red-bar' }, oct1);
+    const seeded = seedPublished([{ dir: 'the-red-bar', html: red }], [
+      { dir: 'pickles-sandbar', html: page },
+      { dir: 'the-red-bar', html: '<h1>Not This One</h1>' }, // the strip on the site wins
+    ]);
+    assert.deepEqual(seeded, [
+      { slug: 'the-red-bar', name: 'The Red Bar' },
+      { slug: 'pickles-sandbar', name: "Pickle's Sandbar" },
+      { slug: 'crackings', name: 'Crackings' },
+    ]);
+    const strip = embedDirs(embedVenues(fridays, after, publishedStrips(seeded, []))).find((d) => d.dir === 'pickles-sandbar');
+    assert.ok(strip, 'the slug its footer gave out answers again');
+    assert.match(renderEmbed(strip.venue, after), /<h1>Pickle's Sandbar<\/h1>/);
+  });
+
+  it('reads that history from the commit that shipped the footer on, itself included', () => {
+    assert.equal(FOOTER_SHIPPED, '106958c86c0043a8aea7823afc3a6842b878d9af');
+    assert.ok(FOOTER_LOG_ARGS.includes(`${FOOTER_SHIPPED}^..HEAD`));
+    assert.ok(FOOTER_LOG_ARGS.includes('--format=commit %H'));
+    assert.deepEqual(FOOTER_LOG_ARGS.slice(-2), ['--', 'venues/']);
+  });
+
+  it('fetches that history only for the run that starts the list', () => {
+    const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+    const steps = yml.split(/\r?\n/);
+    const fetch = steps.findIndex((l) => /git fetch --unshallow origin/.test(l));
+    assert.ok(fetch > 0, 'no history fetch');
+    assert.match(steps[fetch - 1], /if: hashFiles\('embed\/published\.json'\) == ''/);
+    assert.ok(fetch < steps.findIndex((l) => /run: node scripts\/share-cards\.mjs/.test(l)), 'after the generator');
+  });
+});
+
+/**
+ * Runs a page's EXPIRE in a fake DOM at `now`: the rows, the day sections
+ * and fitness <details> that hold them, and #done, read out of the HTML
+ * the way a browser would build them. Answers which rows are still shown,
+ * how many boxes were hidden, and whether #done is showing.
+ */
+function expireAt(html, now) {
+  const js = [...html.matchAll(/<script>\n([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => s.includes('li.ev[data-end]'));
+  const rows = [...html.matchAll(/<li class="ev" id="([^"]+)"(?: data-end="(\d+)")?>/g)].map((m) => ({
+    id: m[1],
+    at: m.index,
+    hidden: false,
+    getAttribute: (name) => (name === 'data-end' ? m[2] ?? null : null),
+  }));
+  const boxes = [];
+  for (const tag of ['section', 'details']) {
+    for (const m of html.matchAll(new RegExp(`<${tag}[ >]`, 'g'))) {
+      const end = html.indexOf(`</${tag}>`, m.index);
+      const inside = rows.filter((r) => r.at > m.index && r.at < end);
+      boxes.push({ hidden: false, querySelectorAll: () => inside });
+    }
+  }
+  const d = /<p class="[^"]*" id="done"(?: data-day="([^"]*)")? hidden>/.exec(html);
+  const done = d ? { hidden: true, getAttribute: (name) => (name === 'data-day' ? d[1] ?? null : null) } : null;
+  let ticking = null;
+  const env = {
+    location: { search: '' },
+    navigator: { userAgent: 'node' },
+    document: {
+      hidden: false,
+      getElementById: (id) => (id === 'done' ? done : null),
+      querySelectorAll: (sel) =>
+        sel === 'li.ev[data-end]' ? rows.filter((r) => r.getAttribute('data-end')) : sel === 'section,details' ? boxes : [],
+    },
+    URL,
+    URLSearchParams,
+    Date: class extends Date {
+      static now() {
+        return now;
+      }
+    },
+    setTimeout,
+    setInterval: (fn) => {
+      ticking = fn;
+    },
+  };
+  new Function(...Object.keys(env), js)(...Object.values(env));
+  return {
+    shown: rows.filter((r) => !r.hidden).map((r) => r.id),
+    hiddenBoxes: boxes.filter((b) => b.hidden).length,
+    done: done ? !done.hidden : null,
+    ticking: Boolean(ticking),
+  };
+}
+
+/**
+ * The 05:10 UTC run meant to turn /tonight/ over at beach midnight never
+ * started before 09:13 UTC (10-30 Sep 2026, every night), so until dawn the
+ * page read "Tonight on 30A — Wednesday" over shows that had ended hours
+ * before, and every strip led with the previous night's finished sets.
+ * The page now knows when each row ends and tidies itself in the browser.
+ */
+describe('finished rows', () => {
+  const now = noonOn('2026-09-08'); // Tue noon
+  const seven = row({ title: 'Seven O’Clock Set', starts_at: '2026-09-09T00:00:00Z', ends_at: '2026-09-09T02:00:00Z' }); // Tue 7-9 PM
+  const late = row({ title: 'Late Set', starts_at: '2026-09-09T03:00:00Z', ends_at: '2026-09-09T05:30:00Z' }); // Tue 10 PM-12:30 AM
+  const gym = row({ category: 'fitness', title: 'Night Yoga', starts_at: '2026-09-08T23:00:00Z', ends_at: '2026-09-09T00:00:00Z' }); // Tue 6-7 PM
+  const tonight = renderTonight([seven, late, gym], [], now).html;
+
+  it('writes each row’s end on the row, and the night the page covers on its done line', () => {
+    assert.match(rowHtml(seven), new RegExp(`<li class="ev" id="e-${seven.id}" data-end="${Date.parse(seven.ends_at)}">`));
+    assert.match(
+      tonight,
+      /<p class="done" id="done" data-day="2026-09-08" hidden>Everything listed for Tuesday, Sep 8 has finished\. <a href="\/feed\?s=seo-tonight">See what's on now, live in the app<\/a><\/p>/,
+    );
+    const lineup = renderLineup([row()], [], now).html;
+    assert.match(lineup, /id="done" data-day="2026-09-13" hidden>Everything listed for Fri, Sep 11 – Sun, Sep 13 has finished\. <a href="\/weekend\?s=seo-lineup">/);
+  });
+
+  it('shows everything before it ends, and keeps watching', () => {
+    const r = expireAt(tonight, now);
+    assert.deepEqual(r.shown.length, 3);
+    assert.equal(r.done, false);
+    assert.equal(r.ticking, true);
+  });
+
+  it('hides each row once it is over, then the box it was in', () => {
+    const r = expireAt(tonight, beachWallToUtc('2026-09-08', 21, 30)); // Tue 9:30 PM
+    assert.deepEqual(r.shown, [`e-${late.id}`]);
+    assert.equal(r.hiddenBoxes, 1); // the yoga's <details>; the day still has the late set
+    assert.equal(r.done, false);
+  });
+
+  it('says the night is over once everything on it has ended', () => {
+    const r = expireAt(tonight, beachWallToUtc('2026-09-09', 1)); // Wed 1 AM, the late set over
+    assert.deepEqual(r.shown, []);
+    assert.equal(r.done, true);
+    assert.equal(r.hiddenBoxes, 2); // the day's <section> and the <details> in it
+  });
+
+  it('keeps quiet past beach midnight while a set that crosses it is still playing', () => {
+    // Until review on 1 Oct 2026 the day being over was enough on its own,
+    // so at 12:10 AM the page said "Everything listed for Tuesday, Sep 8
+    // has finished" above the late set it was still showing.
+    const r = expireAt(tonight, beachWallToUtc('2026-09-09', 0, 10)); // Wed 12:10 AM
+    assert.deepEqual(r.shown, [`e-${late.id}`]);
+    assert.equal(r.done, false);
+    assert.equal(expireAt(tonight, beachWallToUtc('2026-09-09', 0, 31)).done, true); // the set over
+    // /lineup/ the same, on Sunday night into Monday.
+    const sunday = row({ title: 'Sunday Late Set', starts_at: '2026-09-14T03:00:00Z', ends_at: '2026-09-14T05:30:00Z' }); // Sun 10 PM-12:30 AM
+    const lineup = renderLineup([sunday], [], now).html;
+    const mon = expireAt(lineup, beachWallToUtc('2026-09-14', 0, 10)); // Mon 12:10 AM
+    assert.deepEqual(mon.shown, [`e-${sunday.id}`]);
+    assert.equal(mon.done, false);
+    assert.equal(expireAt(lineup, beachWallToUtc('2026-09-14', 0, 31)).done, true);
+  });
+
+  it('says so after beach midnight even on a quiet night, by the beach clock and not the reader’s', () => {
+    const quiet = renderTonight([], [], now).html;
+    // 11:30 PM at the beach is 12:30 AM in Atlanta and 04:30 UTC: still Tuesday here.
+    assert.equal(expireAt(quiet, beachWallToUtc('2026-09-08', 23, 30)).done, false);
+    assert.equal(expireAt(quiet, beachWallToUtc('2026-09-09', 0, 30)).done, true);
+    // Nothing to watch, so no timer.
+    assert.equal(expireAt(quiet, now).ticking, false);
+  });
+
+  it('leaves a page that rolled forward alone until its own night is over', () => {
+    // The 23:10 winter run describes tomorrow night.
+    const page = renderTonight(
+      [row({ starts_at: '2026-01-16T01:00:00Z', ends_at: '2026-01-16T04:00:00Z' })], // Thu 7-10 PM CST
+      [],
+      beachWallToUtc('2026-01-14', 23, 10),
+    ).html;
+    assert.match(page, /data-day="2026-01-15"/);
+    assert.equal(expireAt(page, beachWallToUtc('2026-01-14', 23, 50)).done, false);
+    assert.equal(expireAt(page, beachWallToUtc('2026-01-15', 9)).done, false);
+  });
+
+  it('takes last night’s finished sets off a partner’s strip, and says so when nothing is left', () => {
+    const v = { name: 'The Red Bar', area: 'Grayton Beach', events: [seven, late, row()], slug: 'the-red-bar' };
+    const html = renderEmbed(v, now);
+    assert.match(html, /<section><h2>Tuesday, Sep 8<\/h2><ul class="rows">/);
+    assert.match(html, /<p class="quiet" id="done" hidden>Nothing posted for the next seven days\.<\/p>/);
+    const wed = expireAt(html, beachWallToUtc('2026-09-09', 2)); // Wed 2 AM
+    assert.deepEqual(wed.shown, [`e-${v.events[2].id}`]); // Friday's
+    assert.equal(wed.hiddenBoxes, 1);
+    assert.equal(wed.done, false);
+    assert.equal(expireAt(html, Date.parse('2026-09-12T03:00:00Z')).done, true);
+    // A strip with nothing on shows the line as written, and carries no script for it.
+    const empty = renderEmbed({ name: 'The Red Bar', area: '', events: [], slug: 'the-red-bar' }, now);
+    assert.match(empty, /<p class="quiet">Nothing posted for the next seven days\.<\/p>/);
+    assert.doesNotMatch(empty, /li\.ev\[data-end\]/);
+  });
+
+  it('hides by the row, never the whole page, on a venue page', () => {
+    const v = venuePages([seven, late, row()], now)[0];
+    const r = expireAt(renderVenue(v, now).html, beachWallToUtc('2026-09-09', 2));
+    assert.equal(r.shown.length, 1);
+    assert.equal(r.done, false); // Friday's still to come
+    assert.equal(r.hiddenBoxes, 1); // Tuesday's section, not the owner block or "Also"
+  });
+
+  it('says so on a venue page once every set on it is over, instead of going blank', () => {
+    // Until review on 1 Oct 2026 a venue page had no done line, so one
+    // written at the three-row floor with all three sets on one evening hid
+    // every row and day by 1 AM and showed nothing under "3 upcoming events".
+    const set = (h) => row({ venue: "Pickle's Sandbar", area: 'Seagrove', starts_at: new Date(beachWallToUtc('2026-10-01', h)).toISOString(), ends_at: new Date(beachWallToUtc('2026-10-01', h + 2)).toISOString() });
+    const thu = beachWallToUtc('2026-10-01', 15, 30); // Thu 3:30 PM, the late 17:20 UTC run
+    const v = venuePages([set(16), set(18), set(20)], thu)[0];
+    const html = renderVenue(v, thu).html;
+    assert.match(html, /3 upcoming events · updated Thu, Oct 1, 3:30 PM beach time/);
+    assert.match(
+      html,
+      /<p class="done" id="done" hidden>Everything listed for Pickle's Sandbar has finished\. <a href="\/venue\/Pickle's%20Sandbar\?s=seo-venue">See Pickle's Sandbar live in the app<\/a><\/p>/,
+    );
+    const eight = expireAt(html, beachWallToUtc('2026-10-01', 21)); // the 8 PM set still on
+    assert.equal(eight.shown.length, 1);
+    assert.equal(eight.done, false);
+    const r = expireAt(html, beachWallToUtc('2026-10-02', 1)); // Fri 1 AM
+    assert.deepEqual(r.shown, []);
+    assert.equal(r.done, true);
+    assert.equal(r.hiddenBoxes, 1); // Thursday's section
+  });
+});
+
+/**
+ * The workflow's crons, as minutes past midnight UTC. Until 1 Oct 2026
+ * nothing followed the 20:13 import, and the one run meant for beach
+ * midnight (05:10) was started 4 to 6.5 hours late every night from 10 to
+ * 30 Sep, so /tonight/ read yesterday until 4-6:40 AM.
+ */
+describe('the schedule', () => {
+  const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+  const runs = [...yml.matchAll(/- cron: '(\d+) ([\d,]+) \* \* \*'/g)].flatMap(([, m, hours]) =>
+    hours.split(',').map((h) => Number(h) * 60 + Number(m)),
+  );
+
+  it('follows each of the app repo’s imports, the evening one included', () => {
+    for (const [h, m] of [[10, 13], [17, 13], [20, 13]]) {
+      const at = h * 60 + m;
+      assert.ok(runs.some((r) => r > at && r - at <= 30), `nothing within 30 min of the ${h}:${m} import`);
+    }
+  });
+
+  it('turns /tonight/ over in the beach night whether GitHub starts it on time or hours late', () => {
+    // 11 PM to 5 AM CDT, when tonightWindow already means the new night.
+    const night = (min) => {
+      const t = ((min % 1440) + 1440) % 1440;
+      return t >= 4 * 60 && t < 10 * 60;
+    };
+    const late = [2, 4, 6.5].map((h) => h * 60); // what the :13 and 05:10 crons were
+    assert.ok(runs.some((r) => late.every((l) => night(r + l))), runs.join(', '));
+  });
+
+  it('queues a late run behind the one still going', () => {
+    assert.match(yml, /concurrency:\r?\n  group: share-cards\r?\n  cancel-in-progress: false/);
   });
 });
 
