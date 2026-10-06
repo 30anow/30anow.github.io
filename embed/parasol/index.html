@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>This week at Parasol — 30A Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<base target="_blank">
+<style>
+:root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--border:#E3EBEE}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;background:#fff;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.hd{display:flex;align-items:center;gap:10px}
+.hd h1{margin:1px 0 0;font-size:19px;font-weight:900;line-height:1.15}
+.over{margin:0;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--teal)}
+.where{margin:1px 0 0;font-size:12.5px;color:var(--sub)}
+.dir{flex:none;padding:7px 10px;border:1.5px solid var(--teal);border-radius:10px;font-size:12.5px;font-weight:800;color:var(--teal);text-decoration:none}
+h2{margin:12px 0 2px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sub)}
+ul.rows{list-style:none;margin:0;padding:0}
+li.ev{padding:8px 0;border-top:1px solid var(--border)}
+.t{display:block;font-size:14.5px;font-weight:700;color:var(--ink);text-decoration:none}
+.m{margin-top:1px;font-size:12px;color:var(--sub)}
+.quiet{padding:22px 0;text-align:center;font-size:13.5px;color:var(--sub)}
+.foot{display:block;margin-top:16px;padding-top:12px;border-top:1px solid var(--border);text-align:center;font-size:12.5px;color:var(--sub);text-decoration:none}
+.foot b{color:var(--teal)}
+.stamp{margin:4px 0 0;text-align:center;font-size:11px;color:var(--sub)}
+[hidden]{display:none!important}
+</style>
+</head><body>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Parasol</h1><p class="where">Alys Beach</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.2841,-86.03">Directions</a></div>
+<section><h2>Thursday, Oct 8</h2><ul class="rows"><li class="ev" id="e-45d4cff1-3bc0-4f06-95f3-87d651f7f02c" data-end="1791500400000"><a class="t" href="/e/45d4cff1-3bc0-4f06-95f3-87d651f7f02c?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Thu, Oct 8 · 12:00 PM – 6:00 PM</div></li></ul></section>
+<section><h2>Friday, Oct 9</h2><ul class="rows"><li class="ev" id="e-f5caf17b-7d69-49e7-8386-dbd5a61494f3" data-end="1791583200000"><a class="t" href="/e/f5caf17b-7d69-49e7-8386-dbd5a61494f3?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Fri, Oct 9 · 10:00 AM – 5:00 PM</div></li><li class="ev" id="e-32d17c2d-c159-4f4a-abbb-744aa1bdb17f" data-end="1791583200000"><a class="t" href="/e/32d17c2d-c159-4f4a-abbb-744aa1bdb17f?ref=parasol">Parasol | Glamourpuss Trunk Show</a><div class="m">Fri, Oct 9 · 2:00 PM – 5:00 PM</div></li></ul></section>
+<section><h2>Saturday, Oct 10</h2><ul class="rows"><li class="ev" id="e-4b4953bc-ccaa-44c4-b50c-42006ec32958" data-end="1791669600000"><a class="t" href="/e/4b4953bc-ccaa-44c4-b50c-42006ec32958?ref=parasol">Parasol | Glamourpuss Trunk Show</a><div class="m">Sat, Oct 10 · 10:00 AM – 5:00 PM</div></li><li class="ev" id="e-517ff3a5-18fe-4a94-b9f0-e866994431f5" data-end="1791669600000"><a class="t" href="/e/517ff3a5-18fe-4a94-b9f0-e866994431f5?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Sat, Oct 10 · 10:00 AM – 5:00 PM</div></li></ul></section>
+<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
+<a class="foot" id="pitch" href="/?ref=parasol" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
+<p class="stamp">Updated Mon, Oct 5, 8:24 PM beach time</p>
+<script>
+(function(){
+  function ping(n){
+    try{
+      var p={venue:"Parasol",platform:'web'};
+      if(document.referrer){try{p.host=new URL(document.referrer).hostname;}catch(e){}}
+      fetch("https://jbswxdkcpjjbqulsykvu.supabase.co/rest/v1/usage_events",{method:'POST',keepalive:true,
+        headers:{apikey:"sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",Authorization:"Bearer sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",
+          'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({name:n,props:p,platform:'web',app_version:'pages'})}).catch(function(){});
+    }catch(e){}
+  }
+  ping('embed_view');
+  var a=document.getElementById('pitch');
+  if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+<script>
+(function(){
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
+})();
+</script>
+</body></html>
