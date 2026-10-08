@@ -25,13 +25,10 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 [hidden]{display:none!important}
 </style>
 </head><body>
-<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Parasol</h1><p class="where">Alys Beach</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.2841,-86.03">Directions</a></div>
-<section><h2>Thursday, Oct 8</h2><ul class="rows"><li class="ev" id="e-45d4cff1-3bc0-4f06-95f3-87d651f7f02c" data-end="1791500400000"><a class="t" href="/e/45d4cff1-3bc0-4f06-95f3-87d651f7f02c?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Thu, Oct 8 · 12:00 PM – 6:00 PM</div></li></ul></section>
-<section><h2>Friday, Oct 9</h2><ul class="rows"><li class="ev" id="e-f5caf17b-7d69-49e7-8386-dbd5a61494f3" data-end="1791583200000"><a class="t" href="/e/f5caf17b-7d69-49e7-8386-dbd5a61494f3?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Fri, Oct 9 · 10:00 AM – 5:00 PM</div></li><li class="ev" id="e-32d17c2d-c159-4f4a-abbb-744aa1bdb17f" data-end="1791583200000"><a class="t" href="/e/32d17c2d-c159-4f4a-abbb-744aa1bdb17f?ref=parasol">Parasol | Glamourpuss Trunk Show</a><div class="m">Fri, Oct 9 · 2:00 PM – 5:00 PM</div></li></ul></section>
-<section><h2>Saturday, Oct 10</h2><ul class="rows"><li class="ev" id="e-4b4953bc-ccaa-44c4-b50c-42006ec32958" data-end="1791669600000"><a class="t" href="/e/4b4953bc-ccaa-44c4-b50c-42006ec32958?ref=parasol">Parasol | Glamourpuss Trunk Show</a><div class="m">Sat, Oct 10 · 10:00 AM – 5:00 PM</div></li><li class="ev" id="e-517ff3a5-18fe-4a94-b9f0-e866994431f5" data-end="1791669600000"><a class="t" href="/e/517ff3a5-18fe-4a94-b9f0-e866994431f5?ref=parasol">Parasol | Hayley Style Trunk Show</a><div class="m">Sat, Oct 10 · 10:00 AM – 5:00 PM</div></li></ul></section>
-<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Parasol</h1></div></div>
+<p class="quiet">Nothing posted for the next seven days.</p>
 <a class="foot" id="pitch" href="/?ref=parasol" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
-<p class="stamp">Updated Wed, Oct 7, 12:26 PM beach time</p>
+<p class="stamp">Updated Wed, Oct 7, 7:22 PM beach time</p>
 <script>
 (function(){
   function ping(n){
@@ -47,23 +44,6 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
   ping('embed_view');
   var a=document.getElementById('pitch');
   if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
-})();
-</script>
-<script>
-(function(){
-  try{
-    var tick=function(){
-      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
-      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
-      var box=document.querySelectorAll('section,details');
-      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
-      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
-      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
-      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
-      return rows.length;
-    };
-    if(tick())setInterval(tick,60000);
-  }catch(e){}
 })();
 </script>
 </body></html>
