@@ -26,9 +26,10 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 </style>
 </head><body>
 <div class="hd"><div><p class="over">THIS WEEK AT</p><h1>WaterColor</h1></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.3239,-86.1436">Directions</a></div>
-<p class="quiet">Nothing posted for the next seven days.</p>
+<section><h2>Thursday, Oct 15</h2><ul class="rows"><li class="ev" id="e-3f0353e4-1206-4224-b4a5-0d513d294547" data-end="1792116000000"><a class="t" href="/e/3f0353e4-1206-4224-b4a5-0d513d294547?ref=watercolor">Harvest Wine &amp; Food Festival: Celebrity Winemakers Dinners</a><div class="m">Thu, Oct 15 · 6:00 PM – 9:00 PM</div></li></ul></section>
+<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
 <a class="foot" id="pitch" href="/?ref=watercolor" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
-<p class="stamp">Updated Thu, Oct 8, 12:25 PM beach time</p>
+<p class="stamp">Updated Thu, Oct 8, 7:36 PM beach time</p>
 <script>
 (function(){
   function ping(n){
@@ -44,6 +45,23 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
   ping('embed_view');
   var a=document.getElementById('pitch');
   if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+<script>
+(function(){
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
 })();
 </script>
 </body></html>
