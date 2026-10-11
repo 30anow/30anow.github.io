@@ -62,8 +62,10 @@ const NO_NAME_TITLE = /^(live band|dj set|live dj set|guest dj|resident dj|speci
 // "Open Mic with Jared Herzog" is the open mic he hosts, not his show. The
 // importer files an open mic under music, so without this two bars' "Open
 // Mic" rows are one act with a page here whose performer is Open Mic. The
-// phrase, not its words: "Mic Drop" and "Happy Jack" are names.
-const NIGHT_PHRASE = /(?:^| )(?:open mic|open mike|happy hour|jam session)(?: |$)/;
+// phrase, not its words: "Mic Drop" and "Happy Jack" are names. A shop's
+// pop-up or trunk show is the same kind of thing: "Welded Jewelry Pop-Up with
+// Spark Collection 30A" had a page here on the first day (11 Oct 2026).
+const NIGHT_PHRASE = /(?:^| )(?:open mic|open mike|happy hour|jam session|pop up|popup|trunk show)(?: |$)/;
 
 // A word that says what kind of night it is, never who is playing.
 // "Funday" is the bar's Sunday with no name after it (with one, the framing

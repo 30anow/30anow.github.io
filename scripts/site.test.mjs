@@ -1983,7 +1983,7 @@ const ACT_FIXTURE = JSON.parse(ACT_FIXTURE_TEXT);
 const ACT_TABLE = ACT_FIXTURE.table;
 // The hash of the fixture as parsed, so a checkout's line endings do not
 // count. The same line is in the app repo's tests/actKey.test.ts.
-const ACT_FIXTURE_SHA256 = '9a6ac5550cf02733f0eb241668b05d54910c703215760eff2374cd285e0af349';
+const ACT_FIXTURE_SHA256 = 'cb316c0eff1a07a1ca6c2b26a2ec66798131140ef8d902eb97589543e2b65aa5';
 
 describe('actKey: the same act the app names', () => {
   it('reads the fixture the app repo pins too, by its hash', () => {
