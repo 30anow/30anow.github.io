@@ -1,0 +1,206 @@
+{
+  "about": "Act identity, pinned for two repos (10 Oct 2026). The app reads this as tests/fixtures/act-titles.json (tests/actKey.test.ts, tests/actPage.test.ts) and the Pages repo as scripts/act-titles.json (scripts/site.test.mjs); the two files are one file, and each test pins its hash, so a change to one copy fails until the other has it too. table: a title, its venue and category, and the act key it must get (null: no act). Rows not marked synthetic are listings copied from the importer output of 24 Sep 2026 (scraper/events.json, which is not in git and which no test reads). listings: further rows of that scrape, for the venue counts and for rows that are not music. calendar and moments: one week of rows and, at each moment, the acts with a page (two or more shows not yet ended): the name shown, the path, the shows left and the venues. Both repos must answer the same for every moment. A row filed under another category is one of an act's shows once a music row not yet ended names the same act (10 Oct 2026): the importer files a daytime set under community and a blurb's 'friends and family' under family, so Jared Herzog's set at Crackings, filed under community, is counted in his week. elsewhere: a second week, read at the same three moments, of the acts the scrape of 24 Sep had part of under another category, moved into this week - Chris Johnson's Thursday and Jason Tyler Findley's Sunday under community, the Pickled Pickers' Sunday at AJ's under family. Findley, with one music row, has a page; Christy Larsen, community both Saturdays, founds no act and has none.",
+  "table": [
+    {"title":"Jared Herzog","venue":"Pickle's Sandbar","category":"music","key":"jared herzog"},
+    {"title":"Dion Jones & Neon Tears","venue":"AJ's Grayton Beach","category":"music","key":"dion jones and neon tears"},
+    {"title":"Dion Jones & The Neon Tears","venue":"AJ's Grayton Beach","category":"music","key":"dion jones and neon tears"},
+    {"title":"Dion Jones and The Neon Tears","venue":"Stinky's Bait Shack","category":"music","key":"dion jones and neon tears"},
+    {"title":"Pickled Pickers","venue":"Red Fish Taco","category":"music","key":"pickled pickers"},
+    {"title":"The Pickled Pickers","venue":"AJ's Grayton Beach","category":"music","key":"pickled pickers"},
+    {"title":"Alex Napier-Main Stage","venue":"Old Florida Fish House","category":"music","key":"alex napier"},
+    {"title":"Sunday Funday with Will Thompson","venue":"Old Florida Fish House","category":"music","key":"will thompson"},
+    {"title":"Sunday Funday with Will Thompson Band","venue":"Old Florida Fish House","category":"music","key":"will thompson"},
+    {"title":"Live Music with Jared Herzog","venue":"Crackings","category":"music","key":"jared herzog","synthetic":true},
+    {"title":"MECO","venue":"Stinky's Bait Shack","category":"music","key":"meco"},
+    {"title":"Dwayne O'Brien","venue":"The Shrimp Shack & Boardwalk Bar","category":"music","key":"dwayne obrien"},
+    {"title":"Casey Kearney Band","venue":"Red Fish Taco","category":"music","key":"casey kearney"},
+    {"title":"Ronni Kay and The Amazing Band","venue":"The Big Chill 30A","category":"music","key":"ronni kay and amazing band"},
+    {"title":"The Red Bar Jazz Band","venue":"The Red Bar","category":"music","key":"red bar jazz"},
+    {"title":"Bill Garrett + John Reinlie","venue":"Stinky's Bait Shack","category":"music","key":"bill garrett and john reinlie"},
+    {"title":"Rhino Jockeys + Matt Miller","venue":"Stinky's Bait Shack","category":"music","key":"rhino jockeys and matt miller"},
+    {"title":"Jones & Company","venue":"AJ's Grayton Beach","category":"music","key":"jones and company"},
+    {"title":"Casey Jordan and Nicole Rayne","venue":"Peddlers Pavilion","category":"music","key":"casey jordan and nicole rayne"},
+    {"title":"Jared Herzog & Friends","venue":"Crackings","category":"music","key":"jared herzog and friends","synthetic":true},
+    {"title":"Christon Birge Duo","venue":"AJ's Grayton Beach","category":"music","key":"christon birge duo"},
+    {"title":"DJ Boom","venue":"AJ's Grayton Beach","category":"music","key":"dj boom"},
+    {"title":"DJ Vladi","venue":"Shades Bar & Grill","category":"music","key":"dj vladi"},
+    {"title":"WTB Motown Tribute","venue":"Old Florida Fish House","category":"music","key":"wtb motown tribute"},
+    {"title":"Live Music","venue":"Fish Out of Water","category":"music","key":null},
+    {"title":"Live DJ","venue":"The Red Bar","category":"music","key":null},
+    {"title":"Dueling Pianos","venue":"Old Florida Fish House","category":"music","key":null},
+    {"title":"Live Music by the Lake","venue":"Old Florida Fish House","category":"music","key":null},
+    {"title":"Watersound First Friday Concert Series","venue":"Watersound Town Center","category":"music","key":null},
+    {"title":"First Friday Concert Series: The Mammals","venue":"The Pavilion at Watersound Town Center","category":"music","key":null},
+    {"title":"Sounds of Seaside","venue":"Seaside Amphitheater","category":"music","key":null},
+    {"title":"Wine + Song","venue":"NEAT Bottle Shop","category":"music","key":null},
+    {"title":"30A Songwriters Festival","venue":"Venues along 30A","category":"music","key":null},
+    {"title":"Oktoberfest 2026 - Where Bavaria Meets the Beach","venue":"30Avenue","category":"music","key":null},
+    {"title":"AJ's Grayton Brunch & Live Music","venue":"AJ's Grayton Beach","category":"music","key":null},
+    {"title":"DJ Dance Party w/ DJ Dan","venue":"The Big Chill 30A","category":"music","key":null},
+    {"title":"Trivia Night","venue":"AJ's Grayton Beach","category":"nightlife","key":null},
+    {"title":"Garden & Gun Society and Friends Gathering at Alys Beach","venue":"Alys Beach","category":"community","key":null},
+    {"title":"Open Mic","venue":"Crackings","category":"music","key":null,"synthetic":true},
+    {"title":"Open Mic with Jared Herzog","venue":"Crackings","category":"music","key":null,"synthetic":true},
+    {"title":"Open-Mic Thursdays","venue":"Pickle's Sandbar","category":"music","key":null,"synthetic":true},
+    {"title":"Happy Hour","venue":"Stinky's Bait Shack","category":"music","key":null,"synthetic":true},
+    {"title":"Happy Hour with Jared Herzog","venue":"Crackings","category":"music","key":null,"synthetic":true},
+    {"title":"Jam Session","venue":"The Red Bar","category":"music","key":null,"synthetic":true},
+    {"title":"Sunday Funday","venue":"Old Florida Fish House","category":"music","key":null,"synthetic":true},
+    {"title":"Karaoke with DJ Dan","venue":"The Big Chill 30A","category":"music","key":null,"synthetic":true},
+    {"title":"Bingo & Beats","venue":"Stinky's Bait Shack","category":"music","key":null,"synthetic":true},
+    {"title":"Trivia","venue":"Crackings","category":"music","key":null,"synthetic":true},
+    {"title":"Live Band","venue":"The Big Chill 30A","category":"music","key":null,"synthetic":true},
+    {"title":"DJ Set","venue":"Shades Bar & Grill","category":"music","key":null,"synthetic":true},
+    {"title":"Live DJ Set","venue":"Shades Bar & Grill","category":"music","key":null,"synthetic":true},
+    {"title":"TBA","venue":"AJ's Grayton Beach","category":"music","key":null,"synthetic":true},
+    {"title":"TBD","venue":"AJ's Grayton Beach","category":"music","key":null,"synthetic":true},
+    {"title":"Band TBA","venue":"AJ's Grayton Beach","category":"music","key":null,"synthetic":true},
+    {"title":"Special Guest","venue":"AJ's Grayton Beach","category":"music","key":null,"synthetic":true},
+    {"title":"Guest DJ","venue":"Shades Bar & Grill","category":"music","key":null,"synthetic":true},
+    {"title":"Resident DJ","venue":"Shades Bar & Grill","category":"music","key":null,"synthetic":true},
+    {"title":"Local Artist Showcase","venue":"Peddlers Pavilion","category":"music","key":null,"synthetic":true},
+    {"title":"Mic Drop","venue":"Crackings","category":"music","key":"mic drop","synthetic":true},
+    {"title":"Jam Therapy","venue":"Crackings","category":"music","key":"jam therapy","synthetic":true},
+    {"title":"Happy Jack","venue":"Crackings","category":"music","key":"happy jack","synthetic":true},
+    {"title":"The Guest List","venue":"Crackings","category":"music","key":"guest list","synthetic":true},
+    {"title":"Jared Herzog ♫","venue":"Crackings","category":"music","key":"jared herzog","synthetic":true},
+    {"title":"Жар-птица","venue":"The Red Bar","category":"music","key":null,"synthetic":true}
+  ],
+  "listings": [
+    {"title":"Jared Herzog","venue":"Crackings","category":"music"},
+    {"title":"Jared Herzog","venue":"Peddlers Pavilion","category":"music"},
+    {"title":"Jared Herzog","venue":"The Shrimp Shack & Boardwalk Bar","category":"music"},
+    {"title":"Alex Napier & Daybreak","venue":"Old Florida Fish House","category":"community"},
+    {"title":"Chris Johnson","venue":"Shunk Gulley Oyster Bar","category":"community"},
+    {"title":"Christy Larsen","venue":"Crackings","category":"community"},
+    {"title":"Jason Tyler Findley","venue":"AJ's Grayton Beach","category":"community"},
+    {"title":"Keylan Rayne","venue":"Crackings","category":"community"},
+    {"title":"Sunday Funday with Killer Robot Army","venue":"Old Florida Fish House","category":"community"},
+    {"title":"Watersound Origins Porchfest","venue":"Watersound Town Center","category":"community"},
+    {"title":"Church on the Beach","venue":"Ed Walline Beach Access","category":"community"},
+    {"title":"Cars of 30A","venue":"Alys Beach","category":"community"},
+    {"title":"Seaside New Year's Eve Celebration","venue":"Seaside Amphitheater","category":"community"},
+    {"title":"Pickled Pickers","venue":"AJ's Grayton Beach","category":"family"},
+    {"title":"Fall Musical Revue","venue":"Seaside Amphitheater","category":"family"},
+    {"title":"Fall Children’s Theater Show","venue":"Seaside Amphitheater","category":"family"},
+    {"title":"Family Movie Night: Toy Story 4","venue":"The Big Chill 30A","category":"family"},
+    {"title":"Central Square Cinema","venue":"Seaside Amphitheater","category":"family"},
+    {"title":"Vinyasa Yoga Class","venue":"Seaside Pavilion","category":"fitness"},
+    {"title":"Pickleball: Open Play","venue":"Tennis & Pickleball Courts","category":"fitness"},
+    {"title":"Walking Club","venue":"Post Office","category":"fitness"},
+    {"title":"Night Time Glow Paddle","venue":"The Boathouse at WaterColor","category":"fitness"},
+    {"title":"Brunch","venue":"Stinky's Fish Camp","category":"food"},
+    {"title":"Weekend Brunch","venue":"Idyll Hound Proper","category":"food"},
+    {"title":"Wine Walk","venue":"Gulf Place","category":"food"},
+    {"title":"Pirate Murder Mystery Dinner","venue":"AJ's Grayton Beach","category":"food"},
+    {"title":"Harvest Wine & Food Festival","venue":"WaterColor","category":"food"},
+    {"title":"30A Farmers Market","venue":"Rosemary Beach","category":"market"},
+    {"title":"Seaside Farmers Market","venue":"Seaside’s Central Square","category":"market"},
+    {"title":"College Football on the Jumbotron","venue":"The Big Chill 30A","category":"nightlife"},
+    {"title":"Free Bingo","venue":"Stinky's Bait Shack","category":"nightlife"},
+    {"title":"Karaoke","venue":"AJ's Grayton Beach","category":"nightlife"},
+    {"title":"Karaoke Night","venue":"AJ's Grayton Beach","category":"nightlife"},
+    {"title":"Steve's Music Bingo","venue":"Stinky's Bait Shack","category":"nightlife"},
+    {"title":"Watersound Block Party","venue":"Watersound Town Center","category":"nightlife"},
+    {"title":"UGA Football and SEC Football","venue":"Old Florida Fish House","category":"nightlife"},
+    {"title":"Monday Art Studio with Sparkleberry","venue":"The Big Chill 30A","category":"art"}
+  ],
+  "calendar": [
+    {"title":"Dion Jones & Neon Tears","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-09T23:00:00Z","ends_at":"2026-10-10T02:00:00Z"},
+    {"title":"Dion Jones & Neon Tears","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-10T23:00:00Z","ends_at":"2026-10-11T02:00:00Z"},
+    {"title":"Dion Jones & The Neon Tears","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-12T23:00:00Z","ends_at":"2026-10-13T02:00:00Z"},
+    {"title":"Dion Jones and The Neon Tears","venue":"Stinky's Bait Shack","category":"music","starts_at":"2026-10-14T00:00:00Z","ends_at":"2026-10-14T03:00:00Z"},
+    {"title":"Dion Jones and The Neon Tears","venue":"Stinky's Bait Shack","category":"music","starts_at":"2026-10-17T00:00:00Z","ends_at":"2026-10-17T03:00:00Z"},
+    {"title":"Dion Jones & Neon Tears","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-21T23:00:00Z","ends_at":"2026-10-22T02:00:00Z"},
+    {"title":"Dion Jones & Neon Tears","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-28T23:00:00Z","ends_at":"2026-10-29T02:00:00Z"},
+    {"title":"Jared Herzog","venue":"The Red Bar","category":"music","starts_at":"2026-10-14T23:00:00Z","ends_at":"2026-10-15T02:00:00Z"},
+    {"title":"Jared Herzog","venue":"Red Bar","category":"music","starts_at":"2026-10-16T23:00:00Z","ends_at":"2026-10-17T02:00:00Z"},
+    {"title":"Live Music with Jared Herzog ♫","venue":"Peddlers Pavilion","category":"music","starts_at":"2026-10-17T23:00:00Z","ends_at":"2026-10-18T02:30:00Z"},
+    {"title":"Jared Herzog","venue":"Crackings","category":"community","starts_at":"2026-10-13T23:00:00Z","ends_at":"2026-10-14T02:00:00Z"},
+    {"title":"Sunday Funday with Will Thompson","venue":"Old Florida Fish House","category":"music","starts_at":"2026-10-11T18:00:00Z","ends_at":"2026-10-11T21:00:00Z"},
+    {"title":"Sunday Funday with Will Thompson Band","venue":"Old Florida Fish House","category":"music","starts_at":"2026-10-18T18:00:00Z","ends_at":"2026-10-18T21:00:00Z"},
+    {"title":"Sunday Funday with Will Thompson Band","venue":"Old Florida Fish House","category":"music","starts_at":"2026-10-25T18:00:00Z","ends_at":"2026-10-25T21:00:00Z"},
+    {"title":"MECO","venue":"Stinky's Bait Shack","category":"music","starts_at":"2026-10-18T00:00:00Z","ends_at":"2026-10-18T03:00:00Z"},
+    {"title":"Live Music","venue":"Fish Out of Water","category":"music","starts_at":"2026-10-12T23:00:00Z","ends_at":"2026-10-13T02:00:00Z"},
+    {"title":"Live Music","venue":"Fish Out of Water","category":"music","starts_at":"2026-10-13T23:00:00Z","ends_at":"2026-10-14T02:00:00Z"},
+    {"title":"Open Mic","venue":"Crackings","category":"music","starts_at":"2026-10-14T23:00:00Z","ends_at":"2026-10-15T02:00:00Z"},
+    {"title":"Open Mic","venue":"Pickle's Sandbar","category":"music","starts_at":"2026-10-15T23:00:00Z","ends_at":"2026-10-16T02:00:00Z"},
+    {"title":"Zack Miller","venue":"Pickle's Sandbar","category":"music","starts_at":"2026-10-15T16:00:00Z","ends_at":"2026-10-15T19:00:00Z"},
+    {"title":"Zack Miller","venue":"Crackings","category":"music","starts_at":"2026-10-16T23:00:00Z","ends_at":"2026-10-17T02:00:00Z"}
+  ],
+  "moments": [
+    {
+      "name": "Sunday noon: the spelling of the two nights just ended names nothing",
+      "now": "2026-10-11T17:00:00Z",
+      "acts": [
+        {"key":"dion jones and neon tears","label":"Dion Jones and The Neon Tears","slug":"dion-jones-and-neon-tears","shows":5,"venues":2},
+        {"key":"jared herzog","label":"Jared Herzog","slug":"jared-herzog","shows":4,"venues":3},
+        {"key":"will thompson","label":"Will Thompson Band","slug":"will-thompson","shows":3,"venues":1},
+        {"key":"zack miller","label":"Zack Miller","slug":"zack-miller","shows":2,"venues":2}
+      ]
+    },
+    {
+      "name": "Monday noon: the band posts its page",
+      "now": "2026-10-12T17:00:00Z",
+      "acts": [
+        {"key":"dion jones and neon tears","label":"Dion Jones and The Neon Tears","slug":"dion-jones-and-neon-tears","shows":5,"venues":2},
+        {"key":"jared herzog","label":"Jared Herzog","slug":"jared-herzog","shows":4,"venues":3},
+        {"key":"will thompson","label":"Will Thompson Band","slug":"will-thompson","shows":2,"venues":1},
+        {"key":"zack miller","label":"Zack Miller","slug":"zack-miller","shows":2,"venues":2}
+      ]
+    },
+    {
+      "name": "Thursday noon: the name shown has changed, the page has not moved",
+      "now": "2026-10-15T17:00:00Z",
+      "acts": [
+        {"key":"dion jones and neon tears","label":"Dion Jones & Neon Tears","slug":"dion-jones-and-neon-tears","shows":3,"venues":2},
+        {"key":"jared herzog","label":"Jared Herzog","slug":"jared-herzog","shows":2,"venues":2},
+        {"key":"will thompson","label":"Will Thompson Band","slug":"will-thompson","shows":2,"venues":1},
+        {"key":"zack miller","label":"Zack Miller","slug":"zack-miller","shows":2,"venues":2}
+      ]
+    }
+  ],
+  "elsewhere": {
+    "calendar": [
+      {"title":"Chris Johnson","venue":"Shunk Gulley Oyster Bar","category":"community","starts_at":"2026-10-15T21:00:00Z","ends_at":"2026-10-16T01:00:00Z"},
+      {"title":"Chris Johnson","venue":"Shunk Gulley Oyster Bar","category":"music","starts_at":"2026-10-16T21:00:00Z","ends_at":"2026-10-17T01:00:00Z"},
+      {"title":"Jason Tyler Findley","venue":"AJ's Grayton Beach","category":"community","starts_at":"2026-10-18T16:00:00Z","ends_at":"2026-10-18T20:00:00Z"},
+      {"title":"Jason Tyler Findley","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-21T21:00:00Z","ends_at":"2026-10-22T01:00:00Z"},
+      {"title":"Pickled Pickers","venue":"Red Fish Taco","category":"music","starts_at":"2026-10-10T23:00:00Z","ends_at":"2026-10-11T02:00:00Z"},
+      {"title":"Pickled Pickers","venue":"AJ's Grayton Beach","category":"family","starts_at":"2026-10-11T22:00:00Z","ends_at":"2026-10-12T01:00:00Z"},
+      {"title":"The Pickled Pickers","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-18T22:00:00Z","ends_at":"2026-10-19T01:00:00Z"},
+      {"title":"The Pickled Pickers","venue":"AJ's Grayton Beach","category":"music","starts_at":"2026-10-25T22:00:00Z","ends_at":"2026-10-26T01:00:00Z"},
+      {"title":"Christy Larsen","venue":"Crackings","category":"community","starts_at":"2026-10-17T14:30:00Z","ends_at":"2026-10-17T17:30:00Z"},
+      {"title":"Christy Larsen","venue":"Crackings","category":"community","starts_at":"2026-10-24T14:30:00Z","ends_at":"2026-10-24T17:30:00Z"}
+    ],
+    "moments": [
+      {
+        "name": "Sunday noon: the Pickers' family-filed set is that evening",
+        "now": "2026-10-11T17:00:00Z",
+        "acts": [
+          {"key":"chris johnson","label":"Chris Johnson","slug":"chris-johnson","shows":2,"venues":1},
+          {"key":"jason tyler findley","label":"Jason Tyler Findley","slug":"jason-tyler-findley","shows":2,"venues":1},
+          {"key":"pickled pickers","label":"The Pickled Pickers","slug":"pickled-pickers","shows":3,"venues":1}
+        ]
+      },
+      {
+        "name": "Monday noon: Findley has a page on one music row",
+        "now": "2026-10-12T17:00:00Z",
+        "acts": [
+          {"key":"chris johnson","label":"Chris Johnson","slug":"chris-johnson","shows":2,"venues":1},
+          {"key":"jason tyler findley","label":"Jason Tyler Findley","slug":"jason-tyler-findley","shows":2,"venues":1},
+          {"key":"pickled pickers","label":"The Pickled Pickers","slug":"pickled-pickers","shows":2,"venues":1}
+        ]
+      },
+      {
+        "name": "Thursday noon: Chris Johnson's community-filed set is tonight",
+        "now": "2026-10-15T17:00:00Z",
+        "acts": [
+          {"key":"chris johnson","label":"Chris Johnson","slug":"chris-johnson","shows":2,"venues":1},
+          {"key":"jason tyler findley","label":"Jason Tyler Findley","slug":"jason-tyler-findley","shows":2,"venues":1},
+          {"key":"pickled pickers","label":"The Pickled Pickers","slug":"pickled-pickers","shows":2,"venues":1}
+        ]
+      }
+    ]
+  }
+}

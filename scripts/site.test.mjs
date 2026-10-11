@@ -2,10 +2,18 @@
 // before the generator so a broken page never reaches the site. Every
 // assertion holds in any machine timezone; that is the point of beach time.
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
+import { ACT_PAGE_MIN, actKey, actLabel, actSlug, actTitleKey, shownTitle } from './actKey.mjs';
 import {
+  ACT_ROUTE_IN_BINARY,
+  ACT_SLUG,
+  actAppArgument,
+  actFiles,
+  actJsonLd,
+  actPages,
   addBeachDays,
   APP_STORE_PROVIDER_TOKEN,
   APP_STORE_URL,
@@ -22,6 +30,7 @@ import {
   embedWeek,
   esc,
   eventJsonLd,
+  FEED_APP_LINK,
   FOOTER_LOG_ARGS,
   FOOTER_SHIPPED,
   groupByDay,
@@ -36,7 +45,12 @@ import {
   parsePublished,
   priceNumber,
   PUBLISHED_EMBEDS,
+  publishedActs,
   publishedStrips,
+  quietActs,
+  renderAct,
+  renderActQuiet,
+  renderActsIndex,
   renderEmbed,
   renderLineup,
   renderStub,
@@ -47,6 +61,8 @@ import {
   rowHtml,
   safeUrl,
   seedPublished,
+  seedPublishedActs,
+  shareFooter,
   shrinkRefusal,
   sitemapXml,
   slugify,
@@ -692,7 +708,8 @@ describe('pages', () => {
     assert.match(html, /Tonight Trivia/);
     assert.doesNotMatch(html, /Lunch Set/);
     assert.doesNotMatch(html, /Jazz Night/);
-    assert.match(html, /app-argument=thirtyanow:\/\/feed"/);
+    // The feed, under the tag that tells it from the widget's own link.
+    assert.match(html, /app-argument=thirtyanow:\/\/feed\?s=web"/);
     assert.match(html, /<a class="live" href="\/feed\?s=seo-tonight">/);
   });
 
@@ -866,6 +883,10 @@ describe('arrival tags', () => {
     assert.match(renderVenue(venues[0], now).html, /class="live" href="[^"]*\?s=seo-venue"/);
     assert.match(renderVenuesIndex(venues, now).html, /class="live" href="\/\?s=seo-venue-index"/);
     assert.match(renderStub(rows[0], { now }).html, /class="live" href="[^"]*\?s=seo-event"/);
+    const acts = actPages([row({ title: 'Jared Herzog' }), row({ title: 'Jared Herzog' })], now);
+    assert.match(renderAct(acts[0], now).html, /class="live" href="\/act\/jared-herzog\?s=seo-act"/);
+    assert.match(renderActsIndex(acts, now).html, /class="live" href="\/feed\?s=seo-act-index"/);
+    assert.equal(ARRIVAL.act, 'seo-act');
   });
 
   it('names the page that fed the click on the row link, not just the stub', () => {
@@ -1906,8 +1927,25 @@ describe('sitemap and robots', () => {
     assert.match(xml, /<loc>https:\/\/30anow.github.io\/tonight\/<\/loc>/);
     assert.match(xml, /<loc>https:\/\/30anow.github.io\/venues\/the-red-bar\/<\/loc>/);
     for (const r of rows) assert.match(xml, new RegExp(`<loc>https://30anow.github.io/e/${r.id}</loc>`));
-    assert.equal((xml.match(/<url>/g) || []).length, 4 + 1 + 3);
+    // The four listing pages and the acts index, the venue, the stubs.
+    assert.match(xml, /<loc>https:\/\/30anow.github.io\/acts\/<\/loc>/);
+    assert.equal((xml.match(/<url>/g) || []).length, 5 + 1 + 3);
     assert.match(xml, /<lastmod>2026-09-08T17:00:00.000Z<\/lastmod>/);
+  });
+  it('lists every act page after the venues and before the stubs', () => {
+    const rows = [
+      row({ title: 'Jared Herzog' }),
+      row({ title: 'Jared Herzog', venue: 'Crackings' }),
+      row({ title: 'MECO', venue: "Stinky's Bait Shack" }),
+    ];
+    const acts = actPages(rows, now);
+    assert.deepEqual(acts.map((a) => a.slug), ['jared-herzog']);
+    const xml = sitemapXml(rows, [], now, acts);
+    const at = (s) => xml.indexOf(s);
+    assert.ok(at('/acts/</loc>') > at('/venues/</loc>'));
+    assert.ok(at('/acts/jared-herzog/</loc>') > at('/acts/</loc>'));
+    assert.ok(at(`/e/${rows[0].id}</loc>`) > at('/acts/jared-herzog/</loc>'));
+    assert.doesNotMatch(xml, /\/acts\/meco\//);
   });
   it('points crawlers at the sitemap and away from account screens', () => {
     const txt = robotsTxt();
@@ -1920,5 +1958,846 @@ describe('sitemap and robots', () => {
     // included — and "/" is the first URL in sitemap.xml and the App Store
     // marketing URL. Blocking _expo/ leaves Googlebot the unhydrated shell.
     assert.doesNotMatch(robotsTxt(), /_expo/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Acts (6 Oct 2026)
+// ---------------------------------------------------------------------------
+
+/**
+ * The act behind a title (actKey.mjs), pinned to the spellings the sources
+ * actually write. Everything is read from scripts/act-titles.json: the
+ * table of titles and the key each must get, and one week of rows read at
+ * three moments. The app repo holds the same file as
+ * tests/fixtures/act-titles.json and runs it through its own copy of the
+ * rules (tests/actKey.test.ts, tests/actPage.test.ts there): the app's act
+ * page and these /acts/<slug>/ pages must name the same act, under the
+ * same name, at the same path, for every row - or a band's share link
+ * opens a page about someone else, or none. Both tests pin the file's
+ * hash, so neither copy changes alone. A row marked `synthetic` pins a
+ * rule the scrape it was copied from (24 Sep 2026) held no example of.
+ */
+const ACT_FIXTURE_TEXT = readFileSync(new URL('./act-titles.json', import.meta.url), 'utf8');
+const ACT_FIXTURE = JSON.parse(ACT_FIXTURE_TEXT);
+const ACT_TABLE = ACT_FIXTURE.table;
+// The hash of the fixture as parsed, so a checkout's line endings do not
+// count. The same line is in the app repo's tests/actKey.test.ts.
+const ACT_FIXTURE_SHA256 = '9a6ac5550cf02733f0eb241668b05d54910c703215760eff2374cd285e0af349';
+
+describe('actKey: the same act the app names', () => {
+  it('reads the fixture the app repo pins too, by its hash', () => {
+    const sha = createHash('sha256').update(JSON.stringify(JSON.parse(ACT_FIXTURE_TEXT))).digest('hex');
+    assert.equal(sha, ACT_FIXTURE_SHA256);
+  });
+  it('keys every row of the table as the app does', () => {
+    assert.ok(ACT_TABLE.filter((t) => !t.synthetic).length >= 30);
+    for (const t of ACT_TABLE) {
+      assert.equal(actKey({ title: t.title, venue: t.venue, category: t.category }), t.key, t.title);
+    }
+    // The further listings of that scrape: a row that is not music founds
+    // no act, though it may be a show of one (the describe after next).
+    const notMusic = ACT_FIXTURE.listings.filter((e) => e.category !== 'music');
+    assert.ok(notMusic.length >= 30);
+    for (const e of notMusic) assert.equal(actKey(e), null, e.title);
+  });
+  it('gives a night that is no one’s show no key, and so no page', () => {
+    // The importer files an open mic under music: two bars' "Open Mic" rows
+    // were one act, with a page here whose performer was Open Mic.
+    for (const title of ['Open Mic', 'Open Mic with Jared Herzog', 'Open-Mic Thursdays', 'Happy Hour', 'Happy Hour with Jared Herzog', 'Jam Session', 'Sunday Funday', 'Karaoke with DJ Dan', 'Bingo & Beats', 'Trivia']) {
+      assert.equal(actKey({ title, category: 'music' }), null, title);
+    }
+    for (const title of ['Live Band', 'DJ Set', 'Live DJ Set', 'TBA', 'TBD', 'Band TBA', 'Special Guest', 'Guest DJ', 'Resident DJ', 'Local Artist Showcase']) {
+      assert.equal(actKey({ title, category: 'music' }), null, title);
+    }
+    // The phrase and not its words; no genre word is a kind word.
+    assert.equal(actKey({ title: 'Mic Drop', category: 'music' }), 'mic drop');
+    assert.equal(actKey({ title: 'Jam Therapy', category: 'music' }), 'jam therapy');
+    assert.equal(actKey({ title: 'Happy Jack', category: 'music' }), 'happy jack');
+    assert.equal(actKey({ title: 'The Guest List', category: 'music' }), 'guest list');
+    assert.equal(actKey({ title: 'The Red Bar Jazz Band', venue: 'The Red Bar', category: 'music' }), 'red bar jazz');
+    const now = noonOn('2026-09-08');
+    const mics = [
+      row({ title: 'Open Mic', venue: 'Crackings' }),
+      row({ title: 'Open Mic', venue: "Pickle's Sandbar", starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+      row({ title: 'Happy Hour', venue: 'Crackings' }),
+      row({ title: 'Happy Hour', venue: 'Crackings', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    ];
+    assert.deepEqual(actPages(mics, now), []);
+    assert.doesNotMatch(sitemapXml(mics, [], now, actPages(mics, now)), /\/acts\/[a-z]/);
+  });
+  it('makes the key the page’s address: a to z and digits, its slug the key with dashes, one per act', () => {
+    const keys = [...new Set(ACT_TABLE.map((t) => t.key).filter((k) => k !== null))];
+    assert.ok(keys.length >= 20);
+    for (const key of keys) {
+      assert.match(key, /^[a-z0-9]+(?: [a-z0-9]+)*$/);
+      assert.equal(actSlug(key), key.split(' ').join('-'));
+      // Read back as a title, as the app reads a slug it does not hold.
+      assert.equal(actKey({ title: actSlug(key), category: 'music' }), key);
+    }
+    assert.equal(new Set(keys.map(actSlug)).size, keys.length);
+    // A sign a source hangs on a title is not a second act, and a name
+    // with no a to z in it has no path, so it is no act.
+    assert.equal(actKey({ title: 'Jared Herzog ♫', category: 'music' }), 'jared herzog');
+    assert.equal(actKey({ title: '🎸 Jared Herzog 🎸', category: 'music' }), 'jared herzog');
+    assert.equal(actKey({ title: 'Жар-птица', category: 'music' }), null);
+    assert.equal(actKey({ title: 'Beyoncé Tribute Experience', category: 'music' }), 'beyonce tribute experience');
+  });
+  it('never splits a bill, and keys a row the same with or without its venue', () => {
+    for (const title of ['Bill Garrett + John Reinlie', 'Bill Garrett & John Reinlie', 'Bill Garrett and John Reinlie']) {
+      assert.equal(actKey({ title, category: 'music' }), 'bill garrett and john reinlie');
+    }
+    for (const t of ACT_TABLE) {
+      if (t.key !== null) assert.equal(actKey({ title: t.title, category: 'music' }), t.key, t.title);
+    }
+    assert.equal(actKey({ title: 'Jared Herzog', category: 'nightlife' }), null);
+  });
+  it('shows the most frequent spelling with the framing taken off, and slugs text as the app does', () => {
+    const now = noonOn('2026-09-08');
+    const rows = [
+      row({ title: 'Sunday Funday with Will Thompson Band', starts_at: '2026-09-11T23:00:00Z' }),
+      row({ title: 'Sunday Funday with Will Thompson', starts_at: '2026-09-10T23:00:00Z', ends_at: '2026-09-11T02:00:00Z' }),
+      row({ title: 'Sunday Funday with Will Thompson Band', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    ];
+    assert.equal(actLabel(rows, 'will thompson', now), 'Will Thompson Band');
+    // A tie goes to the soonest row.
+    assert.equal(actLabel(rows.slice(0, 2), 'will thompson', now), 'Will Thompson');
+    assert.equal(actLabel(rows, 'nobody', now), '');
+    // Only what has not ended is counted, as in the app, which holds rows
+    // two days back: by Friday noon Thursday's spelling is over, and by
+    // Saturday noon two of the three are - the one left names the act. With
+    // nothing ahead the rows in hand are counted.
+    assert.equal(actLabel(rows.slice(0, 2), 'will thompson', noonOn('2026-09-11')), 'Will Thompson Band');
+    assert.equal(actLabel(rows, 'will thompson', noonOn('2026-09-12')), 'Will Thompson Band');
+    assert.equal(actLabel(rows.slice(1, 2), 'will thompson', noonOn('2026-09-12')), 'Will Thompson');
+    assert.equal(actLabel(rows, 'will thompson', noonOn('2026-09-20')), 'Will Thompson Band');
+    assert.equal(shownTitle('Alex Napier-Main Stage'), 'Alex Napier');
+    assert.equal(actSlug('Dion Jones & The Neon Tears'), 'dion-jones-the-neon-tears');
+    assert.equal(actSlug("Dwayne O'Brien"), 'dwayne-obrien');
+    assert.equal(actSlug('Café Thirty-A Trio'), 'cafe-thirty-a-trio');
+    assert.equal(actSlug('…'), '');
+  });
+});
+
+describe('actPages', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [
+    row({ title: 'Jared Herzog', venue: "Pickle's Sandbar" }),
+    row({ title: 'Live Music with Jared Herzog', venue: 'Crackings', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    row({ title: 'Jared Herzog', venue: 'Crackings', starts_at: '2026-09-13T23:00:00Z', ends_at: '2026-09-14T02:00:00Z' }),
+    row({ title: 'Dion Jones & The Neon Tears', venue: "AJ's Grayton Beach" }),
+    row({ title: 'Dion Jones and The Neon Tears', venue: "Stinky's Bait Shack", starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    row({ title: 'MECO', venue: "Stinky's Bait Shack" }),
+    row({ title: 'Live Music', venue: 'Fish Out of Water' }),
+    row({ title: 'Live Music', venue: 'Fish Out of Water', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    row({ title: 'Alex Napier-Main Stage', venue: 'Old Florida Fish House', starts_at: '2026-09-01T23:00:00Z', ends_at: '2026-09-02T02:00:00Z' }),
+    row({ title: 'Alex Napier', venue: 'Old Florida Fish House', starts_at: '2026-09-07T23:00:00Z', ends_at: '2026-09-08T02:00:00Z' }),
+  ];
+
+  it('needs two rows still on or ahead, under every spelling, and skips what names no act', () => {
+    assert.equal(ACT_PAGE_MIN, 2);
+    const pages = actPages(rows, now);
+    // The path is the act's key with dashes, whichever spelling is shown.
+    assert.deepEqual(pages.map((p) => p.slug), ['dion-jones-and-neon-tears', 'jared-herzog']);
+    assert.equal(pages[0].label, 'Dion Jones & The Neon Tears');
+    const jared = pages.find((p) => p.slug === 'jared-herzog');
+    assert.equal(jared.label, 'Jared Herzog');
+    assert.equal(jared.events.length, 3);
+    assert.equal(jared.venues, 2);
+    assert.deepEqual(jared.events.map((e) => e.venue), ["Pickle's Sandbar", 'Crackings', 'Crackings']);
+    // MECO has one row, Live Music is no act, Alex Napier's two have ended.
+    assert.ok(!pages.some((p) => /meco|live-music|alex/.test(p.slug)));
+  });
+
+  it('keeps a row that is on now and drops one that has ended', () => {
+    const on = row({ title: 'MECO', venue: "Stinky's Bait Shack", starts_at: '2026-09-08T16:00:00Z', ends_at: '2026-09-08T18:00:00Z' });
+    const over = row({ title: 'MECO', venue: 'Crackings', starts_at: '2026-09-08T13:00:00Z', ends_at: '2026-09-08T15:00:00Z' });
+    assert.deepEqual(actPages([rows[5], on, over], now).map((p) => p.slug), ['meco']);
+    assert.deepEqual(actPages([rows[5], over], now), []);
+  });
+
+  it('is alphabetical by the spelling shown, and gives every act a path of its own that no spelling moves', () => {
+    // "Dion Jones & Neon Tears" is the band the two spellings above name
+    // (the key reads & as "and"), and with two more rows it is the most
+    // frequent spelling, so the name shown is its - and the path is where
+    // it was, under the key. A band called "Dion Jones Neon Tears" is a
+    // different key and so a different path; when the path was the slug of
+    // the name, which drops the &, the two collided and one got -2.
+    // Punctuation in a title is a space to the key, so "Jared-Herzog!" is
+    // Jared Herzog, not a page of its own.
+    const many = [
+      ...rows,
+      row({ title: 'Zack Miller', venue: "Pickle's Sandbar" }),
+      row({ title: 'Zack Miller', venue: 'Crackings' }),
+      row({ title: 'Jared-Herzog!', venue: 'The Red Bar' }),
+      row({ title: 'Dion Jones & Neon Tears', venue: 'Red Fish Taco' }),
+      row({ title: 'Dion Jones & Neon Tears', venue: 'Red Fish Taco', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+      row({ title: 'Dion Jones Neon Tears', venue: 'The Red Bar' }),
+      row({ title: 'Dion Jones Neon Tears', venue: 'The Red Bar', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+      row({ title: 'aj moss', venue: 'The Red Bar' }),
+      row({ title: 'aj moss', venue: 'The Red Bar', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    ];
+    const pages = actPages(many, now);
+    assert.deepEqual(
+      pages.map((p) => p.label),
+      ['aj moss', 'Dion Jones & Neon Tears', 'Dion Jones Neon Tears', 'Jared Herzog', 'Zack Miller'],
+    );
+    assert.deepEqual(
+      pages.map((p) => p.slug),
+      ['aj-moss', 'dion-jones-and-neon-tears', 'dion-jones-neon-tears', 'jared-herzog', 'zack-miller'],
+    );
+    assert.equal(new Set(pages.map((p) => p.slug)).size, pages.length);
+    for (const p of pages) assert.equal(p.slug, p.key.split(' ').join('-'));
+    assert.equal(pages.find((p) => p.slug === 'jared-herzog').events.length, 4);
+    // The same path as before the two extra rows changed the name shown.
+    assert.equal(actPages(rows, now).find((p) => p.key === 'dion jones and neon tears').slug, 'dion-jones-and-neon-tears');
+  });
+
+  it('counts a bar once however a source spells it, as the app does', () => {
+    const pair = [
+      row({ title: 'Jared Herzog', venue: 'The Red Bar' }),
+      row({ title: 'Jared Herzog', venue: 'Red Bar', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    ];
+    const [page] = actPages(pair, now);
+    assert.equal(page.venues, 1);
+    assert.match(renderAct(page, now).html, /Upcoming on 30A · 2 shows at 1 venue · updated /);
+    assert.equal(actPages([pair[0], row({ title: 'Jared Herzog', venue: 'Crackings' })], now)[0].venues, 2);
+  });
+});
+
+describe('a show the importer filed under something else (10 Oct 2026)', () => {
+  // The importer calls a listing with no keyword music only from 4 PM at
+  // one of its music bars, and a blurb's "friends and family" files a set
+  // under family. In the scrape of 24 Sep, Jason Tyler Findley's 11 AM
+  // Sunday set at AJ's came in as community and his Wednesday 4 PM one as
+  // music; the Pickled Pickers' Sunday set at AJ's as family beside four
+  // that were music. Counted by music rows alone, the page that says
+  // "Every show ... on one page" left those sets out, and Findley - two
+  // shows that week, one music row - had no page for the app to share.
+  const now = noonOn('2026-09-24');
+  const sunday = row({ title: 'Jason Tyler Findley', venue: "AJ's Grayton Beach", category: 'community', starts_at: '2026-09-27T16:00:00Z', ends_at: '2026-09-27T20:00:00Z' });
+  const wednesday = row({ title: 'Jason Tyler Findley', venue: "AJ's Grayton Beach", category: 'music', starts_at: '2026-09-30T21:00:00Z', ends_at: '2026-10-01T01:00:00Z' });
+
+  it('reads the act off any row’s title, and leaves founding one to a music row', () => {
+    assert.equal(actTitleKey(sunday), 'jason tyler findley');
+    assert.equal(actKey(sunday), null);
+    assert.equal(actKey(wednesday), 'jason tyler findley');
+    for (const t of ACT_TABLE) {
+      if (t.category === 'music') assert.equal(actTitleKey({ title: t.title, venue: t.venue }), t.key, t.title);
+    }
+    // On its own it says nothing of a row that is not music.
+    assert.equal(actTitleKey({ title: 'Church on the Beach', venue: 'Seaside Amphitheater' }), 'church on beach');
+  });
+
+  it('writes the page with the daytime set on it, once a music row ahead names the act', () => {
+    const [page] = actPages([sunday, wednesday], now);
+    assert.equal(page.slug, 'jason-tyler-findley');
+    assert.equal(page.label, 'Jason Tyler Findley');
+    assert.deepEqual(page.events, [sunday, wednesday]);
+    assert.equal(page.venues, 1);
+    // The Pickled Pickers' family-filed Sunday is on their page, in its place.
+    const pickers = [
+      row({ title: 'Pickled Pickers', venue: 'Red Fish Taco', category: 'music', starts_at: '2026-09-26T23:00:00Z', ends_at: '2026-09-27T02:00:00Z' }),
+      row({ title: 'Pickled Pickers', venue: "AJ's Grayton Beach", category: 'family', starts_at: '2026-09-27T22:00:00Z', ends_at: '2026-09-28T01:00:00Z' }),
+      row({ title: 'The Pickled Pickers', venue: "AJ's Grayton Beach", category: 'music', starts_at: '2026-10-04T22:00:00Z', ends_at: '2026-10-05T01:00:00Z' }),
+    ];
+    const [theirs] = actPages(pickers, now);
+    assert.deepEqual(theirs.events, pickers);
+    assert.equal(theirs.venues, 2);
+  });
+
+  it('makes no page of rows that no music row ahead names', () => {
+    // Community both Saturdays: nothing founds the act.
+    const larsen = [
+      row({ title: 'Christy Larsen', venue: 'Crackings', category: 'community', starts_at: '2026-09-26T14:30:00Z', ends_at: '2026-09-26T17:30:00Z' }),
+      row({ title: 'Christy Larsen', venue: 'Crackings', category: 'community', starts_at: '2026-10-03T14:30:00Z', ends_at: '2026-10-03T17:30:00Z' }),
+    ];
+    assert.deepEqual(actPages(larsen, now), []);
+    // The music row has ended: what is left names no act.
+    const played = row({ title: 'Jason Tyler Findley', venue: "AJ's Grayton Beach", category: 'music', starts_at: '2026-09-23T21:00:00Z', ends_at: '2026-09-24T01:00:00Z' });
+    const later = row({ title: 'Jason Tyler Findley', venue: 'The Red Bar', category: 'community', starts_at: '2026-09-28T16:00:00Z', ends_at: '2026-09-28T20:00:00Z' });
+    assert.deepEqual(actPages([played, sunday, later], now), []);
+    // A title that is no act under any category stays none.
+    const trivia = [
+      row({ title: 'Trivia Night', venue: 'Crackings', category: 'nightlife' }),
+      row({ title: 'Trivia Night', venue: "Pickle's Sandbar", category: 'music', starts_at: '2026-09-26T23:00:00Z', ends_at: '2026-09-27T02:00:00Z' }),
+    ];
+    assert.deepEqual(actPages(trivia, now), []);
+  });
+
+  it('names the act from its rows of any category, and from none when no music row carries the key', () => {
+    assert.equal(actLabel([sunday, wednesday], 'jason tyler findley', now), 'Jason Tyler Findley');
+    assert.equal(actLabel([sunday], 'jason tyler findley', now), '');
+  });
+
+  it('writes the pages the fixture says for its second week, as the app answers for it too', () => {
+    // `elsewhere` is the rows of those acts as the scrape filed them,
+    // moved into the fixture's week and read at its three moments. The
+    // app's tests/actKey.test.ts and tests/actPage.test.ts are held to
+    // the same answers.
+    const { calendar, moments } = ACT_FIXTURE.elsewhere;
+    assert.deepEqual(moments.map((m) => m.now), ACT_FIXTURE.moments.map((m) => m.now));
+    for (const m of moments) {
+      const pages = actPages(calendar, Date.parse(m.now))
+        .map((p) => ({ key: p.key, label: p.label, slug: p.slug, shows: p.events.length, venues: p.venues }))
+        .sort((a, b) => (a.key < b.key ? -1 : 1));
+      assert.deepEqual(pages, m.acts, m.name);
+    }
+    // Findley's page is one music row and one that is not; the market's
+    // guitarist, community both Saturdays, has none.
+    assert.deepEqual(
+      calendar.filter((e) => e.title === 'Jason Tyler Findley').map((e) => e.category),
+      ['community', 'music'],
+    );
+    for (const m of moments) assert.ok(!m.acts.some((a) => a.key === 'christy larsen'), m.name);
+    // And in the first week Jared Herzog's set at Crackings, filed under
+    // community, is his fourth show and third venue.
+    const jared = actPages(ACT_FIXTURE.calendar, Date.parse(ACT_FIXTURE.moments[0].now)).find((p) => p.key === 'jared herzog');
+    assert.equal(jared.events.length, 4);
+    assert.ok(jared.events.some((e) => e.category === 'community' && e.venue === 'Crackings'));
+  });
+});
+
+describe('one week, three moments: the site and the app answer alike', () => {
+  // The fixture's calendar is one week of rows; at each moment its `acts`
+  // are the pages there must be: the name shown, the path, the shows left
+  // and the venues. tests/actKey.test.ts in the app repo computes the same
+  // list from the same rows with the app's own functions, and
+  // tests/actPage.test.ts opens each of these paths on the app's act page.
+  const at = (m) =>
+    actPages(ACT_FIXTURE.calendar, Date.parse(m.now))
+      .map((p) => ({ key: p.key, label: p.label, slug: p.slug, shows: p.events.length, venues: p.venues }))
+      .sort((a, b) => (a.key < b.key ? -1 : 1));
+
+  it('writes the pages the fixture says, under the names and at the paths it says', () => {
+    assert.equal(ACT_FIXTURE.moments.length, 3);
+    for (const m of ACT_FIXTURE.moments) assert.deepEqual(at(m), m.acts, m.name);
+  });
+
+  it('keeps a band’s page where the band posted it while the name on it changes', () => {
+    const [, monday, thursday] = ACT_FIXTURE.moments;
+    const page = (m) => actPages(ACT_FIXTURE.calendar, Date.parse(m.now)).find((p) => p.key === 'dion jones and neon tears');
+    assert.equal(page(monday).label, 'Dion Jones and The Neon Tears');
+    assert.equal(page(thursday).label, 'Dion Jones & Neon Tears');
+    assert.equal(page(monday).slug, 'dion-jones-and-neon-tears');
+    assert.equal(page(thursday).slug, page(monday).slug);
+    // The slug of the name, which the path was first built from, is two
+    // different pages those two days; share-cards.mjs wipes acts/ on every
+    // run, so Monday's link would have been a 404 by Thursday.
+    assert.notEqual(actSlug(page(monday).label), actSlug(page(thursday).label));
+    const html = (m) => renderAct(page(m), Date.parse(m.now)).html;
+    assert.match(html(monday), /<h1>Dion Jones and The Neon Tears<\/h1>/);
+    assert.match(html(thursday), /<h1>Dion Jones &amp; Neon Tears<\/h1>/);
+    for (const m of [monday, thursday]) {
+      assert.match(html(m), /<link rel="canonical" href="https:\/\/30anow.github.io\/acts\/dion-jones-and-neon-tears\/">/);
+      assert.match(html(m), /<a class="live" href="\/act\/dion-jones-and-neon-tears\?s=seo-act">/);
+    }
+    // And the link the installed app is handed, once it names the act
+    // (actAppArgument: the feed until the store's binary has the route).
+    assert.equal(actAppArgument(page(monday).slug, true), actAppArgument(page(thursday).slug, true));
+    assert.equal(actAppArgument(page(monday).slug, true), 'thirtyanow://act/dion-jones-and-neon-tears');
+  });
+
+  it('lists the same paths in the sitemap and the index at every moment', () => {
+    for (const m of ACT_FIXTURE.moments) {
+      const now = Date.parse(m.now);
+      const acts = actPages(ACT_FIXTURE.calendar, now);
+      const xml = sitemapXml([], [], now, acts);
+      const index = renderActsIndex(acts, now).html;
+      for (const a of m.acts) {
+        assert.match(xml, new RegExp(`<loc>https://30anow.github.io/acts/${a.slug}/</loc>`), `${m.name}: ${a.slug}`);
+        assert.match(index, new RegExp(`href="/acts/${a.slug}/"`), `${m.name}: ${a.slug}`);
+      }
+      assert.equal((xml.match(/\/acts\/[a-z0-9-]+\/<\/loc>/g) || []).length, m.acts.length);
+      assert.doesNotMatch(xml, /\/acts\/(meco|open-mic|live-music)\//);
+    }
+  });
+});
+
+describe('act page', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [
+    row({ title: 'Jared Herzog', venue: "Pickle's Sandbar", description: 'Acoustic on the deck' }),
+    row({ title: 'Live Music with Jared Herzog', venue: 'Crackings', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z', price: 'Free', url: 'https://sowal.com/x' }),
+    row({ title: 'Jared Herzog', venue: 'Crackings', starts_at: '2026-09-13T23:00:00Z', ends_at: '2026-09-14T02:00:00Z' }),
+    row({ title: 'Trivia', venue: 'Crackings', category: 'nightlife' }),
+  ];
+  const venues = venuePages([...rows, ...[1, 2].map(() => row({ venue: 'Crackings', title: 'Open Mic' }))], now);
+  const venueSlugs = new Map(venues.map((v) => [v.name.toLowerCase(), v.slug]));
+  const act = actPages(rows, now)[0];
+
+  it('lists every show with its venue linked, the app link by slug, and the undated card', () => {
+    const page = renderAct(act, now, venueSlugs);
+    const html = withJsonLd(page);
+    assert.match(html, /<h1>Jared Herzog<\/h1>/);
+    assert.match(html, /<p class="lead">Upcoming on 30A · 3 shows at 2 venues · updated /);
+    assert.match(html, /<title>Jared Herzog on 30A — upcoming shows \| 30A Now<\/title>/);
+    assert.match(html, /<meta property="og:title" content="Jared Herzog on 30A — upcoming shows">/);
+    assert.match(html, /<meta property="og:image" content="https:\/\/30anow.github.io\/og-default.png">/);
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/acts\/jared-herzog\/">/);
+    // The banner and the Open button carry actAppArgument (its own test is
+    // below); the link to the web app names the act by its slug.
+    assert.ok(html.includes(`app-argument=${actAppArgument('jared-herzog')}"`));
+    assert.match(html, /<a class="live" href="\/act\/jared-herzog\?s=seo-act">See Jared Herzog live in the app<\/a>/);
+    assert.match(html, /Open in 30A Now/);
+    // Three rows, by day, each with the venue (linked when it has a page), the when, the price and the source.
+    assert.equal((html.match(/<li class="ev"/g) || []).length, 3);
+    assert.match(html, /<h2>Friday, Sep 11<\/h2>/);
+    assert.match(html, /<h2>Saturday, Sep 12<\/h2>/);
+    assert.match(html, /<a href="\/venues\/crackings\/">Crackings<\/a> · Grayton Beach · Sat, Sep 12 · 6:00 PM – 9:00 PM · Free/);
+    assert.match(html, /Pickle's Sandbar · Grayton Beach · Fri, Sep 11/);
+    assert.match(html, /Listing on sowal.com/);
+    assert.match(html, new RegExp(`href="/e/${rows[0].id}\\?s=seo-act"`));
+    assert.doesNotMatch(html, /Trivia/);
+    // The row's own title stays as the source wrote it; the page's name is the act's.
+    assert.match(html, /Live Music with Jared Herzog/);
+    // Every row carries its end for EXPIRE, and the line for when all have ended.
+    assert.equal((html.match(/ data-end="\d+"/g) || []).length, 3);
+    assert.match(html, /<p class="done" id="done" hidden>Everything listed for Jared Herzog has finished\. <a href="\/act\/jared-herzog\?s=seo-act">/);
+  });
+
+  it('writes a MusicEvent per row with the act as its performer, and nothing else of the act’s', () => {
+    const html = withJsonLd(renderAct(act, now, venueSlugs));
+    const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1]);
+    assert.equal(ld.length, 3);
+    for (const e of ld) {
+      assert.equal(e['@type'], 'MusicEvent');
+      assert.deepEqual(e.performer, { '@type': 'MusicGroup', name: 'Jared Herzog' });
+      assert.equal(e.location['@type'], 'Place');
+    }
+    assert.deepEqual(ld.map((e) => e.name), ['Jared Herzog', 'Live Music with Jared Herzog', 'Jared Herzog']);
+    assert.equal(ld[1].offers.price, '0');
+    const one = actJsonLd(rows[0], 'Jared Herzog');
+    assert.equal(one['@context'], 'https://schema.org');
+    assert.equal(Object.keys(one)[1], '@type');
+    assert.ok(!('image' in one.performer) && !('url' in one.performer) && !('sameAs' in one.performer));
+  });
+
+  it('closes on the share line with the page’s own link in the copy button, outside <main>, and no pitch', () => {
+    const html = renderAct(act, now, venueSlugs).html;
+    assert.ok(html.includes(shareFooter('https://30anow.github.io/acts/jared-herzog/')));
+    assert.match(html, /<strong>Play on 30A\?<\/strong> Share this page — it updates itself\./);
+    assert.match(html, /<code id="snippet">https:\/\/30anow\.github\.io\/acts\/jared-herzog\/<\/code> <button type="button" id="copy">Copy link<\/button>/);
+    const main = html.indexOf('</main>');
+    const share = html.indexOf('<section class="owner">');
+    const footer = html.indexOf('<footer>');
+    assert.ok(main > 0 && main < share && share < footer, `${main} ${share} ${footer}`);
+    assert.doesNotMatch(html, /\$25|Feature a show|<iframe|Run Jared|embed\//);
+  });
+
+  it('copies the link by running the button, and goes back to "Copy link" after', () => {
+    const js = /<script>\n([\s\S]*?)<\/script>/.exec(renderAct(act, now, venueSlugs).html)[1];
+    const link = 'https://30anow.github.io/acts/jared-herzog/';
+    const handlers = {};
+    const button = { textContent: 'Copy link', addEventListener: (ev, fn) => { handlers[ev] = fn; } };
+    let copied = '';
+    let reset = null;
+    const env = {
+      location: { search: '' },
+      navigator: { userAgent: 'node', clipboard: { writeText: (t) => { copied = t; return Promise.resolve(); } } },
+      document: {
+        hidden: false,
+        getElementById: (id) => ({ copy: button, snippet: { textContent: link } })[id] ?? null,
+        querySelectorAll: () => [],
+      },
+      URL,
+      URLSearchParams,
+      Date,
+      setTimeout: (fn) => { reset = fn; },
+    };
+    new Function(...Object.keys(env), js)(...Object.values(env));
+    handlers.click();
+    return Promise.resolve().then(() => {
+      assert.equal(copied, link);
+      assert.equal(button.textContent, 'Copied');
+      reset();
+      assert.equal(button.textContent, 'Copy link');
+    });
+  });
+
+  it('indexes every act by name with its next show, from the venues page and the sitemap', () => {
+    const acts = actPages([...rows, row({ title: 'MECO', venue: "Stinky's Bait Shack" }), row({ title: 'MECO', venue: 'Crackings', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' })], now);
+    const html = renderActsIndex(acts, now).html;
+    assert.match(html, /<h1>Acts playing 30A<\/h1>/);
+    assert.match(html, /2 acts with a show coming up/);
+    for (const a of acts) assert.match(html, new RegExp(`href="/acts/${a.slug}/"`));
+    assert.match(html, /<a href="\/acts\/jared-herzog\/">Jared Herzog<\/a> <span class="m">next Pickle's Sandbar, Fri, Sep 11<\/span>/);
+    assert.ok(html.indexOf('/acts/jared-herzog/') < html.indexOf('/acts/meco/'));
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/acts\/">/);
+    assert.match(renderVenuesIndex(venues, now).html, /<a href="\/acts\/">Every act with a show coming up<\/a>/);
+    assert.match(renderAct(act, now, venueSlugs).html, /<a href="\/acts\/">Every act<\/a>/);
+  });
+
+  it('is committed by the Action with the other generated pages', () => {
+    const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
+  });
+});
+
+/**
+ * An act page is a link that gets handed out: the app's Share sends it,
+ * and the page's own footer asks a band to post it. As first built the
+ * floor of two that starts a page also took it down, and share-cards.mjs
+ * cleared acts/ on every run, so a page went the run after its act's
+ * second-to-last show ended - with the last one still ahead - and the
+ * link fell through to 404.html, the web app's shell, which has no /acts
+ * route. Over the 24 Sep 2026 snapshot with no further import, 19 acts
+ * had a page on the first run and six lost it inside eight days with a
+ * show to come (Michael Johnson's 19 hours before his Saturday set). The
+ * strips have kept a list of what was handed out since 1 Oct 2026
+ * (embed/published.json); these pages keep the same (10 Oct 2026).
+ */
+describe('an act page stays where it was handed out', () => {
+  const cal = ACT_FIXTURE.calendar.map((r, i) => ({ id: `00000000-0000-4000-9000-${String(i).padStart(12, '0')}`, area: 'Grayton Beach', ...r }));
+  const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+  const CRON = [...yml.matchAll(/- cron: '(\d+) ([\d,]+) \* \* \*'/g)].flatMap(([, m, hours]) =>
+    hours.split(',').map((h) => Number(h) * 60 + Number(m)),
+  );
+  /** Every scheduled run from `from` to `to`, in order, at the times the workflow asks for. */
+  const runsBetween = (from, to) => {
+    const out = [];
+    for (let day = Date.parse(`${from.slice(0, 10)}T00:00:00Z`); day <= Date.parse(to); day += 86400000) {
+      for (const min of CRON) out.push(day + min * 60000);
+    }
+    return out.filter((t) => t >= Date.parse(from) && t <= Date.parse(to)).sort((a, b) => a - b);
+  };
+  /** The runs as share-cards.mjs makes them: the list read, the pages, the list handed on. */
+  const walk = (rows, from, to, seed = []) => {
+    let published = seed;
+    return runsBetween(from, to).map((now) => {
+      const acts = actPages(rows, now, published);
+      published = publishedActs(published, acts);
+      return { now, acts, published, files: new Map(actFiles(acts, published, now)) };
+    });
+  };
+  const slugsAhead = (rows, now) =>
+    new Set(rows.filter((e) => Date.parse(e.ends_at) > now && actKey(e)).map((e) => actSlug(actKey(e))));
+  const zack = (p) => p.slug === 'zack-miller';
+  const thuNoon = Date.parse('2026-10-15T17:00:00Z');
+  const thuEvening = Date.parse('2026-10-15T20:35:00Z');
+
+  it('keeps the page while one show is ahead: Zack Miller on Thursday evening, Friday at Crackings still to come', () => {
+    assert.equal(CRON.length, 5);
+    assert.ok(CRON.includes(20 * 60 + 35));
+    // Thursday noon he has two shows and a page; his afternoon set at
+    // Pickle's ends at 2 PM, and the 20:35 UTC run finds one.
+    assert.equal(actPages(cal, thuNoon).find(zack).events.length, 2);
+    // Two is still what starts a page: with no list, one show is none.
+    assert.ok(!actPages(cal, thuEvening).some(zack));
+    assert.ok(!actPages(cal, thuEvening, []).some(zack));
+    // With the list the noon run left, the page is there with Friday on it.
+    const list = publishedActs([], actPages(cal, thuNoon));
+    assert.ok(list.some(zack));
+    const kept = actPages(cal, thuEvening, list).find(zack);
+    assert.ok(kept, 'the page a member shared at noon is gone by the evening');
+    assert.deepEqual(kept.events.map((e) => e.venue), ['Crackings']);
+    assert.equal(kept.label, 'Zack Miller');
+    const html = renderAct(kept, thuEvening).html;
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/acts\/zack-miller\/">/);
+    assert.match(html, /<p class="lead">Upcoming on 30A · 1 show at 1 venue · updated /);
+    assert.equal((html.match(/<li class="ev"/g) || []).length, 1);
+    assert.doesNotMatch(html, /noindex/);
+    // A page with a show on it is still in the index and the sitemap.
+    const acts = actPages(cal, thuEvening, list);
+    assert.match(renderActsIndex(acts, thuEvening).html, /href="\/acts\/zack-miller\/"/);
+    assert.match(sitemapXml([], [], thuEvening, acts), /<loc>https:\/\/30anow.github.io\/acts\/zack-miller\/<\/loc>/);
+    // MECO has one show and never had a page: the list starts none.
+    assert.ok(!list.some((p) => p.slug === 'meco'));
+    assert.ok(!acts.some((p) => p.slug === 'meco'));
+    // The floor is the fourth argument now, after the list.
+    assert.ok(actPages(cal, thuEvening, [], 1).some((p) => p.slug === 'meco'));
+  });
+
+  it('never takes down a page a run has written, through the fixture’s week and three weeks past its last show', () => {
+    const runs = walk(cal, '2026-10-11T17:20:00Z', '2026-11-20T00:00:00Z');
+    assert.ok(runs.length > 150, String(runs.length));
+    const everWritten = new Set();
+    let quietSeen = 0;
+    for (const run of runs) {
+      for (const a of run.acts) everWritten.add(a.slug);
+      const ahead = slugsAhead(cal, run.now);
+      const at = new Date(run.now).toISOString();
+      for (const slug of everWritten) {
+        // The address answers on every run after the first that wrote it...
+        const page = run.files.get(`acts/${slug}/index.html`);
+        assert.ok(page, `${at}: /acts/${slug}/ is not written`);
+        // ...with its shows on it for as long as it has one ahead.
+        if (ahead.has(slug)) {
+          assert.match(page, /<li class="ev"/, `${at}: /acts/${slug}/ has a show ahead and lists none`);
+          assert.ok(run.acts.some((a) => a.slug === slug), `${at}: ${slug}`);
+        } else {
+          assert.match(page, /<meta name="robots" content="noindex">/, `${at}: ${slug}`);
+          quietSeen += 1;
+        }
+      }
+      // The list is what the files are: one directory per entry, no more.
+      const dirs = [...run.files.keys()].filter((p) => /^acts\/[^/]+\/index\.html$/.test(p)).map((p) => p.split('/')[1]);
+      assert.deepEqual(dirs.sort(), run.published.map((p) => p.slug));
+      assert.ok(run.files.has('acts/index.html') && run.files.has('acts/published.json'));
+    }
+    assert.deepEqual([...everWritten].sort(), ['dion-jones-and-neon-tears', 'jared-herzog', 'will-thompson', 'zack-miller']);
+    assert.ok(quietSeen > 0, 'the walk never reached a week with nothing on');
+    // The last run: every show in the fixture is over, and all four answer.
+    const last = runs[runs.length - 1];
+    assert.equal(last.acts.length, 0);
+    assert.equal(quietActs(last.published, last.acts).length, 4);
+    // Without the list (the generator as first built) the same walk drops
+    // each of the four while it still has a show to come.
+    const dropped = new Set();
+    let had = new Set();
+    for (const now of runsBetween('2026-10-11T17:20:00Z', '2026-11-20T00:00:00Z')) {
+      const on = new Set(actPages(cal, now).map((a) => a.slug));
+      const ahead = slugsAhead(cal, now);
+      for (const slug of had) if (!on.has(slug) && ahead.has(slug)) dropped.add(slug);
+      had = on;
+    }
+    assert.deepEqual([...dropped].sort(), ['dion-jones-and-neon-tears', 'jared-herzog', 'will-thompson', 'zack-miller']);
+  });
+
+  it('brings the full page back at the same address when a show is posted again', () => {
+    const list = [{ slug: 'zack-miller', name: 'Zack Miller' }];
+    const later = Date.parse('2026-11-10T17:20:00Z');
+    assert.deepEqual(quietActs(list, actPages(cal, later, list)), list);
+    const booked = [...cal, { id: '00000000-0000-4000-9000-000000000999', title: 'Zack Miller', venue: 'The Red Bar', area: 'Grayton Beach', category: 'music', starts_at: '2026-11-14T00:00:00Z', ends_at: '2026-11-14T03:00:00Z' }];
+    const acts = actPages(booked, later, list);
+    assert.deepEqual(acts.map((a) => [a.slug, a.events.length]), [['zack-miller', 1]]);
+    assert.deepEqual(quietActs(list, acts), []);
+    const files = new Map(actFiles(acts, publishedActs(list, acts), later));
+    assert.match(files.get('acts/zack-miller/index.html'), /The Red Bar/);
+    assert.doesNotMatch(files.get('acts/zack-miller/index.html'), /noindex/);
+  });
+
+  it('writes a short page for a slug with nothing ahead: named, noindex, the same card, the same bytes every run', () => {
+    const entry = { slug: 'dion-jones-and-neon-tears', name: 'Dion Jones & Neon Tears' };
+    const html = renderActQuiet(entry);
+    assert.match(html, /<h1>Dion Jones &amp; Neon Tears<\/h1>/);
+    assert.match(html, /<p class="lead">Nothing listed for Dion Jones &amp; Neon Tears on 30A right now\. This page fills in again when a show is posted\.<\/p>/);
+    assert.match(html, /<meta name="robots" content="noindex">/);
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/acts\/dion-jones-and-neon-tears\/">/);
+    // The ways on: the app, the store, the act's screen on the web, every act.
+    assert.match(html, /Open in 30A Now/);
+    assert.ok(html.includes(`data-app="${actAppArgument(entry.slug)}"`));
+    assert.match(html, /<a class="live" href="\/act\/dion-jones-and-neon-tears\?s=seo-act">See Dion Jones &amp; Neon Tears live in the app<\/a>/);
+    assert.match(html, /<a href="\/acts\/">Every act<\/a>/);
+    // Nothing listed: no rows, no schema.org events, no "has finished" line.
+    assert.doesNotMatch(html, /<li class="ev"|application\/ld\+json|id="done"/);
+    // The card a share draws is the full page's, so a link unfurls the
+    // same in a quiet week as in a busy one.
+    const full = renderAct(actPages(cal, thuNoon).find((p) => p.slug === entry.slug), thuNoon).html;
+    assert.equal(actPages(cal, thuNoon).find((p) => p.slug === entry.slug).label, entry.name);
+    for (const prop of ['og:title', 'og:description', 'og:url', 'og:image']) {
+      const tag = new RegExp(`<meta property="${prop}" content="[^"]*">`);
+      assert.equal(tag.exec(html)[0], tag.exec(full)[0], prop);
+    }
+    // No clock in it: the file is committed once, not on each of five runs a day.
+    assert.equal(renderActQuiet.length, 1);
+    assert.doesNotMatch(html, /beach time|updated /);
+    const list = [entry];
+    const a = new Map(actFiles([], list, Date.parse('2026-11-10T17:20:00Z'))).get('acts/dion-jones-and-neon-tears/index.html');
+    const b = new Map(actFiles([], list, Date.parse('2026-12-24T02:47:00Z'))).get('acts/dion-jones-and-neon-tears/index.html');
+    assert.equal(a, html);
+    assert.equal(b, html);
+    // In neither the index nor the sitemap.
+    assert.doesNotMatch(renderActsIndex([], thuNoon).html, /dion-jones/);
+    assert.doesNotMatch(sitemapXml([], [], thuNoon, []), /dion-jones/);
+    // A name is text, never markup.
+    assert.match(renderActQuiet({ slug: 'x', name: '<b>"X" & Y</b>' }), /<h1>&lt;b&gt;&quot;X&quot; &amp; Y&lt;\/b&gt;<\/h1>/);
+  });
+
+  it('keeps the list in acts/published.json: it only grows, by slug, sorted, under the name last shown', () => {
+    const prev = [
+      { slug: 'zack-miller', name: 'Zack Miller' },
+      { slug: 'dion-jones-and-neon-tears', name: 'Dion Jones and The Neon Tears' },
+      { slug: '../e', name: 'Escape' },
+      { slug: 'no-name', name: '  ' },
+    ];
+    const acts = actPages(cal, thuNoon, prev);
+    const list = publishedActs(prev, acts);
+    assert.deepEqual(list, [
+      // Thursday's name for the band, at Monday's address.
+      { slug: 'dion-jones-and-neon-tears', name: 'Dion Jones & Neon Tears' },
+      { slug: 'jared-herzog', name: 'Jared Herzog' },
+      { slug: 'will-thompson', name: 'Will Thompson Band' },
+      { slug: 'zack-miller', name: 'Zack Miller' },
+    ]);
+    for (const p of list) assert.match(p.slug, ACT_SLUG);
+    // Nothing ahead and nothing new: the list is what it was.
+    const later = Date.parse('2026-12-01T17:20:00Z');
+    assert.deepEqual(publishedActs(list, actPages(cal, later, list)), list);
+    // What the run writes is what the next run reads.
+    const file = new Map(actFiles(acts, list, thuNoon)).get('acts/published.json');
+    assert.equal(file, `${JSON.stringify(list, null, 2)}\n`);
+    assert.deepEqual(parsePublished(file, 'acts/published.json'), list);
+    // A broken file stops the run and says which file; a bad entry never becomes a path.
+    assert.throws(() => parsePublished('{"slug":"x","name":"X"}', 'acts/published.json'), /acts\/published\.json is not a list/);
+    assert.throws(() => parsePublished('{not json', 'acts/published.json'));
+    assert.deepEqual(parsePublished(JSON.stringify([{ slug: '../../e', name: 'Escape' }, { slug: 'ok-one', name: ' OK One ' }]), 'acts/published.json'), [
+      { slug: 'ok-one', name: 'OK One' },
+    ]);
+    // The strips' list still names itself.
+    assert.throws(() => parsePublished('{}'), /embed\/published\.json is not a list/);
+  });
+
+  it('starts the list from the act pages on the site when there is no file, so a lost file takes no page down', () => {
+    assert.deepEqual(seedPublishedActs([]), []);
+    const acts = actPages(cal, thuNoon);
+    const dirs = [
+      ...acts.map((a) => ({ dir: a.slug, html: renderAct(a, thuNoon).html })),
+      { dir: 'michael-johnson', html: renderActQuiet({ slug: 'michael-johnson', name: 'Michael Johnson' }) },
+      { dir: 'Not A Slug', html: '<h1>Nope</h1>' },
+      { dir: 'empty', html: '' },
+    ];
+    assert.deepEqual(seedPublishedActs(dirs), [
+      { slug: 'dion-jones-and-neon-tears', name: 'Dion Jones & Neon Tears' },
+      { slug: 'jared-herzog', name: 'Jared Herzog' },
+      { slug: 'michael-johnson', name: 'Michael Johnson' },
+      { slug: 'will-thompson', name: 'Will Thompson Band' },
+      { slug: 'zack-miller', name: 'Zack Miller' },
+    ]);
+  });
+
+  it('share-cards.mjs reads the list before it writes anything, and never clears it with the pages', () => {
+    const src = readFileSync(new URL('./share-cards.mjs', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+    const at = (s) => {
+      const i = src.indexOf(s);
+      assert.ok(i > -1, `share-cards.mjs has no "${s}"`);
+      return i;
+    };
+    // Read, then the pages from it, then the list handed on - all before the first write.
+    assert.ok(at('const actsBefore = await readPublishedActs();') < at('const acts = actPages(events, now, actsBefore);'));
+    assert.ok(at('const acts = actPages(events, now, actsBefore);') < at('const actsPublished = publishedActs(actsBefore, acts);'));
+    assert.ok(at('const actsPublished = publishedActs(actsBefore, acts);') < at('await writeStubs(events, venues, now, posters);'));
+    assert.ok(at("parsePublished(await readFile('acts/published.json', 'utf8'), 'acts/published.json')") > -1);
+    // acts/ is not wiped with lineup/, tonight/ and venues/: only its
+    // directories are cleared, so the list is never off the disk.
+    assert.match(src, /for \(const dir of \['lineup', 'tonight', 'venues'\]\) \{\n    await rm\(dir, \{ recursive: true, force: true \}\);/);
+    assert.doesNotMatch(src, /rm\('acts'/);
+    const writeActs = src.slice(at('async function writeActs(files) {'), at('async function readPublishedActs() {'));
+    assert.match(writeActs, /if \(entry\.isDirectory\(\)\) await rm\(`acts\/\$\{entry\.name\}`, \{ recursive: true, force: true \}\);/);
+    // Every file under acts/ is one actFiles named.
+    at('await writeActs(actFiles(acts, actsPublished, now, venueSlugs, posters));');
+    assert.doesNotMatch(src, /writeFile\(['`]acts\//);
+    // And the Action commits the list with the pages.
+    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
+  });
+});
+
+/**
+ * The act page was the first on the site to hand the installed app a
+ * route newer than the binary in the store: thirtyanow://act/<slug>, on
+ * Safari's banner and on "Open in 30A Now". 1.1.0 was built on 15 Sep
+ * 2026 and the route reaches phones over the air, applied on the launch
+ * after the one that downloads it, so every member who had not opened the
+ * app twice since the update, and every new install's first session, got
+ * the app's own 404 screen from the page whose point is to bring them in.
+ */
+describe('the act page’s door into the app', () => {
+  const now = noonOn('2026-09-08');
+  const act = actPages([row({ title: 'Jared Herzog' }), row({ title: 'Jared Herzog', venue: 'Crackings' })], now)[0];
+
+  it('opens the feed, which every bundle has, until the store’s binary has the act route', () => {
+    // Flip ACT_ROUTE_IN_BINARY when 1.2.0 is in the store, and this line with it.
+    assert.equal(ACT_ROUTE_IN_BINARY, false);
+    // The feed as these pages hand it over: tagged, so the app does not
+    // take the tap for its widget's (FEED_APP_LINK; its own tests are below).
+    assert.equal(actAppArgument('jared-herzog'), 'thirtyanow://feed?s=web');
+    assert.equal(actAppArgument('jared-herzog', false), FEED_APP_LINK);
+    const html = renderAct(act, now).html;
+    // Safari's banner (and its no-script copy) and the Open button.
+    assert.equal((html.match(/app-argument=thirtyanow:\/\/feed\?s=web"/g) || []).length, 1);
+    assert.ok(html.includes(bannerMeta(FEED_APP_LINK)));
+    assert.match(html, /<a class="btn" id="open" href="[^"]+" data-app="thirtyanow:\/\/feed\?s=web">Open in 30A Now<\/a>/);
+    assert.doesNotMatch(html, /thirtyanow:\/\/act\//);
+    // The page between shows hands out the same.
+    const quiet = renderActQuiet({ slug: 'jared-herzog', name: 'Jared Herzog' });
+    assert.match(quiet, /data-app="thirtyanow:\/\/feed\?s=web"/);
+    assert.doesNotMatch(quiet, /thirtyanow:\/\/act\//);
+    // The same argument the acts index and /tonight/ carry.
+    assert.match(renderActsIndex([act], now).html, /data-app="thirtyanow:\/\/feed\?s=web"/);
+    // The web app is not a binary: its link names the act, as before.
+    assert.match(html, /<a class="live" href="\/act\/jared-herzog\?s=seo-act">/);
+    // The venue page's route has been in the binary since 1.0.0.
+    const venue = venuePages([row(), row(), row()], now)[0];
+    assert.match(renderVenue(venue, now).html, /data-app="thirtyanow:\/\/venue\/The%20Red%20Bar"/);
+  });
+
+  it('names the act once the binary has the route', () => {
+    assert.equal(actAppArgument('jared-herzog', true), 'thirtyanow://act/jared-herzog');
+    assert.equal(actAppArgument('dion-jones-and-neon-tears', true), 'thirtyanow://act/dion-jones-and-neon-tears');
+  });
+});
+
+/**
+ * The app's home-screen widget opens the bare thirtyanow://feed, and the
+ * app reads a launch by exactly that link as the widget's own tap: the
+ * open is counted as one the widget brought, and the first-week card that
+ * teaches the widget is retired without being shown (WIDGET_OWN_LINK in
+ * the app's src/state/AppContext.tsx, 10 Oct 2026). /tonight/, the acts
+ * index and every act page sent the same bare link from their Open button
+ * and from Safari's banner. So someone handed a "Share tonight" link, who
+ * had the app and no widget, tapped Open and was taken for a widget
+ * owner: never shown the card, and counted as a widget launch.
+ */
+describe('the feed link these pages hand the app is not the widget’s (10 Oct 2026)', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+  const venues = venuePages(rows, now);
+  const act = actPages([row({ title: 'Jared Herzog' }), row({ title: 'Jared Herzog', venue: 'Crackings' })], now)[0];
+  const SAM = '3f2a9c1e-7b4d-4e8a-9c21-5d6e7f8a9b0c';
+  // The app's two patterns, as its src/state/AppContext.tsx has them: the
+  // widget's own link, and any link that opens the feed.
+  const WIDGET_OWN_LINK = /^thirtyanow:\/\/\/?feed\/?$/i;
+  const WIDGET_FEED_LINK = /^thirtyanow:\/\/\/?feed\/?(?:[?#]|$)/i;
+  const feedPages = () => ({
+    tonight: renderTonight(rows, venues, now).html,
+    'acts index': renderActsIndex([act], now).html,
+    act: renderAct(act, now).html,
+    'act between shows': renderActQuiet({ slug: 'jared-herzog', name: 'Jared Herzog' }),
+  });
+
+  it('carries a tag the widget’s link does not, and still opens the feed in every bundle', () => {
+    assert.equal(FEED_APP_LINK, 'thirtyanow://feed?s=web');
+    assert.equal(WIDGET_OWN_LINK.test('thirtyanow://feed'), true);
+    assert.equal(WIDGET_OWN_LINK.test(FEED_APP_LINK), false);
+    assert.equal(WIDGET_FEED_LINK.test(FEED_APP_LINK), true);
+    // The path is the feed's and the tag is all that follows it.
+    assert.match(FEED_APP_LINK, /^thirtyanow:\/\/feed\?s=[\w.-]+$/);
+  });
+
+  it('is what the Open button and the banner carry on /tonight/, the acts index and an act page', () => {
+    for (const [name, html] of Object.entries(feedPages())) {
+      assert.equal(/id="open" href="[^"]*" data-app="([^"]*)"/.exec(html)[1], FEED_APP_LINK, name);
+      assert.ok(html.includes(bannerMeta(FEED_APP_LINK)), name);
+      assert.equal(banner(html, ''), FEED_APP_LINK, name);
+      // Nowhere the bare link: every mention of the feed's link has the tag after it.
+      assert.equal(html.split('thirtyanow://feed').length, html.split('thirtyanow://feed?s=web').length, name);
+      assert.ok(html.split('thirtyanow://feed').length > 2, name);
+    }
+    // And no page function writes the link by hand.
+    const src = readFileSync(new URL('./site.mjs', import.meta.url), 'utf8');
+    assert.deepEqual(src.match(/'thirtyanow:\/\/feed[^']*'/g), ["'thirtyanow://feed?s=web'"]);
+    assert.equal(src.split('appArgument: FEED_APP_LINK,').length - 1, 4);
+    assert.match(src, /return inBinary \? `thirtyanow:\/\/act\/\$\{slug\}` : FEED_APP_LINK;/);
+  });
+
+  it('keeps the visitor’s own tag off the link, and puts an inviter after the tag', () => {
+    for (const [name, html] of Object.entries(feedPages())) {
+      // s= and ref= are for the web's arrival count; the link's tag stays "web".
+      assert.equal(openLink(html, '?s=share-tonight'), FEED_APP_LINK, name);
+      assert.equal(openLink(html, '?s=share-act&ref=the-red-bar'), FEED_APP_LINK, name);
+      assert.equal(banner(html, '?s=share-tonight'), FEED_APP_LINK, name);
+      // A member id rides along as it does on the lineup's link: after the tag, with "&".
+      assert.equal(openLink(html, `?from=${SAM}`), `thirtyanow://feed?s=web&from=${SAM}`, name);
+      assert.equal(banner(html, `?from=${SAM}`), `thirtyanow://feed?s=web&from=${SAM}`, name);
+      assert.equal(WIDGET_OWN_LINK.test(openLink(html, `?from=${SAM}`)), false, name);
+      assert.equal(WIDGET_FEED_LINK.test(openLink(html, `?from=${SAM}`)), true, name);
+    }
+  });
+
+  it('leaves every other page’s link as it was', () => {
+    assert.equal(openLink(renderLineup(rows, venues, now).html, ''), 'thirtyanow://weekend');
+    assert.equal(openLink(renderVenue(venues[0], now).html, ''), 'thirtyanow://venue/The%20Red%20Bar');
+    assert.equal(openLink(renderVenuesIndex(venues, now).html, ''), 'thirtyanow://');
+    assert.equal(openLink(renderStub(rows[0], { now }).html, ''), `thirtyanow://event/${rows[0].id}`);
   });
 });

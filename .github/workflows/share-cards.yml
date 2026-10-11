@@ -1,8 +1,9 @@
 # Regenerates everything built from the events table: the per-event share
 # stubs (e/<id>.html) so shared links unfurl into real cards, the crawlable
-# pages (lineup/, tonight/, venues/<slug>/, sitemap.xml, robots.txt) so a
-# search for what is on along 30A can find this site at all, and the partner
-# strips (embed/<venue>/) a bar pastes into its own site.
+# pages (lineup/, tonight/, venues/<slug>/, acts/<slug>/, sitemap.xml,
+# robots.txt) so a search for what is on along 30A can find this site at
+# all, and the partner strips (embed/<venue>/) a bar pastes into its own
+# site.
 #
 # Scheduled a few minutes after each event import in the app repo (its
 # scrape.yml: 10:13, 17:13 and 20:13 UTC) so fresh events get their pages
@@ -78,8 +79,10 @@ jobs:
         run: |
           git config user.name "30a-now-bot"
           git config user.email "actions@users.noreply.github.com"
-          # embed/ includes published.json, the list of strips handed out.
-          git add -A e lineup tonight venues embed sitemap.xml robots.txt
+          # embed/ includes published.json, the list of strips handed out,
+          # and acts/ its own, the list of act pages written: each is what
+          # keeps a pasted strip or a posted link answering in a quiet week.
+          git add -A e lineup tonight venues acts embed sitemap.xml robots.txt
           git diff --cached --quiet || git commit -m "Refresh event share cards and pages"
           # The app repo's Deploy web workflow pushes a new bundle here minutes
           # after every client merge, and a run takes 75-90 s from checkout to

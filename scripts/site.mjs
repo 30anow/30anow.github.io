@@ -5,14 +5,19 @@
 // crawler with HTTP 404. These generators write the same rows the app shows
 // as plain HTML with one JSON-LD Event per row, then hand the reader to the
 // app: /lineup/ (Fri–Sun), /tonight/, /venues/<slug>/ for every venue with
-// three or more upcoming rows, plus sitemap.xml and robots.txt — and
-// /embed/<venue>/, the partner strip, for the same reason: it was an SPA
-// route that answered a partner's iframe with HTTP 404 and a 3.0 MB bundle.
+// three or more upcoming rows, /acts/<slug>/ for every act with two or more
+// (6 Oct 2026; actKey.mjs says who an act is) and for every act that has
+// had a page before (10 Oct 2026; publishedActs), plus sitemap.xml and
+// robots.txt — and /embed/<venue>/, the partner strip, for the same reason:
+// it was an SPA route that answered a partner's iframe with HTTP 404 and a
+// 3.0 MB bundle.
 //
 // Pure functions only — share-cards.mjs fetches the rows and writes files.
 // Every date on these pages is beach time (America/Chicago); the helpers
 // below are ports of src/utils/time.ts in the app repo and the tests pin
 // the same instants that repo's tests pin.
+
+import { ACT_PAGE_MIN, actKey, actLabel, actSlug, actTitleKey } from './actKey.mjs';
 
 export const SITE = 'https://30anow.github.io';
 export const APP_STORE_ID = '6792965952';
@@ -241,7 +246,11 @@ export const esc = (s) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-const byStart = (a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at);
+/** esc, undone: a name read back out of a page's own <h1> (seedPublished, seedPublishedActs). */
+const unescapeHtml = (s) =>
+  s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+
+const byStart =(a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at);
 
 /** Path segment for a venue: "AJ's Grayton Beach" -> "ajs-grayton-beach". */
 export function slugify(name) {
@@ -443,6 +452,144 @@ export function venuePages(events, now, min = 3) {
   return out;
 }
 
+/**
+ * One page per act with `min` or more shows still on or ahead at `now`,
+ * at any venue: the band a title names, under every spelling the sources
+ * give it (actKey). A music row still ahead founds the act, and every row
+ * ahead whose title names it is one of its shows, whatever the importer
+ * filed it under (10 Oct 2026; actKey.mjs has why): a daytime set comes
+ * in as community and a "friends and family" blurb as family, and counted
+ * by music rows alone the page that says "every show" left those out,
+ * while an act with one music row and one daytime set had no page at all.
+ * Rows that no music row names make no page, as before. The app applies
+ * the same rule to the same rows (actShows), and the fixture's week pins
+ * both. Alphabetical by the spelling shown (actLabel),
+ * so the index reads as a list of names. Two is the floor because one
+ * show is the event's own page, and the app's act page offers its share
+ * only from two (ACT_PAGE_MIN, the same number in both repos).
+ *
+ * The slug is the key with dashes for spaces, not the slug of the name
+ * shown (10 Oct 2026). The name is the most frequent spelling among the
+ * rows left, so it tips as shows end - "Dion Jones and The Neon Tears" on
+ * Monday, "Dion Jones & Neon Tears" by Thursday in the fixture's week -
+ * and share-cards.mjs wipes acts/ before every run: a path made from the
+ * name would have moved under the link a band posted, and the app, which
+ * holds the same rows at another minute, could have shared the path this
+ * run did not write. A key is a to z, digits and spaces, one per act, so
+ * no two acts share a slug and nothing here needs a -2.
+ *
+ * `venues` counts a bar once however a source spells it (knownVenue, the
+ * app's followKey): "The Red Bar" and "Red Bar" are one venue, as on the
+ * app's act page and its event page's door.
+ *
+ * A page once written stays (10 Oct 2026). `published` is every slug an
+ * act page has been written under (publishedActs; share-cards.mjs keeps
+ * it in acts/published.json), and an act on it keeps its page with one
+ * show ahead. Two is what starts a page, and as first built it was also
+ * what took one down: acts/ was cleared on every run, so a page went the
+ * run after its act's second-to-last show ended, with the last one still
+ * ahead - and the page is the link the app's Share sends and the one its
+ * own footer asks a band to post. Over the 24 Sep 2026 snapshot with no
+ * further import, 19 acts had a page on the first run and six lost it
+ * inside eight days with a show to come: Michael Johnson's went at the
+ * Friday 9:47 PM run, 19 hours before his Saturday set at Havana Beach
+ * Bar & Grill. What answered then was 404.html, the web app's shell, and
+ * the web app has no /acts route: "404 - You've drifted off the map". A
+ * slug on the list with nothing ahead at all keeps a short page of its
+ * own (quietActs, renderActQuiet). The app's Share still waits for two
+ * shows, so the link it sends is a page that was written at two.
+ */
+export function actPages(events, now, published = [], min = ACT_PAGE_MIN) {
+  const handedOut = new Set(published.map((p) => p.slug));
+  const ahead = events.filter((e) => Date.parse(e.ends_at) > now);
+  const groups = new Map();
+  // The acts first, founded by the music rows; then every row ahead that
+  // names one of them, in the order given.
+  for (const e of ahead) {
+    const key = actKey(e);
+    if (key && !groups.has(key)) groups.set(key, { key, events: [] });
+  }
+  for (const e of ahead) {
+    const key = actTitleKey(e);
+    const g = key ? groups.get(key) : undefined;
+    if (g) g.events.push(e);
+  }
+  const out = [];
+  for (const g of groups.values()) {
+    const slug = actSlug(g.key);
+    if (g.events.length < min && !handedOut.has(slug)) continue;
+    g.events.sort(byStart);
+    const label = actLabel(g.events, g.key, now);
+    const venues = new Set(
+      g.events.map((e) => (knownVenue(e.venue)?.name ?? String(e.venue ?? '').trim()).toLowerCase()),
+    ).size;
+    out.push({ ...g, label, slug, venues });
+  }
+  return out.sort(
+    (a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }) || a.key.localeCompare(b.key),
+  );
+}
+
+/** What an act page's slug may look like: actSlug's output, so never a path that leaves acts/. */
+export const ACT_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/**
+ * The list of act pages written so far, as share-cards.mjs keeps it in
+ * acts/published.json: what it held, plus every act page of this run, one
+ * entry per slug under the name last shown on it. It only grows - a link
+ * a band has posted, or a member has sent, does not expire - except that
+ * a slug that cannot be a directory is dropped. Sorted, so the file
+ * changes only when the list does. The strips have had the same list
+ * since 1 Oct 2026 (publishedStrips), for the same reason: Crackings'
+ * pasted strip went to the 404 shell the run after its last row ended.
+ */
+export function publishedActs(prev, acts) {
+  const bySlug = new Map(prev.map((p) => [p.slug, p.name]));
+  for (const a of acts) bySlug.set(a.slug, a.label);
+  return [...bySlug]
+    .filter(([slug, name]) => ACT_SLUG.test(slug) && String(name ?? '').trim())
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+    .map(([slug, name]) => ({ slug, name: String(name).trim() }));
+}
+
+/**
+ * The slugs on the list with no page this run: an act with nothing ahead
+ * of `now`, or a title the key no longer reads as one. Each keeps
+ * /acts/<slug>/ as renderActQuiet writes it, under the name its page last
+ * showed.
+ */
+export function quietActs(published, acts) {
+  const written = new Set(acts.map((a) => a.slug));
+  return published.filter((p) => !written.has(p.slug));
+}
+
+/**
+ * The first run that keeps the list has none to read, and act pages are
+ * as new as the list, so it starts empty. Unless there are act pages on
+ * the site already: then the file has been lost, and the list starts from
+ * them, each under the name in its <h1>, so losing the file takes no page
+ * down. `dirs` is [{ dir, html }], the directories under acts/.
+ */
+export function seedPublishedActs(dirs) {
+  const seen = new Map();
+  for (const { dir, html } of dirs) {
+    if (!ACT_SLUG.test(dir) || seen.has(dir)) continue;
+    const name = unescapeHtml(/<h1>([^<]*)<\/h1>/.exec(html ?? '')?.[1] ?? '').trim();
+    if (name) seen.set(dir, name);
+  }
+  return publishedActs([...seen].map(([slug, name]) => ({ slug, name })), []);
+}
+
+/** Every file under acts/ for one run, as [path, contents]: the index, a page per act, a quiet page per slug left on the list, and the list. */
+export function actFiles(acts, published, now, venueSlugs = new Map(), posters = new Map()) {
+  return [
+    ['acts/index.html', renderActsIndex(acts, now).html],
+    ...acts.map((a) => [`acts/${a.slug}/index.html`, withJsonLd(renderAct(a, now, venueSlugs, posters))]),
+    ...quietActs(published, acts).map((p) => [`acts/${p.slug}/index.html`, renderActQuiet(p)]),
+    ['acts/published.json', `${JSON.stringify(published, null, 2)}\n`],
+  ];
+}
+
 // ---------------------------------------------------------------------------
 // Venues we know an address for. A copy of src/data/venues.ts in the app
 // repo (checked 8 Sep 2026): the two repos cannot import each other, and
@@ -592,6 +739,24 @@ export function jsonLdScript(events, posterOf = () => null) {
   return `<script type="application/ld+json">${json}</script>`;
 }
 
+/**
+ * The same row on an act's page: a MusicEvent, the act its performer. The
+ * MusicGroup carries the name and nothing else - no image, no link, no
+ * bio - since the site holds nothing of the act's but its dates.
+ */
+export function actJsonLd(e, label, poster = null) {
+  return {
+    ...eventJsonLd(e, poster),
+    '@type': 'MusicEvent',
+    performer: { '@type': 'MusicGroup', name: label },
+  };
+}
+
+export function actJsonLdScript(events, label, posterOf = () => null) {
+  const json = JSON.stringify(events.map((e) => actJsonLd(e, label, posterOf(e)))).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">${json}</script>`;
+}
+
 // ---------------------------------------------------------------------------
 // Arrival tags
 // ---------------------------------------------------------------------------
@@ -631,6 +796,12 @@ export const ARRIVAL = {
   // page's venue_owner_tap ping never fires here. Still `seo-`, since it is
   // an arrival off the crawlable site like the rest.
   owner: 'seo-venue-owner',
+  // An act's page and the index of them (6 Oct 2026), the venue pair's
+  // shape. The app's own share of an act page carries `share-act` instead
+  // (app/act/[name].tsx in the app repo), so a page passed on by a band is
+  // told from one found in a search.
+  act: 'seo-act',
+  acts: 'seo-act-index',
 };
 
 /** `path` with the tags that are set appended, merging with any query it already has. */
@@ -776,7 +947,9 @@ const EXPIRE = `  try{
 // app from here on a binary older than the /lineup universal link claim
 // (1.0.0 and 1.1.0), which would otherwise open the Weekend screen
 // without it. s= and ref= stay off that link, as before: the app counts
-// arrivals on the web only. A member id in from= also unhides the invite
+// arrivals on the web only. (The feed's link has a tag of its own that
+// never changes, FEED_APP_LINK below; from= goes on after it.) A member
+// id in from= also unhides the invite
 // line above the buttons (INVITED_LINE), which says to come back and use
 // that button after installing - the store drops from=, and the banner
 // is written with it in <head> (bannerMeta).
@@ -793,7 +966,10 @@ const EXPIRE = `  try{
 // secure origin and a click — both true here), else the old select-and-
 // execCommand path, so an owner on an older phone gets the snippet onto the
 // clipboard rather than a dead button. What is copied is the text of the
-// <code> beside the button, so it is exactly what is shown.
+// <code> beside the button, so it is exactly what is shown. The act page's
+// footer uses the same button for its own link (shareFooter), so after
+// "Copied" the button goes back to whatever it said - "Copy" there, "Copy
+// link" here - rather than to the venue page's word.
 //
 // The last block is EXPIRE (above): finished rows off the page.
 const SCRIPT = `<script>
@@ -838,8 +1014,9 @@ const SCRIPT = `<script>
   }
   var copy=document.getElementById('copy'),code=document.getElementById('snippet');
   if(copy&&code){
+    var was=copy.textContent;
     copy.addEventListener('click',function(){
-      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},2000);};
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent=was;},2000);};
       var select=function(){try{var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);if(document.execCommand('copy'))done();}catch(e){}};
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
     });
@@ -874,13 +1051,35 @@ export function bannerMeta(appArgument) {
 }
 
 /**
+ * The feed, as these pages hand it to the installed app (10 Oct 2026):
+ * on /tonight/, on the acts index, and on an act's page until the store's
+ * binary has the act route (actAppArgument). The app's home-screen widget
+ * opens the bare thirtyanow://feed, and the app reads a launch by exactly
+ * that link as the widget's own tap: it counts the open as one the widget
+ * brought, and it retires the first-week card that teaches the widget
+ * without showing it, since a reader who came in by the widget has it
+ * (WIDGET_OWN_LINK in the app's src/state/AppContext.tsx). These pages
+ * sent the same bare link. So someone handed a "Share tonight" link who
+ * tapped Open in 30A Now here, or OPEN on Safari's banner, was taken for
+ * a widget owner: never shown the card, and counted as a widget launch.
+ * The tag tells the two apart. It is the link's own and always "web",
+ * never the visitor's s= or ref=, and the app reads nothing from it.
+ * Every bundle still opens the feed: Expo Router matches the path and
+ * hands the query to a screen that does not look at it, and the app's
+ * walk-in for a signed-out phone (WIDGET_FEED_LINK there) has taken a
+ * query since it was written.
+ */
+export const FEED_APP_LINK = 'thirtyanow://feed?s=web';
+
+/**
  * Shared <head>. Every page unfurls as the large card: the branded
  * 1200x630 og-default.png with its size declared, so Facebook draws the
  * full-width card on the first share rather than after it has fetched the
  * image, or a page's own poster when it passes one (the event stub only).
  * A poster's size is not
  * known here, so only the default declares one — a wrong pair is worse
- * than none. `extraHead` is for the stub's <noscript> refresh.
+ * than none. `extraHead` is for the stub's <noscript> refresh, and the
+ * noindex on an act's page between shows (renderActQuiet).
  *
  * `ogTitle` and `ogDescription` are what the card says, when that must
  * differ from the <title> and description a search engine reads. Facebook
@@ -1149,7 +1348,7 @@ export function renderTonight(events, venues, now, posters = new Map()) {
       ogTitle: 'Tonight on 30A — live music and events from 4 PM',
       ogDescription: "What's on along 30A tonight from 4 PM, with times, venues and the live map.",
       path: '/tonight/',
-      appArgument: 'thirtyanow://feed',
+      appArgument: FEED_APP_LINK,
       updated: fmtStamp(now),
     }) +
     `<h1>Tonight on 30A</h1>
@@ -1157,7 +1356,7 @@ export function renderTonight(events, venues, now, posters = new Map()) {
 ` +
     doneLine(beachDayKey(window.start), day, '/feed', "See what's on now, live in the app", ARRIVAL.tonight) +
     cta({
-      appArgument: 'thirtyanow://feed',
+      appArgument: FEED_APP_LINK,
       livePath: '/feed',
       liveLabel: 'See it live in the app',
       tag: ARRIVAL.tonight,
@@ -1283,6 +1482,7 @@ export function renderVenuesIndex(venues, now) {
     }) +
     `<h1>Venues on 30A</h1>
 <p class="lead">${venues.length} places with something coming up · updated ${esc(fmtStamp(now))} beach time</p>
+<p class="lead">Looking for a band? <a href="/acts/">Every act with a show coming up</a>, at every bar.</p>
 ` +
     cta({
       appArgument: 'thirtyanow://',
@@ -1294,6 +1494,165 @@ export function renderVenuesIndex(venues, now) {
       .map(
         (v) =>
           `<li><a href="/venues/${v.slug}/">${esc(v.name)}</a> <span class="m">${v.events.length}</span></li>`,
+      )
+      .join('\n')}</ul>
+` +
+    foot();
+  return { html: body };
+}
+
+// ---------------------------------------------------------------------------
+// Act pages
+// ---------------------------------------------------------------------------
+
+/**
+ * The act page's footer: the one line a band needs, with the page's own
+ * link beside the copy button the owner footer has. A band that plays
+ * four bars a week has no page that lists them all, so this is the one it
+ * can post on a Monday - and it rewrites itself five times a day. No
+ * strip, no price, nothing sold: the act is not the customer here. Outside
+ * <main> like the owner footer, so the forwarder leaves the link as the
+ * clean URL a reader will paste.
+ */
+export function shareFooter(page) {
+  return `<section class="owner">
+<p><strong>Play on 30A?</strong> Share this page — it updates itself.</p>
+<p><code id="snippet">${esc(page)}</code> <button type="button" id="copy">Copy link</button></p>
+</section>
+`;
+}
+
+/**
+ * Whether the binary in the App Store carries the app's act route in the
+ * bundle it ships with. Not yet (10 Oct 2026): 1.1.0 was built on 15 Sep,
+ * and /act/<name> reaches phones as an over-the-air update, which a phone
+ * downloads on one launch and runs from the next. Until then the bundle
+ * on the phone has no such route, and Expo Router answers a link it
+ * cannot match with the app's own 404 screen ("You've drifted off the
+ * map"). That is every member who has not opened the app twice since the
+ * update, and every new install's first session - the reader these pages
+ * are for, who taps "Get it for iPhone", comes back and taps Open.
+ * Universal links do not help before 1.2.0 either, the first binary with
+ * the associated domain. The venue pages never had the gap: /venue/<name>
+ * has been in the binary since 1.0.0.
+ *
+ * So while this is false, an act page's banner and its "Open in 30A Now"
+ * button open the feed, a route every bundle has (actAppArgument), and
+ * the page's own link to the web app goes on naming the act. Set it to
+ * true once the store's binary was built with the route - 1.2.0, the
+ * step is in docs/app-store-checklist.md in the app repo ("A new
+ * binary") - and the test beside it says what changes.
+ */
+export const ACT_ROUTE_IN_BINARY = false;
+
+/** What an act page hands the installed app: the act's own screen once every binary has it, the feed until then (tagged: FEED_APP_LINK). */
+export function actAppArgument(slug, inBinary = ACT_ROUTE_IN_BINARY) {
+  return inBinary ? `thirtyanow://act/${slug}` : FEED_APP_LINK;
+}
+
+/**
+ * /acts/<slug>/ — every show one act has ahead, at any venue: "Upcoming on
+ * 30A", a row per show with its venue linked to its page, the EXPIRE line
+ * once every row has ended, and the app's act page as the live link. The
+ * card is undated like a venue's (the URL is a band's for good), the
+ * image is the branded default - never a photo of the act, which the site
+ * does not hold - and the JSON-LD is a MusicEvent per row with the act as
+ * its performer.
+ */
+export function renderAct(act, now, venueSlugs = new Map(), posters = new Map()) {
+  const { label, slug, events, venues } = act;
+  const days = groupByDay(events);
+  const next = events[0];
+  const shows = countLabel(events.length, 'show', 'shows');
+  const where = countLabel(venues, 'venue', 'venues');
+  const description = `${label} on 30A: ${shows} coming up at ${where} — next at ${next.venue}, ${fmtWhen(next)}. Every date, time and bar on 30A Now.`;
+  const livePath = `/act/${slug}`;
+  const appArgument = actAppArgument(slug);
+  const liveLabel = `See ${label} live in the app`;
+  const body =
+    head({
+      title: `${label} on 30A — upcoming shows | 30A Now`,
+      description,
+      ogTitle: `${label} on 30A — upcoming shows`,
+      ogDescription: `Every show ${label} has coming up along 30A, at every bar, on one page that keeps itself up to date.`,
+      path: `/acts/${slug}/`,
+      appArgument,
+      updated: fmtStamp(now),
+    }) +
+    `<h1>${esc(label)}</h1>
+<p class="lead">Upcoming on 30A · ${shows} at ${where} · updated ${esc(fmtStamp(now))} beach time</p>
+` +
+    doneLine('', label, livePath, liveLabel, ARRIVAL.act) +
+    cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.act }) +
+    days.map((d) => daySection(d, venueSlugs, { showVenue: true, tag: ARRIVAL.act })).join('\n') +
+    `<section><h2>Also</h2><p><a href="/acts/">Every act</a> · <a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
+` +
+    foot(shareFooter(`${SITE}/acts/${slug}/`));
+  return { html: body, jsonLd: actJsonLdScript(events, label, (e) => checkedPoster(e, posters)) };
+}
+
+/**
+ * /acts/<slug>/ for a slug on the list whose act has nothing ahead
+ * (quietActs): the name its page last showed, one line that says so, and
+ * the same ways on. A link a band posted in a busy week, or one a member
+ * sent, opens this in a quiet one rather than the web app's 404, and the
+ * full page is back at the same address the run after a show is listed.
+ * The card is the full page's, word for word, so a share unfurls the same
+ * whichever week it is read. noindex, and in neither the sitemap nor the
+ * index: there is nothing here for a search to find. No rows, no JSON-LD
+ * and no time on it - it takes no `now` - so the file is the same bytes
+ * run after run and the Action commits it once, not five times a day.
+ */
+export function renderActQuiet({ slug, name }) {
+  const livePath = `/act/${slug}`;
+  const appArgument = actAppArgument(slug);
+  const liveLabel = `See ${name} live in the app`;
+  return (
+    head({
+      title: `${name} on 30A | 30A Now`,
+      description: `Nothing listed for ${name} on 30A right now. Every act with a show coming up, at every bar, is on 30A Now.`,
+      ogTitle: `${name} on 30A — upcoming shows`,
+      ogDescription: `Every show ${name} has coming up along 30A, at every bar, on one page that keeps itself up to date.`,
+      path: `/acts/${slug}/`,
+      appArgument,
+      updated: 'between shows',
+      extraHead: '<meta name="robots" content="noindex">\n',
+    }) +
+    `<h1>${esc(name)}</h1>
+<p class="lead">Nothing listed for ${esc(name)} on 30A right now. This page fills in again when a show is posted.</p>
+` +
+    cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.act }) +
+    `<section><h2>Also</h2><p><a href="/acts/">Every act</a> · <a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
+` +
+    foot()
+  );
+}
+
+/** /acts/ — the index a crawler follows to every act page: by name, each with its next show. */
+export function renderActsIndex(acts, now) {
+  const body =
+    head({
+      title: 'Acts playing 30A — every band’s upcoming shows | 30A Now',
+      description: `${acts.length} acts with shows coming up along 30A, from AJ's and The Red Bar in Grayton Beach to Seaside and Rosemary Beach: every date and every bar, on one page each.`,
+      ogTitle: 'Acts playing 30A — every band’s upcoming shows',
+      ogDescription: 'The bands, DJs and duos with shows coming up along 30A: every date and every bar, on one page each.',
+      path: '/acts/',
+      appArgument: FEED_APP_LINK,
+      updated: fmtStamp(now),
+    }) +
+    `<h1>Acts playing 30A</h1>
+<p class="lead">${countLabel(acts.length, 'act', 'acts')} with a show coming up · updated ${esc(fmtStamp(now))} beach time</p>
+` +
+    cta({
+      appArgument: FEED_APP_LINK,
+      livePath: '/feed',
+      liveLabel: 'See what’s on live',
+      tag: ARRIVAL.acts,
+    }) +
+    `<ul class="venues">${acts
+      .map(
+        (a) =>
+          `<li><a href="/acts/${a.slug}/">${esc(a.label)}</a> <span class="m">next ${esc(a.events[0].venue)}, ${esc(fmtDayShort(Date.parse(a.events[0].starts_at)))}</span></li>`,
       )
       .join('\n')}</ul>
 ` +
@@ -1448,11 +1807,13 @@ export function publishedStrips(prev, venues) {
  * embed/published.json, read back. A file that does not parse as a list
  * throws: the run stops before a strip is deleted, which is the safe side
  * (a red Action leaves the strips up). An entry that is not a strip slug
- * and a name is dropped - the slug becomes a directory.
+ * and a name is dropped - the slug becomes a directory. acts/published.json
+ * is the same shape and is read the same way (`file` names it in the
+ * error); an act's slug is held to the same pattern (ACT_SLUG).
  */
-export function parsePublished(text) {
+export function parsePublished(text, file = 'embed/published.json') {
   const list = JSON.parse(text);
-  if (!Array.isArray(list)) throw new Error('embed/published.json is not a list');
+  if (!Array.isArray(list)) throw new Error(`${file} is not a list`);
   return list
     .filter((p) => p && typeof p.slug === 'string' && STRIP_SLUG.test(p.slug) && typeof p.name === 'string')
     .map((p) => ({ slug: p.slug, name: p.name.trim() }))
@@ -1517,12 +1878,10 @@ const GONE_BEFORE_THE_LIST = [{ slug: 'crackings', name: 'Crackings' }];
  * [{ dir, html }].
  */
 export function seedPublished(dirs, lost = []) {
-  const unescape = (s) =>
-    s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
   const seen = [];
   for (const { dir, html } of [...dirs, ...lost]) {
     if (!STRIP_SLUG.test(dir) || seen.some((p) => p.slug === dir)) continue;
-    const name = unescape(/<h1>([^<]*)<\/h1>/.exec(html ?? '')?.[1] ?? '').trim();
+    const name = unescapeHtml(/<h1>([^<]*)<\/h1>/.exec(html ?? '')?.[1] ?? '').trim();
     if (name) seen.push({ slug: dir, name });
   }
   return [...seen, ...GONE_BEFORE_THE_LIST.filter((g) => !seen.some((p) => p.slug === g.slug))];
@@ -1799,7 +2158,7 @@ export function truncationRefusal(received, limit, total) {
 // ---------------------------------------------------------------------------
 
 /** Pages plus every e/<id>; lastmod is this run, since every file is rewritten. */
-export function sitemapXml(events, venues, now) {
+export function sitemapXml(events, venues, now, acts = []) {
   const lastmod = new Date(now).toISOString();
   const urls = [
     '/',
@@ -1807,6 +2166,8 @@ export function sitemapXml(events, venues, now) {
     '/tonight/',
     '/venues/',
     ...venues.map((v) => `/venues/${v.slug}/`),
+    '/acts/',
+    ...acts.map((a) => `/acts/${a.slug}/`),
     ...events.map((e) => `/e/${e.id}`),
   ];
   return (

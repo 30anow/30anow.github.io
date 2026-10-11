@@ -2,7 +2,10 @@
 //   e/<id>.html            one page per upcoming event: what a shared link
 //                          unfurls as, and where it lands
 //   lineup/, tonight/,     plain HTML a crawler can read, with JSON-LD
-//   venues/<slug>/         (see site.mjs for why)
+//   venues/<slug>/,        (see site.mjs for why)
+//   acts/<slug>/
+//   acts/published.json    every act page written so far, so a link a band
+//                          posted outlives the week it was posted in
 //   embed/<venue>/         the strip a partner pastes into their own site,
 //                          under both its slug and its own name
 //   embed/published.json   every strip slug a venue page has handed out,
@@ -16,6 +19,8 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { promisify } from 'node:util';
 
 import {
+  actFiles,
+  actPages,
   ANON_KEY,
   checkedPoster,
   embedDirs,
@@ -24,7 +29,9 @@ import {
   FOOTER_LOG_ARGS,
   lostFooterPages,
   parsePublished,
+  publishedActs,
   publishedStrips,
+  quietActs,
   renderEmbed,
   renderLineup,
   renderStub,
@@ -33,6 +40,7 @@ import {
   renderVenuesIndex,
   robotsTxt,
   seedPublished,
+  seedPublishedActs,
   shrinkRefusal,
   sitemapXml,
   SUPABASE_URL,
@@ -68,11 +76,15 @@ await refuseImplausible(events);
 
 const posters = await checkPosters(events);
 const venues = venuePages(events, now);
-// Read before anything is written: a list that will not parse stops the
-// run here, with every page still up.
+// Both lists are read before anything is written: one that will not parse
+// stops the run here, with every page still up. The act pages need theirs
+// first - an act on it keeps its page with one show ahead (actPages).
+const actsBefore = await readPublishedActs();
+const acts = actPages(events, now, actsBefore);
+const actsPublished = publishedActs(actsBefore, acts);
 const published = publishedStrips(await readPublished(), venues);
 await writeStubs(events, venues, now, posters);
-await writeSite(events, venues, now, posters);
+await writeSite(events, venues, acts, actsPublished, now, posters);
 await writeEmbeds(events, now, published);
 
 async function fetchEvents(now) {
@@ -183,9 +195,11 @@ async function writeStubs(events, venues, now, posters) {
   console.log(`Wrote ${events.length} share stubs.`);
 }
 
-async function writeSite(events, venues, now, posters) {
+async function writeSite(events, venues, acts, actsPublished, now, posters) {
   // Wiped first so a venue that dropped below three rows loses its page
-  // instead of lingering with a stale list.
+  // instead of lingering with a stale list. acts/ is not among them since
+  // 10 Oct 2026: an act page is a link a band posts and the app's Share
+  // sends, so every slug that has had one keeps one (actsPublished, below).
   for (const dir of ['lineup', 'tonight', 'venues']) {
     await rm(dir, { recursive: true, force: true });
     await mkdir(dir, { recursive: true });
@@ -199,12 +213,62 @@ async function writeSite(events, venues, now, posters) {
     await mkdir(`venues/${v.slug}`, { recursive: true });
     await writeFile(`venues/${v.slug}/index.html`, withJsonLd(renderVenue(v, now, posters)));
   }
-  await writeFile('sitemap.xml', sitemapXml(events, venues, now));
+  // The act pages link each row's venue to its page, as the lineup does.
+  const venueSlugs = new Map(venues.map((v) => [v.name.toLowerCase(), v.slug]));
+  await writeActs(actFiles(acts, actsPublished, now, venueSlugs, posters));
+  const kept = quietActs(actsPublished, acts).length;
+  await writeFile('sitemap.xml', sitemapXml(events, venues, now, acts));
   await writeFile('robots.txt', robotsTxt());
   console.log(
     `Wrote lineup (${lineup.count} rows), tonight (${tonight.count} rows), ` +
-      `${venues.length} venue pages, sitemap and robots — ${fmtStamp(now)} beach time.`,
+      `${venues.length} venue pages, ${acts.length} act pages (${kept} more kept between shows), ` +
+      `sitemap and robots — ${fmtStamp(now)} beach time.`,
   );
+}
+
+/**
+ * Everything under acts/: the index, a page per act, a short page for
+ * every slug on the list with nothing ahead, and the list itself
+ * (actFiles in site.mjs says which). Only the directories are cleared, as
+ * for the strips, so acts/published.json is never off the disk between
+ * the clear-out and the write: a run that dies in between leaves the list
+ * where it was. acts/ is on the app repo's deploy keep list
+ * (deploy-web.yml, deploy-web.ps1) like lineup/, tonight/ and venues/; a
+ * name missing there is wiped by the next client deploy, and here that
+ * would take the list with the pages.
+ */
+async function writeActs(files) {
+  await mkdir('acts', { recursive: true });
+  for (const entry of await readdir('acts', { withFileTypes: true })) {
+    if (entry.isDirectory()) await rm(`acts/${entry.name}`, { recursive: true, force: true });
+  }
+  for (const [path, contents] of files) {
+    await mkdir(path.slice(0, path.lastIndexOf('/')), { recursive: true });
+    await writeFile(path, contents);
+  }
+}
+
+/**
+ * The act pages written so far. No file yet is the first run: the list
+ * starts from whatever act pages are on the site, which is none unless
+ * the file was lost (seedPublishedActs). A file that is there but will
+ * not parse throws, before anything has been written.
+ */
+async function readPublishedActs() {
+  try {
+    return parsePublished(await readFile('acts/published.json', 'utf8'), 'acts/published.json');
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err;
+  }
+  const dirs = [];
+  for (const entry of await readdir('acts', { withFileTypes: true }).catch(() => [])) {
+    if (!entry.isDirectory()) continue;
+    const html = await readFile(`acts/${entry.name}/index.html`, 'utf8').catch(() => '');
+    dirs.push({ dir: entry.name, html });
+  }
+  const seeded = seedPublishedActs(dirs);
+  console.log(`No acts/published.json yet: starting it from the ${seeded.length} act pages on the site.`);
+  return seeded;
 }
 
 /**
