@@ -15,7 +15,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="30anow share-cards Sun, Oct 11, 11:20 AM">
+<meta name="generator" content="30anow share-cards Sun, Oct 11, 2:35 PM">
 <noscript><meta http-equiv="refresh" content="3;url=/event/e51697e4-1244-4eb1-ba41-ad0e3f77c7da"></noscript>
 <style>
 :root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--teal-dark:#0A5960;--teal-soft:#E3F2F3;--border:#E3EBEE;--bg:#FFFFFF}
@@ -113,8 +113,9 @@ footer{max-width:720px;margin:30px auto 0;padding:16px;color:var(--sub);font-siz
   }
   var copy=document.getElementById('copy'),code=document.getElementById('snippet');
   if(copy&&code){
+    var was=copy.textContent;
     copy.addEventListener('click',function(){
-      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},2000);};
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent=was;},2000);};
       var select=function(){try{var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);if(document.execCommand('copy'))done();}catch(e){}};
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code.textContent).then(done,select);else select();
     });
