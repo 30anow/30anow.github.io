@@ -4,6 +4,11 @@
     "name": "Alex Napier"
   },
   {
+    "slug": "boukou-groove",
+    "name": "Boukou Groove",
+    "near": true
+  },
+  {
     "slug": "brent-varner",
     "name": "Brent Varner"
   },
@@ -76,6 +81,11 @@
     "name": "Mark Payne"
   },
   {
+    "slug": "matts-jazz",
+    "name": "Matt's Jazz",
+    "near": true
+  },
+  {
     "slug": "meco",
     "name": "MECO"
   },
@@ -116,12 +126,26 @@
     "name": "Roshambo"
   },
   {
+    "slug": "salt-rock-revival",
+    "name": "Salt Rock Revival",
+    "near": true
+  },
+  {
     "slug": "sand-ole-opry",
     "name": "Sand Ole Opry"
   },
   {
     "slug": "steenos-and-john-reinlie",
     "name": "Steenos + John Reinlie"
+  },
+  {
+    "slug": "steven-theriot",
+    "name": "STEVEN THERIOT"
+  },
+  {
+    "slug": "sunday-pickin-with-mike-whitty-and-friends",
+    "name": "Sunday Pickin' with Mike Whitty & Friends",
+    "near": true
   },
   {
     "slug": "trevor-finlay",

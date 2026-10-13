@@ -92,6 +92,10 @@
     "name": "North Barrett Square"
   },
   {
+    "slug": "north-beach-social",
+    "name": "North Beach Social"
+  },
+  {
     "slug": "old-florida-fish-house",
     "name": "Old Florida Fish House"
   },
@@ -178,6 +182,10 @@
   {
     "slug": "tennis-pickleball-courts",
     "name": "Tennis & Pickleball Courts"
+  },
+  {
+    "slug": "the-bay",
+    "name": "The Bay"
   },
   {
     "slug": "the-big-chill-30a",
