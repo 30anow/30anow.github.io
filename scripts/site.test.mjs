@@ -13,12 +13,15 @@ import {
   actAppArgument,
   actFiles,
   actJsonLd,
+  actNear30A,
   actPages,
   addBeachDays,
   APP_STORE_PROVIDER_TOKEN,
   APP_STORE_URL,
+  AREA_NAMES,
   ARRIVAL,
   bannerMeta,
+  BAYSIDE,
   beachDayKey,
   beachIso,
   beachWallToUtc,
@@ -2799,5 +2802,161 @@ describe('the feed link these pages hand the app is not the widget’s (10 Oct 2
     assert.equal(openLink(renderVenue(venues[0], now).html, ''), 'thirtyanow://venue/The%20Red%20Bar');
     assert.equal(openLink(renderVenuesIndex(venues, now).html, ''), 'thirtyanow://');
     assert.equal(openLink(renderStub(rows[0], { now }).html, ''), `thirtyanow://event/${rows[0].id}`);
+  });
+});
+
+/**
+ * Bayside (12 Oct 2026): the south foot of the US 331 bridge over
+ * Choctawhatchee Bay, where The Bay and North Beach Social sit, five miles
+ * up the road from Grayton. The app files their rows under a twelfth area,
+ * and AREA_NAMES has to match the app's AREAS. Not a beach neighbourhood
+ * and not a town: a venue page there says where the bay is rather than
+ * "on 30A", the JSON-LD locality is Santa Rosa Beach alone, and an act
+ * whose every show is there is "near 30A".
+ */
+describe('Bayside: the bay end of 331', () => {
+  const now = noonOn('2026-09-08');
+  const bay = (over = {}) => row({ venue: 'The Bay', area: 'Bayside', lat: 30.3873, lng: -86.174, ...over });
+  const nbs = (over = {}) => row({ venue: 'North Beach Social', area: 'Bayside', lat: 30.3883, lng: -86.1747, ...over });
+
+  it('AREA_NAMES is the twelve names in the app’s order, Bayside last', () => {
+    assert.deepEqual(AREA_NAMES, [
+      'Dune Allen', 'Gulf Place', 'Blue Mountain', 'Grayton Beach', 'WaterColor', 'Seaside',
+      'Seagrove', 'WaterSound', 'Alys Beach', 'Rosemary Beach', 'Inlet Beach', 'Bayside',
+    ]);
+    assert.equal(BAYSIDE, 'Bayside');
+  });
+
+  it('a venue string "Bayside" is a town; The Bay and North Beach Social there are businesses', () => {
+    assert.equal(isVenueName('Bayside'), false);
+    assert.equal(isVenueName('bayside ', 'Bayside'), false);
+    assert.equal(isVenueName('The Bay', 'Bayside'), true);
+    assert.equal(isVenueName('North Beach Social', 'Bayside'), true);
+    assert.equal(isPlaceholderVenue('Bayside'), false);
+  });
+
+  it('gives the two their pages with the owner footer, and a "Bayside" venue a page with none', () => {
+    const rows = [
+      ...[1, 2, 3].map(() => bay()),
+      ...[1, 2, 3].map(() => nbs({ title: 'Trivia Night', category: 'nightlife' })),
+      ...[1, 2, 3].map(() => row({ title: 'Bayside Market', venue: 'Bayside', area: 'Bayside' })),
+    ];
+    const pages = venuePages(rows, now);
+    // A Map, since three venues with three rows each take whatever order
+    // the tie-break gives.
+    assert.deepEqual(
+      new Map(pages.map((p) => [p.slug, p.owner])),
+      new Map([['the-bay', true], ['north-beach-social', true], ['bayside', false]]),
+    );
+    const by = (slug) => pages.find((p) => p.slug === slug);
+    assert.match(renderVenue(by('the-bay'), now).html, /Run The Bay\?/);
+    assert.match(renderVenue(by('north-beach-social'), now).html, /Run North Beach Social\?/);
+    assert.doesNotMatch(renderVenue(by('bayside'), now).html, /Run Bayside\?/);
+  });
+
+  it('the venue page says where the bay is, not "on 30A"; a corridor page is unchanged', () => {
+    const pages = venuePages([...[1, 2, 3].map(() => bay()), ...[1, 2, 3].map(() => row())], now);
+    const theBay = renderVenue(pages.find((p) => p.slug === 'the-bay'), now).html;
+    assert.match(theBay, /<meta name="description" content="3 upcoming events at The Bay \(Bayside\) on Choctawhatchee Bay, minutes from 30A — next up Live Music, /);
+    assert.match(theBay, /<meta property="og:description" content="Upcoming events and live music at The Bay \(Bayside\) on Choctawhatchee Bay, minutes from 30A\. Times, prices and the live map on 30A Now\.">/);
+    assert.doesNotMatch(theBay, /\(Bayside\) on 30A/);
+    const redBar = renderVenue(pages.find((p) => p.slug === 'the-red-bar'), now).html;
+    assert.match(redBar, /<meta name="description" content="3 upcoming events at The Red Bar \(Grayton Beach\) on 30A — next up Live Music, /);
+    assert.match(redBar, /<meta property="og:description" content="Upcoming events and live music at The Red Bar \(Grayton Beach\) on 30A\. Times, prices and the live map on 30A Now\.">/);
+  });
+
+  it('the JSON-LD locality for a Bayside row is Santa Rosa Beach alone', () => {
+    const ld = eventJsonLd(bay());
+    assert.equal(ld.location.address.addressLocality, 'Santa Rosa Beach');
+    assert.equal(ld.location.address.addressRegion, 'FL');
+    assert.equal(ld.location.address.streetAddress, undefined);
+    assert.deepEqual(ld.location.geo, { '@type': 'GeoCoordinates', latitude: 30.3873, longitude: -86.174 });
+    // A corridor row still names its neighbourhood first.
+    assert.equal(eventJsonLd(row({ venue: 'Seaside Amphitheater', area: 'Seaside' })).location.address.addressLocality, 'Seaside, Santa Rosa Beach');
+  });
+
+  it('an act whose every show is at Bayside is "near 30A"; one that plays the corridor too stays "on 30A"', () => {
+    const shows = [
+      bay({ title: 'Jared Herzog' }),
+      bay({ title: 'Jared Herzog', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+      nbs({ title: 'Jared Herzog', starts_at: '2026-09-13T23:00:00Z', ends_at: '2026-09-14T02:00:00Z' }),
+    ];
+    const [act] = actPages(shows, now);
+    const html = renderAct(act, now).html;
+    assert.match(html, /<title>Jared Herzog near 30A — upcoming shows \| 30A Now<\/title>/);
+    assert.match(html, /<meta property="og:title" content="Jared Herzog near 30A — upcoming shows">/);
+    assert.match(html, /<meta name="description" content="Jared Herzog near 30A: 3 shows coming up at 2 venues — next at The Bay, /);
+    assert.match(html, /<meta property="og:description" content="Every show Jared Herzog has coming up near 30A, at every bar, /);
+    assert.match(html, /<p class="lead">Upcoming near 30A · 3 shows at 2 venues · updated /);
+    // "This weekend on 30A" in the Also line is the lineup's name and stays.
+    assert.doesNotMatch(html, /Jared Herzog on 30A|Upcoming on 30A|along 30A/);
+
+    const mixed = [shows[0], shows[1], row({ title: 'Jared Herzog', venue: 'Crackings', starts_at: '2026-09-13T23:00:00Z', ends_at: '2026-09-14T02:00:00Z' })];
+    const [both] = actPages(mixed, now);
+    const page = renderAct(both, now).html;
+    assert.match(page, /<title>Jared Herzog on 30A — upcoming shows \| 30A Now<\/title>/);
+    assert.match(page, /<meta property="og:title" content="Jared Herzog on 30A — upcoming shows">/);
+    assert.match(page, /<meta property="og:description" content="Every show Jared Herzog has coming up along 30A, /);
+    assert.match(page, /<p class="lead">Upcoming on 30A · 3 shows at 2 venues · updated /);
+    assert.doesNotMatch(page, /near 30A/);
+  });
+
+  it('the page between shows says the same place as the full one: the list remembers an act that only played the bay', () => {
+    // renderActQuiet takes the list's entry, which held a slug and a name
+    // and nothing of where the act played, so the run after a Bayside
+    // act's last show rewrote the same URL as "<name> on 30A", and the
+    // card under a link the band had posted changed with it.
+    const shows = [
+      bay({ title: 'Salt Rock Revival' }),
+      nbs({ title: 'Salt Rock Revival', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' }),
+    ];
+    const acts = actPages(shows, now);
+    assert.equal(acts.length, 1);
+    assert.equal(actNear30A(acts[0].events), true);
+    assert.equal(actNear30A([]), false);
+    const list = publishedActs([], acts);
+    assert.deepEqual(list, [{ slug: 'salt-rock-revival', name: 'Salt Rock Revival', near: true }]);
+    const full = renderAct(acts[0], now).html;
+    // The run after the last show: no page, the slug left on the list, the quiet page written from it.
+    const later = noonOn('2026-09-20');
+    assert.deepEqual(actPages(shows, later, list), []);
+    assert.deepEqual(quietActs(list, []), list);
+    const files = new Map(actFiles([], list, later));
+    const quiet = files.get('acts/salt-rock-revival/index.html');
+    assert.match(quiet, /<title>Salt Rock Revival near 30A \| 30A Now<\/title>/);
+    assert.match(quiet, /<meta name="description" content="Nothing listed for Salt Rock Revival near 30A right now\. /);
+    assert.match(quiet, /<p class="lead">Nothing listed for Salt Rock Revival near 30A right now\. This page fills in again when a show is posted\.<\/p>/);
+    assert.doesNotMatch(quiet, /Salt Rock Revival on 30A|along 30A/);
+    for (const prop of ['og:title', 'og:description', 'og:url', 'og:image']) {
+      const tag = new RegExp(`<meta property="${prop}" content="[^"]*">`);
+      assert.equal(tag.exec(quiet)[0], tag.exec(full)[0], prop);
+    }
+    // The same bytes from the file the next run reads the entry back from.
+    const read = parsePublished(files.get('acts/published.json'), 'acts/published.json');
+    assert.deepEqual(read, list);
+    assert.equal(renderActQuiet(read[0]), quiet);
+    // Only a true flag survives the file; a corridor act's entry has no
+    // key, as before, so its file and its quiet page are as they were.
+    assert.deepEqual(
+      parsePublished(JSON.stringify([{ slug: 'a-b', name: 'A B', near: false }, { slug: 'c-d', name: 'C D', near: 'yes' }, { slug: 'e-f', name: 'E F', near: true }]), 'acts/published.json'),
+      [{ slug: 'a-b', name: 'A B' }, { slug: 'c-d', name: 'C D' }, { slug: 'e-f', name: 'E F', near: true }],
+    );
+    const corridor = publishedActs([], actPages([row({ title: 'Dread Clampitt' }), row({ title: 'Dread Clampitt', venue: 'Crackings', starts_at: '2026-09-12T23:00:00Z', ends_at: '2026-09-13T02:00:00Z' })], now));
+    assert.deepEqual(corridor, [{ slug: 'dread-clampitt', name: 'Dread Clampitt' }]);
+    assert.equal('near' in corridor[0], false);
+    assert.match(renderActQuiet(corridor[0]), /<meta property="og:title" content="Dread Clampitt on 30A — upcoming shows">/);
+    // The flag follows the act: the week it plays the road too, the full
+    // page says "on 30A" and the list with it; the bay alone again, "near".
+    const mixed = actPages([...shows, row({ title: 'Salt Rock Revival', venue: 'Crackings', starts_at: '2026-09-13T23:00:00Z', ends_at: '2026-09-14T02:00:00Z' })], now, list);
+    assert.match(renderAct(mixed[0], now).html, /<meta property="og:title" content="Salt Rock Revival on 30A — upcoming shows">/);
+    assert.deepEqual(publishedActs(list, mixed), [{ slug: 'salt-rock-revival', name: 'Salt Rock Revival' }]);
+    assert.deepEqual(publishedActs(publishedActs(list, mixed), acts), list);
+    // A lost file starts the list from the pages on the site, the place
+    // read back off either page's card.
+    assert.deepEqual(seedPublishedActs([{ dir: 'salt-rock-revival', html: quiet }, { dir: 'dread-clampitt', html: renderActQuiet(corridor[0]) }]), [
+      { slug: 'dread-clampitt', name: 'Dread Clampitt' },
+      { slug: 'salt-rock-revival', name: 'Salt Rock Revival', near: true },
+    ]);
+    assert.deepEqual(seedPublishedActs([{ dir: 'salt-rock-revival', html: full }]), list);
   });
 });

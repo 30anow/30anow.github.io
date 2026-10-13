@@ -323,7 +323,32 @@ export const NOT_A_VENUE = ['Venues along 30A', '30A.com', '30A.com day view', '
 export const AREA_NAMES = [
   'Dune Allen', 'Gulf Place', 'Blue Mountain', 'Grayton Beach', 'WaterColor', 'Seaside',
   'Seagrove', 'WaterSound', 'Alys Beach', 'Rosemary Beach', 'Inlet Beach',
+  'Bayside',
 ];
+
+/**
+ * The twelfth area (12 Oct 2026): the south foot of the US 331 bridge over
+ * Choctawhatchee Bay, where The Bay and North Beach Social sit, five miles
+ * up the road from Grayton. Not a beach neighbourhood and not a town, so a
+ * Bayside row's JSON-LD locality is Santa Rosa Beach alone, a Bayside
+ * venue's page says where it is rather than "on 30A", and an act whose
+ * every show is there is "near 30A" (where30A, postalAddress, renderAct).
+ */
+export const BAYSIDE = 'Bayside';
+
+/** The phrase after a place: "on 30A" for the corridor, the bay for Bayside. */
+const where30A = (area) => (area === BAYSIDE ? 'on Choctawhatchee Bay, minutes from 30A' : 'on 30A');
+
+/**
+ * An act whose every show is at a Bayside venue is "near 30A": the bay end
+ * of 331 is not on the road. A corridor act, or one that plays both, is
+ * "on 30A". The full page reads it off the act's rows (renderAct); the
+ * page between shows has no rows, so the list keeps the answer per act
+ * (publishedActs, `near`) and the two pages say the same place, as the
+ * card a share unfurls into must whichever week it is read.
+ */
+export const actNear30A = (events) => events.length > 0 && events.every((e) => e.area === BAYSIDE);
+const actWhere = (near) => (near ? 'near 30A' : 'on 30A');
 
 /**
  * Places that host events but are not a business anyone there could put a
@@ -542,14 +567,21 @@ export const ACT_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
  * changes only when the list does. The strips have had the same list
  * since 1 Oct 2026 (publishedStrips), for the same reason: Crackings'
  * pasted strip went to the 404 shell the run after its last row ended.
+ *
+ * An entry also says where the act played, when its page last said "near
+ * 30A" (`near: true`, actNear30A; 12 Oct 2026): the page between shows
+ * has no rows to read it off, and without it a Bayside act's quiet page
+ * said "on 30A" where its full page had said "near", so the card under a
+ * posted link changed the run after the last show. Left out when false,
+ * so a corridor act's entry, and the file, are as they were.
  */
 export function publishedActs(prev, acts) {
-  const bySlug = new Map(prev.map((p) => [p.slug, p.name]));
-  for (const a of acts) bySlug.set(a.slug, a.label);
+  const bySlug = new Map(prev.map((p) => [p.slug, { name: p.name, near: p.near === true }]));
+  for (const a of acts) bySlug.set(a.slug, { name: a.label, near: actNear30A(a.events) });
   return [...bySlug]
-    .filter(([slug, name]) => ACT_SLUG.test(slug) && String(name ?? '').trim())
+    .filter(([slug, { name }]) => ACT_SLUG.test(slug) && String(name ?? '').trim())
     .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-    .map(([slug, name]) => ({ slug, name: String(name).trim() }));
+    .map(([slug, { name, near }]) => ({ slug, name: String(name).trim(), ...(near ? { near: true } : {}) }));
 }
 
 /**
@@ -567,17 +599,20 @@ export function quietActs(published, acts) {
  * The first run that keeps the list has none to read, and act pages are
  * as new as the list, so it starts empty. Unless there are act pages on
  * the site already: then the file has been lost, and the list starts from
- * them, each under the name in its <h1>, so losing the file takes no page
- * down. `dirs` is [{ dir, html }], the directories under acts/.
+ * them, each under the name in its <h1> and the place its card says (the
+ * full page's and the quiet page's og:title are one), so losing the file
+ * takes no page down. `dirs` is [{ dir, html }], the directories under
+ * acts/.
  */
 export function seedPublishedActs(dirs) {
   const seen = new Map();
   for (const { dir, html } of dirs) {
     if (!ACT_SLUG.test(dir) || seen.has(dir)) continue;
     const name = unescapeHtml(/<h1>([^<]*)<\/h1>/.exec(html ?? '')?.[1] ?? '').trim();
-    if (name) seen.set(dir, name);
+    const near = /<meta property="og:title" content="[^"]* near 30A — upcoming shows">/.test(html ?? '');
+    if (name) seen.set(dir, { name, near });
   }
-  return publishedActs([...seen].map(([slug, name]) => ({ slug, name })), []);
+  return publishedActs([...seen].map(([slug, { name, near }]) => ({ slug, name, near })), []);
 }
 
 /** Every file under acts/ for one run, as [path, contents]: the index, a page per act, a quiet page per slug left on the list, and the list. */
@@ -670,10 +705,11 @@ function postalAddress(e) {
     };
   }
   // Every 30A neighbourhood posts as Santa Rosa Beach; the area is the
-  // part a searcher actually types.
+  // part a searcher actually types. Bayside is not one a searcher types:
+  // "Bayside, Santa Rosa Beach" is no place, so the town alone.
   return {
     '@type': 'PostalAddress',
-    addressLocality: e.area ? `${e.area}, Santa Rosa Beach` : 'Santa Rosa Beach',
+    addressLocality: e.area && e.area !== BAYSIDE ? `${e.area}, Santa Rosa Beach` : 'Santa Rosa Beach',
     addressRegion: 'FL',
     addressCountry: 'US',
   };
@@ -1431,7 +1467,7 @@ export function renderVenue(venue, now, posters = new Map()) {
   const days = groupByDay(events);
   const next = events[0];
   const place = area && area !== name ? `${name} (${area})` : name;
-  const description = `${countLabel(events.length, 'upcoming event', 'upcoming events')} at ${place} on 30A — next up ${next.title}, ${fmtWhen(next)}. Times, prices and the live map on 30A Now.`;
+  const description = `${countLabel(events.length, 'upcoming event', 'upcoming events')} at ${place} ${where30A(area)} — next up ${next.title}, ${fmtWhen(next)}. Times, prices and the live map on 30A Now.`;
   const card = known
     ? `<div class="card"><strong>${esc(known.name)}</strong> · ${esc(known.address)}` +
       ` · <a href="${esc(known.website)}">${esc(hostOf(known.website))}</a>` +
@@ -1451,7 +1487,7 @@ export function renderVenue(venue, now, posters = new Map()) {
       title: `${name} — upcoming events and live music | 30A Now`,
       description,
       // The page is shared under one URL for good; "next up" is a date.
-      ogDescription: `Upcoming events and live music at ${place} on 30A. Times, prices and the live map on 30A Now.`,
+      ogDescription: `Upcoming events and live music at ${place} ${where30A(area)}. Times, prices and the live map on 30A Now.`,
       path: `/venues/${slug}/`,
       appArgument,
       updated: fmtStamp(now),
@@ -1565,22 +1601,26 @@ export function renderAct(act, now, venueSlugs = new Map(), posters = new Map())
   const next = events[0];
   const shows = countLabel(events.length, 'show', 'shows');
   const where = countLabel(venues, 'venue', 'venues');
-  const description = `${label} on 30A: ${shows} coming up at ${where} — next at ${next.venue}, ${fmtWhen(next)}. Every date, time and bar on 30A Now.`;
+  // "near 30A" for an act whose every show is at Bayside (actNear30A); the
+  // page between shows says the same (renderActQuiet, off the list).
+  const near = actNear30A(events);
+  const on30A = actWhere(near);
+  const description = `${label} ${on30A}: ${shows} coming up at ${where} — next at ${next.venue}, ${fmtWhen(next)}. Every date, time and bar on 30A Now.`;
   const livePath = `/act/${slug}`;
   const appArgument = actAppArgument(slug);
   const liveLabel = `See ${label} live in the app`;
   const body =
     head({
-      title: `${label} on 30A — upcoming shows | 30A Now`,
+      title: `${label} ${on30A} — upcoming shows | 30A Now`,
       description,
-      ogTitle: `${label} on 30A — upcoming shows`,
-      ogDescription: `Every show ${label} has coming up along 30A, at every bar, on one page that keeps itself up to date.`,
+      ogTitle: `${label} ${on30A} — upcoming shows`,
+      ogDescription: `Every show ${label} has coming up ${near ? 'near' : 'along'} 30A, at every bar, on one page that keeps itself up to date.`,
       path: `/acts/${slug}/`,
       appArgument,
       updated: fmtStamp(now),
     }) +
     `<h1>${esc(label)}</h1>
-<p class="lead">Upcoming on 30A · ${shows} at ${where} · updated ${esc(fmtStamp(now))} beach time</p>
+<p class="lead">Upcoming ${on30A} · ${shows} at ${where} · updated ${esc(fmtStamp(now))} beach time</p>
 ` +
     doneLine('', label, livePath, liveLabel, ARRIVAL.act) +
     cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.act }) +
@@ -1598,28 +1638,32 @@ export function renderAct(act, now, venueSlugs = new Map(), posters = new Map())
  * sent, opens this in a quiet one rather than the web app's 404, and the
  * full page is back at the same address the run after a show is listed.
  * The card is the full page's, word for word, so a share unfurls the same
- * whichever week it is read. noindex, and in neither the sitemap nor the
- * index: there is nothing here for a search to find. No rows, no JSON-LD
- * and no time on it - it takes no `now` - so the file is the same bytes
- * run after run and the Action commits it once, not five times a day.
+ * whichever week it is read: `near` is the list's memory of where the act
+ * played (publishedActs), since a Bayside act's card says "near 30A" and
+ * this page has no rows to read it off. noindex, and in neither the
+ * sitemap nor the index: there is nothing here for a search to find. No
+ * rows, no JSON-LD and no time on it - it takes no `now` - so the file is
+ * the same bytes run after run and the Action commits it once, not five
+ * times a day.
  */
-export function renderActQuiet({ slug, name }) {
+export function renderActQuiet({ slug, name, near = false }) {
   const livePath = `/act/${slug}`;
   const appArgument = actAppArgument(slug);
   const liveLabel = `See ${name} live in the app`;
+  const where = actWhere(near);
   return (
     head({
-      title: `${name} on 30A | 30A Now`,
-      description: `Nothing listed for ${name} on 30A right now. Every act with a show coming up, at every bar, is on 30A Now.`,
-      ogTitle: `${name} on 30A — upcoming shows`,
-      ogDescription: `Every show ${name} has coming up along 30A, at every bar, on one page that keeps itself up to date.`,
+      title: `${name} ${where} | 30A Now`,
+      description: `Nothing listed for ${name} ${where} right now. Every act with a show coming up, at every bar, is on 30A Now.`,
+      ogTitle: `${name} ${where} — upcoming shows`,
+      ogDescription: `Every show ${name} has coming up ${near ? 'near' : 'along'} 30A, at every bar, on one page that keeps itself up to date.`,
       path: `/acts/${slug}/`,
       appArgument,
       updated: 'between shows',
       extraHead: '<meta name="robots" content="noindex">\n',
     }) +
     `<h1>${esc(name)}</h1>
-<p class="lead">Nothing listed for ${esc(name)} on 30A right now. This page fills in again when a show is posted.</p>
+<p class="lead">Nothing listed for ${esc(name)} ${where} right now. This page fills in again when a show is posted.</p>
 ` +
     cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.act }) +
     `<section><h2>Also</h2><p><a href="/acts/">Every act</a> · <a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
@@ -1809,14 +1853,16 @@ export function publishedStrips(prev, venues) {
  * (a red Action leaves the strips up). An entry that is not a strip slug
  * and a name is dropped - the slug becomes a directory. acts/published.json
  * is the same shape and is read the same way (`file` names it in the
- * error); an act's slug is held to the same pattern (ACT_SLUG).
+ * error); an act's slug is held to the same pattern (ACT_SLUG), and its
+ * entry may carry `near: true` (publishedActs), which is kept as exactly
+ * that and nothing else.
  */
 export function parsePublished(text, file = 'embed/published.json') {
   const list = JSON.parse(text);
   if (!Array.isArray(list)) throw new Error(`${file} is not a list`);
   return list
     .filter((p) => p && typeof p.slug === 'string' && STRIP_SLUG.test(p.slug) && typeof p.name === 'string')
-    .map((p) => ({ slug: p.slug, name: p.name.trim() }))
+    .map((p) => ({ slug: p.slug, name: p.name.trim(), ...(p.near === true ? { near: true } : {}) }))
     .filter((p) => p.name && p.name.length <= 200);
 }
 
