@@ -2,8 +2,8 @@
 # stubs (e/<id>.html) so shared links unfurl into real cards, the crawlable
 # pages (lineup/, tonight/, venues/<slug>/, acts/<slug>/, sitemap.xml,
 # robots.txt) so a search for what is on along 30A can find this site at
-# all, and the partner strips (embed/<venue>/) a bar pastes into its own
-# site.
+# all, the partner strips (embed/<venue>/) a bar pastes into its own
+# site, and the door signs (embed/<slug>/sign/) a bar prints.
 #
 # Scheduled a few minutes after each event import in the app repo (its
 # scrape.yml: 10:13, 17:13 and 20:13 UTC) so fresh events get their pages
@@ -62,7 +62,12 @@ jobs:
           node-version: 20
       # The generator's pure functions, with no dependencies to install. A
       # failing test stops the run before a broken page reaches the site.
-      - run: node --test scripts/site.test.mjs
+      # qr.test.mjs proves the reader in qr.mjs that reads each door sign's
+      # code back before the sign is written (14 Oct 2026), on the example
+      # doors and both ends of every version under all eight masks; in the
+      # run itself a code that does not read back gets a warning from
+      # share-cards.mjs and no page, never a sign that would not scan.
+      - run: node --test scripts/site.test.mjs scripts/qr.test.mjs
       # The first run that keeps embed/published.json starts it partly from
       # git history: every venue page since the owner footer shipped whose
       # strip has gone since (readPublished in scripts/share-cards.mjs). The
