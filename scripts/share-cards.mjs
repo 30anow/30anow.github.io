@@ -8,6 +8,8 @@
 //                          posted outlives the week it was posted in
 //   embed/<venue>/         the strip a partner pastes into their own site,
 //                          under both its slug and its own name
+//   embed/<slug>/sign/     the printable door sign for the same place,
+//                          under its slug only (14 Oct 2026)
 //   embed/published.json   every strip slug a venue page has handed out,
 //                          so a pasted strip outlives a quiet spell
 //   sitemap.xml, robots.txt
@@ -34,6 +36,7 @@ import {
   quietActs,
   renderEmbed,
   renderLineup,
+  renderSign,
   renderStub,
   renderTonight,
   renderVenue,
@@ -42,6 +45,8 @@ import {
   seedPublished,
   seedPublishedActs,
   shrinkRefusal,
+  signDirs,
+  signProblem,
   sitemapXml,
   SUPABASE_URL,
   truncationRefusal,
@@ -286,6 +291,17 @@ async function readPublishedActs() {
  * each keeps a strip whether or not its venue has anything on, and the list
  * goes back to embed/published.json for the next run. A file, not a
  * directory, so the clear-out below passes it by.
+ *
+ * The door sign (14 Oct 2026) goes inside the strip's own directory,
+ * embed/<slug>/sign/index.html, for the slug and alias directories of a
+ * place someone runs (signDirs): no new top-level name, so the deploys'
+ * keep lists and the Action's git add are as they were, and a strip once
+ * handed out keeps its sign with its page. Every code is read back by
+ * qr.mjs's own reader before it is drawn, and a link that cannot be a
+ * code (renderSign answers null: not printable ASCII, too long for the
+ * reader, or a code that did not read back as the link) gets a line in
+ * the run's log saying which (signProblem) and no page, never a code
+ * that would not scan.
  */
 async function writeEmbeds(events, now, published) {
   const venues = embedVenues(events, now, published);
@@ -298,9 +314,20 @@ async function writeEmbeds(events, now, published) {
     await mkdir(`embed/${dir}`, { recursive: true });
     await writeFile(`embed/${dir}/index.html`, html.get(venue));
   }
+  let signs = 0;
+  for (const { dir, venue } of signDirs(venues)) {
+    const sign = renderSign(venue);
+    if (!sign) {
+      console.warn(`No door sign for ${venue.name}: ${signProblem(venue)}.`);
+      continue;
+    }
+    await mkdir(`embed/${dir}/sign`, { recursive: true });
+    await writeFile(`embed/${dir}/sign/index.html`, sign);
+    signs += 1;
+  }
   await writeFile('embed/published.json', `${JSON.stringify(published, null, 2)}\n`);
   console.log(
-    `Wrote ${pages.length} embed strips for ${venues.length} venues (${published.length} handed out).`,
+    `Wrote ${pages.length} embed strips for ${venues.length} venues (${published.length} handed out) and ${signs} door signs.`,
   );
 }
 

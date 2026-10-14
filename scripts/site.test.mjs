@@ -7,6 +7,9 @@ import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 import { ACT_PAGE_MIN, actKey, actLabel, actSlug, actTitleKey, shownTitle } from './actKey.mjs';
+// The vendored encoder's class, so one test can make it hand back a wrong
+// code and watch renderSign refuse it; nothing in vendor/ is changed.
+import QRCode from './vendor/QRCode/index.js';
 import {
   ACT_ROUTE_IN_BINARY,
   ACT_SLUG,
@@ -25,6 +28,7 @@ import {
   beachDayKey,
   beachIso,
   beachWallToUtc,
+  doorUrl,
   embedDirs,
   embedNameDir,
   embedRef,
@@ -41,6 +45,7 @@ import {
   inWindow,
   isPlaceholderVenue,
   isVenueName,
+  KNOWN_VENUES,
   knownVenue,
   lostFooterPages,
   OG_DEFAULT,
@@ -56,6 +61,7 @@ import {
   renderActsIndex,
   renderEmbed,
   renderLineup,
+  renderSign,
   renderStub,
   renderTonight,
   renderVenue,
@@ -67,9 +73,13 @@ import {
   seedPublishedActs,
   shareFooter,
   shrinkRefusal,
+  signDirs,
+  signPath,
+  signProblem,
   sitemapXml,
   slugify,
   storeUrl,
+  STRIP_SLUG,
   SUPPORT_EMAIL,
   tonightWindow,
   truncationRefusal,
@@ -2958,5 +2968,194 @@ describe('Bayside: the bay end of 331', () => {
       { slug: 'salt-rock-revival', name: 'Salt Rock Revival', near: true },
     ]);
     assert.deepEqual(seedPublishedActs([{ dir: 'salt-rock-revival', html: full }]), list);
+  });
+});
+
+/**
+ * The door sign (14 Oct 2026). The strip offer in docs/featured-shows.md
+ * (app repo) ends on "I'd love a QR code by the door", and until now the
+ * code was "any free QR generator's output" for a URL the owner typed by
+ * hand, one venue at a time. Now every slug-shaped strip directory of a
+ * place someone runs carries /sign/: the venue's name, the question, the
+ * code drawn by scripts/qr.mjs (scripts/qr.test.mjs carries the reader
+ * that proves each code) and a Print button. The link inside the code is
+ * the one hand-made signs have carried since September, so those keep
+ * counting under the same key.
+ */
+describe('door signs', () => {
+  const now = noonOn('2026-09-08');
+  const rows = [row({ title: 'Jazz Night' }), row({ title: 'Dread Clampitt' }), row({ title: 'Trivia' })];
+
+  it('carries the venue route with the two tags that count a scan, the form docs/venue-outreach.md hands out', () => {
+    // The app repo's docs/venue-outreach.md and src/utils/ownerLink.ts
+    // name these two; a change here changes a printed sign's count.
+    assert.equal(doorUrl('The Red Bar'), 'https://30anow.github.io/venue/The%20Red%20Bar?s=qr&ref=the-red-bar');
+    assert.equal(doorUrl("AJ's Grayton Beach"), "https://30anow.github.io/venue/AJ's%20Grayton%20Beach?s=qr&ref=ajs-grayton-beach");
+    // The card's spelling makes the ref: "Red Bar" and "The Red Bar" are one door.
+    assert.ok(doorUrl('Red Bar').endsWith('?s=qr&ref=the-red-bar'));
+    assert.equal(doorUrl('Red Bar').split('?')[1], doorUrl('The Red Bar').split('?')[1]);
+  });
+
+  it('is printable ASCII whatever the name, so the byte mode writes the link that is on the page', () => {
+    for (const name of ["Bud & Alley’s", 'Café Thirty-A', 'Seaside’s Central Square', 'x</script>', 'Trailing.']) {
+      assert.match(doorUrl(name), /^[\x20-\x7e]+$/, name);
+    }
+    assert.equal(doorUrl("Bud & Alley’s"), 'https://30anow.github.io/venue/Bud%20%26%20Alley%E2%80%99s?s=qr&ref=bud-alleys');
+    assert.match(doorUrl('Café Thirty-A'), /^https:\/\/30anow\.github\.io\/venue\/Caf%C3%A9%20Thirty-A\?s=qr&ref=/);
+  });
+
+  it('lives under the strip, at /embed/<slug>/sign/', () => {
+    assert.equal(signPath('the-red-bar'), '/embed/the-red-bar/sign/');
+    assert.equal(signPath('ajs-grayton-beach'), '/embed/ajs-grayton-beach/sign/');
+  });
+
+  it('is a whole page: noindex, the name, the link on the code, a Print button, one script and nothing to fetch', () => {
+    const venue = embedVenues(rows, now).find((v) => v.slug === 'the-red-bar');
+    const html = renderSign(venue);
+    assert.match(html, /^<!doctype html>/);
+    assert.match(html, /<title>Door sign — The Red Bar \| 30A Now<\/title>/);
+    assert.match(html, /<meta name="robots" content="noindex">/);
+    assert.match(html, /<h1>The Red Bar<\/h1>/);
+    assert.match(html, /<p class="ask">What’s on here tonight\?<\/p>/);
+    assert.match(html, /data-url="https:\/\/30anow\.github\.io\/venue\/The%20Red%20Bar\?s=qr&amp;ref=the-red-bar"/);
+    assert.match(html, /<div class="qr" role="img" aria-label="QR code that opens The Red Bar on 30A Now"/);
+    // 67 characters is a version-5 code: 37 modules, plus four of quiet zone each side.
+    assert.match(html, /<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="0 0 45 45" shape-rendering="crispEdges"/);
+    assert.match(html, /<button type="button" id="print">Print this sign<\/button>/);
+    assert.match(html, /Door sign for The Red Bar\. Print it and put it by the door or the host stand\. A scan opens tonight’s lineup at your place, and we count how often it is scanned\./);
+    assert.match(html, /<p class="how">Scan with your phone’s camera\. Free, no account\.<\/p>/);
+    assert.match(html, /<p class="brand">30A Now · the live map of Scenic Highway 30A · 30anow\.github\.io<\/p>/);
+    // One script, the button; no beacon, no bundle, nothing from anywhere else.
+    assert.equal(html.match(/<script/g).length, 1);
+    assert.match(html, /getElementById\('print'\)[\s\S]*window\.print\(\)/);
+    for (const never of ['fetch(', 'src=', 'Every scan', 'every scan', 'we show', 'usage_events', '_expo', 'embed_view', '<link']) {
+      assert.ok(!html.includes(never), `the sign has "${never}" in it`);
+    }
+    assert.equal(html.split('http').length - 1, 2); // the link on the code and the SVG namespace, nothing else
+    // Print CSS: the screen-only bar goes, the page has its margin, the code its size.
+    assert.match(html, /@media print\{\.noprint\{display:none\}/);
+    assert.match(html, /@page\{margin:12mm\}/);
+    assert.match(html, /\.qr svg\{width:min\(70vw,110mm\);height:auto/);
+    assert.match(html, /<div class="noprint bar">/);
+    assert.match(html, /min-height:44px/);
+    assert.ok(html.length < 12_000, `sign is ${html.length} bytes`);
+  });
+
+  it('escapes the name into the title, the heading and the label, and the link on the code is the escaped link', () => {
+    const html = renderSign({ name: 'x</script><script>alert(1)', area: '', events: [], slug: 'x' });
+    assert.doesNotMatch(html, /<\/script><script>alert/);
+    assert.match(html, /<h1>x&lt;\/script&gt;&lt;script&gt;alert\(1\)<\/h1>/);
+    assert.match(html, /<title>Door sign — x&lt;\/script&gt;&lt;script&gt;alert\(1\) \| 30A Now<\/title>/);
+    assert.equal(html.match(/<script/g).length, 1);
+    const bud = renderSign({ name: "Bud & Alley's", area: '', events: [], slug: 'bud-alleys' });
+    assert.match(bud, /<h1>Bud &amp; Alley's<\/h1>/);
+    assert.match(bud, /aria-label="QR code that opens Bud &amp; Alley's on 30A Now"/);
+    assert.match(bud, /data-url="https:\/\/30anow\.github\.io\/venue\/Bud%20%26%20Alley's\?s=qr&amp;ref=bud-alleys"/);
+  });
+
+  it('is null for a link that cannot be a code, rather than a code that would not scan, and says why', () => {
+    // The slug directory takes a name of any length; encoded, a long one
+    // passes the 213 characters the reader in qr.mjs knows. The run
+    // warns with the reason and writes no page (share-cards.mjs, below).
+    const long = `${'A'.repeat(60)} ${'B'.repeat(60)} ${'C'.repeat(60)}`;
+    assert.ok(doorUrl(long).length > 213, `${doorUrl(long).length}`);
+    const venue = { name: long, area: '', events: [], slug: slugify(long) };
+    assert.equal(renderSign(venue), null);
+    assert.match(signProblem(venue), /^QR text is \d+ characters; at most 213 fit$/);
+    // Every door in the known-venue table fits with room to spare, and
+    // every one of their signs is written: its code read back as its link.
+    for (const { name } of KNOWN_VENUES) {
+      assert.ok(doorUrl(name).length <= 213 - 80, name);
+      assert.equal(signProblem({ name }), null, name);
+      assert.ok(renderSign({ name, area: '', events: [], slug: slugify(name) }), name);
+    }
+  });
+
+  it('is null when the encoder hands back a code that does not read back as the link, so a wrong code is never written', () => {
+    // Every code is read back by qr.mjs's own reader before qrSvg draws
+    // it. Make the vendored encoder flip one data module of the code it
+    // builds (the prototype, put back below; nothing in vendor/ changes)
+    // and the sign for that venue is null, with the reader's verdict on
+    // the warning line, where the old code drew whatever it was given.
+    const venue = { name: 'The Red Bar', area: '', events: [], slug: 'the-red-bar' };
+    const make = QRCode.prototype.make;
+    QRCode.prototype.make = function flipped() {
+      make.call(this);
+      const n = this.modules.length;
+      this.modules[n - 10][n - 1] = !this.modules[n - 10][n - 1];
+    };
+    try {
+      assert.equal(renderSign(venue), null);
+      assert.match(signProblem(venue), /^the code for "https:\/\/30anow\.github\.io\/venue\/The%20Red%20Bar\?s=qr&ref=the-red-bar" reads back as other text$/);
+    } finally {
+      QRCode.prototype.make = make;
+    }
+    assert.equal(signProblem(venue), null);
+    assert.match(renderSign(venue), /<h1>The Red Bar<\/h1>/);
+  });
+
+  it('is written for the slug and alias directories of a place someone runs: never the name-spelled one, a town or a place nobody runs', () => {
+    const town = [1, 2, 3].map((n) => row({ venue: 'Grayton Beach', title: `Market ${n}` }));
+    const post = [1, 2, 3].map((n) => row({ venue: 'Post Office', title: `Walk ${n}` }));
+    const published = [
+      { slug: 'pickles-sandbar', name: "Pickle's Sandbar" }, // handed out, quiet now
+      { slug: 'red-bar', name: 'Red Bar' }, // an older slug of the same door: an alias
+      { slug: 'grayton-beach', name: 'Grayton Beach' }, // a town's strip, handed out before 1 Oct
+      { slug: 'post-office', name: 'Post Office' }, // a place nobody runs, the same
+    ];
+    const venues = embedVenues([...rows, ...town, ...post], now, published);
+    const dirs = embedDirs(venues).map((d) => d.dir);
+    const signs = signDirs(venues).map((d) => d.dir);
+    // The strips are there; the signs are a subset.
+    for (const dir of ['The Red Bar', 'grayton-beach', 'post-office', 'Post Office', 'the-red-bar', 'red-bar']) assert.ok(dirs.includes(dir), dir);
+    assert.deepEqual(signs.sort(), ['old-florida-fish-house', 'pickles-sandbar', 'red-bar', 'red-fish-taco', 'stinkys-bait-shack', 'the-red-bar']);
+    for (const dir of signs) assert.match(dir, STRIP_SLUG);
+    // The same venue stands behind a slug and its alias, so both carry one link.
+    const alias = signDirs(venues).find((d) => d.dir === 'red-bar');
+    assert.equal(alias.venue.name, 'The Red Bar');
+    assert.equal(renderSign(alias.venue), renderSign(signDirs(venues).find((d) => d.dir === 'the-red-bar').venue));
+    // A placeholder and an empty ref get nothing.
+    assert.deepEqual(signDirs([{ name: 'Venues along 30A', area: '', events: [], slug: 'venues-along-30a' }]), []);
+    assert.deepEqual(signDirs([{ name: '  ', area: '', events: [], slug: 'venue' }]), []);
+  });
+
+  it('is linked from the owner footer, under the Copy button, by the slug the page hands out', () => {
+    const venue = venuePages(rows, now)[0];
+    const html = renderVenue(venue, now).html;
+    assert.match(
+      html,
+      /<p><button type="button" id="copy">Copy<\/button><\/p>\n<p><a href="\/embed\/the-red-bar\/sign\/">Print a door sign<\/a> — a QR code that opens tonight’s lineup here\.<\/p>/,
+    );
+    assert.match(ownerFooter({ name: "Bud & Alley's", slug: 'bud-alleys' }), /href="\/embed\/bud-alleys\/sign\/"/);
+    // Inside the owner block, outside <main>, so a town's page offers none and the forwarder leaves it alone.
+    assert.ok(html.indexOf('</main>') < html.indexOf('Print a door sign'));
+    const town = venuePages([1, 2, 3].map((n) => row({ venue: 'Grayton Beach', title: `Market ${n}` })), now)[0];
+    assert.doesNotMatch(renderVenue(town, now).html, /door sign/);
+    // And every page with the footer has the sign its link names.
+    assert.ok(signDirs(embedVenues(rows, now)).some((d) => d.dir === venue.slug));
+  });
+
+  it('share-cards.mjs writes each sign inside its strip, warns rather than writes when there is no code, and the Action tests the code first', () => {
+    const src = readFileSync(new URL('./share-cards.mjs', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+    const writeEmbeds = src.slice(src.indexOf('async function writeEmbeds('), src.indexOf('async function readPublished('));
+    assert.ok(writeEmbeds.includes('for (const { dir, venue } of signDirs(venues)) {'));
+    assert.ok(writeEmbeds.includes('const sign = renderSign(venue);'));
+    // The warning names the guard that refused (signProblem), not a guess.
+    assert.match(writeEmbeds, /if \(!sign\) \{\n\s+console\.warn\(`No door sign for \$\{venue\.name\}: \$\{signProblem\(venue\)\}\.`\);\n\s+continue;\n\s+\}/);
+    assert.ok(writeEmbeds.includes('await mkdir(`embed/${dir}/sign`, { recursive: true });'));
+    assert.ok(writeEmbeds.includes('await writeFile(`embed/${dir}/sign/index.html`, sign);'));
+    // After the strips, inside embed/<dir>/, which the run has just
+    // written: the one clear-out stays the one, no new top-level name, so
+    // the deploys' keep lists and the Action's git add are as they were.
+    assert.ok(writeEmbeds.indexOf('await writeFile(`embed/${dir}/index.html`, html.get(venue));') < writeEmbeds.indexOf('signDirs(venues)'));
+    assert.equal((writeEmbeds.match(/await rm\(/g) ?? []).length, 1);
+    assert.deepEqual(writeEmbeds.match(/writeFile\([`']embed\/[^`']*[`']/g), [
+      'writeFile(`embed/${dir}/index.html`',
+      'writeFile(`embed/${dir}/sign/index.html`',
+      "writeFile('embed/published.json'",
+    ]);
+    const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+    assert.match(yml, /- run: node --test scripts\/site\.test\.mjs scripts\/qr\.test\.mjs/);
+    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
   });
 });

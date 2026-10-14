@@ -10,7 +10,9 @@
 // had a page before (10 Oct 2026; publishedActs), plus sitemap.xml and
 // robots.txt — and /embed/<venue>/, the partner strip, for the same reason:
 // it was an SPA route that answered a partner's iframe with HTTP 404 and a
-// 3.0 MB bundle.
+// 3.0 MB bundle. Since 14 Oct 2026 each slug-shaped strip of a place
+// someone runs also carries /sign/, the printable door sign with the QR
+// code the owner used to make by hand (renderSign; qr.mjs draws the code).
 //
 // Pure functions only — share-cards.mjs fetches the rows and writes files.
 // Every date on these pages is beach time (America/Chicago); the helpers
@@ -18,6 +20,7 @@
 // the same instants that repo's tests pin.
 
 import { ACT_PAGE_MIN, actKey, actLabel, actSlug, actTitleKey } from './actKey.mjs';
+import { qrProblem, qrSvg } from './qr.mjs';
 
 export const SITE = 'https://30anow.github.io';
 export const APP_STORE_ID = '6792965952';
@@ -1436,7 +1439,9 @@ export function embedSnippet(slug, name) {
  * featured show for $25 (docs/featured-shows.md: the first one free), and
  * the address the app's own advertise form falls back to, with the same
  * subject line, so an owner who would rather write an email lands in the
- * same thread as one who filled the form.
+ * same thread as one who filled the form. And, since 14 Oct 2026, the
+ * door sign under the Copy button: the page at /embed/<slug>/sign/
+ * (renderSign) with the QR code the owner used to have to make by hand.
  *
  * It sits OUTSIDE <main>, on purpose. The forwarder rewrites `s=` on every
  * link inside <main> to the visitor's own tag, which is right for a reader
@@ -1452,6 +1457,7 @@ export function ownerFooter({ name, slug }) {
 <p><strong>Run ${esc(name)}?</strong> Put this week's lineup on your site, free. Paste this where the schedule goes — it keeps itself up to date and needs no account.</p>
 <pre><code id="snippet">${esc(snippet)}</code></pre>
 <p><button type="button" id="copy">Copy</button></p>
+<p><a href="${signPath(slug)}">Print a door sign</a> — a QR code that opens tonight’s lineup here.</p>
 <p><a href="${esc(advertise)}">Feature a show — $25, first one free</a> · or email <a href="${esc(mail)}">${esc(SUPPORT_EMAIL)}</a></p>
 </section>
 `;
@@ -1974,6 +1980,124 @@ export function embedDirs(venues) {
     }
   }
   return out;
+}
+
+// ---------------------------------------------------------------------------
+// Door signs (14 Oct 2026)
+// ---------------------------------------------------------------------------
+
+/**
+ * The link a venue's door sign carries: the app's venue route with the
+ * two tags that have counted a scan since September (docs/venue-outreach.md
+ * in the app repo, "The door sign": s=qr says a scan, ref says which door,
+ * by the same embedRef the strip's links carry). The form a hand-made sign
+ * has used, character for character, so those keep counting under the
+ * same key; and the app's src/utils/ownerLink.ts names the same page for
+ * the same venue, so the three places a sign is handed out from agree.
+ * The name is encoded, so the text is printable ASCII whatever the name,
+ * which is what the encoder's byte mode needs (qr.mjs).
+ */
+export function doorUrl(name) {
+  return `${SITE}/venue/${encodeURIComponent(name)}?s=qr&ref=${embedRef(name)}`;
+}
+
+/** Where a venue's sign page lives, under its strip: /embed/<slug>/sign/. */
+export function signPath(slug) {
+  return `/embed/${slug}/sign/`;
+}
+
+/**
+ * The strip directories that get a sign page: the slug and alias ones
+ * (STRIP_SLUG), never the name-spelled one, of a place someone runs
+ * (isVenueName: a town, a pavilion or a placeholder gets none, as it gets
+ * no owner footer) whose ref is not empty. Inside embed/<slug>/, so no new
+ * top-level name for the deploys' keep lists or the Action's git add, and
+ * a strip once handed out keeps its sign as it keeps its page.
+ */
+export function signDirs(venues) {
+  return embedDirs(venues).filter(
+    ({ dir, venue }) =>
+      STRIP_SLUG.test(dir) &&
+      venue.owner !== false &&
+      isVenueName(venue.name, venue.area) &&
+      embedRef(venue.name) !== '',
+  );
+}
+
+const SIGN_CSS = `
+:root{--ink:#16303A;--sub:#5E7680;--teal:#0E7C86;--border:#E3EBEE}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.bar{max-width:640px;margin:0 auto;padding:14px 16px;border-bottom:1px solid var(--border);color:var(--sub);font-size:14px}
+.bar p{margin:0 0 10px}
+.bar p:last-child{margin:0}
+button{font:inherit;font-weight:800;color:#fff;background:var(--teal);border:0;border-radius:10px;padding:12px 18px;min-height:44px;cursor:pointer}
+.sheet{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:640px;margin:0 auto;padding:28px 16px 40px}
+h1{margin:0;font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1}
+.ask{margin:14px 0 22px;font-size:clamp(20px,4vw,28px);font-weight:700}
+.qr svg{width:min(70vw,110mm);height:auto;display:block}
+.how{margin:22px 0 0;font-size:clamp(16px,3vw,20px)}
+.brand{margin:26px 0 0;font-size:14px;color:var(--sub)}
+@page{margin:12mm}
+@media print{.noprint{display:none}.sheet{padding-top:0}}
+`;
+
+/**
+ * /embed/<slug>/sign/ - the printable door sign: the venue's name, the
+ * question, the QR code and a Print button, whole in itself (inline CSS,
+ * no bundle, no fetch, no beacon; the one script is the button). Until now
+ * the code was "any free QR generator's output" and the owner made each
+ * one by hand. null when the link cannot be a code (qr.mjs: not printable
+ * ASCII, past QR_MAX_BYTES, or a code that qr.mjs's own reader did not
+ * read back as the link - qrSvg reads every code back before it draws
+ * it), so share-cards.mjs warns (signProblem says why) and writes
+ * nothing rather than a code that would not scan. noindex: a search for
+ * the bar should land on /venues/<slug>/, not on a sheet meant for the
+ * door. The page says a scan is counted and no more: a phone with a 1.2.0+
+ * binary opens the link in the app, where nothing counts it yet.
+ */
+export function renderSign(venue) {
+  const name = String(venue.name ?? '').trim();
+  const url = doorUrl(name);
+  let svg;
+  try {
+    svg = qrSvg(url);
+  } catch {
+    return null;
+  }
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Door sign — ${esc(name)} | 30A Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<style>${SIGN_CSS}</style>
+</head><body>
+<div class="noprint bar">
+<p>Door sign for ${esc(name)}. Print it and put it by the door or the host stand. A scan opens tonight’s lineup at your place, and we count how often it is scanned.</p>
+<p><button type="button" id="print">Print this sign</button></p>
+</div>
+<main class="sheet">
+<h1>${esc(name)}</h1>
+<p class="ask">What’s on here tonight?</p>
+<div class="qr" role="img" aria-label="QR code that opens ${esc(name)} on 30A Now" data-url="${esc(url)}">${svg}</div>
+<p class="how">Scan with your phone’s camera. Free, no account.</p>
+<p class="brand">30A Now · the live map of Scenic Highway 30A · 30anow.github.io</p>
+</main>
+<script>
+(function(){var b=document.getElementById('print');if(b)b.addEventListener('click',function(){window.print();});})();
+</script>
+</body></html>
+`;
+}
+
+/**
+ * Why renderSign answered null for this venue, in qr.mjs's words (not
+ * printable ASCII, past the cap, or the first fault the reader found in
+ * the code) - or null when its sign can be written. share-cards.mjs puts
+ * it on the warning line, so the log says which guard refused.
+ */
+export function signProblem(venue) {
+  return qrProblem(doorUrl(String(venue.name ?? '').trim()));
 }
 
 const EMBED_CSS = `
