@@ -13,6 +13,10 @@
 // 3.0 MB bundle. Since 14 Oct 2026 each slug-shaped strip of a place
 // someone runs also carries /sign/, the printable door sign with the QR
 // code the owner used to make by hand (renderSign; qr.mjs draws the code).
+// Since 15 Oct 2026 there is /towns/<slug>/ too, one per neighbourhood in
+// AREA_NAMES with anything on in the next seven beach days, and /towns/,
+// their index: "things to do in Seaside this week" is the search a visitor
+// planning a trip types, and no page here answered it (townPages).
 //
 // Pure functions only — share-cards.mjs fetches the rows and writes files.
 // Every date on these pages is beach time (America/Chicago); the helpers
@@ -841,6 +845,16 @@ export const ARRIVAL = {
   // told from one found in a search.
   act: 'seo-act',
   acts: 'seo-act-index',
+  // A town's page and the index of them (15 Oct 2026), the same pair again.
+  town: 'seo-town',
+  towns: 'seo-town-index',
+  // The "Planning a trip? Plan your stay" line on /lineup/ and /tonight/
+  // (15 Oct 2026; stayLine). One value for the line on both pages, as
+  // seo-venue-owner is one value for the footer on every venue page: it
+  // answers whether anyone plans a stay off the site at all, and the app's
+  // web_arrival keeps s= and ref= only, never the path, so without a value
+  // of its own an arrival at /stay could not be told from one at /weekend.
+  stay: 'seo-stay',
 };
 
 /** `path` with the tags that are set appended, merging with any query it already has. */
@@ -1243,12 +1257,13 @@ function hostOf(url) {
  * on into the live app. `compact` is the partner strip: no scraped blurb,
  * no "Listing on sowal.com" — an aggregator's link has no business on the
  * bar's own homepage — and no neighbourhood, which the strip's header
- * says once instead of on all fourteen rows.
+ * says once instead of on all fourteen rows. `showArea: false` is a
+ * town's page, whose <h1> names the neighbourhood every row is in.
  */
 export function rowHtml(
   e,
   venueSlugs = new Map(),
-  { showVenue = true, compact = false, tag = '', ref = '' } = {},
+  { showVenue = true, showArea = true, compact = false, tag = '', ref = '' } = {},
 ) {
   const slug = venueSlugs.get(String(e.venue ?? '').trim().toLowerCase());
   const venue = !showVenue
@@ -1256,7 +1271,7 @@ export function rowHtml(
     : slug
       ? `<a href="/venues/${slug}/">${esc(e.venue)}</a>`
       : esc(e.venue);
-  const area = !compact && e.area && e.area !== e.venue ? esc(e.area) : '';
+  const area = showArea && !compact && e.area && e.area !== e.venue ? esc(e.area) : '';
   const meta = [venue, area, esc(fmtWhen(e)), e.price ? esc(e.price) : '']
     .filter(Boolean)
     .join(' · ');
@@ -1304,8 +1319,13 @@ function doneLine(dayKey, what, livePath, liveLabel, tag) {
 
 const countLabel = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
-/** /lineup/ — Friday to Sunday, the same window as the app's /weekend. */
-export function renderLineup(events, venues, now, posters = new Map()) {
+/**
+ * /lineup/ — Friday to Sunday, the same window as the app's /weekend.
+ * `towns` is this run's town pages (townPages), for the "By town:" row;
+ * share-cards.mjs passes the list it writes, so the row never links a page
+ * the run did not.
+ */
+export function renderLineup(events, venues, now, posters = new Map(), towns = townPages(events, now)) {
   const window = weekendWindow(now);
   const rows = inWindow(events, window, now);
   const days = groupByDay(rows);
@@ -1349,6 +1369,8 @@ export function renderLineup(events, venues, now, posters = new Map()) {
       liveLabel: 'See it live on the map',
       tag: ARRIVAL.lineup,
     }) +
+    stayLine() +
+    townsLine(towns) +
     (days.length
       ? days.map((d) => daySection(d, slugMap(venues), { tag: ARRIVAL.lineup })).join('\n')
       : `<p class="quiet">Nothing listed for the weekend yet — the calendars are read twice a day, so check back.</p>`) +
@@ -1362,8 +1384,8 @@ export function renderLineup(events, venues, now, posters = new Map()) {
   };
 }
 
-/** /tonight/ — the 4 PM-to-midnight window the nightly push counts. */
-export function renderTonight(events, venues, now, posters = new Map()) {
+/** /tonight/ — the 4 PM-to-midnight window the nightly push counts. `towns` as on the lineup. */
+export function renderTonight(events, venues, now, posters = new Map(), towns = townPages(events, now)) {
   const window = tonightWindow(now);
   const rows = inWindow(events, window, now);
   const days = groupByDay(rows);
@@ -1400,6 +1422,8 @@ export function renderTonight(events, venues, now, posters = new Map()) {
       liveLabel: 'See it live in the app',
       tag: ARRIVAL.tonight,
     }) +
+    stayLine() +
+    townsLine(towns) +
     (days.length
       ? days.map((d) => daySection(d, slugMap(venues), { tag: ARRIVAL.tonight })).join('\n')
       : `<p class="quiet">Quiet night — nothing listed after 4 PM. <a href="/lineup/">Here is the weekend.</a></p>`) +
@@ -1466,10 +1490,14 @@ export function ownerFooter({ name, slug }) {
 /**
  * /venues/<slug>/ — everything ahead at one venue, with its card when we
  * know it, and the owner footer unless no one runs the place (`owner:
- * false`, a neighbourhood or a NO_OWNER place: venuePages).
+ * false`, a neighbourhood or a NO_OWNER place: venuePages). `towns` is
+ * this run's town pages (townPages): where the venue's area has one, the
+ * page's "Also" leads with "More in <town> →".
  */
-export function renderVenue(venue, now, posters = new Map()) {
+export function renderVenue(venue, now, posters = new Map(), towns = []) {
   const { name, area, events, slug, known } = venue;
+  const town = townOf(area, towns);
+  const more = town ? `<a href="/towns/${town.slug}/">More in ${esc(town.name)} →</a> · ` : '';
   const days = groupByDay(events);
   const next = events[0];
   const place = area && area !== name ? `${name} (${area})` : name;
@@ -1506,7 +1534,7 @@ ${card}` +
     days
       .map((d) => daySection(d, new Map(), { showVenue: false, tag: ARRIVAL.venue }))
       .join('\n') +
-    `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
+    `<section><h2>Also</h2><p>${more}<a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
     foot(venue.owner === false ? '' : ownerFooter(venue));
   return { html: body, jsonLd: jsonLdScript(events, (e) => checkedPoster(e, posters)) };
@@ -1708,6 +1736,285 @@ export function renderActsIndex(acts, now) {
 ` +
     foot();
   return { html: body };
+}
+
+// ---------------------------------------------------------------------------
+// Town pages (15 Oct 2026)
+// ---------------------------------------------------------------------------
+
+/**
+ * How far a town's page looks ahead: today and the six beach days after
+ * it, the week a visitor planning a trip means - the same seven as the
+ * partner strip (EMBED_DAYS), but counted in calendar days (townWindow).
+ */
+export const TOWN_DAYS = 7;
+
+/**
+ * Beach midnight today to the last instant before beach midnight seven
+ * days on. Calendar keys, as weekendWindow and tonightWindow walk them, so
+ * a week with a DST change in it is still seven days and never six or eight.
+ */
+export function townWindow(now) {
+  const today = beachDayKey(now);
+  return {
+    start: beachWallToUtc(today, 0),
+    end: beachWallToUtc(addBeachDays(today, TOWN_DAYS), 0) - 1,
+  };
+}
+
+/** A town's path segment: "Grayton Beach" -> "grayton-beach", "WaterColor" -> "watercolor". */
+export const townSlug = (name) => slugify(name);
+
+const areaByKey = new Map(AREA_NAMES.map((n) => [n.toLowerCase(), n]));
+
+/**
+ * One page per neighbourhood in AREA_NAMES with at least one row in the
+ * next seven beach days (townWindow) that has not ended by `now`: every
+ * row whose `area` is the town, whatever its venue - a bar, a pavilion,
+ * the town-only rows /venues/<town>/ files under the town's own name (that
+ * page is those rows; this one is the whole town), a placeholder. In
+ * AREA_NAMES order, west to east and Bayside last, as the app lists them.
+ * The area is matched without regard to case or outer spaces, and the page
+ * takes the list's own spelling.
+ */
+export function townPages(events, now) {
+  const byTown = new Map();
+  for (const e of inWindow(events, townWindow(now), now)) {
+    const name = areaByKey.get(String(e.area ?? '').trim().toLowerCase());
+    if (!name) continue;
+    if (!byTown.has(name)) byTown.set(name, []);
+    byTown.get(name).push(e);
+  }
+  return AREA_NAMES.filter((n) => byTown.has(n)).map((name) => ({
+    name,
+    slug: townSlug(name),
+    events: byTown.get(name),
+  }));
+}
+
+/** This run's page for an area, or null (renderVenue's "More in <town> →"). */
+function townOf(area, towns) {
+  const key = String(area ?? '').trim().toLowerCase();
+  return (key && towns.find((t) => t.name.toLowerCase() === key)) || null;
+}
+
+/**
+ * The towns that keep a page with nothing on this week. A town page is a
+ * link a search engine has, and a visitor may have bookmarked, so one that
+ * has been written does not go back to the web app's 404 shell in a quiet
+ * week - the act pages' rule (publishedActs, quietActs). The list here is
+ * fixed, the twelve AREA_NAMES, so no file has to remember which pages
+ * were written: a town's directory under towns/ is the record, and
+ * share-cards.mjs overwrites it and never removes it. `have` is the
+ * directory names under towns/ as the run found them. A town never written
+ * gets no page until it has something on.
+ */
+export function quietTowns(have, towns) {
+  const on = new Set(towns.map((t) => t.slug));
+  const there = new Set(have);
+  return AREA_NAMES.map((name) => ({ name, slug: townSlug(name) })).filter(
+    (t) => there.has(t.slug) && !on.has(t.slug),
+  );
+}
+
+/**
+ * A schema.org BreadcrumbList for `trail`, [{ name, path }] from the top:
+ * the town pages' 30A Now › Towns › <town>, which a search result shows in
+ * place of the bare URL.
+ */
+export function breadcrumbJsonLd(trail) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map(({ name, path }, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name,
+      item: `${SITE}${path}`,
+    })),
+  };
+}
+
+/** "Seaside, Florida", or the bay for Bayside (where30A): the place in a town's own sentence. */
+const townIn = (name) => (name === BAYSIDE ? `${name}, ${where30A(name)},` : `${name}, Florida`);
+
+/** The page's one-line intro, the same words full or quiet, and its card's description. */
+export const townIntro = (name) =>
+  `What's on in ${townIn(name)} this week: live music, markets and more, updated every day.`;
+
+/** The search title's words before " | 30A Now", and the card's title. Bayside is no "Bayside, FL". */
+const townTitle = (name) =>
+  `Things to do in ${name === BAYSIDE ? `${name} on Choctawhatchee Bay` : `${name}, FL`} this week`;
+
+const townTrail = (town) => [
+  { name: '30A Now', path: '/' },
+  { name: 'Towns', path: '/towns/' },
+  ...(town ? [{ name: town.name, path: `/towns/${town.slug}/` }] : []),
+];
+
+const alsoTowns = `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/towns/">Every town</a> · <a href="/venues/">Every venue</a></p></section>
+`;
+
+/**
+ * /towns/<slug>/ — everything on in one town in the next seven beach days,
+ * a section per day as on the lineup (the day's classes folded), each row
+ * linked to its venue's page where it has one; then the town's venues that
+ * have a page, A to Z. The rows leave the area out (`showArea: false`),
+ * which the <h1> says once. The card is undated, as a venue's is (the URL
+ * is the town's for good), and the JSON-LD is an Event per row plus the
+ * BreadcrumbList. The app has no town screen, so the buttons open the map.
+ */
+export function renderTown(town, venues, now, posters = new Map()) {
+  const { name, slug, events } = town;
+  const window = townWindow(now);
+  const days = groupByDay(events);
+  const main = events.filter((e) => e.category !== 'fitness');
+  const classes = events.length - main.length;
+  const range = `${fmtDayShort(window.start)} – ${fmtDayShort(window.end)}`;
+  const where = where30A(name);
+  const picks = main.slice(0, 3).map((e) => e.title).join(', ');
+  const description = main.length
+    ? `${countLabel(main.length, 'event', 'events')} in ${name} ${where} this week (${range}): ${picks}${main.length > 3 ? ' and more' : ''}. Times, venues and the live map.`
+    : `Classes, clinics and court times in ${name} ${where} this week (${range}), with times, venues and the live map.`;
+  const key = name.toLowerCase();
+  const here = venues
+    .filter((v) => String(v.area ?? '').trim().toLowerCase() === key && v.name.trim().toLowerCase() !== key)
+    .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+  const venueList = here.length
+    ? `<section><h2>Venues in ${esc(name)}</h2><ul class="venues">${here
+        .map((v) => `<li><a href="/venues/${v.slug}/">${esc(v.name)}</a></li>`)
+        .join('\n')}</ul></section>
+`
+    : '';
+  const body =
+    head({
+      title: `${townTitle(name)} | 30A Now`,
+      description,
+      ogTitle: townTitle(name),
+      ogDescription: townIntro(name),
+      path: `/towns/${slug}/`,
+      appArgument: 'thirtyanow://',
+      updated: fmtStamp(now),
+    }) +
+    `<h1>This week in ${esc(name)}</h1>
+<p class="lead">${esc(townIntro(name))}</p>
+<p class="lead">${esc(range)} · ${countLabel(main.length, 'event', 'events')}${classes ? ` + ${countLabel(classes, 'class', 'classes')}` : ''} · updated ${esc(fmtStamp(now))} beach time</p>
+` +
+    doneLine('', `${name} this week`, '/', 'See what’s on now on the live map', ARRIVAL.town) +
+    cta({ appArgument: 'thirtyanow://', livePath: '/', liveLabel: 'See it on the live map', tag: ARRIVAL.town }) +
+    days.map((d) => daySection(d, slugMap(venues), { showArea: false, tag: ARRIVAL.town })).join('\n') +
+    venueList +
+    alsoTowns +
+    foot();
+  const crumbs = JSON.stringify(breadcrumbJsonLd(townTrail(town))).replace(/</g, '\\u003c');
+  return {
+    html: body,
+    count: events.length,
+    jsonLd: `${jsonLdScript(events, (e) => checkedPoster(e, posters))}\n<script type="application/ld+json">${crumbs}</script>`,
+  };
+}
+
+/**
+ * /towns/<slug>/ for a town written before with nothing on this week
+ * (quietTowns): one line that says so and the ways on, under the full
+ * page's card word for word. noindex, and in neither the index nor the
+ * sitemap - as an act's page between shows, and for the same reason: a
+ * page that lists nothing is nothing for a search to find, and indexed it
+ * reads to Google as a soft 404 against "things to do in <town>". It still
+ * answers 200 for a link someone kept, and its links are still followed.
+ * The full page is back at the same address the run after a row is. No
+ * rows, no JSON-LD and no time - it takes no `now` - so the file is the
+ * same bytes run after run and the Action commits it once.
+ */
+export function renderTownQuiet({ name, slug }) {
+  return (
+    head({
+      title: `${townTitle(name)} | 30A Now`,
+      description: `Nothing listed in ${name} ${where30A(name)} this week. Every show, market and event along 30A is on 30A Now.`,
+      ogTitle: townTitle(name),
+      ogDescription: townIntro(name),
+      path: `/towns/${slug}/`,
+      appArgument: 'thirtyanow://',
+      updated: 'quiet week',
+      extraHead: '<meta name="robots" content="noindex">\n',
+    }) +
+    `<h1>This week in ${esc(name)}</h1>
+<p class="lead">Nothing listed in ${esc(townIn(name))} this week. This page fills in again when something is posted.</p>
+<p><a href="/lineup/">See what’s on along 30A this weekend</a> · <a href="/towns/">Every town</a></p>
+` +
+    cta({ appArgument: 'thirtyanow://', livePath: '/', liveLabel: 'See it on the live map', tag: ARRIVAL.town }) +
+    alsoTowns +
+    foot()
+  );
+}
+
+/** /towns/ — the index a crawler follows to every town page: west to east, each with its count for the week. */
+export function renderTownsIndex(towns, now) {
+  const window = townWindow(now);
+  const range = `${fmtDayShort(window.start)} – ${fmtDayShort(window.end)}`;
+  const body =
+    head({
+      title: 'Things to do on 30A this week, town by town | 30A Now',
+      description: towns.length
+        ? `What's on along 30A this week (${range}), town by town: ${towns.map((t) => t.name).join(', ')}. Live music, markets and more, with times, venues and the live map.`
+        : `What's on along 30A this week (${range}), town by town, with times, venues and the live map.`,
+      ogTitle: 'Things to do on 30A this week, town by town',
+      ogDescription: "What's on this week in every town along 30A: live music, markets and more, updated every day.",
+      path: '/towns/',
+      appArgument: 'thirtyanow://',
+      updated: fmtStamp(now),
+    }) +
+    `<h1>This week on 30A, town by town</h1>
+<p class="lead">${esc(range)} · ${countLabel(towns.length, 'town', 'towns')} with something on · updated ${esc(fmtStamp(now))} beach time</p>
+` +
+    cta({ appArgument: 'thirtyanow://', livePath: '/', liveLabel: 'Open the live map', tag: ARRIVAL.towns }) +
+    (towns.length
+      ? `<ul class="venues">${towns
+          .map(
+            (t) =>
+              `<li><a href="/towns/${t.slug}/">${esc(t.name)}</a> <span class="m">${t.events.length}${t.name === BAYSIDE ? ` · ${esc(where30A(t.name))}` : ''}</span></li>`,
+          )
+          .join('\n')}</ul>
+`
+      : `<p class="quiet">Nothing listed along 30A this week yet — the calendars are read twice a day, so check back.</p>
+`) +
+    `<section><h2>Also</h2><p><a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
+` +
+    foot();
+  return { html: body };
+}
+
+/** Every file under towns/ for one run, as [path, contents]: the index, a page per town on this week, a quiet page per town written before and not. */
+export function townFiles(towns, have, venues, now, posters = new Map()) {
+  return [
+    ['towns/index.html', renderTownsIndex(towns, now).html],
+    ...towns.map((t) => [`towns/${t.slug}/index.html`, withJsonLd(renderTown(t, venues, now, posters))]),
+    ...quietTowns(have, towns).map((t) => [`towns/${t.slug}/index.html`, renderTownQuiet(t)]),
+  ];
+}
+
+/**
+ * Where /lineup/ and /tonight/ send a visitor planning a trip: the app's
+ * /stay page on the web (live since 14 Oct 2026), where they pick the day
+ * they arrive and the nights, and get the whole stay on one page. Written
+ * absolute on purpose. The forwarder (SCRIPT) rewrites only links that
+ * start with "/", so this one keeps seo-stay whatever the visitor came in
+ * with, as the owner footer keeps seo-venue-owner by sitting outside
+ * <main>; and it gets no from=, which on /stay names the door the app
+ * opened it from (pill, weekend, link), never a member.
+ */
+export const STAY_URL = tagged(`${SITE}/stay`, { s: ARRIVAL.stay });
+
+function stayLine() {
+  return `<p class="lead">Planning a trip? <a href="${esc(STAY_URL)}">Plan your stay →</a></p>
+`;
+}
+
+/** "By town:" and a link to each town page this run writes; nothing when there are none. */
+function townsLine(towns) {
+  if (!towns.length) return '';
+  return `<p class="lead">By town: ${towns.map((t) => `<a href="/towns/${t.slug}/">${esc(t.name)}</a>`).join(' · ')}</p>
+`;
 }
 
 // ---------------------------------------------------------------------------
@@ -2327,13 +2634,19 @@ export function truncationRefusal(received, limit, total) {
 // sitemap.xml and robots.txt
 // ---------------------------------------------------------------------------
 
-/** Pages plus every e/<id>; lastmod is this run, since every file is rewritten. */
-export function sitemapXml(events, venues, now, acts = []) {
+/**
+ * Pages plus every e/<id>; lastmod is this run, since every file is
+ * rewritten. `towns` is this run's town pages (townPages): a town between
+ * weeks keeps a noindex page (renderTownQuiet) and is not listed.
+ */
+export function sitemapXml(events, venues, now, acts = [], towns = []) {
   const lastmod = new Date(now).toISOString();
   const urls = [
     '/',
     '/lineup/',
     '/tonight/',
+    '/towns/',
+    ...towns.map((t) => `/towns/${t.slug}/`),
     '/venues/',
     ...venues.map((v) => `/venues/${v.slug}/`),
     '/acts/',

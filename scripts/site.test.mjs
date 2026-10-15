@@ -78,10 +78,22 @@ import {
   signProblem,
   sitemapXml,
   slugify,
+  STAY_URL,
   storeUrl,
   STRIP_SLUG,
   SUPPORT_EMAIL,
   tonightWindow,
+  breadcrumbJsonLd,
+  quietTowns,
+  renderTown,
+  renderTownQuiet,
+  renderTownsIndex,
+  TOWN_DAYS,
+  townFiles,
+  townIntro,
+  townPages,
+  townSlug,
+  townWindow,
   truncationRefusal,
   venuePages,
   weekendWindow,
@@ -1940,9 +1952,11 @@ describe('sitemap and robots', () => {
     assert.match(xml, /<loc>https:\/\/30anow.github.io\/tonight\/<\/loc>/);
     assert.match(xml, /<loc>https:\/\/30anow.github.io\/venues\/the-red-bar\/<\/loc>/);
     for (const r of rows) assert.match(xml, new RegExp(`<loc>https://30anow.github.io/e/${r.id}</loc>`));
-    // The four listing pages and the acts index, the venue, the stubs.
+    // The four listing pages, the acts index and the towns index, the
+    // venue, the stubs. No town page: none was passed.
     assert.match(xml, /<loc>https:\/\/30anow.github.io\/acts\/<\/loc>/);
-    assert.equal((xml.match(/<url>/g) || []).length, 5 + 1 + 3);
+    assert.match(xml, /<loc>https:\/\/30anow.github.io\/towns\/<\/loc>/);
+    assert.equal((xml.match(/<url>/g) || []).length, 6 + 1 + 3);
     assert.match(xml, /<lastmod>2026-09-08T17:00:00.000Z<\/lastmod>/);
   });
   it('lists every act page after the venues and before the stubs', () => {
@@ -2443,7 +2457,7 @@ describe('act page', () => {
 
   it('is committed by the Action with the other generated pages', () => {
     const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
-    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
+    assert.match(yml, /git add -A e lineup tonight venues acts towns embed sitemap\.xml robots\.txt/);
   });
 });
 
@@ -2691,7 +2705,7 @@ describe('an act page stays where it was handed out', () => {
     at('await writeActs(actFiles(acts, actsPublished, now, venueSlugs, posters));');
     assert.doesNotMatch(src, /writeFile\(['`]acts\//);
     // And the Action commits the list with the pages.
-    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
+    assert.match(yml, /git add -A e lineup tonight venues acts towns embed sitemap\.xml robots\.txt/);
   });
 });
 
@@ -3156,6 +3170,314 @@ describe('door signs', () => {
     ]);
     const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
     assert.match(yml, /- run: node --test scripts\/site\.test\.mjs scripts\/qr\.test\.mjs/);
-    assert.match(yml, /git add -A e lineup tonight venues acts embed sitemap\.xml robots\.txt/);
+    assert.match(yml, /git add -A e lineup tonight venues acts towns embed sitemap\.xml robots\.txt/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Town pages (15 Oct 2026)
+// ---------------------------------------------------------------------------
+
+/**
+ * /towns/<slug>/: everything on in one of the twelve neighbourhoods in the
+ * next seven beach days, for the visitor who searches "things to do in
+ * Seaside this week". The week below is Thu 15 to Wed 21 Oct 2026, read at
+ * noon on the Thursday.
+ */
+describe('town pages', () => {
+  const now = noonOn('2026-10-15');
+  // A row starting at `hour` beach time on `day`, three hours long.
+  const at = (day, hour, over = {}) =>
+    row({
+      starts_at: new Date(beachWallToUtc(day, hour)).toISOString(),
+      ends_at: new Date(beachWallToUtc(day, hour) + 3 * 3600 * 1000).toISOString(),
+      ...over,
+    });
+  const bud = "Bud & Alley's";
+  const rows = [
+    at('2026-10-16', 18, { title: 'Sounds of Seaside', venue: 'Seaside Amphitheater', area: 'Seaside' }),
+    at('2026-10-15', 19, { title: 'Trivia Night', venue: bud, area: 'Seaside' }),
+    at('2026-10-17', 8, { title: 'Beach Yoga', category: 'fitness', venue: 'Seaside Pavilion', area: ' seaside ' }),
+    at('2026-10-18', 9, { title: 'Farmers Market', venue: 'Seaside', area: 'Seaside', category: 'market' }),
+    at('2026-10-19', 19, { title: 'Monday Jazz', venue: bud, area: 'Seaside' }),
+    // Thursday week: the eighth day, off the page.
+    at('2026-10-22', 19, { title: 'Next Thursday', venue: bud, area: 'Seaside' }),
+    // Over by noon.
+    at('2026-10-15', 7, { title: 'Sunrise Paddle', venue: 'Seaside', area: 'Seaside' }),
+    at('2026-10-16', 21, { title: 'Dread Clampitt' }),
+    at('2026-10-17', 21, { title: 'Jared Herzog' }),
+    at('2026-10-18', 21, { title: 'MECO' }),
+    at('2026-10-17', 19, { title: 'Bay Trivia', venue: 'The Bay', area: 'Bayside' }),
+    // No area, and an area that is not one of the twelve: no page.
+    at('2026-10-16', 12, { title: 'Songwriters Festival', venue: 'Venues along 30A', area: '' }),
+    at('2026-10-16', 12, { title: 'Destin Fireworks', venue: 'HarborWalk', area: 'Destin' }),
+  ];
+  const venues = venuePages(rows, now);
+  const towns = townPages(rows, now);
+  const seaside = towns.find((t) => t.slug === 'seaside');
+  const ldOf = (html) =>
+    [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
+
+  it('looks seven beach days ahead, counted in calendar days across a DST change', () => {
+    assert.equal(TOWN_DAYS, 7);
+    const w = townWindow(now);
+    assert.equal(w.start, beachWallToUtc('2026-10-15', 0));
+    assert.equal(w.end + 1, beachWallToUtc('2026-10-22', 0));
+    // The week clocks fall back in (Sun 1 Nov 2026) is seven days and an
+    // hour, and still ends on the seventh day: never six days, never eight.
+    const fall = townWindow(noonOn('2026-10-29'));
+    assert.equal(beachDayKey(fall.end), '2026-11-04');
+    assert.equal(fall.end + 1 - fall.start, (7 * 24 + 1) * 3600 * 1000);
+    // And the one clocks spring forward in, an hour short.
+    const spring = townWindow(noonOn('2027-03-11'));
+    assert.equal(beachDayKey(spring.end), '2027-03-17');
+    assert.equal(spring.end + 1 - spring.start, (7 * 24 - 1) * 3600 * 1000);
+  });
+
+  it('one page per town with something on this week, every row filed under it, west to east', () => {
+    assert.deepEqual(
+      towns.map((t) => [t.name, t.slug]),
+      [['Grayton Beach', 'grayton-beach'], ['Seaside', 'seaside'], ['Bayside', 'bayside']],
+    );
+    // Every row whose area is the town - an amphitheater, a bar, a
+    // pavilion's class, a town-only row - and none that is over or past the
+    // seventh day. " seaside " is Seaside.
+    assert.deepEqual(seaside.events.map((e) => e.title), [
+      'Trivia Night', 'Sounds of Seaside', 'Beach Yoga', 'Farmers Market', 'Monday Jazz',
+    ]);
+    assert.equal(townSlug('WaterColor'), 'watercolor');
+    assert.equal(townSlug('Alys Beach'), 'alys-beach');
+    for (const name of AREA_NAMES) assert.match(townSlug(name), STRIP_SLUG);
+  });
+
+  it('a town page: its head, the intro, the rows by beach day, its venues and the ways back', () => {
+    const page = renderTown(seaside, venues, now);
+    const html = withJsonLd(page);
+    assert.equal(page.count, 5);
+    assert.match(html, /<title>Things to do in Seaside, FL this week \| 30A Now<\/title>/);
+    assert.match(
+      html,
+      /<meta name="description" content="4 events in Seaside on 30A this week \(Thu, Oct 15 – Wed, Oct 21\): Trivia Night, Sounds of Seaside, Farmers Market and more\. Times, venues and the live map\.">/,
+    );
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/towns\/seaside\/">/);
+    assert.match(html, /<meta property="og:url" content="https:\/\/30anow.github.io\/towns\/seaside\/">/);
+    assert.match(html, /<meta property="og:title" content="Things to do in Seaside, FL this week">/);
+    assert.match(html, /<meta property="og:description" content="What's on in Seaside, Florida this week: live music, markets and more, updated every day\.">/);
+    assert.ok(html.includes(`<meta property="og:image" content="${OG_DEFAULT}">`));
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /<h1>This week in Seaside<\/h1>\n<p class="lead">What's on in Seaside, Florida this week: live music, markets and more, updated every day\.<\/p>/);
+    assert.equal(townIntro('Seaside'), "What's on in Seaside, Florida this week: live music, markets and more, updated every day.");
+    assert.match(html, /<p class="lead">Thu, Oct 15 – Wed, Oct 21 · 4 events \+ 1 class · updated Thu, Oct 15, 12:00 PM beach time<\/p>/);
+    // A section per beach day, the lineup's, with the class folded.
+    assert.deepEqual([...html.matchAll(/<h2>([^<]+)<\/h2>/g)].map((m) => m[1]), [
+      'Thursday, Oct 15', 'Friday, Oct 16', 'Saturday, Oct 17', 'Sunday, Oct 18', 'Monday, Oct 19',
+      'Venues in Seaside', 'Also',
+    ]);
+    assert.match(html, /<summary>1 class, clinic or court time<\/summary>/);
+    // Beach time, whatever the machine's zone.
+    assert.match(html, /Thu, Oct 15 · 7:00 PM – 10:00 PM/);
+    // The <h1> names the town once; the rows do not say it again.
+    assert.doesNotMatch(html, / · Seaside · /);
+    // A row's venue links to its page; the venues with a page are listed.
+    assert.match(html, /<div class="m"><a href="\/venues\/bud-alleys\/">Bud &amp; Alley's<\/a> · Thu, Oct 15/);
+    assert.match(html, /<h2>Venues in Seaside<\/h2><ul class="venues"><li><a href="\/venues\/bud-alleys\/">Bud &amp; Alley's<\/a><\/li><\/ul>/);
+    assert.doesNotMatch(html, /Dread Clampitt|Bay Trivia|Next Thursday|Sunrise Paddle|Songwriters Festival/);
+    // The ways back, and the arrival tag on the way in.
+    assert.match(html, /<a href="\/lineup\/">This weekend on 30A<\/a>/);
+    assert.match(html, /<a href="\/towns\/">Every town<\/a>/);
+    assert.match(html, /<a class="live" href="\/\?s=seo-town">See it on the live map<\/a>/);
+    assert.ok(html.includes(`href="/e/${seaside.events[0].id}?s=seo-town"`));
+    assert.match(html, /apple-itunes-app" content="app-id=6792965952, app-argument=thirtyanow:\/\/"/);
+    assert.equal(ARRIVAL.town, 'seo-town');
+    // An Event per row, then the trail a search result shows.
+    const [events, crumbs] = ldOf(html);
+    assert.equal(events.length, 5);
+    assert.equal(events[0]['@type'], 'Event');
+    assert.equal(events[0].startDate, '2026-10-15T19:00:00-05:00');
+    assert.deepEqual(crumbs, breadcrumbJsonLd([
+      { name: '30A Now', path: '/' },
+      { name: 'Towns', path: '/towns/' },
+      { name: 'Seaside', path: '/towns/seaside/' },
+    ]));
+    assert.equal(crumbs['@type'], 'BreadcrumbList');
+    assert.deepEqual(crumbs.itemListElement.map((i) => [i.position, i.item]), [
+      [1, 'https://30anow.github.io/'],
+      [2, 'https://30anow.github.io/towns/'],
+      [3, 'https://30anow.github.io/towns/seaside/'],
+    ]);
+  });
+
+  it('lists only the venues of its own town that have a page, never the town itself', () => {
+    const list = [
+      { name: 'Seaside', area: 'Seaside', slug: 'seaside', events: [] },
+      { name: 'Seaside Amphitheater', area: 'Seaside', slug: 'seaside-amphitheater', events: [] },
+      { name: bud, area: 'Seaside', slug: 'bud-alleys', events: [] },
+      { name: 'The Red Bar', area: 'Grayton Beach', slug: 'the-red-bar', events: [] },
+    ];
+    const html = renderTown(seaside, list, now).html;
+    const block = /<h2>Venues in Seaside<\/h2>(.*?)<\/section>/s.exec(html)[1];
+    assert.deepEqual([...block.matchAll(/href="([^"]+)"/g)].map((m) => m[1]), [
+      '/venues/bud-alleys/',
+      '/venues/seaside-amphitheater/',
+    ]);
+    assert.doesNotMatch(renderTown({ ...seaside }, [], now).html, /Venues in Seaside/);
+  });
+
+  it('escapes every string it writes', () => {
+    const evil = at('2026-10-16', 20, {
+      title: '<img src=x onerror=alert(1)>',
+      venue: '"><script>alert(2)</script>',
+      description: '</script><script>alert(3)</script>',
+      area: 'Seaside',
+    });
+    // A venue page's name is scraped text too, and the town lists it.
+    const venue = { name: '<b onmouseover=alert(4)>Bar</b>', area: 'Seaside', slug: 'b-onmouseover-alert-4-bar-b', events: [] };
+    const html = withJsonLd(renderTown(townPages([evil], now)[0], [venue], now));
+    assert.doesNotMatch(html, /<b onmouseover/);
+    assert.match(html, /&lt;b onmouseover=alert\(4\)&gt;Bar&lt;\/b&gt;/);
+    assert.doesNotMatch(html, /<img src=x/);
+    assert.doesNotMatch(html, /"><script>alert\(2\)/);
+    assert.doesNotMatch(html, /<\/script><script>alert\(3\)/);
+    assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/);
+    assert.match(html, /\\u003cimg src=x/);
+  });
+
+  it('says where Bayside is: on Choctawhatchee Bay, minutes from 30A', () => {
+    const bay = towns.find((t) => t.slug === 'bayside');
+    const html = withJsonLd(renderTown(bay, venues, now));
+    assert.match(html, /<title>Things to do in Bayside on Choctawhatchee Bay this week \| 30A Now<\/title>/);
+    assert.match(html, /<p class="lead">What's on in Bayside, on Choctawhatchee Bay, minutes from 30A, this week: live music, markets and more, updated every day\.<\/p>/);
+    assert.match(html, /<meta name="description" content="1 event in Bayside on Choctawhatchee Bay, minutes from 30A this week \(/);
+    assert.match(html, /<meta property="og:description" content="What's on in Bayside, on Choctawhatchee Bay, minutes from 30A, this week/);
+    assert.doesNotMatch(html, /Bayside, FL|Bayside, Florida|Bayside on 30A/);
+    const quiet = renderTownQuiet({ name: 'Bayside', slug: 'bayside' });
+    assert.match(quiet, /Nothing listed in Bayside, on Choctawhatchee Bay, minutes from 30A, this week\./);
+    assert.doesNotMatch(quiet, /Bayside, FL|Bayside, Florida|Bayside on 30A/);
+    assert.match(renderTownsIndex(towns, now).html, /<a href="\/towns\/bayside\/">Bayside<\/a> <span class="m">1 · on Choctawhatchee Bay, minutes from 30A<\/span>/);
+    // And a corridor town's page says nothing about the bay.
+    assert.doesNotMatch(renderTown(seaside, venues, now).html, /Choctawhatchee/);
+  });
+
+  it('a town written before keeps a noindex page in a quiet week; one never written gets none', () => {
+    // What share-cards.mjs found under towns/: two towns' pages, and a
+    // directory that is no town.
+    const have = ['seaside', 'dune-allen', 'not-a-town'];
+    assert.deepEqual(quietTowns(have, towns), [{ name: 'Dune Allen', slug: 'dune-allen' }]);
+    assert.deepEqual(quietTowns([], towns), []);
+    assert.deepEqual(townFiles(towns, have, venues, now).map(([path]) => path), [
+      'towns/index.html',
+      'towns/grayton-beach/index.html',
+      'towns/seaside/index.html',
+      'towns/bayside/index.html',
+      'towns/dune-allen/index.html',
+    ]);
+    const quiet = renderTownQuiet({ name: 'Dune Allen', slug: 'dune-allen' });
+    assert.equal(townFiles(towns, have, venues, now).at(-1)[1], quiet);
+    assert.match(quiet, /<meta name="robots" content="noindex">/);
+    assert.match(quiet, /<link rel="canonical" href="https:\/\/30anow.github.io\/towns\/dune-allen\/">/);
+    assert.match(quiet, /<h1>This week in Dune Allen<\/h1>\n<p class="lead">Nothing listed in Dune Allen, Florida this week\. This page fills in again when something is posted\.<\/p>/);
+    assert.match(quiet, /<a href="\/lineup\/">See what’s on along 30A this weekend<\/a> · <a href="\/towns\/">Every town<\/a>/);
+    assert.doesNotMatch(quiet, /application\/ld\+json| data-end="|<li class="ev"|updated [^<]* beach time/);
+    // No `now`: the same bytes every run, so the Action commits it once.
+    assert.equal(renderTownQuiet.length, 1);
+    // The card a share draws is the full page's, word for word.
+    const card = (html) => html.match(/<meta property="og:(?:title|description|url)" content="[^"]*">/g);
+    const full = renderTown(townPages([at('2026-10-16', 18, { area: 'Dune Allen', venue: "Stinky's Bait Shack" })], now)[0], [], now).html;
+    assert.deepEqual(card(quiet), card(full));
+    assert.doesNotMatch(full, /noindex/);
+  });
+
+  it('the index links every town page this run, west to east, and says so when there are none', () => {
+    const html = renderTownsIndex(towns, now).html;
+    assert.match(html, /<title>Things to do on 30A this week, town by town \| 30A Now<\/title>/);
+    assert.match(html, /<link rel="canonical" href="https:\/\/30anow.github.io\/towns\/">/);
+    assert.deepEqual([...html.matchAll(/<li><a href="(\/towns\/[^"]+)">/g)].map((m) => m[1]), [
+      '/towns/grayton-beach/', '/towns/seaside/', '/towns/bayside/',
+    ]);
+    assert.match(html, /<a class="live" href="\/\?s=seo-town-index">/);
+    assert.equal(ARRIVAL.towns, 'seo-town-index');
+    const empty = renderTownsIndex([], now).html;
+    assert.match(empty, /Nothing listed along 30A this week yet/);
+    assert.doesNotMatch(empty, /href="\/towns\/[a-z]/);
+  });
+
+  it('the lineup and tonight link each town page this run, "By town:", and none when there are none', () => {
+    const by = '<p class="lead">By town: <a href="/towns/grayton-beach/">Grayton Beach</a> · <a href="/towns/seaside/">Seaside</a> · <a href="/towns/bayside/">Bayside</a></p>';
+    assert.ok(renderLineup(rows, venues, now, new Map(), towns).html.includes(by));
+    assert.ok(renderTonight(rows, venues, now, new Map(), towns).html.includes(by));
+    // Read off the same rows when no list is passed.
+    assert.ok(renderLineup(rows, venues, now).html.includes(by));
+    assert.doesNotMatch(renderLineup(rows, venues, now, new Map(), []).html, /By town:/);
+    assert.doesNotMatch(renderTonight(rows, venues, now, new Map(), []).html, /By town:/);
+    const one = renderLineup(rows, venues, now, new Map(), [seaside]).html;
+    assert.ok(one.includes('<p class="lead">By town: <a href="/towns/seaside/">Seaside</a></p>'));
+  });
+
+  it('the lineup and tonight offer the stay planner under seo-stay, which the forwarder leaves alone', () => {
+    assert.equal(ARRIVAL.stay, 'seo-stay');
+    assert.equal(STAY_URL, 'https://30anow.github.io/stay?s=seo-stay');
+    const line = '<p class="lead">Planning a trip? <a href="https://30anow.github.io/stay?s=seo-stay">Plan your stay →</a></p>';
+    const lineup = renderLineup(rows, venues, now).html;
+    const tonight = renderTonight(rows, venues, now).html;
+    assert.ok(lineup.includes(line));
+    assert.ok(tonight.includes(line));
+    // Inside <main>, after the buttons.
+    assert.ok(lineup.indexOf(line) > lineup.indexOf('<div class="cta">'));
+    assert.ok(lineup.indexOf(line) < lineup.indexOf('</main>'));
+    // A visitor's own s= and an inviter's from= go onto the page's own
+    // links, never onto this one: it counts the line, and from= on /stay
+    // names the app's door (pill, weekend, link), not a member.
+    const from = '3f2a9c1e-7b4d-4e8a-9c21-5d6e7f8a9b0c';
+    assert.deepEqual(forward(lineup, `?s=fb&from=${from}`, [STAY_URL, '/weekend?s=seo-lineup']), [
+      STAY_URL,
+      `/weekend?s=fb&from=${from}`,
+    ]);
+  });
+
+  it('a venue page leads its "Also" with its town’s page when this run has one', () => {
+    const redBar = venues.find((v) => v.slug === 'the-red-bar');
+    assert.match(
+      renderVenue(redBar, now, new Map(), towns).html,
+      /<h2>Also<\/h2><p><a href="\/towns\/grayton-beach\/">More in Grayton Beach →<\/a> · <a href="\/lineup\/">/,
+    );
+    assert.doesNotMatch(renderVenue(redBar, now, new Map(), [seaside]).html, /More in/);
+    assert.doesNotMatch(renderVenue(redBar, now).html, /More in/);
+    const budPage = venues.find((v) => v.slug === 'bud-alleys');
+    assert.match(renderVenue(budPage, now, new Map(), towns).html, /<a href="\/towns\/seaside\/">More in Seaside →<\/a>/);
+  });
+
+  it('the sitemap lists the index and each town page this run, never a quiet one', () => {
+    const xml = sitemapXml(rows, venues, now, [], towns);
+    for (const path of ['/towns/', '/towns/grayton-beach/', '/towns/seaside/', '/towns/bayside/']) {
+      assert.ok(xml.includes(`<loc>https://30anow.github.io${path}</loc>`), path);
+    }
+    assert.doesNotMatch(xml, /\/towns\/dune-allen\//);
+    assert.equal((xml.match(/<loc>https:\/\/30anow.github.io\/towns\//g) || []).length, 4);
+  });
+
+  it('share-cards.mjs writes towns/ from townFiles, reads what is there first, and removes nothing outside it', () => {
+    const src = readFileSync(new URL('./share-cards.mjs', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+    const at = (s) => {
+      const i = src.indexOf(s);
+      assert.ok(i > -1, `share-cards.mjs has no "${s}"`);
+      return i;
+    };
+    // One list of towns feeds every page that links one.
+    assert.ok(at('const towns = townPages(events, now);') < at('renderLineup(events, venues, now, posters, towns)'));
+    at('renderTonight(events, venues, now, posters, towns)');
+    at('renderVenue(v, now, posters, towns)');
+    at('sitemapXml(events, venues, now, acts, towns)');
+    // towns/ is not among the directories wiped whole.
+    assert.match(src, /for \(const dir of \['lineup', 'tonight', 'venues'\]\) \{/);
+    assert.doesNotMatch(src, /rm\('towns'/);
+    const writeTowns = src.slice(at('async function writeTowns('), at('async function writeActs('));
+    // The directories on disk are read before the files are decided.
+    assert.ok(writeTowns.indexOf("readdir('towns'") < writeTowns.indexOf('townFiles(towns, have, venues, now, posters)'));
+    // The one removal is a directory under towns/ that this run does not write.
+    assert.deepEqual(writeTowns.match(/await rm\([^)]*\)/g), ['await rm(`towns/${entry.name}`, { recursive: true, force: true })']);
+    assert.match(writeTowns, /if \(entry\.isDirectory\(\) && !dirs\.has\(entry\.name\)\) \{/);
+    assert.doesNotMatch(src, /writeFile\(['`]towns\//);
+    const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
+    assert.match(yml, /git add -A [^\n]*\btowns\b/);
   });
 });
