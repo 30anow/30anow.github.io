@@ -6,6 +6,10 @@
 //   acts/<slug>/
 //   acts/published.json    every act page written so far, so a link a band
 //                          posted outlives the week it was posted in
+//   towns/<slug>/          one per neighbourhood with anything on in the
+//                          next seven beach days, plus the towns/ index;
+//                          a town written before keeps a short noindex
+//                          page in a quiet week (15 Oct 2026)
 //   embed/<venue>/         the strip a partner pastes into their own site,
 //                          under both its slug and its own name
 //   embed/<slug>/sign/     the printable door sign for the same place,
@@ -49,6 +53,8 @@ import {
   signProblem,
   sitemapXml,
   SUPABASE_URL,
+  townFiles,
+  townPages,
   truncationRefusal,
   venuePages,
   withJsonLd,
@@ -209,26 +215,65 @@ async function writeSite(events, venues, acts, actsPublished, now, posters) {
     await rm(dir, { recursive: true, force: true });
     await mkdir(dir, { recursive: true });
   }
-  const lineup = renderLineup(events, venues, now, posters);
+  // The town pages this run writes: the lineup and tonight link each one
+  // ("By town:"), a venue page its own town's, and the sitemap lists them.
+  const towns = townPages(events, now);
+  const lineup = renderLineup(events, venues, now, posters, towns);
   await writeFile('lineup/index.html', withJsonLd(lineup));
-  const tonight = renderTonight(events, venues, now, posters);
+  const tonight = renderTonight(events, venues, now, posters, towns);
   await writeFile('tonight/index.html', withJsonLd(tonight));
   await writeFile('venues/index.html', renderVenuesIndex(venues, now).html);
   for (const v of venues) {
     await mkdir(`venues/${v.slug}`, { recursive: true });
-    await writeFile(`venues/${v.slug}/index.html`, withJsonLd(renderVenue(v, now, posters)));
+    await writeFile(`venues/${v.slug}/index.html`, withJsonLd(renderVenue(v, now, posters, towns)));
   }
   // The act pages link each row's venue to its page, as the lineup does.
   const venueSlugs = new Map(venues.map((v) => [v.name.toLowerCase(), v.slug]));
   await writeActs(actFiles(acts, actsPublished, now, venueSlugs, posters));
   const kept = quietActs(actsPublished, acts).length;
-  await writeFile('sitemap.xml', sitemapXml(events, venues, now, acts));
+  const quietTownCount = await writeTowns(towns, venues, now, posters);
+  await writeFile('sitemap.xml', sitemapXml(events, venues, now, acts, towns));
   await writeFile('robots.txt', robotsTxt());
   console.log(
     `Wrote lineup (${lineup.count} rows), tonight (${tonight.count} rows), ` +
       `${venues.length} venue pages, ${acts.length} act pages (${kept} more kept between shows), ` +
+      `${towns.length} town pages (${quietTownCount} more kept for a quiet week), ` +
       `sitemap and robots — ${fmtStamp(now)} beach time.`,
   );
+}
+
+/**
+ * Everything under towns/ (townFiles in site.mjs says which). Not wiped
+ * like venues/: a town's directory is the record that its page was
+ * written (quietTowns), so each one found here is read first and then
+ * overwritten, full or quiet, and never removed - a run that dies halfway
+ * leaves every town page answering. The one thing cleared is a directory
+ * this run does not write, which only a name no longer in AREA_NAMES can
+ * be. Nothing outside towns/ is touched. towns/ is on the app repo's
+ * deploy keep lists (deploy-web.yml, deploy-web.ps1) beside acts/; a
+ * deploy without it would take every town page, and with them the record.
+ * Answers how many quiet pages it wrote, for the log line.
+ */
+async function writeTowns(towns, venues, now, posters) {
+  await mkdir('towns', { recursive: true });
+  const have = [];
+  for (const entry of await readdir('towns', { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const page = await readFile(`towns/${entry.name}/index.html`, 'utf8').catch(() => '');
+    if (page) have.push(entry.name);
+  }
+  const files = townFiles(towns, have, venues, now, posters);
+  const dirs = new Set(files.map(([path]) => path.split('/')[1]).filter((d) => d !== 'index.html'));
+  for (const entry of await readdir('towns', { withFileTypes: true })) {
+    if (entry.isDirectory() && !dirs.has(entry.name)) {
+      await rm(`towns/${entry.name}`, { recursive: true, force: true });
+    }
+  }
+  for (const [path, contents] of files) {
+    await mkdir(path.slice(0, path.lastIndexOf('/')), { recursive: true });
+    await writeFile(path, contents);
+  }
+  return dirs.size - towns.length;
 }
 
 /**

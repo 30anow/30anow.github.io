@@ -1,7 +1,7 @@
 # Regenerates everything built from the events table: the per-event share
 # stubs (e/<id>.html) so shared links unfurl into real cards, the crawlable
-# pages (lineup/, tonight/, venues/<slug>/, acts/<slug>/, sitemap.xml,
-# robots.txt) so a search for what is on along 30A can find this site at
+# pages (lineup/, tonight/, venues/<slug>/, acts/<slug>/, towns/<slug>/,
+# sitemap.xml, robots.txt) so a search for what is on along 30A can find this site at
 # all, the partner strips (embed/<venue>/) a bar pastes into its own
 # site, and the door signs (embed/<slug>/sign/) a bar prints.
 #
@@ -87,7 +87,9 @@ jobs:
           # embed/ includes published.json, the list of strips handed out,
           # and acts/ its own, the list of act pages written: each is what
           # keeps a pasted strip or a posted link answering in a quiet week.
-          git add -A e lineup tonight venues acts embed sitemap.xml robots.txt
+          # towns/ (15 Oct 2026) keeps its own record the same way: a town's
+          # directory, once written, is never removed (writeTowns).
+          git add -A e lineup tonight venues acts towns embed sitemap.xml robots.txt
           git diff --cached --quiet || git commit -m "Refresh event share cards and pages"
           # The app repo's Deploy web workflow pushes a new bundle here minutes
           # after every client merge, and a run takes 75-90 s from checkout to
