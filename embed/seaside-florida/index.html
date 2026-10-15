@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>This week at Seaside Lyceum Lawn — 30A Now</title>
+<title>This week at Seaside, Florida — 30A Now</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <base target="_blank">
@@ -25,15 +25,16 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 [hidden]{display:none!important}
 </style>
 </head><body>
-<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Seaside Lyceum Lawn</h1><p class="where">Seaside</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.3202,-86.1377">Directions</a></div>
-<p class="quiet">Nothing posted for the next seven days.</p>
-<a class="foot" id="pitch" href="/?ref=seaside-lyceum-lawn" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
-<p class="stamp">Updated Thu, Oct 15, 4:48 AM beach time</p>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Seaside, Florida</h1><p class="where">Seaside</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.3202,-86.1377">Directions</a></div>
+<section><h2>Sunday, Oct 18</h2><ul class="rows"><li class="ev" id="e-9d74397e-e83d-4150-a0b4-ee034df6df78" data-end="1792342800000"><a class="t" href="/e/9d74397e-e83d-4150-a0b4-ee034df6df78?ref=seaside-florida">Colombia and Company First Anniversary</a><div class="m">Sun, Oct 18 · 10:00 AM – 12:00 PM</div></li></ul></section>
+<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
+<a class="foot" id="pitch" href="/?ref=seaside-florida" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
+<p class="stamp">Updated Thu, Oct 15, 10:06 AM beach time</p>
 <script>
 (function(){
   function ping(n){
     try{
-      var p={venue:"Seaside Lyceum Lawn",platform:'web'};
+      var p={venue:"Seaside, Florida",platform:'web'};
       if(document.referrer){try{p.host=new URL(document.referrer).hostname;}catch(e){}}
       fetch("https://jbswxdkcpjjbqulsykvu.supabase.co/rest/v1/usage_events",{method:'POST',keepalive:true,
         headers:{apikey:"sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",Authorization:"Bearer sb_publishable_DXTI_TsCspkSefpj61a1tA_ufCj7GMQ",
@@ -44,6 +45,23 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
   ping('embed_view');
   var a=document.getElementById('pitch');
   if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+<script>
+(function(){
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
 })();
 </script>
 </body></html>
