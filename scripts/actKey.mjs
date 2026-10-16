@@ -55,8 +55,14 @@ import { AREA_NAMES } from './site.mjs';
 export const GENERIC_TITLE = /^(live music|live entertainment|music|live dj|dj|entertainment)$/;
 
 // The same for a slot with nobody named in it. Whole titles only: "DJ Boom"
-// keeps his name, and "Guest DJ" has none.
-const NO_NAME_TITLE = /^(live band|dj set|live dj set|guest dj|resident dj|special guests?)$/;
+// keeps his name, and "Guest DJ" has none. A genre or a format on its own,
+// "Live" or "Solo" before it or not, is no name either (15 Oct 2026):
+// "Jazz", "Acoustic", "Duo", "Yacht Rock" and "Late Set" are what a bar
+// calls a night it has named nobody for, and as an act every bar's jazz
+// night was one act, with a page, and a follow of it was a push for all
+// of them. "Matt's Jazz" and "Red Bar Jazz" are names, and keep theirs.
+const NO_NAME_TITLE =
+  /^(live band|dj set|live dj set|guest dj|resident dj|special guests?|(live |solo )*(jazz|blues|bluegrass|reggae|acoustic|acoustic set|duo|yacht rock|classic rock|late set|steel drums?|piano bar))$/;
 
 // A night that is the bar's own, wherever the words stand in the title:
 // "Open Mic with Jared Herzog" is the open mic he hosts, not his show. The
