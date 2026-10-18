@@ -728,6 +728,14 @@ export const KNOWN_VENUES = [
     address: '24200 Hwy 331 S, Santa Rosa Beach',
     website: 'https://www.northbeach.social',
   },
+  // Later the same day. No phone: its page shows 850-378-3117 and its own
+  // structured data says 850-622-2291.
+  {
+    name: 'The Bay',
+    match: /^the bay(?: restaurant)?$/i,
+    address: '24215 Hwy 331 S, Santa Rosa Beach',
+    website: 'https://baysouthwalton.com',
+  },
   {
     name: 'Crackings',
     match: /^crackings$/i,
