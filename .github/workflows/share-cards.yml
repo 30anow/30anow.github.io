@@ -5,12 +5,26 @@
 # all, the partner strips (embed/<venue>/) a bar pastes into its own
 # site, and the door signs (embed/<slug>/sign/) a bar prints.
 #
-# Scheduled a few minutes after each event import in the app repo (its
-# scrape.yml: 10:13, 17:13 and 20:13 UTC) so fresh events get their pages
-# the same day - the 20:35 run since 1 Oct 2026; before it nothing followed
-# the evening import - plus one run meant for beach midnight: 05:10 UTC is
-# 00:10 CDT and 23:10 CST, and tonightWindow rolls the last hour of the day
-# forward for the winter one.
+# Started by each event import in the app repo once it has written (18 Oct
+# 2026): the last import step of its scrape.yml sends this repo a
+# repository_dispatch of type events-imported, so fresh events get their
+# pages within a minute of the upsert, whenever GitHub started the import.
+# Until then only the crons below followed the imports, and two late crons
+# overlap: on 18 Oct the 10:13 import started at 14:01:15 and the 10:20 run
+# here at 14:02:33, which fetched its events at 14:02:45, before the
+# import's upsert, so the first pages for Serenoa, Hogtown Bayou and Point
+# Washington waited hours for the next refresh. A cron run that overlaps an
+# import now has the dispatched run queued behind it (the concurrency group
+# below), and that one reads the new rows.
+#
+# The crons stay, as the fallback for an import that cannot send the
+# request (no token, or a lapsed one: it warns in its own summary and ends
+# green) and for the night runs no import precedes. They are scheduled a
+# few minutes after each import's own cron (10:13, 17:13 and 20:13 UTC) -
+# the 20:35 run since 1 Oct 2026; before it nothing followed the evening
+# import - plus one run meant for beach midnight: 05:10 UTC is 00:10 CDT and
+# 23:10 CST, and tonightWindow rolls the last hour of the day forward for
+# the winter one.
 #
 # These are the times asked for, not the times GitHub keeps. From 10 to 30
 # Sep 2026 the 05:10 run never started before 09:13 UTC (4 to 6.5 hours
@@ -29,10 +43,18 @@
 # it lands between 11:47 PM and 4:17 AM CDT, where tonightWindow already
 # describes the new night (it rolls forward from 11 PM), so /tonight/ turns
 # over hours before the morning run. Five runs of about 90 s a day, on a
-# public repo's free minutes.
+# public repo's free minutes, plus one per import (three a day) once the app
+# repo's PAGES_TOKEN is set.
 name: Share cards
 
 on:
+  # The app repo's import, once it has written (above). Only this type: an
+  # event sent for anything else starts nothing here. A dispatched run has
+  # no inputs, so ALLOW_SHRINK is empty and a collapsed fetch is refused as
+  # on a cron run. scripts/site.test.mjs holds this, and the app repo's
+  # tests/pagesRefresh.test.mjs holds the sending side to the same type.
+  repository_dispatch:
+    types: [events-imported]
   schedule:
     - cron: '10 5 * * *'
     - cron: '20 10,17 * * *'

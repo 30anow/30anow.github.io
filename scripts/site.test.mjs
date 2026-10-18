@@ -1942,6 +1942,27 @@ describe('the schedule', () => {
   it('queues a late run behind the one still going', () => {
     assert.match(yml, /concurrency:\r?\n  group: share-cards\r?\n  cancel-in-progress: false/);
   });
+
+  it('also starts when the app repo’s import has written, and only for that', () => {
+    // 18 Oct 2026: the 10:20 run fetched at 14:02:45, a minute and a half
+    // into the 10:13 import GitHub had started at 14:01:15, before its
+    // upsert. The import now asks for a run once it has written; the app
+    // repo's tests/pagesRefresh.test.mjs holds the type it sends.
+    assert.match(yml, /\non:\r?\n(?:  #[^\n]*\n)*  repository_dispatch:\r?\n    types: \[events-imported\]\r?\n  schedule:\r?\n/);
+    assert.equal(yml.match(/repository_dispatch:/g).length, 1);
+    // The crons stay as the fallback, and so does the hand run.
+    assert.equal(runs.length, 5);
+    assert.match(yml, /\n  workflow_dispatch:\r?\n    inputs:\r?\n      allow_shrink:/);
+  });
+
+  it('a dispatched run cannot publish a collapsed fetch', () => {
+    // It has no inputs, so the flag is the empty string, and only the exact
+    // 'true' of a hand run's checkbox clears the refusal.
+    assert.match(yml, /\n          ALLOW_SHRINK: \$\{\{ inputs\.allow_shrink \}\}\r?\n/);
+    const src = readFileSync(new URL('./share-cards.mjs', import.meta.url), 'utf8');
+    assert.equal(src.match(/process\.env\.ALLOW_SHRINK/g).length, 1);
+    assert.match(src, /process\.env\.ALLOW_SHRINK === 'true'/);
+  });
 });
 
 describe('sitemap and robots', () => {
