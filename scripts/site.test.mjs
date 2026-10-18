@@ -100,7 +100,13 @@ import {
   venuePages,
   weekendWindow,
   withJsonLd,
+  icsEntry,
+  icsLocation,
+  venueCalendarFiles,
+  venueCalendarPath,
+  actCalendarPath,
 } from './site.mjs';
+import { CALENDAR_REFRESH, calendarIcs, calendarLinks, foldIcsLine, icsText } from './ics.mjs';
 
 const noonOn = (dayKey) => beachWallToUtc(dayKey, 12);
 
@@ -3585,5 +3591,119 @@ describe('the off-beach areas north of 98', () => {
     assert.doesNotMatch(quiet, /Serenoa, FL|Serenoa, Florida|Serenoa on 30A/);
     assert.equal(townSlug('Point Washington'), 'point-washington');
     assert.equal(townSlug('Hogtown Bayou'), 'hogtown-bayou');
+  });
+});
+
+/**
+ * Calendar feeds (18 Oct 2026): one per venue strip and one per act page,
+ * subscribed once and kept current by the reader's own calendar. The file
+ * format is scripts/ics.mjs, a copy of the app repo's src/utils/ics.ts.
+ */
+describe('calendar feeds', () => {
+  const now = noonOn('2026-09-08');
+  const lines = (ics) => ics.split('\r\n');
+
+  it('writes a feed every calendar reads: CRLF, folded at 75 octets, its name, and how often to refetch', () => {
+    const e = row({ title: 'Jazz; Blues, & More', venue: 'Distillery 98', area: 'Serenoa', price: '$10', description: 'Two sets.\nBring a chair.' });
+    const ics = calendarIcs({ name: 'Distillery 98 on 30A Now', description: 'Every event', events: [icsEntry(e)] }, now);
+    assert.ok(ics.endsWith('END:VCALENDAR\r\n'));
+    assert.doesNotMatch(ics.replace(/\r\n/g, ''), /\n/);
+    for (const l of lines(ics)) assert.ok(Buffer.byteLength(l, 'utf8') <= 75, l);
+    const unfolded = ics.replace(/\r\n /g, '');
+    for (const want of ['BEGIN:VCALENDAR', 'METHOD:PUBLISH', 'X-WR-CALNAME:Distillery 98 on 30A Now', `REFRESH-INTERVAL;VALUE=DURATION:${CALENDAR_REFRESH}`, `X-PUBLISHED-TTL:${CALENDAR_REFRESH}`]) {
+      assert.ok(lines(unfolded).includes(want), want);
+    }
+    // The app's single-event file uses the same UID, so the two are one event.
+    assert.ok(lines(unfolded).includes(`UID:${e.id}@30anow.github.io`));
+    assert.ok(lines(unfolded).includes('DTSTART:20260911T230000Z'));
+    assert.ok(lines(unfolded).includes('DTEND:20260912T020000Z'));
+    assert.ok(lines(unfolded).includes(`SUMMARY:${icsText('Jazz; Blues, & More')}`));
+    assert.ok(lines(unfolded).includes(`URL:https://30anow.github.io/e/${e.id}?s=cal`));
+    const description = lines(unfolded).find((l) => l.startsWith('DESCRIPTION:'));
+    assert.equal(description, `DESCRIPTION:${icsText(`$10\n\nTwo sets.\nBring a chair.\n\nTimes, the live map and the app: https://30anow.github.io/e/${e.id}`)}`);
+    // Folding never cuts a character.
+    assert.equal(foldIcsLine(`SUMMARY:${'é'.repeat(80)}`).replace(/\r\n /g, ''), `SUMMARY:${'é'.repeat(80)}`);
+  });
+
+  it('a quiet week is still a feed, so a subscription never meets a 404 or a broken file', () => {
+    const ics = calendarIcs({ name: 'Quiet on 30A', description: '', events: [] }, now);
+    assert.match(ics, /^BEGIN:VCALENDAR\r\n[\s\S]*END:VCALENDAR\r\n$/);
+    assert.doesNotMatch(ics, /BEGIN:VEVENT/);
+  });
+
+  it('names the place as the pages do: the street when the venue is known, else the town', () => {
+    assert.equal(icsLocation(row({ venue: 'Distillery 98', area: 'Serenoa' })), 'Distillery 98, 835 Serenoa Rd, Santa Rosa Beach, FL');
+    assert.equal(icsLocation(row({ venue: 'Seaside Amphitheater', area: 'Seaside' })), 'Seaside Amphitheater, Seaside, Santa Rosa Beach, FL');
+    // Off the beach the town alone, never "Bayside, Santa Rosa Beach".
+    assert.equal(icsLocation(row({ venue: 'Farm & Fire', area: 'Bayside' })), 'Farm & Fire, Santa Rosa Beach, FL');
+    // A row filed under its town's own name says the town once.
+    assert.equal(icsLocation(row({ venue: 'Seaside', area: 'Seaside' })), 'Seaside, Santa Rosa Beach, FL');
+  });
+
+  it('keeps a long blurb to a few lines, with the link to the page last', () => {
+    const notes = icsEntry(row({ description: 'x'.repeat(900) })).notes;
+    assert.ok(notes.length < 520, String(notes.length));
+    assert.match(notes, /…\n\nTimes, the live map and the app: https:\/\/30anow\.github\.io\/e\/[0-9a-f-]{36}$/);
+  });
+
+  it('writes a venue feed beside every strip, its rows still on, soonest first', () => {
+    const later = row({ venue: 'Crackings', area: 'Grayton Beach', starts_at: '2026-09-13T14:30:00Z', ends_at: '2026-09-13T17:30:00Z' });
+    const sooner = row({ venue: 'Crackings', area: 'Grayton Beach', starts_at: '2026-09-12T14:30:00Z', ends_at: '2026-09-12T17:30:00Z' });
+    const over = row({ venue: 'Crackings', area: 'Grayton Beach', starts_at: '2026-09-07T14:30:00Z', ends_at: '2026-09-07T17:30:00Z' });
+    const files = new Map(venueCalendarFiles(embedVenues([later, over, sooner], now, []), now));
+    const feed = files.get('embed/crackings/calendar.ics')?.replace(/\r\n /g, '');
+    assert.ok(feed, [...files.keys()].join(', '));
+    const uids = [...feed.matchAll(/^UID:(.*)@30anow\.github\.io\r?$/gm)].map((m) => m[1]);
+    assert.deepEqual(uids, [sooner.id, later.id]);
+    assert.ok(feed.includes('X-WR-CALNAME:Crackings on 30A Now'));
+  });
+
+  it('every venue page that offers the feed has one written, so the link never 404s', () => {
+    const rows = ['The Red Bar', 'Crackings', 'Distillery 98'].flatMap((venue) =>
+      [1, 2, 3].map((d) =>
+        row({ venue, area: venue === 'Distillery 98' ? 'Serenoa' : 'Grayton Beach', starts_at: `2026-09-1${d}T23:00:00Z`, ends_at: `2026-09-1${d + 1}T02:00:00Z` }),
+      ),
+    );
+    const feeds = new Set(venueCalendarFiles(embedVenues(rows, now, []), now).map(([p]) => `/${p}`));
+    const pages = venuePages(rows, now);
+    assert.ok(pages.length >= 3);
+    for (const v of pages) {
+      const { html } = renderVenue(v, now);
+      if (v.owner === false) {
+        assert.doesNotMatch(html, /In your calendar/, v.name);
+        continue;
+      }
+      const links = calendarLinks(venueCalendarPath(v.slug));
+      assert.ok(feeds.has(venueCalendarPath(v.slug)), v.slug);
+      assert.ok(html.includes(`<a href="${links.webcal}">Apple Calendar or Outlook</a>`), v.name);
+      assert.ok(html.includes(links.google.replace(/&/g, '&amp;')), v.name);
+      // Before the page's "Also", after its days.
+      assert.ok(html.indexOf('In your calendar') < html.indexOf('<h2>Also</h2>'), v.name);
+    }
+  });
+
+  it('subscribes the way each calendar takes it', () => {
+    const l = calendarLinks('/embed/the-red-bar/calendar.ics');
+    assert.equal(l.webcal, 'webcal://30anow.github.io/embed/the-red-bar/calendar.ics');
+    assert.equal(l.https, 'https://30anow.github.io/embed/the-red-bar/calendar.ics');
+    assert.equal(new URL(l.google).searchParams.get('cid'), l.webcal);
+  });
+
+  it('writes an act feed beside every act page, and an empty one for an act between shows', () => {
+    const cal = ACT_FIXTURE.calendar.map((r, i) => ({ id: `00000000-0000-4000-9100-${String(i).padStart(12, '0')}`, area: 'Grayton Beach', ...r }));
+    const at = Date.parse(cal[0].starts_at) - 86400000;
+    const acts = actPages(cal, at, []);
+    assert.ok(acts.length > 0);
+    const published = [...publishedActs([], acts), { slug: 'gone-quiet', name: 'Gone Quiet' }];
+    const files = new Map(actFiles(acts, published, at));
+    for (const a of acts) {
+      const feed = files.get(`acts/${a.slug}/calendar.ics`);
+      assert.ok(feed, a.slug);
+      assert.equal((feed.match(/BEGIN:VEVENT/g) ?? []).length, a.events.filter((e) => Date.parse(e.ends_at) > at).length, a.slug);
+      assert.ok(files.get(`acts/${a.slug}/index.html`).includes(calendarLinks(actCalendarPath(a.slug)).webcal), a.slug);
+    }
+    const empty = files.get('acts/gone-quiet/calendar.ics');
+    assert.ok(empty && !empty.includes('BEGIN:VEVENT'));
+    assert.ok(empty.replace(/\r\n /g, '').includes('X-WR-CALNAME:Gone Quiet on 30A'));
   });
 });
