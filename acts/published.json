@@ -1,5 +1,10 @@
 [
   {
+    "slug": "12eleven",
+    "name": "12ELEVEN",
+    "near": true
+  },
+  {
     "slug": "alex-napier",
     "name": "Alex Napier"
   },
@@ -120,6 +125,16 @@
   {
     "slug": "red-bar-jazz",
     "name": "The Red Bar Jazz Band"
+  },
+  {
+    "slug": "redd-singing-bartender-show",
+    "name": "Redd The Singing Bartender Show",
+    "near": true
+  },
+  {
+    "slug": "reid-murphy-quartet",
+    "name": "Reid Murphy Quartet",
+    "near": true
   },
   {
     "slug": "rhino-jockeys-and-matt-miller",

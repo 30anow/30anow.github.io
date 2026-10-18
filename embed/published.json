@@ -4,6 +4,10 @@
     "name": "30Avenue"
   },
   {
+    "slug": "87-central-square-wine-bar",
+    "name": "87 Central Square Wine Bar"
+  },
+  {
     "slug": "ajs-grayton-beach",
     "name": "AJ's Grayton Beach"
   },
@@ -18,6 +22,10 @@
   {
     "slug": "alys-beach-town-center",
     "name": "Alys Beach Town Center"
+  },
+  {
+    "slug": "bayou-arts-center",
+    "name": "Bayou Arts Center"
   },
   {
     "slug": "boggy-boys-seagrove",
@@ -42,6 +50,10 @@
   {
     "slug": "cuvee-30a",
     "name": "Cuvee 30A"
+  },
+  {
+    "slug": "distillery-98",
+    "name": "Distillery 98"
   },
   {
     "slug": "ed-walline-beach-access",
@@ -84,6 +96,14 @@
     "name": "Idyll Hound Proper"
   },
   {
+    "slug": "idyll-hounds-brewing-company",
+    "name": "Idyll Hounds Brewing Company"
+  },
+  {
+    "slug": "local-cantina",
+    "name": "Local Cantina"
+  },
+  {
     "slug": "local-catch-bar-grill",
     "name": "Local Catch Bar & Grill"
   },
@@ -98,6 +118,10 @@
   {
     "slug": "north-beach-social",
     "name": "North Beach Social"
+  },
+  {
+    "slug": "obscure-wine-company",
+    "name": "Obscure Wine Company"
   },
   {
     "slug": "old-florida-fish-house",
@@ -122,6 +146,10 @@
   {
     "slug": "red-fish-taco",
     "name": "Red Fish Taco"
+  },
+  {
+    "slug": "redds-pub",
+    "name": "Redd's Pub"
   },
   {
     "slug": "rosemary-beach",
@@ -176,6 +204,10 @@
     "name": "Shunk Gulley Oyster Bar"
   },
   {
+    "slug": "sowal-house",
+    "name": "SOWAL House"
+  },
+  {
     "slug": "stinkys-bait-shack",
     "name": "Stinky's Bait Shack"
   },
@@ -218,6 +250,10 @@
   {
     "slug": "topsail-state-park",
     "name": "Topsail State Park"
+  },
+  {
+    "slug": "tribe-kelley-surf-post",
+    "name": "Tribe Kelley Surf Post"
   },
   {
     "slug": "walton-sports-complex",
