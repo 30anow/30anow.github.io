@@ -601,7 +601,7 @@ describe('JSON-LD', () => {
     assert.equal(knownVenue("Stinky's Fish Camp"), null);
   });
   it('knows the venues the app carded on 18 Oct 2026, each under the name the importer stores', () => {
-    const names = ['The Big Chill 30A', "Redd's Pub", 'North Beach Social', 'Crackings', 'Red Fish Taco', 'Idyll Hounds Brewing Company', 'Havana Beach Bar & Grill', 'Bayou Arts Center', 'Distillery 98', 'Eden Gardens State Park'];
+    const names = ['The Big Chill 30A', "Redd's Pub", 'North Beach Social', 'Crackings', 'Red Fish Taco', 'Idyll Hounds Brewing Company', 'Havana Beach Bar & Grill', 'Bayou Arts Center', 'Distillery 98', 'Eden Gardens State Park', 'The Bay'];
     for (const name of names) {
       const known = knownVenue(name);
       assert.equal(known?.name, name, name);
@@ -614,7 +614,7 @@ describe('JSON-LD', () => {
       assert.equal(slugify(known.name), slugify(name), name);
     }
     // Neighbours stay unknown rather than take a card's address.
-    for (const t of ['Idyll Hound Proper', 'Havana Beach Rooftop Bar', 'The Bay', 'North Beach']) assert.equal(knownVenue(t), null, t);
+    for (const t of ['Idyll Hound Proper', 'Havana Beach Rooftop Bar', 'Bayside', 'North Beach']) assert.equal(knownVenue(t), null, t);
     // An off-beach row now carries its street, under the town the app names.
     const ld = eventJsonLd(row({ venue: 'Distillery 98', area: 'Serenoa' }));
     assert.equal(ld.location.address.streetAddress, '835 Serenoa Rd');
@@ -2948,8 +2948,13 @@ describe('Bayside: the bay end of 331', () => {
     const ld = eventJsonLd(bay());
     assert.equal(ld.location.address.addressLocality, 'Santa Rosa Beach');
     assert.equal(ld.location.address.addressRegion, 'FL');
-    assert.equal(ld.location.address.streetAddress, undefined);
+    // The Bay has had a known address since 18 Oct 2026 (KNOWN_VENUES).
+    assert.equal(ld.location.address.streetAddress, '24215 Hwy 331 S');
     assert.deepEqual(ld.location.geo, { '@type': 'GeoCoordinates', latitude: 30.3873, longitude: -86.174 });
+    // A Bayside venue with no known address: the town alone, no street.
+    const farm = eventJsonLd(bay({ venue: 'Farm & Fire' })).location.address;
+    assert.equal(farm.addressLocality, 'Santa Rosa Beach');
+    assert.equal(farm.streetAddress, undefined);
     // A corridor row still names its neighbourhood first.
     assert.equal(eventJsonLd(row({ venue: 'Seaside Amphitheater', area: 'Seaside' })).location.address.addressLocality, 'Seaside, Santa Rosa Beach');
   });
