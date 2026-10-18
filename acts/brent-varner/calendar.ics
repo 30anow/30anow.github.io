@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Brent Varner on 30A
+X-WR-CALDESC:Brent Varner's shows on 30A\, as 30A Now lists them\, kept up 
+ to date: https://30anow.github.io/acts/brent-varner/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:5a757593-20e2-456e-b4d0-c233692f40b9@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261021T210000Z
+DTEND:20261022T010000Z
+SUMMARY:Brent Varner
+LOCATION:Shunk Gulley Oyster Bar\, 1875 S County Hwy 393\, Gulf Place\, FL
+DESCRIPTION:If you’ve got a request you’ve just been dying to hear\, ch
+ ances are Brent Varner has it in his repertoire. His music career\, starti
+ ng in Mississippi\, spans multiple instruments and genres (notably country
+ \, rock\, beach\, Americana\, R&B\, and even a little Britney Spears). Bre
+ nt has worked on many studio albums and traveled all over the South and Mi
+ dwest\, eventually settling into the Alabama Gulf Coa…\n\nTimes\, the li
+ ve map and the app: https://30anow.github.io/e/5a757593-20e2-456e-b4d0-c23
+ 3692f40b9
+URL:https://30anow.github.io/e/5a757593-20e2-456e-b4d0-c233692f40b9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9877b60f-b54f-47cb-a576-fc1994d2ad96@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261022T210000Z
+DTEND:20261023T010000Z
+SUMMARY:Brent Varner
+LOCATION:Shunk Gulley Oyster Bar\, 1875 S County Hwy 393\, Gulf Place\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/98
+ 77b60f-b54f-47cb-a576-fc1994d2ad96
+URL:https://30anow.github.io/e/9877b60f-b54f-47cb-a576-fc1994d2ad96?s=cal
+END:VEVENT
+END:VCALENDAR

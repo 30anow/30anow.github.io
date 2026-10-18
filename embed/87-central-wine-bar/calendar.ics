@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:87 Central Wine Bar on 30A Now
+X-WR-CALDESC:Every event at 87 Central Wine Bar listed on 30A Now\, kept up
+  to date: https://30anow.github.io/venues/87-central-wine-bar/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:3e11f404-74a2-49d2-b087-144272fbf0b4@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261108T160000Z
+DTEND:20261108T190000Z
+SUMMARY:Seeing Red Wine Festival Celebration of Bubbles
+LOCATION:87 Central Wine Bar\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Raise a toast with Chef Jim Shirley to the 19th Annual Celebrat
+ ion of Bubbles! Sparkling wine enthusiasts will join Chef and his team at 
+ the Lyceum Lawn as they explore Champagne\, Cava\, Prosecco (and more!) wh
+ ile enjoying a selection of delectable brunch offerings that will be the p
+ ièce de résistance of a remarkable weekend. More details to come!\nMore 
+ information here.\n\nTimes\, the live map and the app: https://30anow.gith
+ ub.io/e/3e11f404-74a2-49d2-b087-144272fbf0b4
+URL:https://30anow.github.io/e/3e11f404-74a2-49d2-b087-144272fbf0b4?s=cal
+END:VEVENT
+END:VCALENDAR

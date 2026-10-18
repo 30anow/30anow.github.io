@@ -1,0 +1,59 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Cadillac Willy on 30A
+X-WR-CALDESC:Cadillac Willy's shows on 30A\, as 30A Now lists them\, kept u
+ p to date: https://30anow.github.io/acts/cadillac-willy/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:203978fd-6284-4416-b6e3-10a61e55260d@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261023T230000Z
+DTEND:20261024T020000Z
+SUMMARY:Cadillac Willy
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Cadillac Willy on stage in the Garden Room at Red Fish Taco fro
+ m 6 – 9PM. See RFT events and music lineup below. Live music is a centr
+ al component of Red Fish Taco’s festive atmosphere. Rock out to local a
+ nd visiting musicians in their outdoor covered Garden Room. Red Fish Taco 
+ sizzles with a gourmet take on…\n\nTimes\, the live map and the app: htt
+ ps://30anow.github.io/e/203978fd-6284-4416-b6e3-10a61e55260d
+URL:https://30anow.github.io/e/203978fd-6284-4416-b6e3-10a61e55260d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:a97affa0-eb83-4ed6-a9bb-8931617b2b4c@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261024T230000Z
+DTEND:20261025T020000Z
+SUMMARY:Cadillac Willy
+LOCATION:30Avenue\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Come out to 30Avenue for the Concert Series from 7 – 10PM on 
+ the green. Gather your people for dinner\, sips\, shopping and LIVE MUSIC 
+ under the stars in Inlet Beach\, Florida. Guests are encouraged to bring 
+ a blanket or low-back lawn chairs.  See the full lineup here: 30avenue.co
+ m/calendar/ 30Avenue is located at the intersection of…\n\nTimes\, the l
+ ive map and the app: https://30anow.github.io/e/a97affa0-eb83-4ed6-a9bb-89
+ 31617b2b4c
+URL:https://30anow.github.io/e/a97affa0-eb83-4ed6-a9bb-8931617b2b4c?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:ec22b84e-03bf-4147-bb0d-3cb9482523ad@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261025T210000Z
+DTEND:20261026T000000Z
+SUMMARY:Cadillac Willy
+LOCATION:Local Catch Bar & Grill\, Blue Mountain\, Santa Rosa Beach\, FL
+DESCRIPTION:Cadillac Willy returns to Local Catch for Sunday Funday on Octo
+ ber 25 from 4-7PM. Enjoy cold drinks\, delicious food and LIVE\, local mus
+ ic at this South Walton hotspot! Cadillac Willy influences include Classic
+  Rock and Jam Bands like Widespread Panic\, Lynyrd Skynyrd\, The Allman Br
+ others and the Grateful Dead. The band also enjoys playing funky…\n\nTim
+ es\, the live map and the app: https://30anow.github.io/e/ec22b84e-03bf-41
+ 47-bb0d-3cb9482523ad
+URL:https://30anow.github.io/e/ec22b84e-03bf-4147-bb0d-3cb9482523ad?s=cal
+END:VEVENT
+END:VCALENDAR

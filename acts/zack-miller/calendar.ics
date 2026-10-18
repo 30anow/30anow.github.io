@@ -1,0 +1,44 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Zack Miller on 30A
+X-WR-CALDESC:Zack Miller's shows on 30A\, as 30A Now lists them\, kept up t
+ o date: https://30anow.github.io/acts/zack-miller/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:e265273b-2dc6-4fd8-ac14-166eef4c65de@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261030T210000Z
+DTEND:20261031T000000Z
+SUMMARY:Zack Miller
+LOCATION:The Shrimp Shack & Boardwalk Bar\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Zack Miller LIVE at the Shrimp Shack & Boardwalk Bar on Friday\
+ , October 30 from 4-7PM. Located just east of the Coleman Pavilion in dow
+ ntown Seaside\, come for delicious food and drink\, then stay for the musi
+ c. Enjoy fresh shrimp\, oysters\, and lobster rolls at The Shrimp Shack & 
+ Baordwalk Bar in Seaside\, FL. With full-service…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/e265273b-2dc6-4fd8-ac14-166eef4c
+ 65de
+URL:https://30anow.github.io/e/e265273b-2dc6-4fd8-ac14-166eef4c65de?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:1044d8ab-0cd2-4168-b8ce-5caeddaf3aa0@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261106T220000Z
+DTEND:20261107T010000Z
+SUMMARY:Zack Miller
+LOCATION:Pickle's Sandbar\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Zack Miller LIVE at Pickle’s Sandbar on Friday\, Nov. 6 from 
+ 4-7PM. Located on the south side of Pickle’s and the pop-up district\, 
+ Pickle’s Sandbar serves up hand-crafted cocktails\, high-end spirits\, 
+ draft beer\, a beachy wine selection steps from the Gulf.  Sitting on Hwy
+  30A in the heart of Seaside\, FL\, Pickle’s is an All-American burger j
+ oint…\n\nTimes\, the live map and the app: https://30anow.github.io/e/10
+ 44d8ab-0cd2-4168-b8ce-5caeddaf3aa0
+URL:https://30anow.github.io/e/1044d8ab-0cd2-4168-b8ce-5caeddaf3aa0?s=cal
+END:VEVENT
+END:VCALENDAR

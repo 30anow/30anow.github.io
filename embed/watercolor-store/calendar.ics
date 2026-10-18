@@ -1,0 +1,76 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:WaterColor Store on 30A Now
+X-WR-CALDESC:Every event at WaterColor Store listed on 30A Now\, kept up to
+  date: https://30anow.github.io/venues/watercolor-store/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:f667b6a8-c584-4b22-bc02-162bf2e14200@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261221T160000Z
+DTEND:20261222T000000Z
+SUMMARY:Watercolor Store Holiday Sale
+LOCATION:WaterColor Store\, WaterColor\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nWrap up your holiday shopping in WaterColor\, Florida. 
+ Head to the WaterColor Store and WaterColor Kids to shop 15% off storewide
+  December 21–23 and 25% off on December 24. Find last-minute gifts and 
+ festive favorites leading up to Christmas Eve—automatic savings applied 
+ at checkout. Sale prices available in-store & online. Staples of the Wate
+ rColor Town Center\, the…\n\nTimes\, the live map and the app: https://3
+ 0anow.github.io/e/f667b6a8-c584-4b22-bc02-162bf2e14200
+URL:https://30anow.github.io/e/f667b6a8-c584-4b22-bc02-162bf2e14200?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:e6defc16-86e9-42fe-b724-e42bd27baca0@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261222T160000Z
+DTEND:20261223T000000Z
+SUMMARY:Watercolor Store Holiday Sale
+LOCATION:WaterColor Store\, WaterColor\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nWrap up your holiday shopping in WaterColor\, Florida. 
+ Head to the WaterColor Store and WaterColor Kids to shop 15% off storewide
+  December 21–23 and 25% off on December 24. Find last-minute gifts and 
+ festive favorites leading up to Christmas Eve—automatic savings applied 
+ at checkout. Sale prices available in-store & online. Staples of the Wate
+ rColor Town Center\, the…\n\nTimes\, the live map and the app: https://3
+ 0anow.github.io/e/e6defc16-86e9-42fe-b724-e42bd27baca0
+URL:https://30anow.github.io/e/e6defc16-86e9-42fe-b724-e42bd27baca0?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:126c170f-2ca1-410e-8ffb-d2205617545f@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261223T160000Z
+DTEND:20261224T000000Z
+SUMMARY:Watercolor Store Holiday Sale
+LOCATION:WaterColor Store\, WaterColor\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nWrap up your holiday shopping in WaterColor\, Florida. 
+ Head to the WaterColor Store and WaterColor Kids to shop 15% off storewide
+  December 21–23 and 25% off on December 24. Find last-minute gifts and 
+ festive favorites leading up to Christmas Eve—automatic savings applied 
+ at checkout. Sale prices available in-store & online. Staples of the Wate
+ rColor Town Center\, the…\n\nTimes\, the live map and the app: https://3
+ 0anow.github.io/e/126c170f-2ca1-410e-8ffb-d2205617545f
+URL:https://30anow.github.io/e/126c170f-2ca1-410e-8ffb-d2205617545f?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:14a61ebb-2f54-4065-a26c-e7101654897a@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261224T160000Z
+DTEND:20261225T000000Z
+SUMMARY:Watercolor Store Holiday Sale
+LOCATION:WaterColor Store\, WaterColor\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nWrap up your holiday shopping in WaterColor\, Florida. 
+ Head to the WaterColor Store and WaterColor Kids to shop 15% off storewide
+  December 21–23 and 25% off on December 24. Find last-minute gifts and 
+ festive favorites leading up to Christmas Eve—automatic savings applied 
+ at checkout. Sale prices available in-store & online. Staples of the Wate
+ rColor Town Center\, the…\n\nTimes\, the live map and the app: https://3
+ 0anow.github.io/e/14a61ebb-2f54-4065-a26c-e7101654897a
+URL:https://30anow.github.io/e/14a61ebb-2f54-4065-a26c-e7101654897a?s=cal
+END:VEVENT
+END:VCALENDAR

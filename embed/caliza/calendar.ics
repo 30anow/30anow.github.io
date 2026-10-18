@@ -1,0 +1,39 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Caliza on 30A Now
+X-WR-CALDESC:Every event at Caliza listed on 30A Now\, kept up to date: htt
+ ps://30anow.github.io/venues/caliza/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:84ddfed7-e7e4-4fc3-abc9-6cbf2580f2c6@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261111T233000Z
+DTEND:20261112T013000Z
+SUMMARY:Crafted: 30A Songwriters Session
+LOCATION:Caliza\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Alys Beach Crafted returns November 11-14\, 2026\, celebrating 
+ a collection of fine talents that come together in collaboration\, enrichi
+ ng the 30A lifestyle. Crafted features a weekend of events in Alys Beach\,
+  a gathering of renowned craftspeople from around the country sharing the 
+ process\, the…\n\nTimes\, the live map and the app: https://30anow.githu
+ b.io/e/84ddfed7-e7e4-4fc3-abc9-6cbf2580f2c6
+URL:https://30anow.github.io/e/84ddfed7-e7e4-4fc3-abc9-6cbf2580f2c6?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:3f916089-7789-4262-b09d-29a6b043156d@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261112T230000Z
+DTEND:20261113T010000Z
+SUMMARY:Crafted: Experiential Cocktail Dinner featuring Foursquare Rum Dist
+ illery + Chef Rob McDaniel
+LOCATION:Caliza\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/3f
+ 916089-7789-4262-b09d-29a6b043156d
+URL:https://30anow.github.io/e/3f916089-7789-4262-b09d-29a6b043156d?s=cal
+END:VEVENT
+END:VCALENDAR

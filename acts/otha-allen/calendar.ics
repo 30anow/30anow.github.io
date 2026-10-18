@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Otha Allen on 30A
+X-WR-CALDESC:Otha Allen's shows on 30A\, as 30A Now lists them\, kept up to
+  date: https://30anow.github.io/acts/otha-allen/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:e02fdb79-fe04-4a7c-b578-47de541b0fa7@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261028T230000Z
+DTEND:20261029T020000Z
+SUMMARY:Otha Allen
+LOCATION:30Avenue\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Come out to 30Avenue for the Concert Series from 7 – 10PM on 
+ the green. Gather your people for dinner\, sips\, shopping and LIVE MUSIC 
+ under the stars in Inlet Beach\, Florida. Guests are encouraged to bring 
+ a blanket or low-back lawn chairs.  See the full lineup here: 30avenue.co
+ m/calendar/ 30Avenue is located at the intersection of…\n\nTimes\, the l
+ ive map and the app: https://30anow.github.io/e/e02fdb79-fe04-4a7c-b578-47
+ de541b0fa7
+URL:https://30anow.github.io/e/e02fdb79-fe04-4a7c-b578-47de541b0fa7?s=cal
+END:VEVENT
+END:VCALENDAR

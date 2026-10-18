@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:SHACKS ART Grayton Beach on 30A Now
+X-WR-CALDESC:Every event at SHACKS ART Grayton Beach listed on 30A Now\, ke
+ pt up to date: https://30anow.github.io/venues/shacks-art-grayton-beach/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:036c7cd8-6942-40b6-b768-96573465e8d6@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261219T160000Z
+DTEND:20261219T230000Z
+SUMMARY:Grayton Beach Holiday Art Fest
+LOCATION:SHACKS ART Grayton Beach\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Shacks Art Grayton Beach invites fellow art-lovers to the Grayt
+ on Beach Holiday Art Fest! Beginning at 10am on Saturday\, December 19\, t
+ he festival will feature 100 + artists\, kids crafts\, live music\, Santa 
+ Claus\, and more. Grayton Beach Holiday Art Fest (10AM – 5PM) 10AM – 1
+ 2PM: Meet Santa 1PM – 4PM: LIVE MUSIC with…\n\nTimes\, the live map an
+ d the app: https://30anow.github.io/e/036c7cd8-6942-40b6-b768-96573465e8d6
+URL:https://30anow.github.io/e/036c7cd8-6942-40b6-b768-96573465e8d6?s=cal
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:The Courtyard at Pescado on 30A Now
+X-WR-CALDESC:Every event at The Courtyard at Pescado listed on 30A Now\, ke
+ pt up to date: https://30anow.github.io/venues/the-courtyard-at-pescado/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:2a1865f5-07a3-4bce-911a-db81ab9bcef5@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261110T170000Z
+DTEND:20261110T190000Z
+SUMMARY:Mahjong\, Mimosas & Dolly
+LOCATION:The Courtyard at Pescado\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/2a
+ 1865f5-07a3-4bce-911a-db81ab9bcef5
+URL:https://30anow.github.io/e/2a1865f5-07a3-4bce-911a-db81ab9bcef5?s=cal
+END:VEVENT
+END:VCALENDAR

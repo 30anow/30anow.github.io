@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:John Hart on 30A
+X-WR-CALDESC:John Hart's shows on 30A\, as 30A Now lists them\, kept up to 
+ date: https://30anow.github.io/acts/john-hart/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:e1a4387d-3ed9-4a28-b62c-8c047d84482e@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261029T230000Z
+DTEND:20261030T020000Z
+SUMMARY:John Hart
+LOCATION:30Avenue\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Come out to 30Avenue for the Concert Series from 7 – 10PM on 
+ the green. Gather your people for dinner\, sips\, shopping and LIVE MUSIC 
+ under the stars in Inlet Beach\, Florida. Guests are encouraged to bring 
+ a blanket or low-back lawn chairs.  See the full lineup here: 30avenue.co
+ m/calendar/ 30Avenue is located at the intersection of…\n\nTimes\, the l
+ ive map and the app: https://30anow.github.io/e/e1a4387d-3ed9-4a28-b62c-8c
+ 047d84482e
+URL:https://30anow.github.io/e/e1a4387d-3ed9-4a28-b62c-8c047d84482e?s=cal
+END:VEVENT
+END:VCALENDAR

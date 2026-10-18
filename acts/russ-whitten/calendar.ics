@@ -1,0 +1,44 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:RUSS WHITTEN on 30A
+X-WR-CALDESC:RUSS WHITTEN's shows on 30A\, as 30A Now lists them\, kept up 
+ to date: https://30anow.github.io/acts/russ-whitten/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:2f834e0f-b112-47cb-8fd9-844ba32acda1@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261022T143000Z
+DTEND:20261022T173000Z
+SUMMARY:RUSS WHITTEN
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:LIVE music at Crackings. from 9:30AM – 12:30PM. Located in Up
+ town Grayton in Grayton Beach\, FL\, enjoy good vibes\, a pet friendly pat
+ io\, a delicious meal\, and their famous mason jar Mimosas & Bloody Marys.
+  Bring the whole family out to support SoWal’s fantastic local musicians
+ ! See the music lineup below. Crackings. is a family…\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/2f834e0f-b112-47cb-8fd9-844b
+ a32acda1
+URL:https://30anow.github.io/e/2f834e0f-b112-47cb-8fd9-844ba32acda1?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2357d558-b519-4298-91d7-6775ebb5e1c8@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261029T143000Z
+DTEND:20261029T173000Z
+SUMMARY:RUSS WHITTEN
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:LIVE music at Crackings. from 9:30AM – 12:30PM. Located in Up
+ town Grayton in Grayton Beach\, FL\, enjoy good vibes\, a pet friendly pat
+ io\, a delicious meal\, and their famous mason jar Mimosas & Bloody Marys.
+  Bring the whole family out to support SoWal’s fantastic local musicians
+ ! See the music lineup below. Crackings. is a family…\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/2357d558-b519-4298-91d7-6775
+ ebb5e1c8
+URL:https://30anow.github.io/e/2357d558-b519-4298-91d7-6775ebb5e1c8?s=cal
+END:VEVENT
+END:VCALENDAR

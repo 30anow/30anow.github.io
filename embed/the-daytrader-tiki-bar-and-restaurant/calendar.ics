@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:The Daytrader Tiki Bar and Restaurant on 30A Now
+X-WR-CALDESC:Every event at The Daytrader Tiki Bar and Restaurant listed on
+  30A Now\, kept up to date: https://30anow.github.io/venues/the-daytrader-
+ tiki-bar-and-restaurant/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:b1f3f99d-7a80-4af6-b17f-9cab214725c0@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261107T160000Z
+DTEND:20261107T183000Z
+SUMMARY:Seeing Red Wine Festival Battle of the Somms
+LOCATION:The Daytrader Tiki Bar and Restaurant\, Seaside\, Santa Rosa Beach
+ \, FL
+DESCRIPTION:The ultimate VIP experience in partnership with Ithaka Hospital
+ ity Partners. More details to come!\nMore information here.\n\nTimes\, the
+  live map and the app: https://30anow.github.io/e/b1f3f99d-7a80-4af6-b17f-
+ 9cab214725c0
+URL:https://30anow.github.io/e/b1f3f99d-7a80-4af6-b17f-9cab214725c0?s=cal
+END:VEVENT
+END:VCALENDAR

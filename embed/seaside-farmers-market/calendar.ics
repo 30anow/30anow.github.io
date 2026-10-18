@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Seaside Farmers Market on 30A Now
+X-WR-CALDESC:Every event at Seaside Farmers Market listed on 30A Now\, kept
+  up to date: https://30anow.github.io/venues/seaside-farmers-market/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+END:VCALENDAR

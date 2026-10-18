@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Bud & Alley’s on 30A Now
+X-WR-CALDESC:Every event at Bud & Alley’s listed on 30A Now\, kept up to 
+ date: https://30anow.github.io/venues/bud-alleys/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:d3e98040-94e0-410e-8262-fc81ec6bf0fe@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261106T000000Z
+DTEND:20261106T030000Z
+SUMMARY:Seeing Red Wine Festival Vintners Dinner
+LOCATION:Bud & Alley’s\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Enjoy an evening of delicious wines alongside a curated menu at
+  Bud & Alley’s as we toast to the beginning of Seeing Red weekend. More 
+ details to come!\n\nTimes\, the live map and the app: https://30anow.githu
+ b.io/e/d3e98040-94e0-410e-8262-fc81ec6bf0fe
+URL:https://30anow.github.io/e/d3e98040-94e0-410e-8262-fc81ec6bf0fe?s=cal
+END:VEVENT
+END:VCALENDAR

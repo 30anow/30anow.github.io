@@ -1,0 +1,45 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Rhino Jockeys + Matt Miller on 30A
+X-WR-CALDESC:Rhino Jockeys + Matt Miller's shows on 30A\, as 30A Now lists 
+ them\, kept up to date: https://30anow.github.io/acts/rhino-jockeys-and-ma
+ tt-miller/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:f9afecc3-62a5-4bde-a195-da400ef77db2@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261024T000000Z
+DTEND:20261024T030000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Free\n\nRhino Jockeys + Matt Miller live at The Bait Shack. No 
+ cover! Stinky’s Bait Shack is a longtime favorite bar\, bait shop and h
+ angout located next to Stinky’s Fish Camp restaurant in South Walton\, F
+ lorida. The Bait Shack opens early for coffee and bait\, and is a popular 
+ music venue featuring local and visiting artists on…\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/f9afecc3-62a5-4bde-a195-da400
+ ef77db2
+URL:https://30anow.github.io/e/f9afecc3-62a5-4bde-a195-da400ef77db2?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9213bee3-af5f-4c97-8cc8-02f4d8827934@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261031T000000Z
+DTEND:20261031T030000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Free\n\nRhino Jockeys + Matt Miller live at The Bait Shack. No 
+ cover! Stinky’s Bait Shack is a longtime favorite bar\, bait shop and h
+ angout located next to Stinky’s Fish Camp restaurant in South Walton\, F
+ lorida. The Bait Shack opens early for coffee and bait\, and is a popular 
+ music venue featuring local and visiting artists on…\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/9213bee3-af5f-4c97-8cc8-02f4d
+ 8827934
+URL:https://30anow.github.io/e/9213bee3-af5f-4c97-8cc8-02f4d8827934?s=cal
+END:VEVENT
+END:VCALENDAR

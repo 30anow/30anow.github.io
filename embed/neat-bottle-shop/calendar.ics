@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEAT Bottle Shop on 30A Now
+X-WR-CALDESC:Every event at NEAT Bottle Shop listed on 30A Now\, kept up to
+  date: https://30anow.github.io/venues/neat-bottle-shop/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:3cabeda7-d7f0-47cf-bdf8-1c712d06544f@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261020T220000Z
+DTEND:20261021T000000Z
+SUMMARY:Wine + Song
+LOCATION:NEAT Bottle Shop\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:$30 (from listing)\n\nJoin us for Wine & Song at NEAT\, with ta
+ bleside wine tastings and live music every Tuesday.\n4 wines  |  $30 per
+  person.\nOctober Line-up:\n10/6: Mari Gleason\n10/13: Max McCann\n10/20: 
+ Steven Theriot\n10/27: Corey Hall\n\nTimes\, the live map and the app: htt
+ ps://30anow.github.io/e/3cabeda7-d7f0-47cf-bdf8-1c712d06544f
+URL:https://30anow.github.io/e/3cabeda7-d7f0-47cf-bdf8-1c712d06544f?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:af5d9679-6e6e-46c6-ad39-8772668e7492@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261027T220000Z
+DTEND:20261028T000000Z
+SUMMARY:Wine + Song
+LOCATION:NEAT Bottle Shop\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:$30 (from listing)\n\nJoin us for Wine & Song at NEAT\, with ta
+ bleside wine tastings and live music every Tuesday.\n4 wines  |  $30 per
+  person.\nOctober Line-up:\n10/6: Mari Gleason\n10/13: Max McCann\n10/20: 
+ Steven Theriot\n10/27: Corey Hall\n\nTimes\, the live map and the app: htt
+ ps://30anow.github.io/e/af5d9679-6e6e-46c6-ad39-8772668e7492
+URL:https://30anow.github.io/e/af5d9679-6e6e-46c6-ad39-8772668e7492?s=cal
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,45 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tribe Kelley Surf Post on 30A Now
+X-WR-CALDESC:Every event at Tribe Kelley Surf Post listed on 30A Now\, kept
+  up to date: https://30anow.github.io/venues/tribe-kelley-surf-post/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:aa8a552e-5ef9-4b81-a2d3-bb2eb1a633d8@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261030T000000Z
+DTEND:20261030T020000Z
+SUMMARY:Surf Post Sessions with Brian Kelley
+LOCATION:Tribe Kelley Surf Post\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/aa
+ 8a552e-5ef9-4b81-a2d3-bb2eb1a633d8
+URL:https://30anow.github.io/e/aa8a552e-5ef9-4b81-a2d3-bb2eb1a633d8?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:d9cd143a-19b7-4ab7-8232-d792d1708bef@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261031T000000Z
+DTEND:20261031T020000Z
+SUMMARY:Surf Post Sessions with Brian Kelley
+LOCATION:Tribe Kelley Surf Post\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/d9
+ cd143a-19b7-4ab7-8232-d792d1708bef
+URL:https://30anow.github.io/e/d9cd143a-19b7-4ab7-8232-d792d1708bef?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:91327d79-f724-486d-82be-e3d96665d009@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261101T000000Z
+DTEND:20261101T020000Z
+SUMMARY:Surf Post Sessions with Brian Kelley
+LOCATION:Tribe Kelley Surf Post\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/91
+ 327d79-f724-486d-82be-e3d96665d009
+URL:https://30anow.github.io/e/91327d79-f724-486d-82be-e3d96665d009?s=cal
+END:VEVENT
+END:VCALENDAR

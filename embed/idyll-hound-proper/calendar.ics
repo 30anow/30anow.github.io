@@ -1,0 +1,100 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Idyll Hound Proper on 30A Now
+X-WR-CALDESC:Every event at Idyll Hound Proper listed on 30A Now\, kept up 
+ to date: https://30anow.github.io/venues/idyll-hound-proper/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:6d44992d-c2df-4119-9309-69509c302f65@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261024T150000Z
+DTEND:20261024T190000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/6d
+ 44992d-c2df-4119-9309-69509c302f65
+URL:https://30anow.github.io/e/6d44992d-c2df-4119-9309-69509c302f65?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:ec2b5eb8-c538-413b-a808-6eaf18df0c50@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261025T150000Z
+DTEND:20261025T190000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ec
+ 2b5eb8-c538-413b-a808-6eaf18df0c50
+URL:https://30anow.github.io/e/ec2b5eb8-c538-413b-a808-6eaf18df0c50?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:92d99afb-33c8-49c9-8886-5a912221517a@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261031T150000Z
+DTEND:20261031T190000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/92
+ d99afb-33c8-49c9-8886-5a912221517a
+URL:https://30anow.github.io/e/92d99afb-33c8-49c9-8886-5a912221517a?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:be336384-0f62-4db9-9934-c8fca72381ee@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261101T160000Z
+DTEND:20261101T200000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/be
+ 336384-0f62-4db9-9934-c8fca72381ee
+URL:https://30anow.github.io/e/be336384-0f62-4db9-9934-c8fca72381ee?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:efe762a4-0678-4bd6-b4f7-6c6c964fd0bf@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261107T160000Z
+DTEND:20261107T200000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ef
+ e762a4-0678-4bd6-b4f7-6c6c964fd0bf
+URL:https://30anow.github.io/e/efe762a4-0678-4bd6-b4f7-6c6c964fd0bf?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:819e3dfa-0bb7-48f4-a183-1e335503517d@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261108T160000Z
+DTEND:20261108T200000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/81
+ 9e3dfa-0bb7-48f4-a183-1e335503517d
+URL:https://30anow.github.io/e/819e3dfa-0bb7-48f4-a183-1e335503517d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:17fe71d2-b84d-4a91-90dd-63ff4f79d3e1@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261114T160000Z
+DTEND:20261114T200000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/17
+ fe71d2-b84d-4a91-90dd-63ff4f79d3e1
+URL:https://30anow.github.io/e/17fe71d2-b84d-4a91-90dd-63ff4f79d3e1?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:98c626b4-41ef-4688-8d3d-83c8cf3dbf73@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261115T160000Z
+DTEND:20261115T200000Z
+SUMMARY:Weekend Brunch
+LOCATION:Idyll Hound Proper\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/98
+ c626b4-41ef-4688-8d3d-83c8cf3dbf73
+URL:https://30anow.github.io/e/98c626b4-41ef-4688-8d3d-83c8cf3dbf73?s=cal
+END:VEVENT
+END:VCALENDAR

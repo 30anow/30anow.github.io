@@ -1,0 +1,187 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Alys Beach on 30A Now
+X-WR-CALDESC:Every event at Alys Beach listed on 30A Now\, kept up to date:
+  https://30anow.github.io/venues/alys-beach/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:0eb9e615-fc43-472c-947f-8721fc7cd0da@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261022T140000Z
+DTEND:20261022T220000Z
+SUMMARY:Garden & Gun Society and Friends Gathering at Alys Beach
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:This October\, experience the best of Southern culture as the G
+ arden & Gun Society and Friends Gathering comes to Alys Beach\, October 22
+ –25\, 2026.\nHosted in partnership with Garden & Gun\, this immersive fo
+ ur-day event brings together celebrated chefs\, artisans\, designers\, mus
+ icians\, conservationists\, and storytellers for an unforgettable weekend 
+ along Florida’s Scenic Highway 30A.…\n\nTimes\, the live map and the a
+ pp: https://30anow.github.io/e/0eb9e615-fc43-472c-947f-8721fc7cd0da
+URL:https://30anow.github.io/e/0eb9e615-fc43-472c-947f-8721fc7cd0da?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:41ab9544-fe92-4798-a0b0-880eb6c86f87@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261022T210000Z
+DTEND:20261022T230000Z
+SUMMARY:Trick-or-Treating in Town Center
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/41
+ ab9544-fe92-4798-a0b0-880eb6c86f87
+URL:https://30anow.github.io/e/41ab9544-fe92-4798-a0b0-880eb6c86f87?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:05a7669f-3883-416e-9c3b-2390c69b0319@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261023T140000Z
+DTEND:20261023T220000Z
+SUMMARY:Garden & Gun Society and Friends Gathering at Alys Beach
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:This October\, experience the best of Southern culture as the G
+ arden & Gun Society and Friends Gathering comes to Alys Beach\, October 22
+ –25\, 2026.\nHosted in partnership with Garden & Gun\, this immersive fo
+ ur-day event brings together celebrated chefs\, artisans\, designers\, mus
+ icians\, conservationists\, and storytellers for an unforgettable weekend 
+ along Florida’s Scenic Highway 30A.…\n\nTimes\, the live map and the a
+ pp: https://30anow.github.io/e/05a7669f-3883-416e-9c3b-2390c69b0319
+URL:https://30anow.github.io/e/05a7669f-3883-416e-9c3b-2390c69b0319?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:26fe7657-1ca1-4782-aea1-39fc077512fb@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261024T140000Z
+DTEND:20261024T220000Z
+SUMMARY:Garden & Gun Society and Friends Gathering at Alys Beach
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:This October\, experience the best of Southern culture as the G
+ arden & Gun Society and Friends Gathering comes to Alys Beach\, October 22
+ –25\, 2026.\nHosted in partnership with Garden & Gun\, this immersive fo
+ ur-day event brings together celebrated chefs\, artisans\, designers\, mus
+ icians\, conservationists\, and storytellers for an unforgettable weekend 
+ along Florida’s Scenic Highway 30A.…\n\nTimes\, the live map and the a
+ pp: https://30anow.github.io/e/26fe7657-1ca1-4782-aea1-39fc077512fb
+URL:https://30anow.github.io/e/26fe7657-1ca1-4782-aea1-39fc077512fb?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:17e9b913-a6ab-4071-9b36-41e1724bc573@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261025T140000Z
+DTEND:20261025T220000Z
+SUMMARY:Garden & Gun Society and Friends Gathering at Alys Beach
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:This October\, experience the best of Southern culture as the G
+ arden & Gun Society and Friends Gathering comes to Alys Beach\, October 22
+ –25\, 2026.\nHosted in partnership with Garden & Gun\, this immersive fo
+ ur-day event brings together celebrated chefs\, artisans\, designers\, mus
+ icians\, conservationists\, and storytellers for an unforgettable weekend 
+ along Florida’s Scenic Highway 30A.…\n\nTimes\, the live map and the a
+ pp: https://30anow.github.io/e/17e9b913-a6ab-4071-9b36-41e1724bc573
+URL:https://30anow.github.io/e/17e9b913-a6ab-4071-9b36-41e1724bc573?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:4b1ec51b-988c-42b0-be41-3ab9854df16d@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261111T150000Z
+DTEND:20261111T230000Z
+SUMMARY:Alys Beach Crafted
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Alys Beach Crafted was created to celebrate the collaboration o
+ f talents that come together to enrich the 30A experience. This event\, sp
+ rung from 2019’s successful debut of Firkin Fête\, aims to tell the sto
+ ries of crafted beverages\, culinary experiences\, artistry\, and workmans
+ hip. Crafted will be a weekend of events here in Alys Beach\, a gathering 
+ of renowned craftspeople from around the country…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/4b1ec51b-988c-42b0-be41-3ab9854d
+ f16d
+URL:https://30anow.github.io/e/4b1ec51b-988c-42b0-be41-3ab9854df16d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:42caf015-124a-4b02-a46c-7bf7d5ee7b20@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261112T150000Z
+DTEND:20261112T230000Z
+SUMMARY:Alys Beach Crafted
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Alys Beach Crafted was created to celebrate the collaboration o
+ f talents that come together to enrich the 30A experience. This event\, sp
+ rung from 2019’s successful debut of Firkin Fête\, aims to tell the sto
+ ries of crafted beverages\, culinary experiences\, artistry\, and workmans
+ hip. Crafted will be a weekend of events here in Alys Beach\, a gathering 
+ of renowned craftspeople from around the country…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/42caf015-124a-4b02-a46c-7bf7d5ee
+ 7b20
+URL:https://30anow.github.io/e/42caf015-124a-4b02-a46c-7bf7d5ee7b20?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9f72e58f-5b0d-4ccb-92d9-6d2082b8e22b@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261112T230000Z
+DTEND:20261113T010000Z
+SUMMARY:Crafted:  Experiential Wine Dinner featuring Menagerie Wines + Yarr
+ ow Art
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/9f
+ 72e58f-5b0d-4ccb-92d9-6d2082b8e22b
+URL:https://30anow.github.io/e/9f72e58f-5b0d-4ccb-92d9-6d2082b8e22b?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:d8c7f0ba-e88a-4776-8fc2-aff6cf4893e2@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261113T150000Z
+DTEND:20261113T230000Z
+SUMMARY:Alys Beach Crafted
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Alys Beach Crafted was created to celebrate the collaboration o
+ f talents that come together to enrich the 30A experience. This event\, sp
+ rung from 2019’s successful debut of Firkin Fête\, aims to tell the sto
+ ries of crafted beverages\, culinary experiences\, artistry\, and workmans
+ hip. Crafted will be a weekend of events here in Alys Beach\, a gathering 
+ of renowned craftspeople from around the country…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/d8c7f0ba-e88a-4776-8fc2-aff6cf48
+ 93e2
+URL:https://30anow.github.io/e/d8c7f0ba-e88a-4776-8fc2-aff6cf4893e2?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:08fb1bc9-dcff-4867-8d83-92095648f1da@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261113T203000Z
+DTEND:20261113T223000Z
+SUMMARY:Crafted:  Cocktails & Clay
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/08
+ fb1bc9-dcff-4867-8d83-92095648f1da
+URL:https://30anow.github.io/e/08fb1bc9-dcff-4867-8d83-92095648f1da?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:e6cfaa02-5666-4161-869e-94ae85f2f867@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261114T160000Z
+DTEND:20261115T040000Z
+SUMMARY:Alys Beach Crafted Spirited Saturday
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Alys Beach Crafted returns November 11-14\, 2026\, celebrating 
+ a collection of fine talents that come together in collaboration\, enrichi
+ ng the 30A lifestyle. Crafted features a weekend of events in Alys Beach\,
+  a gathering of renowned craftspeople from around the country sharing the 
+ process\, the…\n\nTimes\, the live map and the app: https://30anow.githu
+ b.io/e/e6cfaa02-5666-4161-869e-94ae85f2f867
+URL:https://30anow.github.io/e/e6cfaa02-5666-4161-869e-94ae85f2f867?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:5f780679-ffef-484c-bbac-a6bd7f3d610d@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261114T190000Z
+DTEND:20261114T220000Z
+SUMMARY:Crafted: Spirited Soirée
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/5f
+ 780679-ffef-484c-bbac-a6bd7f3d610d
+URL:https://30anow.github.io/e/5f780679-ffef-484c-bbac-a6bd7f3d610d?s=cal
+END:VEVENT
+END:VCALENDAR

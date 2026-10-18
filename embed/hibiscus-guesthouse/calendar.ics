@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Hibiscus Guesthouse on 30A Now
+X-WR-CALDESC:Every event at Hibiscus Guesthouse listed on 30A Now\, kept up
+  to date: https://30anow.github.io/venues/hibiscus-guesthouse/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:41d22202-4e2d-4103-83b2-9acbacbdabef@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261022T140000Z
+DTEND:20261022T180000Z
+SUMMARY:Grayton Locals Market
+LOCATION:Hibiscus Guesthouse\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nThe Grayton Locals Market\, a weekly market filled with
+  rotating food artisans\, farm to table and local goods\, takes over the B
+ ackyard of Love at Hibiscus Guesthouse in Grayton Beach\, FL\, on Thursday
+ s from 9AM – 1PM. Hosted by Mignot & Co + Raw & Juicy\, follow Graytonlo
+ calsmarket on social media…\n\nTimes\, the live map and the app: https:/
+ /30anow.github.io/e/41d22202-4e2d-4103-83b2-9acbacbdabef
+URL:https://30anow.github.io/e/41d22202-4e2d-4103-83b2-9acbacbdabef?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:49823e31-535f-4806-84b7-0169a2360da2@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261029T140000Z
+DTEND:20261029T180000Z
+SUMMARY:Grayton Locals Market
+LOCATION:Hibiscus Guesthouse\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nThe Grayton Locals Market\, a weekly market filled with
+  rotating food artisans\, farm to table and local goods\, takes over the B
+ ackyard of Love at Hibiscus Guesthouse in Grayton Beach\, FL\, on Thursday
+ s from 9AM – 1PM. Hosted by Mignot & Co + Raw & Juicy\, follow Graytonlo
+ calsmarket on social media…\n\nTimes\, the live map and the app: https:/
+ /30anow.github.io/e/49823e31-535f-4806-84b7-0169a2360da2
+URL:https://30anow.github.io/e/49823e31-535f-4806-84b7-0169a2360da2?s=cal
+END:VEVENT
+END:VCALENDAR

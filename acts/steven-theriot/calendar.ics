@@ -1,0 +1,44 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:STEVEN THERIOT on 30A
+X-WR-CALDESC:STEVEN THERIOT's shows on 30A\, as 30A Now lists them\, kept u
+ p to date: https://30anow.github.io/acts/steven-theriot/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:0618886b-5863-4aaf-a8c7-26e058f16dfe@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261023T143000Z
+DTEND:20261023T173000Z
+SUMMARY:STEVEN THERIOT
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:LIVE music at Crackings. from 9:30AM – 12:30PM. Located in Up
+ town Grayton in Grayton Beach\, FL\, enjoy good vibes\, a pet friendly pat
+ io\, a delicious meal\, and their famous mason jar Mimosas & Bloody Marys.
+  Bring the whole family out to support SoWal’s fantastic local musicians
+ ! See the music lineup below. Crackings. is a family…\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/0618886b-5863-4aaf-a8c7-26e0
+ 58f16dfe
+URL:https://30anow.github.io/e/0618886b-5863-4aaf-a8c7-26e058f16dfe?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:999146e6-e488-4a4b-b6fe-20e8ee1b2a69@30anow.github.io
+DTSTAMP:20261018T195720Z
+DTSTART:20261030T143000Z
+DTEND:20261030T173000Z
+SUMMARY:STEVEN THERIOT
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:LIVE music at Crackings. from 9:30AM – 12:30PM. Located in Up
+ town Grayton in Grayton Beach\, FL\, enjoy good vibes\, a pet friendly pat
+ io\, a delicious meal\, and their famous mason jar Mimosas & Bloody Marys.
+  Bring the whole family out to support SoWal’s fantastic local musicians
+ ! See the music lineup below. Crackings. is a family…\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/999146e6-e488-4a4b-b6fe-20e8
+ ee1b2a69
+URL:https://30anow.github.io/e/999146e6-e488-4a4b-b6fe-20e8ee1b2a69?s=cal
+END:VEVENT
+END:VCALENDAR
