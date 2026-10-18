@@ -700,6 +700,83 @@ export const KNOWN_VENUES = [
     address: '1875 S County Hwy 393, Gulf Place',
     website: 'https://www.shunkgulley.com',
   },
+  // MORE_VENUE_CARDS in the app repo's src/data/venues.ts (18 Oct 2026),
+  // checked on each venue's own site that day, with no field the site does
+  // not confirm (North Beach Social's page shows one number and dials
+  // another, so it has none). Each name is the spelling the importer
+  // stores, and each pattern is anchored to it. A venue's slug is its name
+  // either way, so no published page, strip or sign moves. A loose
+  // /havana beach/ would take The Pearl's rooftop bar, and /idyll hound/
+  // would take Idyll Hound Proper in Inlet Beach.
+  {
+    name: 'The Big Chill 30A',
+    match: /^(?:the )?big chill(?: 30a)?$/i,
+    address: '20 Hub Lane, Watersound Beach',
+    website: 'https://thebigchill.com',
+    phone: '850-213-0782',
+  },
+  {
+    name: "Redd's Pub",
+    match: /^redd'?s pub$/i,
+    address: '3906 Hwy 98 W, Santa Rosa Beach',
+    website: 'https://reddspub.com',
+    phone: '850-325-0252',
+  },
+  {
+    name: 'North Beach Social',
+    match: /^north beach social$/i,
+    address: '24200 Hwy 331 S, Santa Rosa Beach',
+    website: 'https://www.northbeach.social',
+  },
+  {
+    name: 'Crackings',
+    match: /^crackings$/i,
+    address: '51 Uptown Grayton Cir, Grayton Beach',
+    website: 'https://www.crackingsfl.com',
+    phone: '850-608-8221',
+  },
+  {
+    name: 'Red Fish Taco',
+    match: /^red fish taco$/i,
+    address: '2052 W County Hwy 30A, Blue Mountain Beach',
+    website: 'https://www.redfishtaco.com',
+    phone: '850-994-7443',
+  },
+  {
+    name: 'Idyll Hounds Brewing Company',
+    match: /^idyll hounds brew(?:ery|ing(?: co(?:mpany)?\.?)?)$/i,
+    address: '845 Serenoa Rd, Santa Rosa Beach',
+    website: 'https://www.idyllhoundsbrewingcompany.com',
+    phone: '850-231-1138',
+  },
+  {
+    name: 'Havana Beach Bar & Grill',
+    match: /^havana beach bar (?:&|and) grill$/i,
+    address: '63 Main St, Rosemary Beach',
+    website: 'https://www.havanabeachbar.com',
+    phone: '850-588-2882',
+  },
+  {
+    name: 'Bayou Arts Center',
+    match: /^bayou arts cent(?:er|re)$/i,
+    address: '105 Hogtown Bayou Ln, Santa Rosa Beach',
+    website: 'https://www.culturalartsalliance.com',
+    phone: '850-622-5970',
+  },
+  {
+    name: 'Distillery 98',
+    match: /^distillery 98$/i,
+    address: '835 Serenoa Rd, Santa Rosa Beach',
+    website: 'https://distillery98.com',
+    phone: '850-919-2400',
+  },
+  {
+    name: 'Eden Gardens State Park',
+    match: /^eden gardens(?: state park)?$/i,
+    address: '181 Eden Gardens Rd, Santa Rosa Beach',
+    website: 'https://www.floridastateparks.org/parks-and-trails/eden-gardens-state-park',
+    phone: '850-267-8320',
+  },
 ];
 
 export function knownVenue(venue) {
