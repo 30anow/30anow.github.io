@@ -330,7 +330,7 @@ export const NOT_A_VENUE = ['Venues along 30A', '30A.com', '30A.com day view', '
 export const AREA_NAMES = [
   'Dune Allen', 'Gulf Place', 'Blue Mountain', 'Grayton Beach', 'WaterColor', 'Seaside',
   'Seagrove', 'WaterSound', 'Alys Beach', 'Rosemary Beach', 'Inlet Beach',
-  'Bayside',
+  'Bayside', 'Hogtown Bayou', 'Point Washington', 'Serenoa',
 ];
 
 /**
@@ -343,8 +343,29 @@ export const AREA_NAMES = [
  */
 export const BAYSIDE = 'Bayside';
 
-/** The phrase after a place: "on 30A" for the corridor, the bay for Bayside. */
-const where30A = (area) => (area === BAYSIDE ? 'on Choctawhatchee Bay, minutes from 30A' : 'on 30A');
+/**
+ * The off-beach areas and where each is, in the words after its name:
+ * Bayside (12 Oct 2026), and three the owner added on 17 Oct 2026, each a
+ * named handful of venues between US 98 and the bay - Hogtown Bayou
+ * (Redd's Pub, Bayou Arts Center), Point Washington (Eden Gardens State
+ * Park) and Serenoa (Idyll Hounds Brewing, Distillery 98). The app's
+ * src/data/areas.ts marks the same four off-beach. None is a beach
+ * neighbourhood or a town a searcher types, so each reads like Bayside:
+ * the town alone in the JSON-LD, its place in words on its pages, and an
+ * act that plays only there is "near 30A".
+ */
+export const OFF_BEACH = new Map([
+  [BAYSIDE, 'on Choctawhatchee Bay, minutes from 30A'],
+  ['Hogtown Bayou', 'off US 98, minutes from 30A'],
+  ['Point Washington', 'off US 98, minutes from 30A'],
+  ['Serenoa', 'off US 98, minutes from 30A'],
+]);
+
+/** Whether an area is one of the off-beach ones (OFF_BEACH). */
+export const isOffBeach = (area) => OFF_BEACH.has(area);
+
+/** The phrase after a place: "on 30A" for the corridor, its own words for an off-beach area. */
+const where30A = (area) => OFF_BEACH.get(area) ?? 'on 30A';
 
 /**
  * An act whose every show is at a Bayside venue is "near 30A": the bay end
@@ -354,7 +375,7 @@ const where30A = (area) => (area === BAYSIDE ? 'on Choctawhatchee Bay, minutes f
  * (publishedActs, `near`) and the two pages say the same place, as the
  * card a share unfurls into must whichever week it is read.
  */
-export const actNear30A = (events) => events.length > 0 && events.every((e) => e.area === BAYSIDE);
+export const actNear30A = (events) => events.length > 0 && events.every((e) => isOffBeach(e.area));
 const actWhere = (near) => (near ? 'near 30A' : 'on 30A');
 
 /**
@@ -716,7 +737,7 @@ function postalAddress(e) {
   // "Bayside, Santa Rosa Beach" is no place, so the town alone.
   return {
     '@type': 'PostalAddress',
-    addressLocality: e.area && e.area !== BAYSIDE ? `${e.area}, Santa Rosa Beach` : 'Santa Rosa Beach',
+    addressLocality: e.area && !isOffBeach(e.area) ? `${e.area}, Santa Rosa Beach` : 'Santa Rosa Beach',
     addressRegion: 'FL',
     addressCountry: 'US',
   };
@@ -1835,16 +1856,22 @@ export function breadcrumbJsonLd(trail) {
   };
 }
 
-/** "Seaside, Florida", or the bay for Bayside (where30A): the place in a town's own sentence. */
-const townIn = (name) => (name === BAYSIDE ? `${name}, ${where30A(name)},` : `${name}, Florida`);
+/** "Seaside, Florida", or where an off-beach area is (where30A): the place in a town's own sentence. */
+const townIn = (name) => (isOffBeach(name) ? `${name}, ${where30A(name)},` : `${name}, Florida`);
 
 /** The page's one-line intro, the same words full or quiet, and its card's description. */
 export const townIntro = (name) =>
   `What's on in ${townIn(name)} this week: live music, markets and more, updated every day.`;
 
-/** The search title's words before " | 30A Now", and the card's title. Bayside is no "Bayside, FL". */
+/**
+ * The search title's words before " | 30A Now", and the card's title. An
+ * off-beach area is no "Serenoa, FL": Bayside is on the bay, the others
+ * near 30A.
+ */
 const townTitle = (name) =>
-  `Things to do in ${name === BAYSIDE ? `${name} on Choctawhatchee Bay` : `${name}, FL`} this week`;
+  `Things to do in ${
+    name === BAYSIDE ? `${name} on Choctawhatchee Bay` : isOffBeach(name) ? `${name} near 30A` : `${name}, FL`
+  } this week`;
 
 const townTrail = (town) => [
   { name: '30A Now', path: '/' },
@@ -1972,7 +1999,7 @@ export function renderTownsIndex(towns, now) {
       ? `<ul class="venues">${towns
           .map(
             (t) =>
-              `<li><a href="/towns/${t.slug}/">${esc(t.name)}</a> <span class="m">${t.events.length}${t.name === BAYSIDE ? ` · ${esc(where30A(t.name))}` : ''}</span></li>`,
+              `<li><a href="/towns/${t.slug}/">${esc(t.name)}</a> <span class="m">${t.events.length}${isOffBeach(t.name) ? ` · ${esc(where30A(t.name))}` : ''}</span></li>`,
           )
           .join('\n')}</ul>
 `

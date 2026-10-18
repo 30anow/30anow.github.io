@@ -25,6 +25,8 @@ import {
   ARRIVAL,
   bannerMeta,
   BAYSIDE,
+  isOffBeach,
+  OFF_BEACH,
   beachDayKey,
   beachIso,
   beachWallToUtc,
@@ -2843,10 +2845,11 @@ describe('Bayside: the bay end of 331', () => {
   const bay = (over = {}) => row({ venue: 'The Bay', area: 'Bayside', lat: 30.3873, lng: -86.174, ...over });
   const nbs = (over = {}) => row({ venue: 'North Beach Social', area: 'Bayside', lat: 30.3883, lng: -86.1747, ...over });
 
-  it('AREA_NAMES is the twelve names in the app’s order, Bayside last', () => {
+  it('AREA_NAMES is the fifteen names in the app’s order, Bayside and the other off-beach areas last', () => {
     assert.deepEqual(AREA_NAMES, [
       'Dune Allen', 'Gulf Place', 'Blue Mountain', 'Grayton Beach', 'WaterColor', 'Seaside',
       'Seagrove', 'WaterSound', 'Alys Beach', 'Rosemary Beach', 'Inlet Beach', 'Bayside',
+      'Hogtown Bayou', 'Point Washington', 'Serenoa',
     ]);
     assert.equal(BAYSIDE, 'Bayside');
   });
@@ -3479,5 +3482,51 @@ describe('town pages', () => {
     assert.doesNotMatch(src, /writeFile\(['`]towns\//);
     const yml = readFileSync(new URL('../.github/workflows/share-cards.yml', import.meta.url), 'utf8');
     assert.match(yml, /git add -A [^\n]*\btowns\b/);
+  });
+});
+
+/**
+ * The off-beach areas of 17 Oct 2026 (Hogtown Bayou, Point Washington,
+ * Serenoa): five venues between US 98 and the bay, filed the way Bayside
+ * is. The app's src/data/areas.ts marks the same four off-beach.
+ */
+describe('the off-beach areas north of 98', () => {
+  const now = Date.parse('2026-10-20T12:00:00Z');
+  const d98 = (over = {}) =>
+    row({ venue: 'Distillery 98', area: 'Serenoa', lat: 30.34952, lng: -86.0659, starts_at: '2026-10-23T23:00:00Z', ends_at: '2026-10-24T01:00:00Z', ...over });
+
+  it('marks Bayside and the three new areas off-beach, and nothing else', () => {
+    assert.deepEqual([...OFF_BEACH.keys()], ['Bayside', 'Hogtown Bayou', 'Point Washington', 'Serenoa']);
+    for (const name of AREA_NAMES) assert.equal(isOffBeach(name), OFF_BEACH.has(name), name);
+    assert.equal(isOffBeach('Seaside'), false);
+    assert.equal(isOffBeach(undefined), false);
+  });
+
+  it('a venue string that is one of the new area names is a town, not a business', () => {
+    for (const name of ['Hogtown Bayou', 'Point Washington', 'Serenoa']) {
+      assert.equal(isVenueName(name), false, name);
+      assert.equal(isVenueName('Distillery 98', name), true, name);
+    }
+  });
+
+  it("a Serenoa venue's page says where it is, never 'on 30A'", () => {
+    const page = renderVenue(venuePages([d98(), d98({ starts_at: '2026-10-24T23:00:00Z', ends_at: '2026-10-25T01:00:00Z' }), d98({ starts_at: '2026-10-30T23:00:00Z', ends_at: '2026-10-31T01:00:00Z' })], now).find((v) => v.name === 'Distillery 98'), now).html;
+    assert.match(page, /\(Serenoa\) off US 98, minutes from 30A/);
+    assert.doesNotMatch(page, /\(Serenoa\) on 30A/);
+  });
+
+  it('an act that plays only off-beach venues is "near 30A", across areas; one that plays the corridor too is "on 30A"', () => {
+    const offOnly = [d98({ title: 'Reid Murphy Quartet' }), row({ title: 'Reid Murphy Quartet', venue: 'The Bay', area: 'Bayside', starts_at: '2026-10-25T23:00:00Z', ends_at: '2026-10-26T01:00:00Z' })];
+    assert.equal(actNear30A(offOnly), true);
+    assert.equal(actNear30A([...offOnly, row({ title: 'Reid Murphy Quartet', venue: 'Crackings', area: 'Grayton Beach' })]), false);
+  });
+
+  it('a Serenoa town page reads "near 30A" in its title and "off US 98" in its sentence; its quiet page too', () => {
+    const quiet = renderTownQuiet({ name: 'Serenoa', slug: 'serenoa' });
+    assert.match(quiet, /<title>Things to do in Serenoa near 30A this week \| 30A Now<\/title>/);
+    assert.match(quiet, /Nothing listed in Serenoa, off US 98, minutes from 30A, this week\./);
+    assert.doesNotMatch(quiet, /Serenoa, FL|Serenoa, Florida|Serenoa on 30A/);
+    assert.equal(townSlug('Point Washington'), 'point-washington');
+    assert.equal(townSlug('Hogtown Bayou'), 'hogtown-bayou');
   });
 });
