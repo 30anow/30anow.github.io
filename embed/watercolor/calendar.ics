@@ -9,19 +9,4 @@ X-WR-CALDESC:Every event at WaterColor listed on 30A Now\, kept up to date:
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:ac128e31-d00d-4464-9ccf-ebf825e3c516@30anow.github.io
-DTSTAMP:20261018T195720Z
-DTSTART:20261018T180000Z
-DTEND:20261018T210000Z
-SUMMARY:Harvest Food & Wine Festival: Jazz Cocktail Brunch
-LOCATION:WaterColor\, Santa Rosa Beach\, FL
-DESCRIPTION:Wrap up the Harvest Food & Wine Festival at Jazz Cocktail Brunc
- h on Saturday\, October 17th from 1-4PM. Presented by 360 Blue\, join for 
- a spirited festival finale featuring paired ingredient-driven cocktails pa
- ired with a New Orleans themed menu. Produced by Destin Charity Wine Aucti
- on Foundation…\n\nTimes\, the live map and the app: https://30anow.githu
- b.io/e/ac128e31-d00d-4464-9ccf-ebf825e3c516
-URL:https://30anow.github.io/e/ac128e31-d00d-4464-9ccf-ebf825e3c516?s=cal
-END:VEVENT
 END:VCALENDAR
