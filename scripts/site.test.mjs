@@ -1955,6 +1955,12 @@ describe('the schedule', () => {
     assert.match(yml, /\n  workflow_dispatch:\r?\n    inputs:\r?\n      allow_shrink:/);
   });
 
+  it('runs on a Node that is still supported, the app repo’s 22', () => {
+    // Node 20 reached end of life on 30 Apr 2026; this ran on it until 18 Oct.
+    assert.match(yml, /\n {6}- uses: actions\/setup-node@v4\r?\n {8}with:\r?\n(?: {10}#[^\n]*\n)* {10}node-version: 22\r?\n/);
+    assert.equal(yml.match(/node-version:/g).length, 1);
+  });
+
   it('a dispatched run cannot publish a collapsed fetch', () => {
     // It has no inputs, so the flag is the empty string, and only the exact
     // 'true' of a hand run's checkbox clears the refusal.
