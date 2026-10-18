@@ -600,6 +600,31 @@ describe('JSON-LD', () => {
     assert.equal(knownVenue("Stinky's Bait Shack").address, '5994 W County Hwy 30A, Dune Allen');
     assert.equal(knownVenue("Stinky's Fish Camp"), null);
   });
+  it('knows the venues the app carded on 18 Oct 2026, each under the name the importer stores', () => {
+    const names = ['The Big Chill 30A', "Redd's Pub", 'North Beach Social', 'Crackings', 'Red Fish Taco', 'Idyll Hounds Brewing Company', 'Havana Beach Bar & Grill', 'Bayou Arts Center', 'Distillery 98', 'Eden Gardens State Park'];
+    for (const name of names) {
+      const known = knownVenue(name);
+      assert.equal(known?.name, name, name);
+      assert.deepEqual(KNOWN_VENUES.filter((v) => v.match.test(name)).map((v) => v.name), [name], name);
+      // "street, town": postalAddress splits there.
+      assert.match(known.address, /^\d+ [^,]+, [A-Z][A-Za-z ]+$/, name);
+      if (known.phone) assert.match(known.phone, /^\d{3}-\d{3}-\d{4}$/, name);
+      assert.match(known.website, /^https:\/\//, name);
+      // The slug is the name's either way: no page, strip or sign moves.
+      assert.equal(slugify(known.name), slugify(name), name);
+    }
+    // Neighbours stay unknown rather than take a card's address.
+    for (const t of ['Idyll Hound Proper', 'Havana Beach Rooftop Bar', 'The Bay', 'North Beach']) assert.equal(knownVenue(t), null, t);
+    // An off-beach row now carries its street, under the town the app names.
+    const ld = eventJsonLd(row({ venue: 'Distillery 98', area: 'Serenoa' }));
+    assert.equal(ld.location.address.streetAddress, '835 Serenoa Rd');
+    assert.equal(ld.location.address.addressLocality, 'Santa Rosa Beach');
+    // And the venue page shows the line the six have had: address, site, phone.
+    const now = noonOn('2026-09-08');
+    const [venue] = venuePages([1, 2, 3].map(() => row({ venue: 'Distillery 98', area: 'Serenoa' })), now);
+    const { html } = renderVenue(venue, now);
+    assert.match(html, /<div class="card"><strong>Distillery 98<\/strong> · 835 Serenoa Rd, Santa Rosa Beach · <a href="https:\/\/distillery98\.com">distillery98\.com<\/a> · <a href="tel:8509192400">850-919-2400<\/a><\/div>/);
+  });
   it('names an image only when the poster was probed and served', () => {
     // The stub drops the <img> for a host that blocks hotlinking; structured
     // data on that same page naming the dead URL is what posterOk exists to
