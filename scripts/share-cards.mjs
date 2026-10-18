@@ -29,6 +29,7 @@ import {
   actPages,
   ANON_KEY,
   checkedPoster,
+  venueCalendarFiles,
   embedDirs,
   embedVenues,
   fmtStamp,
@@ -370,9 +371,17 @@ async function writeEmbeds(events, now, published) {
     await writeFile(`embed/${dir}/sign/index.html`, sign);
     signs += 1;
   }
+  // Each strip's calendar feed in its own directory (18 Oct 2026): the
+  // address a venue page's "In your calendar" links, kept as long as the
+  // strip is.
+  const feeds = venueCalendarFiles(venues, now);
+  for (const [path, ics] of feeds) {
+    await mkdir(path.slice(0, path.lastIndexOf('/')), { recursive: true });
+    await writeFile(path, ics);
+  }
   await writeFile('embed/published.json', `${JSON.stringify(published, null, 2)}\n`);
   console.log(
-    `Wrote ${pages.length} embed strips for ${venues.length} venues (${published.length} handed out) and ${signs} door signs.`,
+    `Wrote ${pages.length} embed strips for ${venues.length} venues (${published.length} handed out), ${signs} door signs and ${feeds.length} calendar feeds.`,
   );
 }
 

@@ -24,6 +24,7 @@
 // the same instants that repo's tests pin.
 
 import { ACT_PAGE_MIN, actKey, actLabel, actSlug, actTitleKey } from './actKey.mjs';
+import { CALENDAR_TAG, calendarIcs, calendarLinks } from './ics.mjs';
 import { qrProblem, qrSvg } from './qr.mjs';
 
 export const SITE = 'https://30anow.github.io';
@@ -643,12 +644,96 @@ export function seedPublishedActs(dirs) {
   return publishedActs([...seen].map(([slug, { name, near }]) => ({ slug, name, near })), []);
 }
 
-/** Every file under acts/ for one run, as [path, contents]: the index, a page per act, a quiet page per slug left on the list, and the list. */
+// ---------------------------------------------------------------------------
+// Calendar feeds (18 Oct 2026; scripts/ics.mjs has the format and why).
+// Each lives where its page's link can never go dead: a venue's beside its
+// strip, under embed/<slug>/, which keeps every slug a venue page has handed
+// out (embed/published.json) even when the venue has fallen below the
+// venue page's three rows; an act's beside its page, under acts/<slug>/,
+// kept the same way (acts/published.json). A quiet week writes the file
+// with no events, so a subscription never meets a 404.
+// ---------------------------------------------------------------------------
+
+/** The place line a calendar shows: the street when the venue is known, else the town as the pages' structured data names it. */
+export function icsLocation(e) {
+  const venue = String(e.venue ?? '').trim();
+  const known = knownVenue(venue);
+  if (known) return `${venue}, ${known.address}, FL`;
+  const town = e.area && !isOffBeach(e.area) ? `${e.area}, Santa Rosa Beach` : 'Santa Rosa Beach';
+  return venue && venue !== e.area ? `${venue}, ${town}, FL` : `${town}, FL`;
+}
+
+/** One row as a calendar entry: the price and a few lines of the blurb, then the link back to its page here. */
+export function icsEntry(e) {
+  const blurb = String(e.description ?? '').trim();
+  const short = blurb.length > 400 ? `${blurb.slice(0, 399).trimEnd()}…` : blurb;
+  return {
+    id: e.id,
+    title: e.title,
+    startsAt: e.starts_at,
+    endsAt: e.ends_at,
+    location: icsLocation(e),
+    notes: [e.price, short, `Times, the live map and the app: ${SITE}/e/${e.id}`].filter(Boolean).join('\n\n'),
+    url: `${SITE}/e/${e.id}?s=${CALENDAR_TAG}`,
+  };
+}
+
+/** A venue's feed, beside its strip: embed/<slug>/calendar.ics. */
+export const venueCalendarPath = (slug) => `/embed/${slug}/calendar.ics`;
+/** An act's feed, beside its page: acts/<slug>/calendar.ics. */
+export const actCalendarPath = (slug) => `/acts/${slug}/calendar.ics`;
+
+/** One feed per strip (embedVenues' groups), its venue's rows still on, soonest first. */
+export function venueCalendarFiles(venues, now) {
+  return venues.map((v) => [
+    venueCalendarPath(v.slug).slice(1),
+    calendarIcs(
+      {
+        name: `${v.name} on 30A Now`,
+        description: `Every event at ${v.name} listed on 30A Now, kept up to date: ${SITE}/venues/${v.slug}/`,
+        events: [...v.events].filter((e) => Date.parse(e.ends_at) > now).sort(byStart).map(icsEntry),
+      },
+      now,
+    ),
+  ]);
+}
+
+/** One feed per act page, and an empty one for every act on the list with nothing ahead. */
+export function actCalendarFiles(acts, published, now) {
+  const feed = (slug, name, events) => [
+    actCalendarPath(slug).slice(1),
+    calendarIcs(
+      {
+        name: `${name} on 30A`,
+        description: `${name}'s shows on 30A, as 30A Now lists them, kept up to date: ${SITE}/acts/${slug}/`,
+        events: [...events].filter((e) => Date.parse(e.ends_at) > now).sort(byStart).map(icsEntry),
+      },
+      now,
+    ),
+  ];
+  return [...acts.map((a) => feed(a.slug, a.label, a.events)), ...quietActs(published, acts).map((p) => feed(p.slug, p.name, []))];
+}
+
+/** The page's "In your calendar" section, linking a feed at `path`. */
+export function calendarSection(path, lead) {
+  const links = calendarLinks(path, SITE);
+  return (
+    `<section class="cal"><h2>In your calendar</h2><p>${esc(lead)} ` +
+    `<a href="${esc(links.webcal)}">Apple Calendar or Outlook</a> · <a href="${esc(links.google)}">Google Calendar</a></p></section>\n`
+  );
+}
+
+/**
+ * Every file under acts/ for one run, as [path, contents]: the index, a page
+ * per act, a quiet page per slug left on the list, a calendar feed beside
+ * each of those pages (18 Oct 2026; empty for a quiet one), and the list.
+ */
 export function actFiles(acts, published, now, venueSlugs = new Map(), posters = new Map()) {
   return [
     ['acts/index.html', renderActsIndex(acts, now).html],
     ...acts.map((a) => [`acts/${a.slug}/index.html`, withJsonLd(renderAct(a, now, venueSlugs, posters))]),
     ...quietActs(published, acts).map((p) => [`acts/${p.slug}/index.html`, renderActQuiet(p)]),
+    ...actCalendarFiles(acts, published, now),
     ['acts/published.json', `${JSON.stringify(published, null, 2)}\n`],
   ];
 }
@@ -1640,6 +1725,11 @@ ${card}` +
     days
       .map((d) => daySection(d, new Map(), { showVenue: false, tag: ARRIVAL.venue }))
       .join('\n') +
+    // The feed sits beside the strip, which a place someone runs always has
+    // (the owner footer's condition); a town-named page has neither.
+    (venue.owner === false
+      ? ''
+      : calendarSection(venueCalendarPath(slug), `Subscribe to ${name}'s lineup and it stays up to date in your own calendar:`)) +
     `<section><h2>Also</h2><p>${more}<a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
     foot(venue.owner === false ? '' : ownerFooter(venue));
@@ -1765,6 +1855,7 @@ export function renderAct(act, now, venueSlugs = new Map(), posters = new Map())
     doneLine('', label, livePath, liveLabel, ARRIVAL.act) +
     cta({ appArgument, livePath, liveLabel, tag: ARRIVAL.act }) +
     days.map((d) => daySection(d, venueSlugs, { showVenue: true, tag: ARRIVAL.act })).join('\n') +
+    calendarSection(actCalendarPath(slug), `Subscribe to ${label}'s 30A shows and every new date lands in your own calendar:`) +
     `<section><h2>Also</h2><p><a href="/acts/">Every act</a> · <a href="/lineup/">This weekend on 30A</a> · <a href="/tonight/">Tonight</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
     foot(shareFooter(`${SITE}/acts/${slug}/`));
