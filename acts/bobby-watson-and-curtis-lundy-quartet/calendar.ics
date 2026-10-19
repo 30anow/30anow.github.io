@@ -1,0 +1,85 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Bobby Watson & Curtis Lundy Quartet on 30A
+X-WR-CALDESC:Bobby Watson & Curtis Lundy Quartet's shows on 30A\, as 30A No
+ w lists them\, kept up to date: https://30anow.github.io/acts/bobby-watson
+ -and-curtis-lundy-quartet/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:45859b94-9447-4625-95b3-82c3446d5662@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261022T230000Z
+DTEND:20261023T010000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:🎟 Doors open at 5PM | Show at 6:30PM\nTWO JAZZ LEGENDS. ONE 
+ INTIMATE STAGE.\nSOWAL Jazz Fest welcomes an extraordinary meeting of jazz
+  history as Bobby Watson and Curtis Lundy headline SOWAL House with an all
+  star quartet. These are musicians who helped shape the sound of modern st
+ raight ahead jazz.\nMulti GRAMMY nominated alto saxophonist Bobby Watson 
+ emerged as musical director of Art Blakey’s le…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/45859b94-9447-4625-95b3-82c3446d
+ 5662
+URL:https://30anow.github.io/e/45859b94-9447-4625-95b3-82c3446d5662?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:910aaa83-fc81-456a-9f33-ce8917ad696c@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261023T010000Z
+DTEND:20261023T030000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/91
+ 0aaa83-fc81-456a-9f33-ce8917ad696c
+URL:https://30anow.github.io/e/910aaa83-fc81-456a-9f33-ce8917ad696c?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:114e4f4f-2bcb-4f1d-bbd2-813ec5a3e70b@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261023T230000Z
+DTEND:20261024T010000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/11
+ 4e4f4f-2bcb-4f1d-bbd2-813ec5a3e70b
+URL:https://30anow.github.io/e/114e4f4f-2bcb-4f1d-bbd2-813ec5a3e70b?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:bfe58646-a6f0-454b-8817-692703af59aa@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261024T010000Z
+DTEND:20261024T030000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/bf
+ e58646-a6f0-454b-8817-692703af59aa
+URL:https://30anow.github.io/e/bfe58646-a6f0-454b-8817-692703af59aa?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:72a51d1e-fbfc-45a2-81cf-5221cb07bb95@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261024T230000Z
+DTEND:20261025T010000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/72
+ a51d1e-fbfc-45a2-81cf-5221cb07bb95
+URL:https://30anow.github.io/e/72a51d1e-fbfc-45a2-81cf-5221cb07bb95?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:f7e97568-da00-47c8-88d9-0b34b767e5f4@30anow.github.io
+DTSTAMP:20261019T233746Z
+DTSTART:20261025T010000Z
+DTEND:20261025T030000Z
+SUMMARY:Bobby Watson & Curtis Lundy Quartet
+LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f7
+ e97568-da00-47c8-88d9-0b34b767e5f4
+URL:https://30anow.github.io/e/f7e97568-da00-47c8-88d9-0b34b767e5f4?s=cal
+END:VEVENT
+END:VCALENDAR
