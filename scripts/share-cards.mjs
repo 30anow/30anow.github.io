@@ -58,6 +58,7 @@ import {
   townPages,
   truncationRefusal,
   venuePages,
+  withinAWalk,
   withJsonLd,
 } from './site.mjs';
 
@@ -202,7 +203,9 @@ async function writeStubs(events, venues, now, posters) {
   await mkdir('e', { recursive: true });
   for (const ev of events) {
     const poster = checkedPoster(ev, posters);
-    await writeFile(`e/${ev.id}.html`, withJsonLd(renderStub(ev, { poster, now, venueSlugs })));
+    // What else is on within a walk that night (withinAWalk, 18 Oct 2026).
+    const nearby = withinAWalk(events, ev, now);
+    await writeFile(`e/${ev.id}.html`, withJsonLd(renderStub(ev, { poster, now, venueSlugs, nearby })));
   }
   console.log(`Wrote ${events.length} share stubs.`);
 }

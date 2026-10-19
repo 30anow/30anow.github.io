@@ -1046,6 +1046,10 @@ export const ARRIVAL = {
   // web_arrival keeps s= and ref= only, never the path, so without a value
   // of its own an arrival at /stay could not be told from one at /weekend.
   stay: 'seo-stay',
+  // A share stub's "Within a walk of <venue>" rows (18 Oct 2026), so a
+  // reader who hops from one show to the next bar's is told from one who
+  // came in on the first.
+  walk: 'seo-walk',
 };
 
 /** `path` with the tags that are set appended, merging with any query it already has. */
@@ -1454,7 +1458,7 @@ function hostOf(url) {
 export function rowHtml(
   e,
   venueSlugs = new Map(),
-  { showVenue = true, showArea = true, compact = false, tag = '', ref = '' } = {},
+  { showVenue = true, showArea = true, compact = false, tag = '', ref = '', note = '' } = {},
 ) {
   const slug = venueSlugs.get(String(e.venue ?? '').trim().toLowerCase());
   const venue = !showVenue
@@ -1463,7 +1467,8 @@ export function rowHtml(
       ? `<a href="/venues/${slug}/">${esc(e.venue)}</a>`
       : esc(e.venue);
   const area = showArea && !compact && e.area && e.area !== e.venue ? esc(e.area) : '';
-  const meta = [venue, area, esc(fmtWhen(e)), e.price ? esc(e.price) : '']
+  // `note`, when given, ends the line: a stub's walk rows say how far.
+  const meta = [venue, area, esc(fmtWhen(e)), e.price ? esc(e.price) : '', note ? esc(note) : '']
     .filter(Boolean)
     .join(' · ');
   const desc = !compact && e.description && e.description.trim() !== e.title.trim()
@@ -2720,7 +2725,62 @@ ${rows.length ? `<script>\n(function(){\n${EXPIRE}\n})();\n</script>\n` : ''}</b
  * that blocks hotlinking gets the default card rather than a broken unfurl.
  * The query (?s=share) rides through to the live link via SCRIPT.
  */
-export function renderStub(e, { poster = null, now = Date.now(), venueSlugs = new Map() } = {}) {
+// ---------------------------------------------------------------------------
+// Within a walk (18 Oct 2026): the app's withinAWalk (src/state/selectors.ts
+// in the app repo), copied for the share stub; the two repos cannot import
+// each other, so keep the two in step. A show at another venue within a
+// walk of this one, on its beach day, that overlaps it or starts within two
+// hours of its end, never a gym class, one per series (its earliest), nearest
+// first then soonest, three at most.
+// ---------------------------------------------------------------------------
+
+/** The app's WALK_MAX_MI (src/utils/geo.ts): what it calls a walk everywhere. */
+export const WALK_MAX_MI = 1.2;
+/** The app's WALK_ON_AFTER_MS: a walk and a drink after a show ends. */
+export const WALK_ON_AFTER_MS = 2 * 3_600_000;
+
+/** Great-circle miles between two rows' pins. */
+export function milesBetween(a, b) {
+  const r = Math.PI / 180;
+  const x =
+    Math.sin(((b.lat - a.lat) * r) / 2) ** 2 +
+    Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(((b.lng - a.lng) * r) / 2) ** 2;
+  return 2 * 3958.8 * Math.asin(Math.sqrt(x));
+}
+
+export function withinAWalk(events, e, now, limit = 3) {
+  const start = Date.parse(e.starts_at);
+  const end = Date.parse(e.ends_at);
+  const day = beachDayKey(start);
+  // The app's sameVenue: a known venue by its one name, so "Red Bar" is The Red Bar.
+  const canon = (v) => {
+    const name = String(v ?? '').trim();
+    return (knownVenue(name)?.name ?? name).toLowerCase();
+  };
+  const venue = canon(e.venue);
+  if (!Number.isFinite(e.lat) || !Number.isFinite(e.lng)) return [];
+  const series = new Map();
+  for (const n of [...events].sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))) {
+    if (n.id === e.id || n.category === 'fitness') continue;
+    if (canon(n.venue) === venue) continue;
+    if (!Number.isFinite(n.lat) || !Number.isFinite(n.lng)) continue;
+    const s = Date.parse(n.starts_at);
+    const t = Date.parse(n.ends_at);
+    if (!(t > now && beachDayKey(s) === day && t > start && s < end + WALK_ON_AFTER_MS)) continue;
+    const miles = milesBetween(e, n);
+    if (miles > WALK_MAX_MI) continue;
+    const key = `${n.title}|${n.venue}`;
+    if (!series.has(key)) series.set(key, { e: n, miles });
+  }
+  return [...series.values()]
+    .sort((a, b) => a.miles - b.miles || Date.parse(a.e.starts_at) - Date.parse(b.e.starts_at))
+    .slice(0, limit);
+}
+
+/** How a walk row says how far: as the app's cards do (formatMiles). */
+export const walkNote = (miles) => (miles < 0.15 ? 'right here' : `${miles.toFixed(1)} mi`);
+
+export function renderStub(e, { poster = null, now = Date.now(), venueSlugs = new Map(), nearby = [] } = {}) {
   const path = `/e/${e.id}`;
   const live = `/event/${e.id}`;
   const appArgument = `thirtyanow://event/${e.id}`;
@@ -2760,6 +2820,14 @@ export function renderStub(e, { poster = null, now = Date.now(), venueSlugs = ne
     cta({ appArgument, livePath: live, liveLabel: 'See it on the live map', tag: ARRIVAL.event }) +
     desc +
     source +
+    // What else is on within a walk the same night (withinAWalk). Each row
+    // carries its end, so EXPIRE hides a show that is over and then the
+    // section once it is empty.
+    (nearby.length && venue
+      ? `<section><h2>Within a walk of ${esc(venue)}</h2><ul class="rows">${nearby
+          .map(({ e: n, miles }) => rowHtml(n, venueSlugs, { compact: true, tag: ARRIVAL.walk, note: walkNote(miles) }))
+          .join('\n')}</ul></section>\n`
+      : '') +
     `<section><h2>Also</h2><p><a href="/tonight/">Tonight on 30A</a> · <a href="/lineup/">This weekend</a> · <a href="/venues/">Every venue</a></p></section>
 ` +
     foot();
