@@ -102,6 +102,11 @@ import {
   withJsonLd,
   icsEntry,
   icsLocation,
+  WALK_MAX_MI,
+  WALK_ON_AFTER_MS,
+  milesBetween,
+  walkNote,
+  withinAWalk,
   venueCalendarFiles,
   venueCalendarPath,
   actCalendarPath,
@@ -3705,5 +3710,64 @@ describe('calendar feeds', () => {
     const empty = files.get('acts/gone-quiet/calendar.ics');
     assert.ok(empty && !empty.includes('BEGIN:VEVENT'));
     assert.ok(empty.replace(/\r\n /g, '').includes('X-WR-CALNAME:Gone Quiet on 30A'));
+  });
+});
+
+/**
+ * Within a walk (18 Oct 2026): the share stub, where a shared link and a
+ * calendar entry land, lists what else is on within a walk the same night,
+ * by the app's rule (withinAWalk in src/state/selectors.ts there).
+ */
+describe('within a walk, on the share stub', () => {
+  const DAY = '2026-10-23';
+  const at = (h, m = 0, day = DAY) => new Date(beachWallToUtc(day, h, m)).toISOString();
+  // A mile of latitude is 1/69 of a degree.
+  const north = (mi) => ({ lat: 30.33 + mi / 69, lng: -86.16 });
+  const show = row({ venue: 'The Red Bar', area: 'Grayton Beach', lat: 30.33, lng: -86.16, starts_at: at(18), ends_at: at(21) });
+  const noon = beachWallToUtc(DAY, 12);
+
+  it('keeps the app’s numbers: a walk is 1.2 miles, and "after" is two hours', () => {
+    assert.equal(WALK_MAX_MI, 1.2);
+    assert.equal(WALK_ON_AFTER_MS, 7_200_000);
+    assert.ok(Math.abs(milesBetween({ lat: 30.33, lng: -86.16 }, north(1)) - 1) < 0.01);
+    assert.equal(walkNote(0.1), 'right here');
+    assert.equal(walkNote(0.42), '0.4 mi');
+  });
+
+  it('names another venue’s show within a walk that overlaps or follows within two hours, and nothing else', () => {
+    const near = row({ venue: "AJ's Grayton Beach", title: 'Duo', ...north(0.1), starts_at: at(19), ends_at: at(22) });
+    const after = row({ venue: 'After', ...north(0.3), starts_at: at(22, 30), ends_at: at(23, 59) });
+    const tooFar = row({ venue: 'Far', ...north(WALK_MAX_MI + 0.05), starts_at: at(19), ends_at: at(22) });
+    const tooLate = row({ venue: 'Late', ...north(0.2), starts_at: new Date(Date.parse(show.ends_at) + WALK_ON_AFTER_MS + 60_000).toISOString(), ends_at: at(23, 59) });
+    const sameBar = row({ venue: 'Red Bar', title: 'Other', ...north(0.01), starts_at: at(19), ends_at: at(22) });
+    const yoga = row({ venue: 'Studio', category: 'fitness', ...north(0.1), starts_at: at(19), ends_at: at(20) });
+    const tomorrow = row({ venue: 'Tomorrow', ...north(0.1), starts_at: at(19, 0, '2026-10-24'), ends_at: at(22, 0, '2026-10-24') });
+    const got = withinAWalk([show, near, after, tooFar, tooLate, sameBar, yoga, tomorrow], show, noon).map((x) => x.e.venue);
+    assert.deepEqual(got, ["AJ's Grayton Beach", 'After']);
+  });
+
+  it('one per series, its earliest set, nearest first, three at most', () => {
+    const a1 = row({ venue: 'Duo Bar', title: 'Two Sets', ...north(0.3), starts_at: at(18), ends_at: at(20) });
+    const a2 = row({ venue: 'Duo Bar', title: 'Two Sets', ...north(0.3), starts_at: at(20), ends_at: at(22) });
+    const b = row({ venue: 'B', ...north(0.2), starts_at: at(19), ends_at: at(22) });
+    const c = row({ venue: 'C', ...north(0.5), starts_at: at(19), ends_at: at(22) });
+    const d = row({ venue: 'D', ...north(0.9), starts_at: at(19), ends_at: at(22) });
+    const got = withinAWalk([show, a2, a1, b, c, d], show, noon);
+    assert.deepEqual(got.map((x) => x.e.id), [b.id, a1.id, c.id]);
+  });
+
+  it('shows them on the stub, tagged, with their ends for EXPIRE, before "Also"; and nothing without any', () => {
+    const near = row({ venue: "AJ's Grayton Beach", title: 'Duo', ...north(0.1), starts_at: at(19), ends_at: at(22) });
+    const nearby = withinAWalk([show, near], show, noon);
+    const { html } = renderStub(show, { now: noon, nearby });
+    assert.match(html, /<section><h2>Within a walk of The Red Bar<\/h2><ul class="rows"><li class="ev" id="e-[^"]+" data-end="\d+"><a class="t" href="\/e\/[^"?]+\?s=seo-walk">Duo<\/a><div class="m">AJ's Grayton Beach · [^<]* · right here<\/div><\/li><\/ul><\/section>/);
+    assert.ok(html.indexOf('Within a walk of') < html.indexOf('<h2>Also</h2>'));
+    assert.doesNotMatch(renderStub(show, { now: noon }).html, /Within a walk/);
+  });
+
+  it('share-cards.mjs hands each stub its walk', () => {
+    const src = readFileSync(new URL('./share-cards.mjs', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+    assert.ok(src.includes('const nearby = withinAWalk(events, ev, now);'));
+    assert.ok(src.includes('renderStub(ev, { poster, now, venueSlugs, nearby })'));
   });
 });
