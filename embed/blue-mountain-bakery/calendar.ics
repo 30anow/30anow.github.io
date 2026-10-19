@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Blue Mountain Bakery on 30A Now
+X-WR-CALDESC:Every event at Blue Mountain Bakery listed on 30A Now\, kept u
+ p to date: https://30anow.github.io/venues/blue-mountain-bakery/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:656cef6f-2b49-416a-8a07-27a0a1b52262@30anow.github.io
+DTSTAMP:20261019T213415Z
+DTSTART:20261108T230000Z
+DTEND:20261109T010000Z
+SUMMARY:Thanksgiving: Pre-order closes
+LOCATION:Blue Mountain Bakery\, Blue Mountain\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/65
+ 6cef6f-2b49-416a-8a07-27a0a1b52262
+URL:https://30anow.github.io/e/656cef6f-2b49-416a-8a07-27a0a1b52262?s=cal
+END:VEVENT
+END:VCALENDAR
