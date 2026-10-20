@@ -11,24 +11,23 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:4911036d-0eda-4f3b-8bb0-33c9450e11f6@30anow.github.io
-DTSTAMP:20261020T150907Z
+DTSTAMP:20261020T203742Z
 DTSTART:20261021T230000Z
 DTEND:20261022T020000Z
 SUMMARY:Boukou Groove
 LOCATION:North Beach Social\, 24200 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:October is here!! And the music lineup is...\nWe’re excited t
- o welcome all these artists to the stage\, plus our inaugural Rabid Fox Mu
- sic Fest coming October 17-18 with a full lineup of performers starting 1 
- PM\, and Trivia Nights with Super Good Trivia on Thursdays at 6 PM!\nOf co
- urse our annual Halloween Party and Costume Contest is also coming up\, so
-  get those looks ready!\nSee you at North Beach…\n\nTimes\, the live map
-  and the app: https://30anow.github.io/e/4911036d-0eda-4f3b-8bb0-33c9450e1
- 1f6
+DESCRIPTION:Boukou Groove LIVE at North Beach Social from 6 – 9PM. Be s
+ ure to come early\, orders for Paella begin at 5PM with service at 6PM.  
+ North Beach Social hosts live music in the spacious outside deck throughou
+ t the week! Spend the afternoon or evening with friends and family on t
+ he bayside with cold drinks\, delicious eats and live entertainment.…\n\
+ nTimes\, the live map and the app: https://30anow.github.io/e/4911036d-0ed
+ a-4f3b-8bb0-33c9450e11f6
 URL:https://30anow.github.io/e/4911036d-0eda-4f3b-8bb0-33c9450e11f6?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:8c9ee1d1-900b-4bb3-aac9-0e2783fb6acb@30anow.github.io
-DTSTAMP:20261020T150907Z
+DTSTAMP:20261020T203742Z
 DTSTART:20261031T180000Z
 DTEND:20261031T210000Z
 SUMMARY:Boukou Groove
