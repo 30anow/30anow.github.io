@@ -9,38 +9,4 @@ X-WR-CALDESC:Reid Murphy Quartet's shows on 30A\, as 30A Now lists them\, k
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:0acbd3df-8e01-4fe1-92b5-e0cac56c62d1@30anow.github.io
-DTSTAMP:20261021T100255Z
-DTSTART:20261022T230000Z
-DTEND:20261023T010000Z
-SUMMARY:Reid Murphy Quartet
-LOCATION:Distillery 98\, 835 Serenoa Rd\, Santa Rosa Beach\, FL
-DESCRIPTION:Join us at Distillery 98 during SOWAL Jazz Fest for a night o
- f adventurous\, world-class music!\n🎟 Doors open at 6PM | Show at 6:30P
- M\nExperience jazz and funk fusion at its finest as saxophonist Reid Murph
- y leads an all-star ensemble of Gulf Coast talent: Melodious Allen (keybo
- ards)\, Quintin Ayers (bass)\, and Bryan Morris (drums). Together\, they 
- bring a sound that balances sophistication and soul.…\n\nTimes\, the liv
- e map and the app: https://30anow.github.io/e/0acbd3df-8e01-4fe1-92b5-e0ca
- c56c62d1
-URL:https://30anow.github.io/e/0acbd3df-8e01-4fe1-92b5-e0cac56c62d1?s=cal
-END:VEVENT
-BEGIN:VEVENT
-UID:0446b7fe-848d-4e2e-8e2e-e720e279cb92@30anow.github.io
-DTSTAMP:20261021T100255Z
-DTSTART:20261023T010000Z
-DTEND:20261023T030000Z
-SUMMARY:Reid Murphy Quartet
-LOCATION:Distillery 98\, 835 Serenoa Rd\, Santa Rosa Beach\, FL
-DESCRIPTION:Join us at Distillery 98 during SOWAL Jazz Fest for a night o
- f adventurous\, world-class music!\n🎟 Doors open at 8PM | Show at 8:30P
- M\nExperience jazz and funk fusion at its finest as saxophonist Reid Murph
- y leads an all-star ensemble of Gulf Coast talent: Melodious Allen (keybo
- ards)\, Quintin Ayers (bass)\, and Bryan Morris (drums). Together\, they 
- bring a sound that balances sophistication and soul.…\n\nTimes\, the liv
- e map and the app: https://30anow.github.io/e/0446b7fe-848d-4e2e-8e2e-e720
- e279cb92
-URL:https://30anow.github.io/e/0446b7fe-848d-4e2e-8e2e-e720e279cb92?s=cal
-END:VEVENT
 END:VCALENDAR

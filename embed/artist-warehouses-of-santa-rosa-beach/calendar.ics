@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Artist Warehouses of Santa Rosa Beach on 30A Now
+X-WR-CALDESC:Every event at Artist Warehouses of Santa Rosa Beach listed on
+  30A Now\, kept up to date: https://30anow.github.io/venues/artist-warehou
+ ses-of-santa-rosa-beach/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:67ba1424-2ae5-42d4-b065-03afc2a3d558@30anow.github.io
+DTSTAMP:20261021T151804Z
+DTSTART:20261120T000000Z
+DTEND:20261120T030000Z
+SUMMARY:Third Thursday Art Walk at The Warehouses of SRB
+LOCATION:Artist Warehouses of Santa Rosa Beach\, Gulf Place\, Santa Rosa Be
+ ach\, FL
+DESCRIPTION:You’re invited to the THIRDsday Art Walk at The Artists Wareh
+ ouses of 30A! Browse paintings\, drawings\, custom jewelry\, clothing\, ph
+ otography\, pottery\, glassblowing and more. Shopping begins at 6PM. Enjoy
+  light bites\, drinks\, music and ART! Artists you’ll find at the Art Pa
+ rty include: Allison Wickey\, Andy Saczynski\, Chandler Williams\, Doug F
+ oltz\, Glass Deer 30A\, Ginger Leigh\,…\n\nTimes\, the live map and the 
+ app: https://30anow.github.io/e/67ba1424-2ae5-42d4-b065-03afc2a3d558
+URL:https://30anow.github.io/e/67ba1424-2ae5-42d4-b065-03afc2a3d558?s=cal
+END:VEVENT
+END:VCALENDAR
