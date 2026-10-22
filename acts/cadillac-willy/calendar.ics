@@ -11,19 +11,22 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:203978fd-6284-4416-b6e3-10a61e55260d@30anow.github.io
-DTSTAMP:20261022T203516Z
+DTSTAMP:20261022T232108Z
 DTSTART:20261023T230000Z
 DTEND:20261024T020000Z
 SUMMARY:Cadillac Willy
 LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
-DESCRIPTION:Catch Cadillac Willy live from 6:00-9:00PM!\n\nTimes\, the live
-  map and the app: https://30anow.github.io/e/203978fd-6284-4416-b6e3-10a61
- e55260d
+DESCRIPTION:Cadillac Willy on stage in the Garden Room at Red Fish Taco fro
+ m 6 – 9PM. See RFT events and music lineup below. Live music is a centr
+ al component of Red Fish Taco’s festive atmosphere. Rock out to local a
+ nd visiting musicians in their outdoor covered Garden Room. Red Fish Taco 
+ sizzles with a gourmet take on…\n\nTimes\, the live map and the app: htt
+ ps://30anow.github.io/e/203978fd-6284-4416-b6e3-10a61e55260d
 URL:https://30anow.github.io/e/203978fd-6284-4416-b6e3-10a61e55260d?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:a97affa0-eb83-4ed6-a9bb-8931617b2b4c@30anow.github.io
-DTSTAMP:20261022T203516Z
+DTSTAMP:20261022T232108Z
 DTSTART:20261024T230000Z
 DTEND:20261025T020000Z
 SUMMARY:Cadillac Willy
@@ -39,7 +42,7 @@ URL:https://30anow.github.io/e/a97affa0-eb83-4ed6-a9bb-8931617b2b4c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ec22b84e-03bf-4147-bb0d-3cb9482523ad@30anow.github.io
-DTSTAMP:20261022T203516Z
+DTSTAMP:20261022T232108Z
 DTSTART:20261025T210000Z
 DTEND:20261026T000000Z
 SUMMARY:Cadillac Willy

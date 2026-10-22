@@ -11,14 +11,14 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:66e31a74-a3b4-4105-abf3-1f71d04b572b@30anow.github.io
-DTSTAMP:20261022T203516Z
+DTSTAMP:20261022T232108Z
 DTSTART:20261022T230000Z
 DTEND:20261023T010000Z
 SUMMARY:Ella Fitzgerald
 LOCATION:Obscure Wine Company\, Inlet Beach\, Santa Rosa Beach\, FL
 DESCRIPTION:Join us at Obscure Wine Co. at 30Avenue during SOWAL Jazz Fest
-  for a night of adventurous\, world-class music!\n🎟 Doors open at 6PM 
- | Show at 6:30PM\nWith her radiant vocals and graceful stage presence\, Sh
+  for a night of adventurous\, world-class music!\n🎟 Doors open at 8PM 
+ | Show at 8:30PM\nWith her radiant vocals and graceful stage presence\, Sh
  eila Ford brings Ella Fitzgerald’s most beloved songs to life in an inti
  mate\, storytelling-style performance. From “Dream a Little Dream of Me
  ” to “At Last” this tribute celebrates the warmth\, swi…\n\nTimes\
@@ -28,19 +28,13 @@ URL:https://30anow.github.io/e/66e31a74-a3b4-4105-abf3-1f71d04b572b?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ce46885e-f4aa-458e-aefb-4930ea541a9e@30anow.github.io
-DTSTAMP:20261022T203516Z
+DTSTAMP:20261022T232108Z
 DTSTART:20261023T010000Z
 DTEND:20261023T030000Z
 SUMMARY:Ella Fitzgerald
 LOCATION:Obscure Wine Company\, Inlet Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Join us at Obscure Wine Co. at 30Avenue during SOWAL Jazz Fest
-  for a night of adventurous\, world-class music!\n🎟 Doors open at 8PM 
- | Show at 8:30PM\nWith her radiant vocals and graceful stage presence\, Sh
- eila Ford brings Ella Fitzgerald’s most beloved songs to life in an inti
- mate\, storytelling-style performance. From “Dream a Little Dream of Me
- ” to “At Last” this tribute celebrates the warmth\, swi…\n\nTimes\
- , the live map and the app: https://30anow.github.io/e/ce46885e-f4aa-458e-
- aefb-4930ea541a9e
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ce
+ 46885e-f4aa-458e-aefb-4930ea541a9e
 URL:https://30anow.github.io/e/ce46885e-f4aa-458e-aefb-4930ea541a9e?s=cal
 END:VEVENT
 END:VCALENDAR
