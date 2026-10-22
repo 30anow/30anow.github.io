@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:1e6fe880-4d98-4858-94d3-fc9c9931f63b@30anow.github.io
-DTSTAMP:20261022T100408Z
+DTSTAMP:20261022T152003Z
 DTSTART:20261024T140000Z
 DTEND:20261024T180000Z
 SUMMARY:Seaside Farmers Market
@@ -28,7 +28,7 @@ URL:https://30anow.github.io/e/1e6fe880-4d98-4858-94d3-fc9c9931f63b?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f03ff64e-8840-4ebc-bc98-07ac9cbb2ca2@30anow.github.io
-DTSTAMP:20261022T100408Z
+DTSTAMP:20261022T152003Z
 DTSTART:20261107T183000Z
 DTEND:20261107T220000Z
 SUMMARY:Seeing Red Wine Festival Grand Tasting
@@ -44,7 +44,7 @@ URL:https://30anow.github.io/e/f03ff64e-8840-4ebc-bc98-07ac9cbb2ca2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:70e1f97b-0e73-4b96-a001-283dc87bc901@30anow.github.io
-DTSTAMP:20261022T100408Z
+DTSTAMP:20261022T152003Z
 DTSTART:20261114T150000Z
 DTEND:20261114T190000Z
 SUMMARY:Seaside Farmers Market
@@ -58,5 +58,22 @@ DESCRIPTION:Free\n\nJoin us at the SEASIDE® Farmers Market\, a beloved wee
  \, the live map and the app: https://30anow.github.io/e/70e1f97b-0e73-4b96
  -a001-283dc87bc901
 URL:https://30anow.github.io/e/70e1f97b-0e73-4b96-a001-283dc87bc901?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2e36b1eb-0c39-4561-a4c1-845ec8f48eff@30anow.github.io
+DTSTAMP:20261022T152003Z
+DTSTART:20261121T150000Z
+DTEND:20261121T190000Z
+SUMMARY:Seaside Farmers Market
+LOCATION:Seaside’s Central Square\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nJoin us at the SEASIDE® Farmers Market\, a beloved wee
+ kly tradition in Seaside\, Florida\, held in the Amphitheater from 9:00 AM
+  – 1:00 PM. This outdoor market brings together local farmers\, growers\
+ , and artisans\, offering fresh produce\, baked goods\, and specialty food
+ s. Browse the market\, support local vendors\, and enjoy live music in the
+  heart of Seaside. This event is rain or shine\, unless inclem…\n\nTimes
+ \, the live map and the app: https://30anow.github.io/e/2e36b1eb-0c39-4561
+ -a4c1-845ec8f48eff
+URL:https://30anow.github.io/e/2e36b1eb-0c39-4561-a4c1-845ec8f48eff?s=cal
 END:VEVENT
 END:VCALENDAR
