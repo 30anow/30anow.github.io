@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:24e5943f-453c-4845-8a5c-fcfea035b673@30anow.github.io
-DTSTAMP:20261023T095830Z
+DTSTAMP:20261023T150737Z
 DTSTART:20261024T150000Z
 DTEND:20261024T220000Z
 SUMMARY:Rosemary Beach Monstrous Halloween Bash
@@ -24,5 +24,21 @@ DESCRIPTION:Gather your ghouls for the Monstrous Halloween Bash in Rosemary
  imes\, the live map and the app: https://30anow.github.io/e/24e5943f-453c-
  4845-8a5c-fcfea035b673
 URL:https://30anow.github.io/e/24e5943f-453c-4845-8a5c-fcfea035b673?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:71fb12d9-71d2-4738-9ebd-8467bd164568@30anow.github.io
+DTSTAMP:20261023T150737Z
+DTSTART:20261122T150000Z
+DTEND:20261122T190000Z
+SUMMARY:30A Farmers Market at Rosemary Beach
+LOCATION:North Barrett Square\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nCome browse the 30A Farmers Market in Rosemary Beach
+  on Sundays from 9AM til 1PM in North Barrett Square along Scenic 30A. Str
+ oll under the trees in this beautiful park setting and visit with farmers\
+ , makers and bakers. Shop fresh farm produce\, baked goods\, textiles\, be
+ auty\, and more! Pick up foods to go and many delicious finds such as…\
+ n\nTimes\, the live map and the app: https://30anow.github.io/e/71fb12d9-7
+ 1d2-4738-9ebd-8467bd164568
+URL:https://30anow.github.io/e/71fb12d9-71d2-4738-9ebd-8467bd164568?s=cal
 END:VEVENT
 END:VCALENDAR
