@@ -11,18 +11,13 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:ec22b84e-03bf-4147-bb0d-3cb9482523ad@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261025T210000Z
 DTEND:20261026T000000Z
 SUMMARY:Cadillac Willy
 LOCATION:Local Catch Bar & Grill\, Blue Mountain\, Santa Rosa Beach\, FL
-DESCRIPTION:Cadillac Willy returns to Local Catch for Sunday Funday on Octo
- ber 25 from 4-7PM. Enjoy cold drinks\, delicious food and LIVE\, local mus
- ic at this South Walton hotspot! Cadillac Willy influences include Classic
-  Rock and Jam Bands like Widespread Panic\, Lynyrd Skynyrd\, The Allman Br
- others and the Grateful Dead. The band also enjoys playing funky…\n\nTim
- es\, the live map and the app: https://30anow.github.io/e/ec22b84e-03bf-41
- 47-bb0d-3cb9482523ad
+DESCRIPTION:Catch The Waves live from 4-7PM!\n\nTimes\, the live map and th
+ e app: https://30anow.github.io/e/ec22b84e-03bf-4147-bb0d-3cb9482523ad
 URL:https://30anow.github.io/e/ec22b84e-03bf-4147-bb0d-3cb9482523ad?s=cal
 END:VEVENT
 END:VCALENDAR

@@ -11,22 +11,21 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:c275a12d-1c40-4d4d-a106-ae2ebbe0dd73@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261025T210000Z
 DTEND:20261026T010000Z
 SUMMARY:Sunday Pickin' with Mike Whitty & Friends
 LOCATION:The Bay\, 24215 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:Sunday Pickin’ at The Bay features The Sand Ole’ Opry with 
- Mike Whitty & Friends on stage from 4 – 8PM. It’s a weekly jam session
-  outdoors overlooking the Choctawhatchee Bay. Follow The Bay on Facebook f
- or the weekly musician lineup. Sunday Funday at The Bay day starts with br
- unch\, 11AM til 2PM…\n\nTimes\, the live map and the app: https://30anow
- .github.io/e/c275a12d-1c40-4d4d-a106-ae2ebbe0dd73
+DESCRIPTION:Sunday Pickin' at The Bay with Mike Whitty and Friends is from 
+ 4-8PM every Sunday. Mike brings in new musicians to play every week. We al
+ ways post who is playing by Saturday\, so check The Bay's Facebook or Inst
+ agram pages for details ahead of the event.\n\nTimes\, the live map and th
+ e app: https://30anow.github.io/e/c275a12d-1c40-4d4d-a106-ae2ebbe0dd73
 URL:https://30anow.github.io/e/c275a12d-1c40-4d4d-a106-ae2ebbe0dd73?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9f799874-4ab7-42b8-b68a-cf712ba686c7@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261028T220000Z
 DTEND:20261029T010000Z
 SUMMARY:Live Music & Bonfire
@@ -41,7 +40,7 @@ URL:https://30anow.github.io/e/9f799874-4ab7-42b8-b68a-cf712ba686c7?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:4ef7292a-9cee-41e3-8b65-df51dabd417c@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261101T220000Z
 DTEND:20261102T020000Z
 SUMMARY:Sunday Pickin' with Mike Whitty & Friends
@@ -56,7 +55,7 @@ URL:https://30anow.github.io/e/4ef7292a-9cee-41e3-8b65-df51dabd417c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:34c4c0a2-bbea-4cb0-afbe-f2aa2ac09136@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261108T220000Z
 DTEND:20261109T020000Z
 SUMMARY:Sunday Pickin' with Mike Whitty & Friends
@@ -71,7 +70,7 @@ URL:https://30anow.github.io/e/34c4c0a2-bbea-4cb0-afbe-f2aa2ac09136?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:c1e47e4d-0832-4b07-b32a-53ec4fb7891c@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261115T220000Z
 DTEND:20261116T020000Z
 SUMMARY:Sunday Pickin' w/ Mike Whitty & Friends
@@ -86,7 +85,7 @@ URL:https://30anow.github.io/e/c1e47e4d-0832-4b07-b32a-53ec4fb7891c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1e84f573-d4ee-41a1-b16a-c853eb1f9fea@30anow.github.io
-DTSTAMP:20261024T140159Z
+DTSTAMP:20261024T193143Z
 DTSTART:20261122T220000Z
 DTEND:20261123T020000Z
 SUMMARY:Sunday Pickin' w/ Mike Whitty & Friends
