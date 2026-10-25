@@ -10,42 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:72a51d1e-fbfc-45a2-81cf-5221cb07bb95@30anow.github.io
-DTSTAMP:20261024T224220Z
-DTSTART:20261024T230000Z
-DTEND:20261025T010000Z
-SUMMARY:Bobby Watson & Curtis Lundy Quartet
-LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:🎟 Doors open at 5PM | Show at 6:30PM\nTWO JAZZ LEGENDS. ONE 
- INTIMATE STAGE.\nSOWAL Jazz Fest welcomes an extraordinary meeting of jazz
-  history as Bobby Watson and Curtis Lundy headline SOWAL House with an all
-  star quartet. These are musicians who helped shape the sound of modern st
- raight ahead jazz.\nMulti GRAMMY nominated alto saxophonist Bobby Watson 
- emerged as musical director of Art Blakey’s le…\n\nTimes\, the live ma
- p and the app: https://30anow.github.io/e/72a51d1e-fbfc-45a2-81cf-5221cb07
- bb95
-URL:https://30anow.github.io/e/72a51d1e-fbfc-45a2-81cf-5221cb07bb95?s=cal
-END:VEVENT
-BEGIN:VEVENT
-UID:545f7896-48c0-4a95-a9b2-b542d459cf90@30anow.github.io
-DTSTAMP:20261024T224220Z
-DTSTART:20261025T010000Z
-DTEND:20261025T030000Z
-SUMMARY:Bobby Watson & Curtis Lundy Quartet
-LOCATION:SOWAL House\, Rosemary Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:🎟 Doors open at 8PM | Show at 8:30PM\nTWO JAZZ LEGENDS. ONE 
- INTIMATE STAGE.\nSOWAL Jazz Fest welcomes an extraordinary meeting of jazz
-  history as Bobby Watson and Curtis Lundy headline SOWAL House with an all
-  star quartet. These are musicians who helped shape the sound of modern st
- raight ahead jazz.\nMulti GRAMMY nominated alto saxophonist Bobby Watson 
- emerged as musical director of Art Blakey’s le…\n\nTimes\, the live ma
- p and the app: https://30anow.github.io/e/545f7896-48c0-4a95-a9b2-b542d459
- cf90
-URL:https://30anow.github.io/e/545f7896-48c0-4a95-a9b2-b542d459cf90?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:f82e7a35-7617-473d-b595-16ebb4876c19@30anow.github.io
-DTSTAMP:20261024T224220Z
+DTSTAMP:20261025T074945Z
 DTSTART:20261118T230000Z
 DTEND:20261119T040000Z
 SUMMARY:SOFO Poets Society\, Hosted by Tricia Veldman\, Presented by Emeral
