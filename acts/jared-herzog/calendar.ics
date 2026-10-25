@@ -11,22 +11,24 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261027T230000Z
 DTEND:20261028T020000Z
 SUMMARY:Jared Herzog
 LOCATION:North Beach Social\, 24200 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:Jared Herzog LIVE at North Beach Social from 6 – 9PM. North 
- Beach Social is a beach restaurant and bar located at the foot of the 331
-  bridge in Santa Rosa Beach on the Choctawhatchee Bay. A popular South Wal
- ton gathering spot for everyone with a delicious menu of eats and cold dri
- nks\, all day drink specials\,…\n\nTimes\, the live map and the app: htt
- ps://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a
+DESCRIPTION:October is here!! And the music lineup is...\nWe’re excited t
+ o welcome all these artists to the stage\, plus our inaugural Rabid Fox Mu
+ sic Fest coming October 17-18 with a full lineup of performers starting 1 
+ PM\, and Trivia Nights with Super Good Trivia on Thursdays at 6 PM!\nOf co
+ urse our annual Halloween Party and Costume Contest is also coming up\, so
+  get those looks ready!\nSee you at North Beach…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8
+ d2a
 URL:https://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:b258792f-4d6e-40b1-9aa3-dae67036a6e1@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261030T210000Z
 DTEND:20261031T000000Z
 SUMMARY:Jared Herzog
@@ -42,7 +44,7 @@ URL:https://30anow.github.io/e/b258792f-4d6e-40b1-9aa3-dae67036a6e1?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:0d44e52d-40bf-4576-a6b3-15228c23042e@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261031T143000Z
 DTEND:20261031T173000Z
 SUMMARY:JARED HERZOG
@@ -58,7 +60,7 @@ URL:https://30anow.github.io/e/0d44e52d-40bf-4576-a6b3-15228c23042e?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d3759a27-4baf-464c-8e8e-27d280382710@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261031T230000Z
 DTEND:20261101T023000Z
 SUMMARY:Jared Herzog
@@ -69,7 +71,7 @@ URL:https://30anow.github.io/e/d3759a27-4baf-464c-8e8e-27d280382710?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:fc4d2d50-8f2d-4c7d-a514-e483c69d227b@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261113T220000Z
 DTEND:20261114T010000Z
 SUMMARY:Jared Herzog

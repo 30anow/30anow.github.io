@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:1a1b5521-cbc5-455f-89eb-955ac13ee9fc@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261025T150000Z
 DTEND:20261025T200000Z
 SUMMARY:Steenos + John Reinlie
@@ -23,7 +23,7 @@ URL:https://30anow.github.io/e/1a1b5521-cbc5-455f-89eb-955ac13ee9fc?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:34457522-14b6-4e59-87db-8212795520e2@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261026T230000Z
 DTEND:20261027T020000Z
 SUMMARY:Steve's Music Bingo
@@ -34,22 +34,18 @@ URL:https://30anow.github.io/e/34457522-14b6-4e59-87db-8212795520e2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:09c2d41c-ab49-45ac-a6e0-fbaa1331c4a2@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261027T230000Z
 DTEND:20261028T020000Z
 SUMMARY:MECO
 LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Free\n\nMeco live from 6 – 9pm at The Bait Shack. No cover! 
- Stinky’s Bait Shack is a longtime favorite bar\, bait shop and hangout l
- ocated next to Stinky’s Fish Camp restaurant in South Walton\, Florida. 
- The Bait Shack opens early for coffee and bait\, and is a popular music ve
- nue featuring local and visiting artists on…\n\nTimes\, the live map and
+DESCRIPTION:Free\n\nCatch MECO live from 6-9PM!\n\nTimes\, the live map and
   the app: https://30anow.github.io/e/09c2d41c-ab49-45ac-a6e0-fbaa1331c4a2
 URL:https://30anow.github.io/e/09c2d41c-ab49-45ac-a6e0-fbaa1331c4a2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:2535bda7-2859-4cfb-a51b-e8036696ce40@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261029T230000Z
 DTEND:20261030T020000Z
 SUMMARY:Outro
@@ -65,7 +61,7 @@ URL:https://30anow.github.io/e/2535bda7-2859-4cfb-a51b-e8036696ce40?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9213bee3-af5f-4c97-8cc8-02f4d8827934@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261031T000000Z
 DTEND:20261031T030000Z
 SUMMARY:Rhino Jockeys + Matt Miller
@@ -81,7 +77,7 @@ URL:https://30anow.github.io/e/9213bee3-af5f-4c97-8cc8-02f4d8827934?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:554d3131-7c3c-46d0-8c16-86d901e66030@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261101T000000Z
 DTEND:20261101T030000Z
 SUMMARY:Halloween: Dion Jones & The Neon Tears

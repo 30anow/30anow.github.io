@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:f6b9fb10-f52f-4e5a-bac0-8df4c270e698@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261025T180000Z
 DTEND:20261025T210000Z
 SUMMARY:Low Tide Junction
@@ -28,7 +28,7 @@ URL:https://30anow.github.io/e/f6b9fb10-f52f-4e5a-bac0-8df4c270e698?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f1186862-e082-431f-a3ea-1e67fea330ab@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261026T233000Z
 DTEND:20261027T013000Z
 SUMMARY:Open Mic Night by Ronni Kay
@@ -43,22 +43,24 @@ URL:https://30anow.github.io/e/f1186862-e082-431f-a3ea-1e67fea330ab?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261027T230000Z
 DTEND:20261028T020000Z
 SUMMARY:Jared Herzog
 LOCATION:North Beach Social\, 24200 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:Jared Herzog LIVE at North Beach Social from 6 – 9PM. North 
- Beach Social is a beach restaurant and bar located at the foot of the 331
-  bridge in Santa Rosa Beach on the Choctawhatchee Bay. A popular South Wal
- ton gathering spot for everyone with a delicious menu of eats and cold dri
- nks\, all day drink specials\,…\n\nTimes\, the live map and the app: htt
- ps://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a
+DESCRIPTION:October is here!! And the music lineup is...\nWe’re excited t
+ o welcome all these artists to the stage\, plus our inaugural Rabid Fox Mu
+ sic Fest coming October 17-18 with a full lineup of performers starting 1 
+ PM\, and Trivia Nights with Super Good Trivia on Thursdays at 6 PM!\nOf co
+ urse our annual Halloween Party and Costume Contest is also coming up\, so
+  get those looks ready!\nSee you at North Beach…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8
+ d2a
 URL:https://30anow.github.io/e/d1c9f1cd-4d2e-4a20-bac2-8366500a8d2a?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:736bb9f1-b2a2-461b-9b23-3cd9ccef2137@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261028T230000Z
 DTEND:20261029T020000Z
 SUMMARY:Matt's Jazz
@@ -73,7 +75,7 @@ URL:https://30anow.github.io/e/736bb9f1-b2a2-461b-9b23-3cd9ccef2137?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:dcedd302-d612-4fdf-924c-12ae7f29efab@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261029T230000Z
 DTEND:20261030T010000Z
 SUMMARY:Trivia Night
@@ -88,7 +90,7 @@ URL:https://30anow.github.io/e/dcedd302-d612-4fdf-924c-12ae7f29efab?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:968566aa-2c73-4496-b71e-09327d5c5d12@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261030T230000Z
 DTEND:20261031T020000Z
 SUMMARY:Salt Rock Revival
@@ -103,7 +105,7 @@ URL:https://30anow.github.io/e/968566aa-2c73-4496-b71e-09327d5c5d12?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:8c9ee1d1-900b-4bb3-aac9-0e2783fb6acb@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261031T180000Z
 DTEND:20261031T210000Z
 SUMMARY:Boukou Groove
@@ -114,7 +116,7 @@ URL:https://30anow.github.io/e/8c9ee1d1-900b-4bb3-aac9-0e2783fb6acb?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:21a89f41-612e-49ee-9907-4295f750e93e@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261031T230000Z
 DTEND:20261101T020000Z
 SUMMARY:Halloween Party
@@ -129,7 +131,7 @@ URL:https://30anow.github.io/e/21a89f41-612e-49ee-9907-4295f750e93e?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:8cd4d92c-a162-448b-b086-312df54d633f@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261106T000000Z
 DTEND:20261106T020000Z
 SUMMARY:Trivia Night
@@ -144,7 +146,7 @@ URL:https://30anow.github.io/e/8cd4d92c-a162-448b-b086-312df54d633f?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:235caba0-8087-4850-a13f-dde5f79259d7@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261107T000000Z
 DTEND:20261107T030000Z
 SUMMARY:Salt Rock Revival
@@ -159,7 +161,7 @@ URL:https://30anow.github.io/e/235caba0-8087-4850-a13f-dde5f79259d7?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:6a51ed3c-9ef2-42d7-8821-732610ae7d60@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261113T000000Z
 DTEND:20261113T020000Z
 SUMMARY:Trivia Night
@@ -174,7 +176,7 @@ URL:https://30anow.github.io/e/6a51ed3c-9ef2-42d7-8821-732610ae7d60?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d8337a55-23c5-46f5-ae19-1d1a166f0fef@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261114T000000Z
 DTEND:20261114T030000Z
 SUMMARY:Salt Rock Revival
@@ -189,7 +191,7 @@ URL:https://30anow.github.io/e/d8337a55-23c5-46f5-ae19-1d1a166f0fef?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:b580bfe3-b392-4760-8229-0e00df149f8c@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261120T000000Z
 DTEND:20261120T020000Z
 SUMMARY:Trivia Night
@@ -204,7 +206,7 @@ URL:https://30anow.github.io/e/b580bfe3-b392-4760-8229-0e00df149f8c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:96766a2c-7062-4c95-a2f8-684e8686f959@30anow.github.io
-DTSTAMP:20261025T094514Z
+DTSTAMP:20261025T142544Z
 DTSTART:20261121T000000Z
 DTEND:20261121T030000Z
 SUMMARY:Salt Rock Revival
