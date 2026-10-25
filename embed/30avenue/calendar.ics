@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:8bce92c3-83a2-48ef-90f1-055c5d03aee6@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261025T230000Z
 DTEND:20261026T020000Z
 SUMMARY:Mari Gleason + Jess Murphy
@@ -25,7 +25,7 @@ URL:https://30anow.github.io/e/8bce92c3-83a2-48ef-90f1-055c5d03aee6?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d3194986-59b1-40da-ae63-d7e4dbb40aae@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261026T230000Z
 DTEND:20261027T020000Z
 SUMMARY:Foxplay
@@ -39,7 +39,7 @@ URL:https://30anow.github.io/e/d3194986-59b1-40da-ae63-d7e4dbb40aae?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:c3103a03-3644-42c3-940a-d8890eddcc69@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261027T230000Z
 DTEND:20261028T020000Z
 SUMMARY:Sand Ole Opry
@@ -53,7 +53,7 @@ URL:https://30anow.github.io/e/c3103a03-3644-42c3-940a-d8890eddcc69?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e8fa7076-f2dd-46b8-b45d-cb37801089b8@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261028T003000Z
 DTEND:20261028T023000Z
 SUMMARY:Live Music
@@ -69,23 +69,21 @@ URL:https://30anow.github.io/e/e8fa7076-f2dd-46b8-b45d-cb37801089b8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e02fdb79-fe04-4a7c-b578-47de541b0fa7@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261028T230000Z
 DTEND:20261029T020000Z
 SUMMARY:Otha Allen
 LOCATION:30Avenue\, Inlet Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Come out to 30Avenue for the Concert Series from 7 – 10PM on 
- the green. Gather your people for dinner\, sips\, shopping and LIVE MUSIC 
- under the stars in Inlet Beach\, Florida. Guests are encouraged to bring 
- a blanket or low-back lawn chairs.  See the full lineup here: 30avenue.co
- m/calendar/ 30Avenue is located at the intersection of…\n\nTimes\, the l
- ive map and the app: https://30anow.github.io/e/e02fdb79-fe04-4a7c-b578-47
- de541b0fa7
+DESCRIPTION:October is sounding pretty good at 30Avenue.\nYour October live
+  music lineup is here. Grab your crew\, pick your nights\, and meet us on 
+ the Green for live music all month long.\nGood music. Good food. October n
+ ights at 30Avenue.\n\nTimes\, the live map and the app: https://30anow.git
+ hub.io/e/e02fdb79-fe04-4a7c-b578-47de541b0fa7
 URL:https://30anow.github.io/e/e02fdb79-fe04-4a7c-b578-47de541b0fa7?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e1a4387d-3ed9-4a28-b62c-8c047d84482e@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261029T230000Z
 DTEND:20261030T020000Z
 SUMMARY:John Hart
@@ -101,7 +99,7 @@ URL:https://30anow.github.io/e/e1a4387d-3ed9-4a28-b62c-8c047d84482e?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ac33e7a6-ba5a-4552-9c54-6cce49ed1fec@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261030T230000Z
 DTEND:20261031T020000Z
 SUMMARY:Mat Hall + Tim Dutrow
@@ -117,7 +115,7 @@ URL:https://30anow.github.io/e/ac33e7a6-ba5a-4552-9c54-6cce49ed1fec?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:31fc30e3-93c0-476b-ba14-d53c3b3e23d2@30anow.github.io
-DTSTAMP:20261025T194227Z
+DTSTAMP:20261025T223358Z
 DTSTART:20261031T230000Z
 DTEND:20261101T020000Z
 SUMMARY:Roshambo
