@@ -10,24 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:ce650dbc-eab8-477e-85b9-0e4c20008449@30anow.github.io
-DTSTAMP:20261025T224656Z
-DTSTART:20261025T220000Z
-DTEND:20261026T010000Z
-SUMMARY:The Pickled Pickers
-LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
-DESCRIPTION:The Pickled Pickers LIVE at AJ’s Grayton Beach on the main st
- age from 5:00pm til 8:00pm. This local band keeps the energy high perfor
- ming a mix of southern rock\, blues\, R&B\, country\, bluegrass\, and “
- feel good to the soul” kind of tunes. Come out for dinner and drinks. St
- ay for the music. Sundays at AJ’s Grayton Beach 11AM…\n\nTimes\, the l
- ive map and the app: https://30anow.github.io/e/ce650dbc-eab8-477e-85b9-0e
- 4c20008449
-URL:https://30anow.github.io/e/ce650dbc-eab8-477e-85b9-0e4c20008449?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:f9a65e50-ea3a-477c-b15a-d91a2fbf1b83@30anow.github.io
-DTSTAMP:20261025T224656Z
+DTSTAMP:20261026T080849Z
 DTSTART:20261101T230000Z
 DTEND:20261102T020000Z
 SUMMARY:The Pickled Pickers
@@ -38,7 +22,7 @@ URL:https://30anow.github.io/e/f9a65e50-ea3a-477c-b15a-d91a2fbf1b83?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f71c0758-43c0-4f7d-936c-f6963b896b1d@30anow.github.io
-DTSTAMP:20261025T224656Z
+DTSTAMP:20261026T080849Z
 DTSTART:20261108T230000Z
 DTEND:20261109T020000Z
 SUMMARY:The Pickled Pickers
@@ -49,7 +33,7 @@ URL:https://30anow.github.io/e/f71c0758-43c0-4f7d-936c-f6963b896b1d?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:4d87cc22-37f1-47e4-a0c2-0a0f27caa462@30anow.github.io
-DTSTAMP:20261025T224656Z
+DTSTAMP:20261026T080849Z
 DTSTART:20261115T230000Z
 DTEND:20261116T020000Z
 SUMMARY:The Pickled Pickers
@@ -60,7 +44,7 @@ URL:https://30anow.github.io/e/4d87cc22-37f1-47e4-a0c2-0a0f27caa462?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:71fe08f6-24db-4515-b50d-52d6e8d126f1@30anow.github.io
-DTSTAMP:20261025T224656Z
+DTSTAMP:20261026T080849Z
 DTSTART:20261122T230000Z
 DTEND:20261123T020000Z
 SUMMARY:The Pickled Pickers
