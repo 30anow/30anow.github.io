@@ -11,13 +11,15 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:deaab3d8-f3e2-4f41-8180-9dfa32f365f0@30anow.github.io
-DTSTAMP:20261026T164847Z
+DTSTAMP:20261026T213921Z
 DTSTART:20261029T220000Z
 DTEND:20261030T000000Z
 SUMMARY:Wine Tasting
 LOCATION:Coastside 30A\, Seagrove\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/de
- aab3d8-f3e2-4f41-8180-9dfa32f365f0
+DESCRIPTION:Come & join us at our weekly Coastside Wine Clubs! Thursdays fr
+ om 5:00 -7:00PM at Coastside!\nCome join in on the fun starting this Thurs
+ day! 🧀🍇🍷We can’t wait to see you!\n\nTimes\, the live map and t
+ he app: https://30anow.github.io/e/deaab3d8-f3e2-4f41-8180-9dfa32f365f0
 URL:https://30anow.github.io/e/deaab3d8-f3e2-4f41-8180-9dfa32f365f0?s=cal
 END:VEVENT
 END:VCALENDAR

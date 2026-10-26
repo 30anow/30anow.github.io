@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:df8a112c-29a1-414e-9c25-9d6b1dc79cb7@30anow.github.io
-DTSTAMP:20261026T164847Z
+DTSTAMP:20261026T213921Z
 DTSTART:20261028T210000Z
 DTEND:20261029T010000Z
 SUMMARY:David Dunavent
@@ -28,18 +28,24 @@ URL:https://30anow.github.io/e/df8a112c-29a1-414e-9c25-9d6b1dc79cb7?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d0415547-7639-4f4c-af6f-0871441e9e11@30anow.github.io
-DTSTAMP:20261026T164847Z
+DTSTAMP:20261026T213921Z
 DTSTART:20261029T210000Z
 DTEND:20261030T010000Z
 SUMMARY:David Dunavent
 LOCATION:Shunk Gulley Oyster Bar\, 1875 S County Hwy 393\, Gulf Place\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/d0
- 415547-7639-4f4c-af6f-0871441e9e11
+DESCRIPTION:David Dunavent is a singer songwriter from the heart of the Mis
+ sissippi Delta. Traveling across the U.S. and Germany\, David has had many
+  opportunities to perform with blues and rock legends such as: Pinetop Per
+ kins\, Hubert Sumlin\, Super Chicken\; Bernie Marsden\, members of Foghat\
+ , and Roger Fisher. Throughout his career\, David has also made appearance
+ s on Gene Simmons Family Jewels.\nWhile currentl…\n\nTimes\, the live ma
+ p and the app: https://30anow.github.io/e/d0415547-7639-4f4c-af6f-0871441e
+ 9e11
 URL:https://30anow.github.io/e/d0415547-7639-4f4c-af6f-0871441e9e11?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:6fc3e174-5839-4b34-b740-29c35f040907@30anow.github.io
-DTSTAMP:20261026T164847Z
+DTSTAMP:20261026T213921Z
 DTSTART:20261030T210000Z
 DTEND:20261031T010000Z
 SUMMARY:David Dunavent
