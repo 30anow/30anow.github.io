@@ -10,25 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:e3d08ad4-3719-4619-b814-832f57883483@30anow.github.io
-DTSTAMP:20261027T155405Z
-DTSTART:20261027T141500Z
-DTEND:20261027T170000Z
-SUMMARY:Painting with Pastels with Melody Bogle
-LOCATION:Bayou Arts Center\, 105 Hogtown Bayou Ln\, Santa Rosa Beach\, FL
-DESCRIPTION:Join artist Melody Bogle every Tuesday from 9:15 a.m. to Noon 
- for a hands-on pastel painting class focused on building confidence and cr
- eative growth. Designed for all levels\, this ongoing series introduces st
- udents to the beauty of pastels while encouraging exploration and personal
-  expression.\nYou'll learn techniques for layering\, blending\, and creati
- ng luminous color in a fun and encouraging st…\n\nTimes\, the live map a
- nd the app: https://30anow.github.io/e/e3d08ad4-3719-4619-b814-832f5788348
- 3
-URL:https://30anow.github.io/e/e3d08ad4-3719-4619-b814-832f57883483?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:f2e13618-6d27-476a-b6e4-f18028020643@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261109T150000Z
 DTEND:20261109T170000Z
 SUMMARY:The Art of Play with Laurie Kwo
@@ -39,7 +22,7 @@ URL:https://30anow.github.io/e/f2e13618-6d27-476a-b6e4-f18028020643?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:54bedce5-349f-443a-9a23-784fbc276900@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261110T150000Z
 DTEND:20261110T170000Z
 SUMMARY:The Art of Play with Laurie Kwo
@@ -50,7 +33,7 @@ URL:https://30anow.github.io/e/54bedce5-349f-443a-9a23-784fbc276900?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:98efa1cb-00e3-452a-bf6b-fa120c6e52c6@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261111T150000Z
 DTEND:20261111T170000Z
 SUMMARY:The Art of Play with Laurie Kwo
@@ -61,7 +44,7 @@ URL:https://30anow.github.io/e/98efa1cb-00e3-452a-bf6b-fa120c6e52c6?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:dc56cbb9-9f3e-468a-a565-dc07c3b645e0@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261112T150000Z
 DTEND:20261112T170000Z
 SUMMARY:The Art of Play with Laurie Kwo
@@ -72,7 +55,7 @@ URL:https://30anow.github.io/e/dc56cbb9-9f3e-468a-a565-dc07c3b645e0?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:264ca14a-cb46-4192-a7d3-1f6a6342983f@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261113T150000Z
 DTEND:20261113T170000Z
 SUMMARY:The Art of Play with Laurie Kwo

@@ -1,0 +1,26 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Seaside Pop-Up District on 30A Now
+X-WR-CALDESC:Every event at Seaside Pop-Up District listed on 30A Now\, kep
+ t up to date: https://30anow.github.io/venues/seaside-pop-up-district/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:d24a48c5-7228-4833-9c49-ef0f0197176c@30anow.github.io
+DTSTAMP:20261027T212059Z
+DTSTART:20261108T160000Z
+DTEND:20261108T180000Z
+SUMMARY:Colombia & Company First Anniversary Celebration
+LOCATION:Seaside Pop-Up District\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Join Colombia and Company as they celebrate one year of calling
+  SEASIDE® home! Stop by for Colombian coffee\, traditional treats\, live 
+ music\, and more! Colombia and Company is located in the SEASIDE® Pop-Up 
+ District\, next to Pickle’s Sandbar.\n\nTimes\, the live map and the app
+ : https://30anow.github.io/e/d24a48c5-7228-4833-9c49-ef0f0197176c
+URL:https://30anow.github.io/e/d24a48c5-7228-4833-9c49-ef0f0197176c?s=cal
+END:VEVENT
+END:VCALENDAR

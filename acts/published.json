@@ -173,6 +173,10 @@
     "name": "RUSS WHITTEN"
   },
   {
+    "slug": "russ-whitten-lakeside",
+    "name": "Russ Whitten - Lakeside"
+  },
+  {
     "slug": "salt-rock-revival",
     "name": "Salt Rock Revival",
     "near": true
@@ -214,5 +218,9 @@
   {
     "slug": "zack-miller",
     "name": "Zack Miller"
+  },
+  {
+    "slug": "zook-lakeside",
+    "name": "Zook - Lakeside"
   }
 ]

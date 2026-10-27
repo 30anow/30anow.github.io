@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:09c2d41c-ab49-45ac-a6e0-fbaa1331c4a2@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261027T230000Z
 DTEND:20261028T020000Z
 SUMMARY:MECO
@@ -22,7 +22,7 @@ URL:https://30anow.github.io/e/09c2d41c-ab49-45ac-a6e0-fbaa1331c4a2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:2535bda7-2859-4cfb-a51b-e8036696ce40@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261029T230000Z
 DTEND:20261030T020000Z
 SUMMARY:Outro
@@ -33,7 +33,7 @@ URL:https://30anow.github.io/e/2535bda7-2859-4cfb-a51b-e8036696ce40?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9213bee3-af5f-4c97-8cc8-02f4d8827934@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261031T000000Z
 DTEND:20261031T030000Z
 SUMMARY:Rhino Jockeys + Matt Miller
@@ -48,8 +48,23 @@ DESCRIPTION:Free\n\nRhino Jockeys + Matt Miller live at The Bait Shack. No
 URL:https://30anow.github.io/e/9213bee3-af5f-4c97-8cc8-02f4d8827934?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:7ccc8e20-3ba0-4575-9a75-8ea2c211d346@30anow.github.io
+DTSTAMP:20261027T212059Z
+DTSTART:20261031T230000Z
+DTEND:20261101T030000Z
+SUMMARY:Stinky's Bait Shack Halloween Party
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Stinky’s Bait Shack is getting spooky on Halloween night with
+  a costume contest with prizes and live music with Dion Jones & The Neon T
+ ears. Costume contest + prizes (single\, duo & group!) 6-9PM Dion Jones & 
+ the Neon Tears 7–10PM Grab your crew\, dress to impress\, and let’s ge
+ t BOO-gie at the Bait Shack!…\n\nTimes\, the live map and the app: https
+ ://30anow.github.io/e/7ccc8e20-3ba0-4575-9a75-8ea2c211d346
+URL:https://30anow.github.io/e/7ccc8e20-3ba0-4575-9a75-8ea2c211d346?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:554d3131-7c3c-46d0-8c16-86d901e66030@30anow.github.io
-DTSTAMP:20261027T155405Z
+DTSTAMP:20261027T212059Z
 DTSTART:20261101T000000Z
 DTEND:20261101T030000Z
 SUMMARY:Halloween: Dion Jones & The Neon Tears
