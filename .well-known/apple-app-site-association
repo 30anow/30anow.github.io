@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "4T9964KM6T.com.thirtyanow.app",
-        "paths": ["/e/*", "/event/*", "/venue/*", "/weekend", "/lineup", "/lineup/*", "/act/*", "/acts/?*", "/venues/?*"],
+        "paths": ["/e/*", "/event/*", "/venue/*", "/weekend", "/lineup", "/lineup/*", "/act/*", "/acts/?*", "/venues/?*", "/moment/*", "/tonight", "/tonight/*", "/stay", "/sunset"],
         "components": [
           { "/": "/e/*" },
           { "/": "/event/*" },
@@ -14,7 +14,12 @@
           { "/": "/lineup/*" },
           { "/": "/act/*" },
           { "/": "/acts/?*" },
-          { "/": "/venues/?*" }
+          { "/": "/venues/?*" },
+          { "/": "/moment/*" },
+          { "/": "/tonight" },
+          { "/": "/tonight/*" },
+          { "/": "/stay" },
+          { "/": "/sunset" }
         ]
       }
     ]
