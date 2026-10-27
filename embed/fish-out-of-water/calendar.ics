@@ -9,19 +9,4 @@ X-WR-CALDESC:Every event at Fish Out of Water listed on 30A Now\, kept up t
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:5db3f96d-1291-4471-946b-b8bfdab52d4f@30anow.github.io
-DTSTAMP:20261027T000248Z
-DTSTART:20261026T230000Z
-DTEND:20261027T020000Z
-SUMMARY:Live Music
-LOCATION:Fish Out of Water\, 34 Goldenrod Cir\, WaterColor\, FL
-DESCRIPTION:Fish Out of Water (FISH)\, the signature on-site restaurant of 
- WaterColor Inn in WaterColor\, Florida kicks off the week with LIVE MUSIC 
- Mondays from 6-9PM. Enjoy seasonal regional cuisine with a Southern Coasta
- l approach paired with unbeatable Gulf views. LIVE MUSIC Mondays || 6-9PM 
- October 5 & 12…\n\nTimes\, the live map and the app: https://30anow.gith
- ub.io/e/5db3f96d-1291-4471-946b-b8bfdab52d4f
-URL:https://30anow.github.io/e/5db3f96d-1291-4471-946b-b8bfdab52d4f?s=cal
-END:VEVENT
 END:VCALENDAR
