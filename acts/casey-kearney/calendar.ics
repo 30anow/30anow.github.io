@@ -9,16 +9,4 @@ X-WR-CALDESC:Casey Kearney Band's shows on 30A\, as 30A Now lists them\, ke
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:c58fc8a2-fdb1-417b-81a1-0dc581319590@30anow.github.io
-DTSTAMP:20261027T235725Z
-DTSTART:20261027T230000Z
-DTEND:20261028T020000Z
-SUMMARY:Casey Kearney Band
-LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
-DESCRIPTION:Catch Casey Kearney Band  live from 6:00-9:00PM!\n\nTimes\, th
- e live map and the app: https://30anow.github.io/e/c58fc8a2-fdb1-417b-81a1
- -0dc581319590
-URL:https://30anow.github.io/e/c58fc8a2-fdb1-417b-81a1-0dc581319590?s=cal
-END:VEVENT
 END:VCALENDAR
