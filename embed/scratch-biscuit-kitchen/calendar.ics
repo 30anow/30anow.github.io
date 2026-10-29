@@ -11,10 +11,10 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:6df43892-9467-438f-aebe-e6e7ff85c681@30anow.github.io
-DTSTAMP:20261029T165741Z
+DTSTAMP:20261029T215051Z
 DTSTART:20261030T170000Z
 DTEND:20261030T190000Z
-SUMMARY:Pumpkin Carving & Costume Contest
+SUMMARY:Scratch Biscuit Kitchen: Pumpkin Carving & Costume Contest
 LOCATION:Scratch Biscuit Kitchen\, WaterColor\, Santa Rosa Beach\, FL
 DESCRIPTION:Join Scratch Biscuit Kitchen in the Watercolor Town Center for 
  a festive fall afternoon of family fun! The Pumpkin Carving & Costume Cont

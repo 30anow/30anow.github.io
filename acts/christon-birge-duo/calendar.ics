@@ -1,0 +1,56 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Christon Birge Duo on 30A
+X-WR-CALDESC:Christon Birge Duo's shows on 30A\, as 30A Now lists them\, ke
+ pt up to date: https://30anow.github.io/acts/christon-birge-duo/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:e340ac9f-0422-4c6a-abb2-6dab6e762e41@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261101T180000Z
+DTEND:20261101T200000Z
+SUMMARY:Christon Birge Duo
+LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e3
+ 40ac9f-0422-4c6a-abb2-6dab6e762e41
+URL:https://30anow.github.io/e/e340ac9f-0422-4c6a-abb2-6dab6e762e41?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:e609a64a-769c-4606-9328-ffdc5a9bff29@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261108T180000Z
+DTEND:20261108T200000Z
+SUMMARY:Christon Birge Duo
+LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e6
+ 09a64a-769c-4606-9328-ffdc5a9bff29
+URL:https://30anow.github.io/e/e609a64a-769c-4606-9328-ffdc5a9bff29?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:4e2d8fe9-0de7-4271-aced-d5bd6076cb30@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261115T180000Z
+DTEND:20261115T200000Z
+SUMMARY:Christon Birge Duo
+LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/4e
+ 2d8fe9-0de7-4271-aced-d5bd6076cb30
+URL:https://30anow.github.io/e/4e2d8fe9-0de7-4271-aced-d5bd6076cb30?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:fed83734-ae3a-447f-825b-a5ed73eeaf9d@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261122T180000Z
+DTEND:20261122T200000Z
+SUMMARY:Christon Birge Duo
+LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/fe
+ d83734-ae3a-447f-825b-a5ed73eeaf9d
+URL:https://30anow.github.io/e/fed83734-ae3a-447f-825b-a5ed73eeaf9d?s=cal
+END:VEVENT
+END:VCALENDAR

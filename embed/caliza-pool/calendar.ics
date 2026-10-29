@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:94f23e19-b608-43fb-bf12-5e796d0f6e86@30anow.github.io
-DTSTAMP:20261029T165741Z
+DTSTAMP:20261029T215051Z
 DTSTART:20261124T200000Z
 DTEND:20261124T220000Z
 SUMMARY:Create Your Own Alys Pal
@@ -27,23 +27,23 @@ URL:https://30anow.github.io/e/94f23e19-b608-43fb-bf12-5e796d0f6e86?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:52f9a4b7-db02-4ddf-a292-b3ddf707146d@30anow.github.io
-DTSTAMP:20261029T165741Z
+DTSTAMP:20261029T215051Z
 DTSTART:20261125T200000Z
 DTEND:20261125T220000Z
-SUMMARY:Pumpkin Painting
+SUMMARY:Pumpkin Decorating
 LOCATION:Caliza Pool\, Alys Beach\, Santa Rosa Beach\, FL
 DESCRIPTION:Get into the spirit of the season with an afternoon of pumpkin 
- painting at Caliza. Choose your pumpkin\, pick your palette\, and create a
-  one-of-a-kind fall masterpiece to take home. Bring your creation to your 
- Thanksgiving celebration and add a personal touch to your holiday tablesca
- pe or seasonal décor.\n**Exclusively available to Alys Beach Homeowners a
- nd Rental Guests.\n\nTimes\, the live map and the app: https://30anow.gith
- ub.io/e/52f9a4b7-db02-4ddf-a292-b3ddf707146d
+ decorating at Caliza. Choose your pumpkin and create a one-of-a-kind fall 
+ masterpiece to take home. Bring your creation to your Thanksgiving celebra
+ tion and add a personal touch to your holiday tablescape or seasonal déco
+ r.\n**Exclusively available to Alys Beach Homeowners and Rental Guests.\n\
+ nTimes\, the live map and the app: https://30anow.github.io/e/52f9a4b7-db0
+ 2-4ddf-a292-b3ddf707146d
 URL:https://30anow.github.io/e/52f9a4b7-db02-4ddf-a292-b3ddf707146d?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:8ac01f4b-9354-401c-9a25-ef2e71983d56@30anow.github.io
-DTSTAMP:20261029T165741Z
+DTSTAMP:20261029T215051Z
 DTSTART:20261127T200000Z
 DTEND:20261127T220000Z
 SUMMARY:Make Your Own Squishy
@@ -55,5 +55,21 @@ DESCRIPTION:Get creative at the Squishy Bar! Choose your favorite colors\,
  .\n\nTimes\, the live map and the app: https://30anow.github.io/e/8ac01f4b
  -9354-401c-9a25-ef2e71983d56
 URL:https://30anow.github.io/e/8ac01f4b-9354-401c-9a25-ef2e71983d56?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:df31e6f8-36e6-4ddb-8684-8725c0bd1c92@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261128T160000Z
+DTEND:20261128T180000Z
+SUMMARY:Sweets with Santa for Owners & Rental Guests
+LOCATION:Caliza Pool\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Join us for a jolly good time at Caliza Pool as we celebrate th
+ e season with Sweets with Santa! Have your photo snapped with Santa himsel
+ f and enjoy delicious donuts by the pool. It’s the perfect way to make s
+ weet memories and kick off the holiday spirit.\nThis event is exclusively 
+ available to Alys Beach Homeowners and Rental Guests.\n\nTimes\, the live 
+ map and the app: https://30anow.github.io/e/df31e6f8-36e6-4ddb-8684-8725c0
+ bd1c92
+URL:https://30anow.github.io/e/df31e6f8-36e6-4ddb-8684-8725c0bd1c92?s=cal
 END:VEVENT
 END:VCALENDAR

@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:The Silva on 30A Now
+X-WR-CALDESC:Every event at The Silva listed on 30A Now\, kept up to date: 
+ https://30anow.github.io/venues/the-silva/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:a113a7dd-ee71-41bf-9e96-77a92f373533@30anow.github.io
+DTSTAMP:20261029T215051Z
+DTSTART:20261128T200000Z
+DTEND:20261128T220000Z
+SUMMARY:Make Your Own Trucker Hat
+LOCATION:The Silva\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:$15\n\nGet creative at the Silva with our Create Your Own Truck
+ er Hat experience! Kids can design a hat that’s uniquely theirs by choos
+ ing from a fun assortment of patches to mix\, match\, and customize. All m
+ aterials are included for $15 per hat—just bring your imagination! Credi
+ t cards only.\n**Exclusively available to Alys Beach Homeowners and Rental
+  Guests.\n\nTimes\, the live map and the app: https://30anow.github.io/e/a
+ 113a7dd-ee71-41bf-9e96-77a92f373533
+URL:https://30anow.github.io/e/a113a7dd-ee71-41bf-9e96-77a92f373533?s=cal
+END:VEVENT
+END:VCALENDAR
