@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:28ad951c-7a33-4ddb-84e2-0aebd5deb440@30anow.github.io
-DTSTAMP:20261028T214155Z
+DTSTAMP:20261029T000213Z
 DTSTART:20261106T220000Z
 DTEND:20261107T010000Z
 SUMMARY:Harrison Prentice
@@ -24,5 +24,20 @@ DESCRIPTION:Harrison Prentice LIVE at the Shrimp Shack & Boardwalk Bar on F
  ive map and the app: https://30anow.github.io/e/28ad951c-7a33-4ddb-84e2-0a
  ebd5deb440
 URL:https://30anow.github.io/e/28ad951c-7a33-4ddb-84e2-0aebd5deb440?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:abef7af6-de0d-425e-8096-5c2fdb5e5d08@30anow.github.io
+DTSTAMP:20261029T000213Z
+DTSTART:20261127T220000Z
+DTEND:20261128T010000Z
+SUMMARY:Harrison Prentice
+LOCATION:The Shrimp Shack & Boardwalk Bar\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Harrison Prentice LIVE at the Shrimp Shack & Boardwalk Bar on F
+ riday\, November 27 from 4-7PM. Located just east of the Coleman Pavilion 
+ in downtown Seaside\, come for delicious food and drink\, then stay for th
+ e music. Enjoy fresh shrimp\, oysters\, and lobster rolls at The Shrimp Sh
+ ack & Boardwalk Bar in Seaside\, FL. With…\n\nTimes\, the live map and t
+ he app: https://30anow.github.io/e/abef7af6-de0d-425e-8096-5c2fdb5e5d08
+URL:https://30anow.github.io/e/abef7af6-de0d-425e-8096-5c2fdb5e5d08?s=cal
 END:VEVENT
 END:VCALENDAR
