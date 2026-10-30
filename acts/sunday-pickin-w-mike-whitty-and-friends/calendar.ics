@@ -12,7 +12,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:c1e47e4d-0832-4b07-b32a-53ec4fb7891c@30anow.github.io
-DTSTAMP:20261030T213233Z
+DTSTAMP:20261030T234428Z
 DTSTART:20261115T220000Z
 DTEND:20261116T020000Z
 SUMMARY:Sunday Pickin' w/ Mike Whitty & Friends
@@ -27,7 +27,7 @@ URL:https://30anow.github.io/e/c1e47e4d-0832-4b07-b32a-53ec4fb7891c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1e84f573-d4ee-41a1-b16a-c853eb1f9fea@30anow.github.io
-DTSTAMP:20261030T213233Z
+DTSTAMP:20261030T234428Z
 DTSTART:20261122T220000Z
 DTEND:20261123T020000Z
 SUMMARY:Sunday Pickin' w/ Mike Whitty & Friends
@@ -39,5 +39,20 @@ DESCRIPTION:Sunday Pickin’ at The Bay features The Sand Ole’ Opry with
  unch\, 11AM til 2PM…\n\nTimes\, the live map and the app: https://30anow
  .github.io/e/1e84f573-d4ee-41a1-b16a-c853eb1f9fea
 URL:https://30anow.github.io/e/1e84f573-d4ee-41a1-b16a-c853eb1f9fea?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9eb6edda-23cb-4ab9-9095-18470112a9bb@30anow.github.io
+DTSTAMP:20261030T234428Z
+DTSTART:20261129T220000Z
+DTEND:20261130T020000Z
+SUMMARY:Sunday Pickin' w/ Mike Whitty & Friends
+LOCATION:The Bay\, 24215 Hwy 331 S\, Santa Rosa Beach\, FL
+DESCRIPTION:Sunday Pickin’ at The Bay features The Sand Ole’ Opry with 
+ Mike Whitty & Friends on stage from 4 – 8PM. It’s a weekly jam session
+  outdoors overlooking the Choctawhatchee Bay. Follow The Bay on Facebook f
+ or the weekly musician lineup. Sunday Funday at The Bay day starts with br
+ unch\, 11AM til 2PM…\n\nTimes\, the live map and the app: https://30anow
+ .github.io/e/9eb6edda-23cb-4ab9-9095-18470112a9bb
+URL:https://30anow.github.io/e/9eb6edda-23cb-4ab9-9095-18470112a9bb?s=cal
 END:VEVENT
 END:VCALENDAR
