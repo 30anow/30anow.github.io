@@ -9,4 +9,37 @@ X-WR-CALDESC:Outro's shows on 30A\, as 30A Now lists them\, kept up to date
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:8bde8c69-33ba-4443-a88b-ff027481530c@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261106T000000Z
+DTEND:20261106T030000Z
+SUMMARY:Outro
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/8b
+ de8c69-33ba-4443-a88b-ff027481530c
+URL:https://30anow.github.io/e/8bde8c69-33ba-4443-a88b-ff027481530c?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:f68185c9-dec2-42ef-ae77-1666ea28ab3f@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261113T000000Z
+DTEND:20261113T030000Z
+SUMMARY:Outro
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f6
+ 8185c9-dec2-42ef-ae77-1666ea28ab3f
+URL:https://30anow.github.io/e/f68185c9-dec2-42ef-ae77-1666ea28ab3f?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:43eabe28-c941-401f-85ed-84e6c05f555b@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261120T000000Z
+DTEND:20261120T030000Z
+SUMMARY:Outro
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/43
+ eabe28-c941-401f-85ed-84e6c05f555b
+URL:https://30anow.github.io/e/43eabe28-c941-401f-85ed-84e6c05f555b?s=cal
+END:VEVENT
 END:VCALENDAR

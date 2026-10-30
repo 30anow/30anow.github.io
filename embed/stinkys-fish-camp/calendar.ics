@@ -11,62 +11,170 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:78c9c689-f082-41c2-9ed7-7b15e9599cbf@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261101T160000Z
 DTEND:20261101T210000Z
-SUMMARY:Stinky's Brunch & Live Music
+SUMMARY:Stinky's Fish Camp Brunch & Live Music
 LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
 DESCRIPTION:Head to Stinky’s Fish Camp for Brunch featuring delicious foo
- d and drinks. Brunch is offered from 10AM til 3PM with live music beginnin
- g at 11AM. Try a house-made bloody mary with fresh pickled okra\, green be
- ans and even a shrimp! Stinky’s Fish Camp is located on the west end of 
- Scenic 30A in Dune Allen.…\n\nTimes\, the live map and the app: https://
- 30anow.github.io/e/78c9c689-f082-41c2-9ed7-7b15e9599cbf
+ d and drinks. Brunch is offered from 10:00am til 3:00pm with live music be
+ ginning at 11:00am. Try a house-made bloody mary with fresh pickled okra\,
+  green beans and even a shrimp! It’s a weekly tradition for locals and v
+ isitors. Stinky’s Fish Camp is situated on Lake…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/78c9c689-f082-41c2-9ed7-7b15e95
+ 99cbf
 URL:https://30anow.github.io/e/78c9c689-f082-41c2-9ed7-7b15e9599cbf?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:ff6bad29-ebd3-49ef-80f3-b89c69405082@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261101T220000Z
+DTEND:20261102T000000Z
+SUMMARY:Free Bingo
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nJoin us for a Bingo at 4PM!\n\nTimes\, the live map and
+  the app: https://30anow.github.io/e/ff6bad29-ebd3-49ef-80f3-b89c69405082
+URL:https://30anow.github.io/e/ff6bad29-ebd3-49ef-80f3-b89c69405082?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9eab2ffa-aab5-45a0-829b-787ef137d703@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261107T160000Z
+DTEND:20261107T210000Z
+SUMMARY:Brunch
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/9e
+ ab2ffa-aab5-45a0-829b-787ef137d703
+URL:https://30anow.github.io/e/9eab2ffa-aab5-45a0-829b-787ef137d703?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:a75afe78-122b-45a9-a1b4-42dfc1461964@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261108T160000Z
 DTEND:20261108T210000Z
-SUMMARY:Stinky's Brunch & Live Music
+SUMMARY:Stinky's Fish Camp Brunch & Live Music
 LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
 DESCRIPTION:Head to Stinky’s Fish Camp for Brunch featuring delicious foo
- d and drinks. Brunch is offered from 10AM til 3PM with live music beginnin
- g at 11AM. Try a house-made bloody mary with fresh pickled okra\, green be
- ans and even a shrimp! Stinky’s Fish Camp is located on the west end of 
- Scenic 30A in Dune Allen.…\n\nTimes\, the live map and the app: https://
- 30anow.github.io/e/a75afe78-122b-45a9-a1b4-42dfc1461964
+ d and drinks. Brunch is offered from 10:00am til 3:00pm with live music be
+ ginning at 11:00am. Try a house-made bloody mary with fresh pickled okra\,
+  green beans and even a shrimp! It’s a weekly tradition for locals and v
+ isitors. Stinky’s Fish Camp is situated on Lake…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/a75afe78-122b-45a9-a1b4-42dfc14
+ 61964
 URL:https://30anow.github.io/e/a75afe78-122b-45a9-a1b4-42dfc1461964?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:aba0f39e-c0b4-4994-9f25-4f9694d91145@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261108T220000Z
+DTEND:20261109T000000Z
+SUMMARY:Free Bingo
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nTimes\, the live map and the app: https://30anow.github
+ .io/e/aba0f39e-c0b4-4994-9f25-4f9694d91145
+URL:https://30anow.github.io/e/aba0f39e-c0b4-4994-9f25-4f9694d91145?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:34581a2e-ef7f-46e3-a745-6b0205617f5d@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261114T160000Z
+DTEND:20261114T210000Z
+SUMMARY:Brunch
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/34
+ 581a2e-ef7f-46e3-a745-6b0205617f5d
+URL:https://30anow.github.io/e/34581a2e-ef7f-46e3-a745-6b0205617f5d?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:edf440a9-37e3-4e5c-9df0-de8d6680b4e2@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261115T160000Z
 DTEND:20261115T210000Z
-SUMMARY:Stinky's Brunch & Live Music
+SUMMARY:Stinky's Fish Camp Brunch & Live Music
 LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
 DESCRIPTION:Head to Stinky’s Fish Camp for Brunch featuring delicious foo
- d and drinks. Brunch is offered from 10AM til 3PM with live music beginnin
- g at 11AM. Try a house-made bloody mary with fresh pickled okra\, green be
- ans and even a shrimp! Stinky’s Fish Camp is located on the west end of 
- Scenic 30A in Dune Allen.…\n\nTimes\, the live map and the app: https://
- 30anow.github.io/e/edf440a9-37e3-4e5c-9df0-de8d6680b4e2
+ d and drinks. Brunch is offered from 10:00am til 3:00pm with live music be
+ ginning at 11:00am. Try a house-made bloody mary with fresh pickled okra\,
+  green beans and even a shrimp! It’s a weekly tradition for locals and v
+ isitors. Stinky’s Fish Camp is situated on Lake…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/edf440a9-37e3-4e5c-9df0-de8d668
+ 0b4e2
 URL:https://30anow.github.io/e/edf440a9-37e3-4e5c-9df0-de8d6680b4e2?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:f6664000-afd6-4219-a00c-a9195d085717@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261115T220000Z
+DTEND:20261116T000000Z
+SUMMARY:Free Bingo
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nTimes\, the live map and the app: https://30anow.github
+ .io/e/f6664000-afd6-4219-a00c-a9195d085717
+URL:https://30anow.github.io/e/f6664000-afd6-4219-a00c-a9195d085717?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2cd1c9a2-7aa6-4663-8eca-12c65e2c678c@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261121T160000Z
+DTEND:20261121T210000Z
+SUMMARY:Brunch
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/2c
+ d1c9a2-7aa6-4663-8eca-12c65e2c678c
+URL:https://30anow.github.io/e/2cd1c9a2-7aa6-4663-8eca-12c65e2c678c?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:e8967250-6c03-4be3-813a-b84f323e068d@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261122T160000Z
 DTEND:20261122T210000Z
-SUMMARY:Stinky's Brunch & Live Music
+SUMMARY:Stinky's Fish Camp Brunch & Live Music
 LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
 DESCRIPTION:Head to Stinky’s Fish Camp for Brunch featuring delicious foo
- d and drinks. Brunch is offered from 10AM til 3PM with live music beginnin
- g at 11AM. Try a house-made bloody mary with fresh pickled okra\, green be
- ans and even a shrimp! Stinky’s Fish Camp is located on the west end of 
- Scenic 30A in Dune Allen.…\n\nTimes\, the live map and the app: https://
- 30anow.github.io/e/e8967250-6c03-4be3-813a-b84f323e068d
+ d and drinks. Brunch is offered from 10:00am til 3:00pm with live music be
+ ginning at 11:00am. Try a house-made bloody mary with fresh pickled okra\,
+  green beans and even a shrimp! It’s a weekly tradition for locals and v
+ isitors. Stinky’s Fish Camp is situated on Lake…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/e8967250-6c03-4be3-813a-b84f323
+ e068d
 URL:https://30anow.github.io/e/e8967250-6c03-4be3-813a-b84f323e068d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:6dca9745-5790-4744-9768-320ec00a7ead@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261122T220000Z
+DTEND:20261123T000000Z
+SUMMARY:Free Bingo
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nTimes\, the live map and the app: https://30anow.github
+ .io/e/6dca9745-5790-4744-9768-320ec00a7ead
+URL:https://30anow.github.io/e/6dca9745-5790-4744-9768-320ec00a7ead?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:21041e64-fef2-4dad-b1f8-00d7837c9ec5@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261128T160000Z
+DTEND:20261128T210000Z
+SUMMARY:Brunch
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/21
+ 041e64-fef2-4dad-b1f8-00d7837c9ec5
+URL:https://30anow.github.io/e/21041e64-fef2-4dad-b1f8-00d7837c9ec5?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2532b858-eaeb-4473-9880-95b813b09916@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261129T160000Z
+DTEND:20261129T210000Z
+SUMMARY:Stinky's Fish Camp Brunch & Live Music
+LOCATION:Stinky's Fish Camp\, Dune Allen\, Santa Rosa Beach\, FL
+DESCRIPTION:Head to Stinky’s Fish Camp for Brunch featuring delicious foo
+ d and drinks. Brunch is offered from 10:00am til 3:00pm with live music be
+ ginning at 11:00am. Try a house-made bloody mary with fresh pickled okra\,
+  green beans and even a shrimp! It’s a weekly tradition for locals and v
+ isitors. Stinky’s Fish Camp is situated on Lake…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/2532b858-eaeb-4473-9880-95b813b
+ 09916
+URL:https://30anow.github.io/e/2532b858-eaeb-4473-9880-95b813b09916?s=cal
 END:VEVENT
 END:VCALENDAR

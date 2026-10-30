@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:83d0545a-f17c-47a0-b08a-7018baaf5d18@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261030T230000Z
 DTEND:20261031T020000Z
 SUMMARY:Gage Cowart
@@ -23,7 +23,7 @@ URL:https://30anow.github.io/e/83d0545a-f17c-47a0-b08a-7018baaf5d18?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:07e0288f-c7b8-42c4-a64b-f5ef252b221e@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261031T230000Z
 DTEND:20261101T020000Z
 SUMMARY:Halloween: Cadillac Willy
@@ -32,5 +32,325 @@ DESCRIPTION:Catch Cadillac Willy live from 6:00-9:00PM!\n\nTimes\, the live
   map and the app: https://30anow.github.io/e/07e0288f-c7b8-42c4-a64b-f5ef2
  52b221e
 URL:https://30anow.github.io/e/07e0288f-c7b8-42c4-a64b-f5ef252b221e?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:1b03df34-e4bf-4c66-a835-a0fa48a38cfe@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261101T190000Z
+DTEND:20261101T210000Z
+SUMMARY:NFL Sunday Ticket
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Join us for a NFL Sunday Ticket at 1PM!\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/1b03df34-e4bf-4c66-a835-a0fa48a38
+ cfe
+URL:https://30anow.github.io/e/1b03df34-e4bf-4c66-a835-a0fa48a38cfe?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:5169c1bd-7591-46a7-aa1a-fafe124df9f0@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261103T000000Z
+DTEND:20261103T030000Z
+SUMMARY:Bears @Seahwaks
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/51
+ 69c1bd-7591-46a7-aa1a-fafe124df9f0
+URL:https://30anow.github.io/e/5169c1bd-7591-46a7-aa1a-fafe124df9f0?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:5382233a-d2c9-408f-b464-f9b9a19db566@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261104T000000Z
+DTEND:20261104T030000Z
+SUMMARY:Casey Kearney Band
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/53
+ 82233a-d2c9-408f-b464-f9b9a19db566
+URL:https://30anow.github.io/e/5382233a-d2c9-408f-b464-f9b9a19db566?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:48d26dee-512c-491f-ac5e-46206eaad906@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261105T000000Z
+DTEND:20261105T030000Z
+SUMMARY:Zack Miller
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/48
+ d26dee-512c-491f-ac5e-46206eaad906
+URL:https://30anow.github.io/e/48d26dee-512c-491f-ac5e-46206eaad906?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:5fca5307-da51-49bf-8a62-234defb1e9e9@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261106T000000Z
+DTEND:20261106T030000Z
+SUMMARY:Jaguars @ Ravens
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/5f
+ ca5307-da51-49bf-8a62-234defb1e9e9
+URL:https://30anow.github.io/e/5fca5307-da51-49bf-8a62-234defb1e9e9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2c1ff436-37f0-441f-bcdf-a2086558d0d1@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261107T000000Z
+DTEND:20261107T030000Z
+SUMMARY:Cadillac Willy
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/2c
+ 1ff436-37f0-441f-bcdf-a2086558d0d1
+URL:https://30anow.github.io/e/2c1ff436-37f0-441f-bcdf-a2086558d0d1?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:47695ec0-7ed8-4a24-b546-7c6c272c9bc5@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261108T000000Z
+DTEND:20261108T030000Z
+SUMMARY:Jon Blackdog
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/47
+ 695ec0-7ed8-4a24-b546-7c6c272c9bc5
+URL:https://30anow.github.io/e/47695ec0-7ed8-4a24-b546-7c6c272c9bc5?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:a2c60cb7-3eb4-477b-be3f-0b5c85167e16@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261108T190000Z
+DTEND:20261108T210000Z
+SUMMARY:NFL Sunday Ticket
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/a2
+ c60cb7-3eb4-477b-be3f-0b5c85167e16
+URL:https://30anow.github.io/e/a2c60cb7-3eb4-477b-be3f-0b5c85167e16?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:1e00172a-4b74-4617-bc12-5b372ee3e541@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261110T000000Z
+DTEND:20261110T030000Z
+SUMMARY:Bills @ Vikings
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/1e
+ 00172a-4b74-4617-bc12-5b372ee3e541
+URL:https://30anow.github.io/e/1e00172a-4b74-4617-bc12-5b372ee3e541?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:19ed435b-d045-4af1-b6eb-aa7fa65d3008@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261111T000000Z
+DTEND:20261111T030000Z
+SUMMARY:Casey Kearney Band
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/19
+ ed435b-d045-4af1-b6eb-aa7fa65d3008
+URL:https://30anow.github.io/e/19ed435b-d045-4af1-b6eb-aa7fa65d3008?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2325ba58-4875-479a-934d-b07629be7aaf@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261112T000000Z
+DTEND:20261112T030000Z
+SUMMARY:Queens Handsome
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/23
+ 25ba58-4875-479a-934d-b07629be7aaf
+URL:https://30anow.github.io/e/2325ba58-4875-479a-934d-b07629be7aaf?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:d94400b1-3205-419a-9c4b-146bde865ceb@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261113T000000Z
+DTEND:20261113T030000Z
+SUMMARY:Comm @ Giants
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/d9
+ 4400b1-3205-419a-9c4b-146bde865ceb
+URL:https://30anow.github.io/e/d94400b1-3205-419a-9c4b-146bde865ceb?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:6e867185-3ca2-4572-b3bd-b9b6e970c2d7@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261114T000000Z
+DTEND:20261114T030000Z
+SUMMARY:Stevie Monce
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/6e
+ 867185-3ca2-4572-b3bd-b9b6e970c2d7
+URL:https://30anow.github.io/e/6e867185-3ca2-4572-b3bd-b9b6e970c2d7?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:55b8de9c-b9a4-49fe-a030-96504d3e78a9@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261115T000000Z
+DTEND:20261115T030000Z
+SUMMARY:Nate Kelly
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/55
+ b8de9c-b9a4-49fe-a030-96504d3e78a9
+URL:https://30anow.github.io/e/55b8de9c-b9a4-49fe-a030-96504d3e78a9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9e93efa3-f72e-4560-a2c2-18121fe783e7@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261115T190000Z
+DTEND:20261115T210000Z
+SUMMARY:NFL Sunday Ticket
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/9e
+ 93efa3-f72e-4560-a2c2-18121fe783e7
+URL:https://30anow.github.io/e/9e93efa3-f72e-4560-a2c2-18121fe783e7?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:13a88612-39bc-4394-8dab-d7d4551aad5e@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261117T003000Z
+DTEND:20261117T023000Z
+SUMMARY:Brett Stafford
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/13
+ a88612-39bc-4394-8dab-d7d4551aad5e
+URL:https://30anow.github.io/e/13a88612-39bc-4394-8dab-d7d4551aad5e?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:0e1f537b-8732-4a9d-9390-61b3162c26b8@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261118T000000Z
+DTEND:20261118T030000Z
+SUMMARY:Casey Kearney Band
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/0e
+ 1f537b-8732-4a9d-9390-61b3162c26b8
+URL:https://30anow.github.io/e/0e1f537b-8732-4a9d-9390-61b3162c26b8?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:eb355f5e-9653-4913-923b-d5be2548a33c@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261119T000000Z
+DTEND:20261119T030000Z
+SUMMARY:Donnie Sundal
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/eb
+ 355f5e-9653-4913-923b-d5be2548a33c
+URL:https://30anow.github.io/e/eb355f5e-9653-4913-923b-d5be2548a33c?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2e649739-1693-4d4e-91c7-a6cc022b7441@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261120T000000Z
+DTEND:20261120T030000Z
+SUMMARY:Colts @ Texans
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/2e
+ 649739-1693-4d4e-91c7-a6cc022b7441
+URL:https://30anow.github.io/e/2e649739-1693-4d4e-91c7-a6cc022b7441?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:dc1fda2e-0697-4be9-86c2-55c3cc70eb2d@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261121T000000Z
+DTEND:20261121T030000Z
+SUMMARY:Cadillac Willy
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/dc
+ 1fda2e-0697-4be9-86c2-55c3cc70eb2d
+URL:https://30anow.github.io/e/dc1fda2e-0697-4be9-86c2-55c3cc70eb2d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:bf5dfaef-e663-41f6-87d5-444c313457e9@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261122T000000Z
+DTEND:20261122T030000Z
+SUMMARY:River Dan
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/bf
+ 5dfaef-e663-41f6-87d5-444c313457e9
+URL:https://30anow.github.io/e/bf5dfaef-e663-41f6-87d5-444c313457e9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:93b513c7-4547-4868-ad4d-4f85ec9d981e@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261123T000000Z
+DTEND:20261123T030000Z
+SUMMARY:Catalyst Dance Band
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/93
+ b513c7-4547-4868-ad4d-4f85ec9d981e
+URL:https://30anow.github.io/e/93b513c7-4547-4868-ad4d-4f85ec9d981e?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:a2c1c6d6-1657-43de-9825-b6d5f891f83d@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261124T003000Z
+DTEND:20261124T023000Z
+SUMMARY:Brett Stafford
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/a2
+ c1c6d6-1657-43de-9825-b6d5f891f83d
+URL:https://30anow.github.io/e/a2c1c6d6-1657-43de-9825-b6d5f891f83d?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:50610900-42cf-43c9-a10a-2f14d421c3e3@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261125T000000Z
+DTEND:20261125T030000Z
+SUMMARY:Casey Kearney Band
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/50
+ 610900-42cf-43c9-a10a-2f14d421c3e3
+URL:https://30anow.github.io/e/50610900-42cf-43c9-a10a-2f14d421c3e3?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:84e1078d-1cb8-496c-91b4-0c053ebd5e10@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261126T000000Z
+DTEND:20261126T030000Z
+SUMMARY:Queens Handsome
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/84
+ e1078d-1cb8-496c-91b4-0c053ebd5e10
+URL:https://30anow.github.io/e/84e1078d-1cb8-496c-91b4-0c053ebd5e10?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:08f657a6-fa4a-42b0-ab4a-7997469f282a@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261126T160000Z
+DTEND:20261126T180000Z
+SUMMARY:Thanksgiving
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/08
+ f657a6-fa4a-42b0-ab4a-7997469f282a
+URL:https://30anow.github.io/e/08f657a6-fa4a-42b0-ab4a-7997469f282a?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:b5b41ae3-a4a1-457b-8588-602bf0afcf87@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261127T000000Z
+DTEND:20261127T030000Z
+SUMMARY:River Dan
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/b5
+ b41ae3-a4a1-457b-8588-602bf0afcf87
+URL:https://30anow.github.io/e/b5b41ae3-a4a1-457b-8588-602bf0afcf87?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:6463ccb0-d413-4882-b619-406564eb1a9a@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261128T000000Z
+DTEND:20261128T030000Z
+SUMMARY:Lips Manly
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/64
+ 63ccb0-d413-4882-b619-406564eb1a9a
+URL:https://30anow.github.io/e/6463ccb0-d413-4882-b619-406564eb1a9a?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:2e231100-c9b5-4ab8-820a-d102051b989d@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261129T000000Z
+DTEND:20261129T030000Z
+SUMMARY:Nate Kelly
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/2e
+ 231100-c9b5-4ab8-820a-d102051b989d
+URL:https://30anow.github.io/e/2e231100-c9b5-4ab8-820a-d102051b989d?s=cal
 END:VEVENT
 END:VCALENDAR

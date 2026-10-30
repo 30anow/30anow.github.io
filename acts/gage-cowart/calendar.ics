@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:83d0545a-f17c-47a0-b08a-7018baaf5d18@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261030T230000Z
 DTEND:20261031T020000Z
 SUMMARY:Gage Cowart
@@ -20,5 +20,16 @@ DESCRIPTION:Catch Gage Cowart live from 6:00-9:00PM!\n\nTimes\, the live ma
  p and the app: https://30anow.github.io/e/83d0545a-f17c-47a0-b08a-7018baaf
  5d18
 URL:https://30anow.github.io/e/83d0545a-f17c-47a0-b08a-7018baaf5d18?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:14ac2d31-f308-4708-bdd0-7c1b970bdd64@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261126T000000Z
+DTEND:20261126T030000Z
+SUMMARY:Gage Cowart
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/14
+ ac2d31-f308-4708-bdd0-7c1b970bdd64
+URL:https://30anow.github.io/e/14ac2d31-f308-4708-bdd0-7c1b970bdd64?s=cal
 END:VEVENT
 END:VCALENDAR

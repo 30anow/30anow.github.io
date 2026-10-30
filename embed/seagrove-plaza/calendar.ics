@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Seagrove Plaza on 30A Now
+X-WR-CALDESC:Every event at Seagrove Plaza listed on 30A Now\, kept up to d
+ ate: https://30anow.github.io/venues/seagrove-plaza/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:f9f32730-88aa-4ab8-b52a-cfd29b402ae0@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261128T210000Z
+DTEND:20261128T230000Z
+SUMMARY:SEASIDE CHRISTMAS PARADE
+LOCATION:Seagrove Plaza\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f9
+ f32730-88aa-4ab8-b52a-cfd29b402ae0
+URL:https://30anow.github.io/e/f9f32730-88aa-4ab8-b52a-cfd29b402ae0?s=cal
+END:VEVENT
+END:VCALENDAR

@@ -12,7 +12,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:9213bee3-af5f-4c97-8cc8-02f4d8827934@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261031T000000Z
 DTEND:20261031T030000Z
 SUMMARY:Rhino Jockeys + Matt Miller
@@ -21,5 +21,49 @@ DESCRIPTION:Free\n\nCatch Rhino Jockeys + Matt Miller live from 7-10PM!\n\n
  Times\, the live map and the app: https://30anow.github.io/e/9213bee3-af5f
  -4c97-8cc8-02f4d8827934
 URL:https://30anow.github.io/e/9213bee3-af5f-4c97-8cc8-02f4d8827934?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:5d6074ca-cf89-4ce4-83a9-d15fd1274189@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261107T010000Z
+DTEND:20261107T040000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/5d
+ 6074ca-cf89-4ce4-83a9-d15fd1274189
+URL:https://30anow.github.io/e/5d6074ca-cf89-4ce4-83a9-d15fd1274189?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:f0579b80-7650-470d-9a96-0e574d9f3f98@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261114T010000Z
+DTEND:20261114T040000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f0
+ 579b80-7650-470d-9a96-0e574d9f3f98
+URL:https://30anow.github.io/e/f0579b80-7650-470d-9a96-0e574d9f3f98?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:c15a57ff-5ed5-4343-8b17-00468ea4fc42@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261121T010000Z
+DTEND:20261121T040000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/c1
+ 5a57ff-5ed5-4343-8b17-00468ea4fc42
+URL:https://30anow.github.io/e/c15a57ff-5ed5-4343-8b17-00468ea4fc42?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:28e6b0a4-f38c-4caf-949f-eeab76617057@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261128T010000Z
+DTEND:20261128T040000Z
+SUMMARY:Rhino Jockeys + Matt Miller
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/28
+ e6b0a4-f38c-4caf-949f-eeab76617057
+URL:https://30anow.github.io/e/28e6b0a4-f38c-4caf-949f-eeab76617057?s=cal
 END:VEVENT
 END:VCALENDAR

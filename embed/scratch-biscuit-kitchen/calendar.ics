@@ -9,19 +9,4 @@ X-WR-CALDESC:Every event at Scratch Biscuit Kitchen listed on 30A Now\, kep
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:6df43892-9467-438f-aebe-e6e7ff85c681@30anow.github.io
-DTSTAMP:20261030T164307Z
-DTSTART:20261030T170000Z
-DTEND:20261030T190000Z
-SUMMARY:Scratch Biscuit Kitchen: Pumpkin Carving & Costume Contest
-LOCATION:Scratch Biscuit Kitchen\, WaterColor\, Santa Rosa Beach\, FL
-DESCRIPTION:Join Scratch Biscuit Kitchen in the Watercolor Town Center for 
- a festive fall afternoon of family fun! The Pumpkin Carving & Costume Cont
- est begins at Noon on Friday\, October 30th. Show off your creativity\, pu
- mpkins provided\, strut your style in the costume contest — or take on b
- oth! Adults\, kids…\n\nTimes\, the live map and the app: https://30anow.
- github.io/e/6df43892-9467-438f-aebe-e6e7ff85c681
-URL:https://30anow.github.io/e/6df43892-9467-438f-aebe-e6e7ff85c681?s=cal
-END:VEVENT
 END:VCALENDAR

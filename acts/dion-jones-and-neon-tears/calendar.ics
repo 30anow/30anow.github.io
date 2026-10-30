@@ -12,7 +12,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:b728735a-84b7-4cc1-8181-bd5d5bde5220@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261105T000000Z
 DTEND:20261105T030000Z
 SUMMARY:Dion Jones & Neon Tears
@@ -22,8 +22,19 @@ DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/b7
 URL:https://30anow.github.io/e/b728735a-84b7-4cc1-8181-bd5d5bde5220?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:eab16d99-4da5-4cdd-9576-da8558d58c15@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261108T010000Z
+DTEND:20261108T040000Z
+SUMMARY:Dion Jones and The Neon Tears
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ea
+ b16d99-4da5-4cdd-9576-da8558d58c15
+URL:https://30anow.github.io/e/eab16d99-4da5-4cdd-9576-da8558d58c15?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:e354626a-2637-48dd-96c3-1aa56ca77839@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261112T000000Z
 DTEND:20261112T030000Z
 SUMMARY:Dion Jones & Neon Tears
@@ -33,8 +44,19 @@ DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e3
 URL:https://30anow.github.io/e/e354626a-2637-48dd-96c3-1aa56ca77839?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:5fbb16ce-34ab-4db5-83b4-54da51483b2e@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261115T010000Z
+DTEND:20261115T040000Z
+SUMMARY:Dion Jones and The Neon Tears
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/5f
+ bb16ce-34ab-4db5-83b4-54da51483b2e
+URL:https://30anow.github.io/e/5fbb16ce-34ab-4db5-83b4-54da51483b2e?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:d599bc34-188e-46ff-a0c7-9f8caba32831@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261119T000000Z
 DTEND:20261119T030000Z
 SUMMARY:Dion Jones & Neon Tears
@@ -44,8 +66,19 @@ DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/d5
 URL:https://30anow.github.io/e/d599bc34-188e-46ff-a0c7-9f8caba32831?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:6e7e7798-a1c0-4181-90ce-0432eaec25db@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261122T010000Z
+DTEND:20261122T040000Z
+SUMMARY:Dion Jones and The Neon Tears
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/6e
+ 7e7798-a1c0-4181-90ce-0432eaec25db
+URL:https://30anow.github.io/e/6e7e7798-a1c0-4181-90ce-0432eaec25db?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:1c8617ac-2d14-4790-a713-f45f864de324@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261126T000000Z
 DTEND:20261126T030000Z
 SUMMARY:Dion Jones & Neon Tears
@@ -53,5 +86,16 @@ LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
 DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/1c
  8617ac-2d14-4790-a713-f45f864de324
 URL:https://30anow.github.io/e/1c8617ac-2d14-4790-a713-f45f864de324?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:511a6170-2cda-4e1d-b4cd-b858aa4b751d@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261129T010000Z
+DTEND:20261129T040000Z
+SUMMARY:Dion Jones and The Neon Tears
+LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/51
+ 1a6170-2cda-4e1d-b4cd-b858aa4b751d
+URL:https://30anow.github.io/e/511a6170-2cda-4e1d-b4cd-b858aa4b751d?s=cal
 END:VEVENT
 END:VCALENDAR

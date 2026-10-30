@@ -9,4 +9,26 @@ X-WR-CALDESC:Queens Handsome's shows on 30A\, as 30A Now lists them\, kept
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:2325ba58-4875-479a-934d-b07629be7aaf@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261112T000000Z
+DTEND:20261112T030000Z
+SUMMARY:Queens Handsome
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/23
+ 25ba58-4875-479a-934d-b07629be7aaf
+URL:https://30anow.github.io/e/2325ba58-4875-479a-934d-b07629be7aaf?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:84e1078d-1cb8-496c-91b4-0c053ebd5e10@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261126T000000Z
+DTEND:20261126T030000Z
+SUMMARY:Queens Handsome
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/84
+ e1078d-1cb8-496c-91b4-0c053ebd5e10
+URL:https://30anow.github.io/e/84e1078d-1cb8-496c-91b4-0c053ebd5e10?s=cal
+END:VEVENT
 END:VCALENDAR

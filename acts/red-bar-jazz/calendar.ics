@@ -10,38 +10,32 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:14447e2f-4d76-4058-a33e-82a4d50cd9f5@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:2488f1fe-739b-456d-aeb0-c32ce8b9e1be@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261030T223000Z
 DTEND:20261031T020000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/14447e2f-4d76-4058-a33e-82a4d50cd9f5
-URL:https://30anow.github.io/e/14447e2f-4d76-4058-a33e-82a4d50cd9f5?s=cal
+DESCRIPTION:Catch The Red Bar Jazz Band from 5:30 pm - 9:00 pm!\n\nTimes\, 
+ the live map and the app: https://30anow.github.io/e/2488f1fe-739b-456d-ae
+ b0-c32ce8b9e1be
+URL:https://30anow.github.io/e/2488f1fe-739b-456d-aeb0-c32ce8b9e1be?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:a4310a39-29b4-4975-bf01-267d53fb4379@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:8ef32da2-4c97-48a6-bc25-601b73e2ed6c@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261031T223000Z
 DTEND:20261101T020000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/a4310a39-29b4-4975-bf01-267d53fb4379
-URL:https://30anow.github.io/e/a4310a39-29b4-4975-bf01-267d53fb4379?s=cal
+DESCRIPTION:Catch The Red Bar Jazz Band from 5:30 pm - 9:00 pm!\n\nTimes\, 
+ the live map and the app: https://30anow.github.io/e/8ef32da2-4c97-48a6-bc
+ 25-601b73e2ed6c
+URL:https://30anow.github.io/e/8ef32da2-4c97-48a6-bc25-601b73e2ed6c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:70fa81cd-79d1-4f4d-9b08-b07f9711ee01@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261103T233000Z
 DTEND:20261104T030000Z
 SUMMARY:The Red Bar Jazz Band
@@ -49,74 +43,59 @@ LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
 DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
  5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
  ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/70fa81cd-79d1-4f4d-9b08-b07f9711ee01
+ he Red Bar is located on Hotz Avenue in downtown Grayton Beach. A beloved 
+ local restaurant/bar known for great live music…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/70fa81cd-79d1-4f4d-9b08-b07f9711e
+ e01
 URL:https://30anow.github.io/e/70fa81cd-79d1-4f4d-9b08-b07f9711ee01?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:254abb51-c9bc-4fdd-9dc2-734bdecc978f@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261104T233000Z
 DTEND:20261105T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/254abb51-c9bc-4fdd-9dc2-734bdecc978f
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/25
+ 4abb51-c9bc-4fdd-9dc2-734bdecc978f
 URL:https://30anow.github.io/e/254abb51-c9bc-4fdd-9dc2-734bdecc978f?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f2ccebda-a080-4983-b008-9fdfeb5ae66d@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261105T233000Z
 DTEND:20261106T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/f2ccebda-a080-4983-b008-9fdfeb5ae66d
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f2
+ ccebda-a080-4983-b008-9fdfeb5ae66d
 URL:https://30anow.github.io/e/f2ccebda-a080-4983-b008-9fdfeb5ae66d?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e888a0f8-30ce-434a-aaa4-4debdbfddfe8@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261106T233000Z
 DTEND:20261107T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/e888a0f8-30ce-434a-aaa4-4debdbfddfe8
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e8
+ 88a0f8-30ce-434a-aaa4-4debdbfddfe8
 URL:https://30anow.github.io/e/e888a0f8-30ce-434a-aaa4-4debdbfddfe8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:72302b21-f7f6-42bc-84a0-cf0e73fd707c@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261107T233000Z
 DTEND:20261108T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/72302b21-f7f6-42bc-84a0-cf0e73fd707c
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/72
+ 302b21-f7f6-42bc-84a0-cf0e73fd707c
 URL:https://30anow.github.io/e/72302b21-f7f6-42bc-84a0-cf0e73fd707c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:0f501f74-4ba8-4624-a6d3-e2e94598e218@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261110T233000Z
 DTEND:20261111T030000Z
 SUMMARY:The Red Bar Jazz Band
@@ -124,74 +103,59 @@ LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
 DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
  5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
  ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/0f501f74-4ba8-4624-a6d3-e2e94598e218
+ he Red Bar is located on Hotz Avenue in downtown Grayton Beach. A beloved 
+ local restaurant/bar known for great live music…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/0f501f74-4ba8-4624-a6d3-e2e94598e
+ 218
 URL:https://30anow.github.io/e/0f501f74-4ba8-4624-a6d3-e2e94598e218?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:83ee1329-bf93-492c-9799-674d2517a17a@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261111T233000Z
 DTEND:20261112T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/83ee1329-bf93-492c-9799-674d2517a17a
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/83
+ ee1329-bf93-492c-9799-674d2517a17a
 URL:https://30anow.github.io/e/83ee1329-bf93-492c-9799-674d2517a17a?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9fceeba1-50db-4005-87a8-79b0adb06d5b@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261112T233000Z
 DTEND:20261113T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/9fceeba1-50db-4005-87a8-79b0adb06d5b
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/9f
+ ceeba1-50db-4005-87a8-79b0adb06d5b
 URL:https://30anow.github.io/e/9fceeba1-50db-4005-87a8-79b0adb06d5b?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:23901dec-77dd-46ce-b400-2b32d705285e@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261113T233000Z
 DTEND:20261114T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/23901dec-77dd-46ce-b400-2b32d705285e
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/23
+ 901dec-77dd-46ce-b400-2b32d705285e
 URL:https://30anow.github.io/e/23901dec-77dd-46ce-b400-2b32d705285e?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:26490b29-e852-476e-96a0-ecc37698f1fe@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261114T233000Z
 DTEND:20261115T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/26490b29-e852-476e-96a0-ecc37698f1fe
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/26
+ 490b29-e852-476e-96a0-ecc37698f1fe
 URL:https://30anow.github.io/e/26490b29-e852-476e-96a0-ecc37698f1fe?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:037b0b11-cb4f-4e17-a244-cbe7de5942b1@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261117T233000Z
 DTEND:20261118T030000Z
 SUMMARY:The Red Bar Jazz Band
@@ -199,74 +163,59 @@ LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
 DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
  5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
  ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/037b0b11-cb4f-4e17-a244-cbe7de5942b1
+ he Red Bar is located on Hotz Avenue in downtown Grayton Beach. A beloved 
+ local restaurant/bar known for great live music…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/037b0b11-cb4f-4e17-a244-cbe7de594
+ 2b1
 URL:https://30anow.github.io/e/037b0b11-cb4f-4e17-a244-cbe7de5942b1?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:285b0ad9-e72b-46ff-8298-0821d98ab8f0@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:10874038-78ca-49a6-9e5e-7fc353a8a967@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261118T233000Z
 DTEND:20261119T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/285b0ad9-e72b-46ff-8298-0821d98ab8f0
-URL:https://30anow.github.io/e/285b0ad9-e72b-46ff-8298-0821d98ab8f0?s=cal
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/10
+ 874038-78ca-49a6-9e5e-7fc353a8a967
+URL:https://30anow.github.io/e/10874038-78ca-49a6-9e5e-7fc353a8a967?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:87969b8b-8dd3-408f-95d6-6790c5e4a5c4@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261119T233000Z
 DTEND:20261120T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/87969b8b-8dd3-408f-95d6-6790c5e4a5c4
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/87
+ 969b8b-8dd3-408f-95d6-6790c5e4a5c4
 URL:https://30anow.github.io/e/87969b8b-8dd3-408f-95d6-6790c5e4a5c4?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:57e722d3-23c7-42e0-8133-1b7482eddf19@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261120T233000Z
 DTEND:20261121T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/57e722d3-23c7-42e0-8133-1b7482eddf19
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/57
+ e722d3-23c7-42e0-8133-1b7482eddf19
 URL:https://30anow.github.io/e/57e722d3-23c7-42e0-8133-1b7482eddf19?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:6000de54-ffe3-45b9-8355-ce73d1d949f9@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261121T233000Z
 DTEND:20261122T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/6000de54-ffe3-45b9-8355-ce73d1d949f9
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/60
+ 00de54-ffe3-45b9-8355-ce73d1d949f9
 URL:https://30anow.github.io/e/6000de54-ffe3-45b9-8355-ce73d1d949f9?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f8ef6f20-145e-4959-9e9a-d8830a09815b@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261124T233000Z
 DTEND:20261125T030000Z
 SUMMARY:The Red Bar Jazz Band
@@ -274,69 +223,54 @@ LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
 DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
  5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
  ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/f8ef6f20-145e-4959-9e9a-d8830a09815b
+ he Red Bar is located on Hotz Avenue in downtown Grayton Beach. A beloved 
+ local restaurant/bar known for great live music…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/f8ef6f20-145e-4959-9e9a-d8830a098
+ 15b
 URL:https://30anow.github.io/e/f8ef6f20-145e-4959-9e9a-d8830a09815b?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:416139d6-3f6b-484e-9611-2efc53800e99@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:dccabf0d-0c02-4dbb-a613-5fda96d834de@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261125T233000Z
 DTEND:20261126T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/416139d6-3f6b-484e-9611-2efc53800e99
-URL:https://30anow.github.io/e/416139d6-3f6b-484e-9611-2efc53800e99?s=cal
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/dc
+ cabf0d-0c02-4dbb-a613-5fda96d834de
+URL:https://30anow.github.io/e/dccabf0d-0c02-4dbb-a613-5fda96d834de?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:c3b24ed7-9eb4-4702-a8be-026d0d8b3103@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:f2fb20f8-4ae9-43d2-bf5d-4619a927fe65@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261126T233000Z
 DTEND:20261127T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/c3b24ed7-9eb4-4702-a8be-026d0d8b3103
-URL:https://30anow.github.io/e/c3b24ed7-9eb4-4702-a8be-026d0d8b3103?s=cal
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f2
+ fb20f8-4ae9-43d2-bf5d-4619a927fe65
+URL:https://30anow.github.io/e/f2fb20f8-4ae9-43d2-bf5d-4619a927fe65?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:07e36702-b3db-4581-bf84-b4986b7f6810@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:0b6a1502-e9ac-4c26-9ed2-c704711862f0@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261127T233000Z
 DTEND:20261128T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/07e36702-b3db-4581-bf84-b4986b7f6810
-URL:https://30anow.github.io/e/07e36702-b3db-4581-bf84-b4986b7f6810?s=cal
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/0b
+ 6a1502-e9ac-4c26-9ed2-c704711862f0
+URL:https://30anow.github.io/e/0b6a1502-e9ac-4c26-9ed2-c704711862f0?s=cal
 END:VEVENT
 BEGIN:VEVENT
-UID:1391b871-ca4b-42fc-b7ee-dad209b60feb@30anow.github.io
-DTSTAMP:20261030T164307Z
+UID:fc501a78-83f9-48dd-9780-34fadfd20b57@30anow.github.io
+DTSTAMP:20261030T213233Z
 DTSTART:20261128T233000Z
 DTEND:20261129T030000Z
 SUMMARY:The Red Bar Jazz Band
 LOCATION:The Red Bar\, 70 Hotz Ave\, Grayton Beach\, FL
-DESCRIPTION:Red Bar Jazz Band on stage during dinner Tuesday thru Saturday 
- 5:30pm til 9:00pm. A variety of local and visiting bands will take the sta
- ge on Sundays (brunch)\, Sunday nights\, and Monday nights (seasonally). T
- he Red Bar is jumpin’ little restaurant and bar with a reputation for be
- ing a local…\n\nTimes\, the live map and the app: https://30anow.github.
- io/e/1391b871-ca4b-42fc-b7ee-dad209b60feb
-URL:https://30anow.github.io/e/1391b871-ca4b-42fc-b7ee-dad209b60feb?s=cal
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/fc
+ 501a78-83f9-48dd-9780-34fadfd20b57
+URL:https://30anow.github.io/e/fc501a78-83f9-48dd-9780-34fadfd20b57?s=cal
 END:VEVENT
 END:VCALENDAR

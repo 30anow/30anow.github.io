@@ -9,20 +9,4 @@ X-WR-CALDESC:Will Thompson's shows on 30A\, as 30A Now lists them\, kept up
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:7a76c238-2475-4438-b8bf-a5a0043a2a71@30anow.github.io
-DTSTAMP:20261030T164307Z
-DTSTART:20261101T190000Z
-DTEND:20261101T220000Z
-SUMMARY:Sunday Funday With Will Thompson
-LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
- L
-DESCRIPTION:Celebrate Sunday Funday with Will Thompson Band at Old Florida 
- Fish House. Throughout the week\, catch artists playing inside the bar and
-  lounge as well as in the large outdoor dining space situated among the pa
- lm and oak tress under the twinkling lights. Enjoy incredible views of Eas
- tern Lake. Old Florida Fish House is focused…\n\nTimes\, the live map an
- d the app: https://30anow.github.io/e/7a76c238-2475-4438-b8bf-a5a0043a2a71
-URL:https://30anow.github.io/e/7a76c238-2475-4438-b8bf-a5a0043a2a71?s=cal
-END:VEVENT
 END:VCALENDAR

@@ -11,18 +11,21 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:e340ac9f-0422-4c6a-abb2-6dab6e762e41@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261101T180000Z
 DTEND:20261101T200000Z
 SUMMARY:Christon Birge Duo
 LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e3
- 40ac9f-0422-4c6a-abb2-6dab6e762e41
+DESCRIPTION:Enjoy Sunday Funday at AJ's Grayton Beach every Sunday with Sun
+ day Brunch\, Live Music\,  & Good Times in Grayton Beach! Live music at 1
+ 2PM with Christon Birge Duo\, followed by The Picked Pickers at 5PM.\n\nTi
+ mes\, the live map and the app: https://30anow.github.io/e/e340ac9f-0422-4
+ c6a-abb2-6dab6e762e41
 URL:https://30anow.github.io/e/e340ac9f-0422-4c6a-abb2-6dab6e762e41?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e609a64a-769c-4606-9328-ffdc5a9bff29@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261108T180000Z
 DTEND:20261108T200000Z
 SUMMARY:Christon Birge Duo
@@ -33,7 +36,7 @@ URL:https://30anow.github.io/e/e609a64a-769c-4606-9328-ffdc5a9bff29?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:4e2d8fe9-0de7-4271-aced-d5bd6076cb30@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261115T180000Z
 DTEND:20261115T200000Z
 SUMMARY:Christon Birge Duo
@@ -44,7 +47,7 @@ URL:https://30anow.github.io/e/4e2d8fe9-0de7-4271-aced-d5bd6076cb30?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:fed83734-ae3a-447f-825b-a5ed73eeaf9d@30anow.github.io
-DTSTAMP:20261030T164307Z
+DTSTAMP:20261030T213233Z
 DTSTART:20261122T180000Z
 DTEND:20261122T200000Z
 SUMMARY:Christon Birge Duo

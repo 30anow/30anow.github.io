@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:River Dan on 30A
+X-WR-CALDESC:River Dan's shows on 30A\, as 30A Now lists them\, kept up to 
+ date: https://30anow.github.io/acts/river-dan/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:bf5dfaef-e663-41f6-87d5-444c313457e9@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261122T000000Z
+DTEND:20261122T030000Z
+SUMMARY:River Dan
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/bf
+ 5dfaef-e663-41f6-87d5-444c313457e9
+URL:https://30anow.github.io/e/bf5dfaef-e663-41f6-87d5-444c313457e9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:b5b41ae3-a4a1-457b-8588-602bf0afcf87@30anow.github.io
+DTSTAMP:20261030T213233Z
+DTSTART:20261127T000000Z
+DTEND:20261127T030000Z
+SUMMARY:River Dan
+LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/b5
+ b41ae3-a4a1-457b-8588-602bf0afcf87
+URL:https://30anow.github.io/e/b5b41ae3-a4a1-457b-8588-602bf0afcf87?s=cal
+END:VEVENT
+END:VCALENDAR
