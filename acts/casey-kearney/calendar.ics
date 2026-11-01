@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:5382233a-d2c9-408f-b464-f9b9a19db566@30anow.github.io
-DTSTAMP:20261101T164955Z
+DTSTAMP:20261101T211320Z
 DTSTART:20261104T000000Z
 DTEND:20261104T030000Z
 SUMMARY:Casey Kearney Band
@@ -23,35 +23,47 @@ URL:https://30anow.github.io/e/5382233a-d2c9-408f-b464-f9b9a19db566?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:19ed435b-d045-4af1-b6eb-aa7fa65d3008@30anow.github.io
-DTSTAMP:20261101T164955Z
+DTSTAMP:20261101T211320Z
 DTSTART:20261111T000000Z
 DTEND:20261111T030000Z
 SUMMARY:Casey Kearney Band
 LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/19
- ed435b-d045-4af1-b6eb-aa7fa65d3008
+DESCRIPTION:Casey Kearney Band on stage in the Garden Room at Red Fish Taco
+  from 6 – 9PM. See the live music lineup and events coming to Red Fish T
+ aco this month below. Live music is a central to Red Fish Taco’s festive
+  atmosphere featuring local and visiting musicians performing in the outdo
+ or covered Garden Room.…\n\nTimes\, the live map and the app: https://30
+ anow.github.io/e/19ed435b-d045-4af1-b6eb-aa7fa65d3008
 URL:https://30anow.github.io/e/19ed435b-d045-4af1-b6eb-aa7fa65d3008?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:0e1f537b-8732-4a9d-9390-61b3162c26b8@30anow.github.io
-DTSTAMP:20261101T164955Z
+DTSTAMP:20261101T211320Z
 DTSTART:20261118T000000Z
 DTEND:20261118T030000Z
 SUMMARY:Casey Kearney Band
 LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/0e
- 1f537b-8732-4a9d-9390-61b3162c26b8
+DESCRIPTION:Casey Kearney Band on stage in the Garden Room at Red Fish Taco
+  from 6 – 9PM. See the live music lineup and events coming to Red Fish T
+ aco this month below. Live music is a central to Red Fish Taco’s festive
+  atmosphere featuring local and visiting musicians performing in the outdo
+ or covered Garden Room.…\n\nTimes\, the live map and the app: https://30
+ anow.github.io/e/0e1f537b-8732-4a9d-9390-61b3162c26b8
 URL:https://30anow.github.io/e/0e1f537b-8732-4a9d-9390-61b3162c26b8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:50610900-42cf-43c9-a10a-2f14d421c3e3@30anow.github.io
-DTSTAMP:20261101T164955Z
+DTSTAMP:20261101T211320Z
 DTSTART:20261125T000000Z
 DTEND:20261125T030000Z
 SUMMARY:Casey Kearney Band
 LOCATION:Red Fish Taco\, 2052 W County Hwy 30A\, Blue Mountain Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/50
- 610900-42cf-43c9-a10a-2f14d421c3e3
+DESCRIPTION:Casey Kearney Band on stage in the Garden Room at Red Fish Taco
+  from 6 – 9PM. See the live music lineup and events coming to Red Fish T
+ aco this month below. Live music is a central to Red Fish Taco’s festive
+  atmosphere featuring local and visiting musicians performing in the outdo
+ or covered Garden Room.…\n\nTimes\, the live map and the app: https://30
+ anow.github.io/e/50610900-42cf-43c9-a10a-2f14d421c3e3
 URL:https://30anow.github.io/e/50610900-42cf-43c9-a10a-2f14d421c3e3?s=cal
 END:VEVENT
 END:VCALENDAR
