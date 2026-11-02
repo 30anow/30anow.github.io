@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:bbaa067b-3979-46ec-91cb-5387cb42bde9@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261103T191500Z
 DTEND:20261103T211500Z
 SUMMARY:Words on Wheels
@@ -22,7 +22,7 @@ URL:https://30anow.github.io/e/bbaa067b-3979-46ec-91cb-5387cb42bde9?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d801bdd2-9625-4055-934e-f0d485ee365d@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261106T180000Z
 DTEND:20261107T020000Z
 SUMMARY:First Friday Concert Series
@@ -37,8 +37,24 @@ DESCRIPTION:Free\n\nThe Flutterby Festival weekend kicks off on Friday\, No
 URL:https://30anow.github.io/e/d801bdd2-9625-4055-934e-f0d485ee365d?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:3312ea22-216f-4997-8dda-ea1350a265b1@30anow.github.io
+DTSTAMP:20261102T235520Z
+DTSTART:20261107T000000Z
+DTEND:20261107T020000Z
+SUMMARY:First Friday Concert Series: Webb Wilder Band
+LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nThe Flutterby Festival weekend kicks off on Friday\, No
+ vember 6\, with the First Friday Fall Concert Series at The Pavilion at Wa
+ tersound Town Center. Presented by the CAA and Russell Carter Artist Manag
+ ement with support from the St. Joe Community Foundation\, the free concer
+ t opens with two Nashville-based musicians\, including singer-songwriter\,
+  author and fiddle-player Jessica…\n\nTimes\, the live map and the app: 
+ https://30anow.github.io/e/3312ea22-216f-4997-8dda-ea1350a265b1
+URL:https://30anow.github.io/e/3312ea22-216f-4997-8dda-ea1350a265b1?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:158067fa-49e7-42f2-8159-207cc005428c@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261108T000000Z
 DTEND:20261108T020000Z
 SUMMARY:Flutterby Film Night
@@ -48,8 +64,24 @@ DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/15
 URL:https://30anow.github.io/e/158067fa-49e7-42f2-8159-207cc005428c?s=cal
 END:VEVENT
 BEGIN:VEVENT
+UID:5fce76ef-a3e1-4f76-9b54-0baa59694076@30anow.github.io
+DTSTAMP:20261102T235520Z
+DTSTART:20261108T160000Z
+DTEND:20261108T220000Z
+SUMMARY:34th Annual Flutterby Arts Festival
+LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nThe Cultural Arts Alliance of Walton County (CAA) has e
+ xpanded one of SoWal’s fun fall traditions\, the Flutterby Arts Festival
+ \, taking flight at Watersound Town Center November 6–8 for a weekend fi
+ lled with art\, music\, film\, creativity\, family fun\, and a little earl
+ y holiday magic. Now in its 34th year\, Flutterby celebrates the magical m
+ igration…\n\nTimes\, the live map and the app: https://30anow.github.io/
+ e/5fce76ef-a3e1-4f76-9b54-0baa59694076
+URL:https://30anow.github.io/e/5fce76ef-a3e1-4f76-9b54-0baa59694076?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:5973dcbf-1100-404e-9e56-759414dbc810@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261110T191500Z
 DTEND:20261110T211500Z
 SUMMARY:Words on Wheels
@@ -60,7 +92,7 @@ URL:https://30anow.github.io/e/5973dcbf-1100-404e-9e56-759414dbc810?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:7cb2b8a9-d7a8-47ae-bff9-412efa120770@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261117T191500Z
 DTEND:20261117T211500Z
 SUMMARY:Words on Wheels
@@ -71,7 +103,7 @@ URL:https://30anow.github.io/e/7cb2b8a9-d7a8-47ae-bff9-412efa120770?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:973d426a-95a1-4a22-a310-4f932e422b84@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261118T000000Z
 DTEND:20261118T020000Z
 SUMMARY:Kids' Night Out
@@ -87,7 +119,7 @@ URL:https://30anow.github.io/e/973d426a-95a1-4a22-a310-4f932e422b84?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:73d029d2-7142-4966-a746-ca48e5ee2f52@30anow.github.io
-DTSTAMP:20261102T202319Z
+DTSTAMP:20261102T235520Z
 DTSTART:20261124T191500Z
 DTEND:20261124T211500Z
 SUMMARY:Words on Wheels
@@ -95,5 +127,16 @@ LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
 DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/73
  d029d2-7142-4966-a746-ca48e5ee2f52
 URL:https://30anow.github.io/e/73d029d2-7142-4966-a746-ca48e5ee2f52?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:45a7e13a-1582-452a-8036-38bd0499f2ce@30anow.github.io
+DTSTAMP:20261102T235520Z
+DTSTART:20261201T191500Z
+DTEND:20261201T211500Z
+SUMMARY:Words on Wheels
+LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/45
+ a7e13a-1582-452a-8036-38bd0499f2ce
+URL:https://30anow.github.io/e/45a7e13a-1582-452a-8036-38bd0499f2ce?s=cal
 END:VEVENT
 END:VCALENDAR

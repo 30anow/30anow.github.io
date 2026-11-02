@@ -25,10 +25,17 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
 [hidden]{display:none!important}
 </style>
 </head><body>
-<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Crackings</h1></div></div>
-<p class="quiet">Nothing posted for the next seven days.</p>
+<div class="hd"><div><p class="over">THIS WEEK AT</p><h1>Crackings</h1><p class="where">Grayton Beach</p></div><a class="dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.33599,-86.16314">Directions</a></div>
+<section><h2>Tuesday, Nov 3</h2><ul class="rows"><li class="ev" id="e-a33ad9c5-5b8b-49d2-8694-d7381170791f" data-end="1793730600000"><a class="t" href="/e/a33ad9c5-5b8b-49d2-8694-d7381170791f?ref=crackings">Christina Larsen</a><div class="m">Tue, Nov 3 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Wednesday, Nov 4</h2><ul class="rows"><li class="ev" id="e-77f10a3c-e75f-4517-993d-d2f0cab0b2d3" data-end="1793817000000"><a class="t" href="/e/77f10a3c-e75f-4517-993d-d2f0cab0b2d3?ref=crackings">Chip &amp; Laura Lane</a><div class="m">Wed, Nov 4 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Thursday, Nov 5</h2><ul class="rows"><li class="ev" id="e-d13d6b17-62c2-47e8-aa70-c2948cafaed1" data-end="1793903400000"><a class="t" href="/e/d13d6b17-62c2-47e8-aa70-c2948cafaed1?ref=crackings">Russ Whitten</a><div class="m">Thu, Nov 5 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Friday, Nov 6</h2><ul class="rows"><li class="ev" id="e-492a4e5f-537c-4d8b-9583-c19d3f87d44d" data-end="1793989800000"><a class="t" href="/e/492a4e5f-537c-4d8b-9583-c19d3f87d44d?ref=crackings">Otha Allen Jr.</a><div class="m">Fri, Nov 6 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Saturday, Nov 7</h2><ul class="rows"><li class="ev" id="e-82a6d7de-6856-4e97-aae8-748cc5d8c5ce" data-end="1794076200000"><a class="t" href="/e/82a6d7de-6856-4e97-aae8-748cc5d8c5ce?ref=crackings">Jared Herzog</a><div class="m">Sat, Nov 7 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Sunday, Nov 8</h2><ul class="rows"><li class="ev" id="e-3a610c7e-15ba-4c12-b70c-d6449dc4fee1" data-end="1794162600000"><a class="t" href="/e/3a610c7e-15ba-4c12-b70c-d6449dc4fee1?ref=crackings">Jordan Chase</a><div class="m">Sun, Nov 8 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<section><h2>Monday, Nov 9</h2><ul class="rows"><li class="ev" id="e-dd53a1c9-3069-4b5a-b412-af28cb23dd68" data-end="1794249000000"><a class="t" href="/e/dd53a1c9-3069-4b5a-b412-af28cb23dd68?ref=crackings">Otha Allen Jr.</a><div class="m">Mon, Nov 9 · 9:30 AM – 12:30 PM</div></li></ul></section>
+<p class="quiet" id="done" hidden>Nothing posted for the next seven days.</p>
 <a class="foot" id="pitch" href="/?ref=crackings" rel="noopener">Powered by <b>30A Now</b> · Get the app</a>
-<p class="stamp">Updated Mon, Nov 2, 2:23 PM beach time</p>
+<p class="stamp">Updated Mon, Nov 2, 5:55 PM beach time</p>
 <script>
 (function(){
   function ping(n){
@@ -44,6 +51,23 @@ li.ev{padding:8px 0;border-top:1px solid var(--border)}
   ping('embed_view');
   var a=document.getElementById('pitch');
   if(a)a.addEventListener('click',function(){ping('embed_app_tap');});
+})();
+</script>
+<script>
+(function(){
+  try{
+    var tick=function(){
+      var now=Date.now(),rows=document.querySelectorAll('li.ev[data-end]'),left=0,i,j;
+      for(i=0;i<rows.length;i++){if(+rows[i].getAttribute('data-end')<=now)rows[i].hidden=true;else left++;}
+      var box=document.querySelectorAll('section,details');
+      for(i=0;i<box.length;i++){var r=box[i].querySelectorAll('li.ev'),on=0;for(j=0;j<r.length;j++)if(!r[j].hidden)on++;if(r.length&&!on)box[i].hidden=true;}
+      var done=document.getElementById('done'),day=done&&done.getAttribute('data-day');
+      var today=day?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(now):'';
+      if(done&&!left&&(rows.length||(day&&today>day)))done.hidden=false;
+      return rows.length;
+    };
+    if(tick())setInterval(tick,60000);
+  }catch(e){}
 })();
 </script>
 </body></html>

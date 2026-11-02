@@ -13,6 +13,11 @@
     "name": "Amy Winehouse"
   },
   {
+    "slug": "black-creek-string",
+    "name": "Black Creek String Band",
+    "near": true
+  },
+  {
     "slug": "bobby-watson-and-curtis-lundy-quartet",
     "name": "Bobby Watson & Curtis Lundy Quartet"
   },
@@ -42,8 +47,16 @@
     "name": "Casey Kearney Band"
   },
   {
+    "slug": "chip-and-laura-lane",
+    "name": "Chip & Laura Lane"
+  },
+  {
     "slug": "chris-johnson",
     "name": "Chris Johnson"
+  },
+  {
+    "slug": "christina-larsen",
+    "name": "Christina Larsen"
   },
   {
     "slug": "christon-birge-duo",
@@ -72,6 +85,11 @@
   {
     "slug": "gage-cowart",
     "name": "Gage Cowart"
+  },
+  {
+    "slug": "gillerans-island",
+    "name": "Gilleran's Island",
+    "near": true
   },
   {
     "slug": "harrison-prentice",
@@ -106,8 +124,23 @@
     "name": "LAURA LANE"
   },
   {
+    "slug": "low-tide-junction",
+    "name": "Low Tide Junction",
+    "near": true
+  },
+  {
     "slug": "mark-payne",
     "name": "Mark Payne"
+  },
+  {
+    "slug": "martin-lane",
+    "name": "Martin Lane",
+    "near": true
+  },
+  {
+    "slug": "matt-mccarty-jazz-jam",
+    "name": "Matt McCarty Jazz Jam",
+    "near": true
   },
   {
     "slug": "matts-jazz",
@@ -186,7 +219,7 @@
   },
   {
     "slug": "russ-whitten",
-    "name": "RUSS WHITTEN"
+    "name": "Russ Whitten"
   },
   {
     "slug": "russ-whitten-lakeside",

@@ -3,10 +3,33 @@ VERSION:2.0
 PRODID:-//30A Now//Calendar feed//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:RUSS WHITTEN on 30A
-X-WR-CALDESC:RUSS WHITTEN's shows on 30A\, as 30A Now lists them\, kept up 
+X-WR-CALNAME:Russ Whitten on 30A
+X-WR-CALDESC:Russ Whitten's shows on 30A\, as 30A Now lists them\, kept up 
  to date: https://30anow.github.io/acts/russ-whitten/
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:d13d6b17-62c2-47e8-aa70-c2948cafaed1@30anow.github.io
+DTSTAMP:20261102T235520Z
+DTSTART:20261105T153000Z
+DTEND:20261105T183000Z
+SUMMARY:Russ Whitten
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:Catch Russ Whitten live from 9:30AM-12:30pm!\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/d13d6b17-62c2-47e8-aa70-c294
+ 8cafaed1
+URL:https://30anow.github.io/e/d13d6b17-62c2-47e8-aa70-c2948cafaed1?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:83960480-bd05-4422-b3c1-68081633972a@30anow.github.io
+DTSTAMP:20261102T235520Z
+DTSTART:20261112T153000Z
+DTEND:20261112T183000Z
+SUMMARY:Russ Whitten
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/83
+ 960480-bd05-4422-b3c1-68081633972a
+URL:https://30anow.github.io/e/83960480-bd05-4422-b3c1-68081633972a?s=cal
+END:VEVENT
 END:VCALENDAR
