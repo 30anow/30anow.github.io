@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:48d26dee-512c-491f-ac5e-46206eaad906@30anow.github.io
-DTSTAMP:20261104T180130Z
+DTSTAMP:20261104T223951Z
 DTSTART:20261105T000000Z
 DTEND:20261105T030000Z
 SUMMARY:Zack Miller
@@ -22,7 +22,7 @@ URL:https://30anow.github.io/e/48d26dee-512c-491f-ac5e-46206eaad906?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1044d8ab-0cd2-4168-b8ce-5caeddaf3aa0@30anow.github.io
-DTSTAMP:20261104T180130Z
+DTSTAMP:20261104T223951Z
 DTSTART:20261106T220000Z
 DTEND:20261107T010000Z
 SUMMARY:Zack Miller
@@ -30,5 +30,20 @@ LOCATION:Pickle's Sandbar\, Seaside\, Santa Rosa Beach\, FL
 DESCRIPTION:Catch Zack Miller live from 4-7PM!\n\nTimes\, the live map and 
  the app: https://30anow.github.io/e/1044d8ab-0cd2-4168-b8ce-5caeddaf3aa0
 URL:https://30anow.github.io/e/1044d8ab-0cd2-4168-b8ce-5caeddaf3aa0?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:7d0224dd-04f4-4e5f-9583-552868d8ec80@30anow.github.io
+DTSTAMP:20261104T223951Z
+DTSTART:20261204T220000Z
+DTEND:20261205T010000Z
+SUMMARY:Zack Miller
+LOCATION:The Shrimp Shack & Boardwalk Bar\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Zack Miller LIVE at the Shrimp Shack & Boardwalk Bar on Friday\
+ , December 4 from 4-7PM. Located just east of the Coleman Pavilion in down
+ town Seaside\, come for delicious food and drink\, then stay for the music
+ . Enjoy fresh shrimp\, oysters\, and lobster rolls at The Shrimp Shack & B
+ oardwalk Bar in Seaside\, FL. With…\n\nTimes\, the live map and the app:
+  https://30anow.github.io/e/7d0224dd-04f4-4e5f-9583-552868d8ec80
+URL:https://30anow.github.io/e/7d0224dd-04f4-4e5f-9583-552868d8ec80?s=cal
 END:VEVENT
 END:VCALENDAR
