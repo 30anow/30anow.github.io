@@ -10,8 +10,59 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
+UID:bf6d0d99-01fc-45ec-8b59-40b3e8057fd6@30anow.github.io
+DTSTAMP:20261104T180130Z
+DTSTART:20261107T223000Z
+DTEND:20261108T010000Z
+SUMMARY:Sunday Social for Owners & Rental Guests
+LOCATION:The Silva\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Sundays are for slowing down and gathering together.\nJoin us e
+ ach week for Sunday Social at The Silva\, a relaxed Sunday evening designe
+ d for good food\, easy conversation and time spent with family and friends
+ .\nFrom 4:30-7 PM\, enjoy a special Sunday Social menu inspired by favorit
+ es from The Silva\, along with one or two dishes created exclusively for t
+ he evening. Each month will bring a new featur…\n\nTimes\, the live map 
+ and the app: https://30anow.github.io/e/bf6d0d99-01fc-45ec-8b59-40b3e8057f
+ d6
+URL:https://30anow.github.io/e/bf6d0d99-01fc-45ec-8b59-40b3e8057fd6?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:6d3670b3-dfc3-45c6-acc8-6e2530528c0c@30anow.github.io
+DTSTAMP:20261104T180130Z
+DTSTART:20261114T223000Z
+DTEND:20261115T010000Z
+SUMMARY:Sunday Social for Owners & Rental Guests
+LOCATION:The Silva\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Sundays are for slowing down and gathering together.\nJoin us e
+ ach week for Sunday Social at The Silva\, a relaxed Sunday evening designe
+ d for good food\, easy conversation and time spent with family and friends
+ .\nFrom 4:30-7 PM\, enjoy a special Sunday Social menu inspired by favorit
+ es from The Silva\, along with one or two dishes created exclusively for t
+ he evening. Each month will bring a new featur…\n\nTimes\, the live map 
+ and the app: https://30anow.github.io/e/6d3670b3-dfc3-45c6-acc8-6e2530528c
+ 0c
+URL:https://30anow.github.io/e/6d3670b3-dfc3-45c6-acc8-6e2530528c0c?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:4437bf1d-7b1d-4e25-aaa1-32ce4eed47ac@30anow.github.io
+DTSTAMP:20261104T180130Z
+DTSTART:20261121T223000Z
+DTEND:20261122T010000Z
+SUMMARY:Sunday Social for Owners & Rental Guests
+LOCATION:The Silva\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Sundays are for slowing down and gathering together.\nJoin us e
+ ach week for Sunday Social at The Silva\, a relaxed Sunday evening designe
+ d for good food\, easy conversation and time spent with family and friends
+ .\nFrom 4:30-7 PM\, enjoy a special Sunday Social menu inspired by favorit
+ es from The Silva\, along with one or two dishes created exclusively for t
+ he evening. Each month will bring a new featur…\n\nTimes\, the live map 
+ and the app: https://30anow.github.io/e/4437bf1d-7b1d-4e25-aaa1-32ce4eed47
+ ac
+URL:https://30anow.github.io/e/4437bf1d-7b1d-4e25-aaa1-32ce4eed47ac?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:a113a7dd-ee71-41bf-9e96-77a92f373533@30anow.github.io
-DTSTAMP:20261104T125537Z
+DTSTAMP:20261104T180130Z
 DTSTART:20261128T200000Z
 DTEND:20261128T220000Z
 SUMMARY:Make Your Own Trucker Hat
@@ -24,5 +75,22 @@ DESCRIPTION:$15\n\nGet creative at the Silva with our Create Your Own Truck
   Guests.\n\nTimes\, the live map and the app: https://30anow.github.io/e/a
  113a7dd-ee71-41bf-9e96-77a92f373533
 URL:https://30anow.github.io/e/a113a7dd-ee71-41bf-9e96-77a92f373533?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:0f076c0b-52c3-4bb7-99b2-a96df6ddd4ab@30anow.github.io
+DTSTAMP:20261104T180130Z
+DTSTART:20261128T223000Z
+DTEND:20261129T010000Z
+SUMMARY:Sunday Social for Owners & Rental Guests
+LOCATION:The Silva\, Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Sundays are for slowing down and gathering together.\nJoin us e
+ ach week for Sunday Social at The Silva\, a relaxed Sunday evening designe
+ d for good food\, easy conversation and time spent with family and friends
+ .\nFrom 4:30-7 PM\, enjoy a special Sunday Social menu inspired by favorit
+ es from The Silva\, along with one or two dishes created exclusively for t
+ he evening. Each month will bring a new featur…\n\nTimes\, the live map 
+ and the app: https://30anow.github.io/e/0f076c0b-52c3-4bb7-99b2-a96df6ddd4
+ ab
+URL:https://30anow.github.io/e/0f076c0b-52c3-4bb7-99b2-a96df6ddd4ab?s=cal
 END:VEVENT
 END:VCALENDAR
