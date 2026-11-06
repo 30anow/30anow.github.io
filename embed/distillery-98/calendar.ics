@@ -10,25 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:0dea280d-e062-429b-9374-a2209ecf71d7@30anow.github.io
-DTSTAMP:20261106T010527Z
-DTSTART:20261106T000000Z
-DTEND:20261106T020000Z
-SUMMARY:Meat + Martinis: A Dinner Series
-LOCATION:Distillery 98\, 835 Serenoa Rd\, Santa Rosa Beach\, FL
-DESCRIPTION:Dinner\, drinks and a very good excuse to stay awhile.\nIntrodu
- cing MEAT & MARTINIS\nThis fall\, Distillery 98\, Table 30A and The Salty 
- Butcher are coming together for a new every-other-Thursday dinner series b
- uilt around butcher-selected cuts\, chef-driven plates and cocktails worth
-  lingering over.\nFirst up: Thursday\, September 10.\nChef Brandon Bailey 
- of Table 30A is kicking off the series with:\nMish…\n\nTimes\, the live 
- map and the app: https://30anow.github.io/e/0dea280d-e062-429b-9374-a2209e
- cf71d7
-URL:https://30anow.github.io/e/0dea280d-e062-429b-9374-a2209ecf71d7?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:04895d93-2576-4389-bacc-733ff5049c45@30anow.github.io
-DTSTAMP:20261106T010527Z
+DTSTAMP:20261106T095533Z
 DTSTART:20261120T000000Z
 DTEND:20261120T020000Z
 SUMMARY:Meat + Martinis: A Dinner Series
@@ -39,7 +22,7 @@ URL:https://30anow.github.io/e/04895d93-2576-4389-bacc-733ff5049c45?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:b08b9d36-ce8d-40ac-9e2e-3cae14af13b8@30anow.github.io
-DTSTAMP:20261106T010527Z
+DTSTAMP:20261106T095533Z
 DTSTART:20261204T000000Z
 DTEND:20261204T020000Z
 SUMMARY:Meat + Martinis: A Dinner Series
