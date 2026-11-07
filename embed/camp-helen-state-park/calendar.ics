@@ -10,23 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:55dc6326-0c13-4331-b6c8-45f670bcd5f7@30anow.github.io
-DTSTAMP:20261107T162925Z
-DTSTART:20261107T160000Z
-DTEND:20261107T170000Z
-SUMMARY:Guided History Tour
-LOCATION:Camp Helen State Park\, Inlet Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Camp Helen State Park invites you to go beyond your park visit\
- , and discover the past and present\, on a ranger guided walking tour wher
- e you can learn about the rich history of Camp Helen’s Historic District
-  on the first Saturday of each month. Led by informative and entertaining 
- rangers\, you will…\n\nTimes\, the live map and the app: https://30anow.
- github.io/e/55dc6326-0c13-4331-b6c8-45f670bcd5f7
-URL:https://30anow.github.io/e/55dc6326-0c13-4331-b6c8-45f670bcd5f7?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:0beab59d-4fce-4501-984c-ff5903a23670@30anow.github.io
-DTSTAMP:20261107T162925Z
+DTSTAMP:20261107T174737Z
 DTSTART:20261203T160000Z
 DTEND:20261203T170000Z
 SUMMARY:Camp Helen State Park Ranger-Guided Nature Hike
@@ -41,7 +26,7 @@ URL:https://30anow.github.io/e/0beab59d-4fce-4501-984c-ff5903a23670?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ab6f03e6-5530-4d19-a543-ece83a7f829f@30anow.github.io
-DTSTAMP:20261107T162925Z
+DTSTAMP:20261107T174737Z
 DTSTART:20261205T160000Z
 DTEND:20261205T170000Z
 SUMMARY:Camp Helen State Park: Guided History Tour
