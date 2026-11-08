@@ -11,18 +11,23 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:db421f33-d699-4dcc-b210-3bcae2416bca@30anow.github.io
-DTSTAMP:20261108T115234Z
+DTSTAMP:20261108T141954Z
 DTSTART:20261111T220000Z
 DTEND:20261112T020000Z
 SUMMARY:Chris Johnson
 LOCATION:Shunk Gulley Oyster Bar\, 1875 S County Hwy 393\, Gulf Place\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/db
- 421f33-d699-4dcc-b210-3bcae2416bca
+DESCRIPTION:Chris Johnson is a vocalist/musician from Memphis\, TN that has
+  been singing since 11 years old. He was inspired by the bluesy culture of
+  the city and decided to start his music career at a young age. From buski
+ ng on the local sidewalks of Memphis\, to playing in big shows in Houston\
+ , he has landed in the Gulf Coast aspiring to take his career to the next 
+ level. Also be sure to check out his band n…\n\nTimes\, the live map and
+  the app: https://30anow.github.io/e/db421f33-d699-4dcc-b210-3bcae2416bca
 URL:https://30anow.github.io/e/db421f33-d699-4dcc-b210-3bcae2416bca?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:57c15e41-24a1-4a2e-956a-f310175ce0c8@30anow.github.io
-DTSTAMP:20261108T115234Z
+DTSTAMP:20261108T141954Z
 DTSTART:20261112T220000Z
 DTEND:20261113T020000Z
 SUMMARY:Chris Johnson
@@ -33,7 +38,7 @@ URL:https://30anow.github.io/e/57c15e41-24a1-4a2e-956a-f310175ce0c8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9a529920-14e3-46f5-8609-d7798fdc93ac@30anow.github.io
-DTSTAMP:20261108T115234Z
+DTSTAMP:20261108T141954Z
 DTSTART:20261113T220000Z
 DTEND:20261114T020000Z
 SUMMARY:Chris Johnson
