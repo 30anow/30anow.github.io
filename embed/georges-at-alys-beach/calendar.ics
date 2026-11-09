@@ -11,14 +11,20 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:3d93e28b-4b8e-4bd4-b6be-4865e0a616e7@30anow.github.io
-DTSTAMP:20261109T134857Z
+DTSTAMP:20261109T173048Z
 DTSTART:20261112T230000Z
 DTEND:20261113T010000Z
 SUMMARY:Crafted: Experiential Cocktail Dinner featuring Brown Forman Spirit
  s
 LOCATION:George's at Alys Beach\, Alys Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/3d
- 93e28b-4b8e-4bd4-b6be-4865e0a616e7
+DESCRIPTION:Thursday\, November 12\, 2026\n5 PM\nGeorge’s at Alys Beach\n
+ Join us for an intimate multi-course dinner by Chef Camille Withall of Geo
+ rge's at Alys Beach. Known for her vibrant interpretation of regional coas
+ tal cuisine\, Chef Camille weaves fresh Gulf ingredients together with bol
+ d global influences\, creating dishes that are both familiar and unexpecte
+ d. Her thoughtful approach to flavor celebrates t…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/3d93e28b-4b8e-4bd4-b6be-4865e0a
+ 616e7
 URL:https://30anow.github.io/e/3d93e28b-4b8e-4bd4-b6be-4865e0a616e7?s=cal
 END:VEVENT
 END:VCALENDAR
