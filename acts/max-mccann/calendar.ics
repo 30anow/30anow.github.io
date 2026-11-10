@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Max McCann on 30A
+X-WR-CALDESC:Max McCann's shows on 30A\, as 30A Now lists them\, kept up to
+  date: https://30anow.github.io/acts/max-mccann/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:720ea60f-8743-4071-9b21-5c3653d6ae4e@30anow.github.io
+DTSTAMP:20261110T153755Z
+DTSTART:20261114T010000Z
+DTEND:20261114T030000Z
+SUMMARY:Max McCann
+LOCATION:Redd's Pub\, 3906 Hwy 98 W\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/72
+ 0ea60f-8743-4071-9b21-5c3653d6ae4e
+URL:https://30anow.github.io/e/720ea60f-8743-4071-9b21-5c3653d6ae4e?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:627110f6-d6be-48e7-9263-92e29011f5fc@30anow.github.io
+DTSTAMP:20261110T153755Z
+DTSTART:20261209T220000Z
+DTEND:20261210T000000Z
+SUMMARY:Max McCann
+LOCATION:Seaside Amphitheater\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/62
+ 7110f6-d6be-48e7-9263-92e29011f5fc
+URL:https://30anow.github.io/e/627110f6-d6be-48e7-9263-92e29011f5fc?s=cal
+END:VEVENT
+END:VCALENDAR
