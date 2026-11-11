@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:7cb2b8a9-d7a8-47ae-bff9-412efa120770@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261117T191500Z
 DTEND:20261117T211500Z
 SUMMARY:Words on Wheels
@@ -22,7 +22,7 @@ URL:https://30anow.github.io/e/7cb2b8a9-d7a8-47ae-bff9-412efa120770?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:973d426a-95a1-4a22-a310-4f932e422b84@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261118T000000Z
 DTEND:20261118T020000Z
 SUMMARY:Kids' Night Out
@@ -38,7 +38,7 @@ URL:https://30anow.github.io/e/973d426a-95a1-4a22-a310-4f932e422b84?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:73d029d2-7142-4966-a746-ca48e5ee2f52@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261124T191500Z
 DTEND:20261124T211500Z
 SUMMARY:Words on Wheels
@@ -49,7 +49,7 @@ URL:https://30anow.github.io/e/73d029d2-7142-4966-a746-ca48e5ee2f52?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:45a7e13a-1582-452a-8036-38bd0499f2ce@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261201T191500Z
 DTEND:20261201T211500Z
 SUMMARY:Words on Wheels
@@ -60,7 +60,7 @@ URL:https://30anow.github.io/e/45a7e13a-1582-452a-8036-38bd0499f2ce?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d4afb5f3-d03d-4ea0-8895-006db758026a@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261204T220000Z
 DTEND:20261205T020000Z
 SUMMARY:First Friday Concert Series + Art Bazaar
@@ -71,7 +71,7 @@ URL:https://30anow.github.io/e/d4afb5f3-d03d-4ea0-8895-006db758026a?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d8058676-495d-45ad-832b-adbe376d9073@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261205T000000Z
 DTEND:20261205T020000Z
 SUMMARY:First Friday Concert Series: Michelle Malone & The Hot Toddies
@@ -82,7 +82,7 @@ URL:https://30anow.github.io/e/d8058676-495d-45ad-832b-adbe376d9073?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:0c7c05b9-b428-4890-bab3-06de91b91805@30anow.github.io
-DTSTAMP:20261111T175531Z
+DTSTAMP:20261111T201446Z
 DTSTART:20261208T191500Z
 DTEND:20261208T211500Z
 SUMMARY:Words on Wheels
@@ -90,5 +90,21 @@ LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
 DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/0c
  7c05b9-b428-4890-bab3-06de91b91805
 URL:https://30anow.github.io/e/0c7c05b9-b428-4890-bab3-06de91b91805?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:e4661375-16d7-4a87-a493-a3c0d5b24baa@30anow.github.io
+DTSTAMP:20261111T201446Z
+DTSTART:20261210T220000Z
+DTEND:20261211T000000Z
+SUMMARY:Santa Claus
+LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nSanta Claus is coming to Watersound Town Center! Make y
+ our list\, grab the family and stop by Watersound Town Center for a festiv
+ e photo with Santa! Santa will be visiting on two special evenings: Thursd
+ ay\, December 10 Thursday\, December 17 4:00–6:00 PM This event is FREE 
+ and open to the public. Come enjoy a little holiday…\n\nTimes\, the liv
+ e map and the app: https://30anow.github.io/e/e4661375-16d7-4a87-a493-a3c0
+ d5b24baa
+URL:https://30anow.github.io/e/e4661375-16d7-4a87-a493-a3c0d5b24baa?s=cal
 END:VEVENT
 END:VCALENDAR
