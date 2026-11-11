@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Rosemary Beach St. Augustine Green on 30A Now
+X-WR-CALDESC:Every event at Rosemary Beach St. Augustine Green listed on 30
+ A Now\, kept up to date: https://30anow.github.io/venues/rosemary-beach-st
+ -augustine-green/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:d902636d-ba4c-4908-ab1d-b97dee87a7f4@30anow.github.io
+DTSTAMP:20261111T151239Z
+DTSTART:20261115T150000Z
+DTEND:20261115T160000Z
+SUMMARY:Worship Service
+LOCATION:Rosemary Beach St. Augustine Green\, Rosemary Beach\, Santa Rosa B
+ each\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/d9
+ 02636d-ba4c-4908-ab1d-b97dee87a7f4
+URL:https://30anow.github.io/e/d902636d-ba4c-4908-ab1d-b97dee87a7f4?s=cal
+END:VEVENT
+END:VCALENDAR

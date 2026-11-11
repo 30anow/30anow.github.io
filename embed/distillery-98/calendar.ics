@@ -11,19 +11,25 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:be5cdb3e-1ae2-4f81-85ce-96d6daf0bb8e@30anow.github.io
-DTSTAMP:20261111T123856Z
+DTSTAMP:20261111T151239Z
 DTSTART:20261114T000000Z
 DTEND:20261114T020000Z
 SUMMARY:Distilled: An Artist Series — Opening Gallery Night featuring Bra
  dley Eiland
 LOCATION:Distillery 98\, 835 Serenoa Rd\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/be
- 5cdb3e-1ae2-4f81-85ce-96d6daf0bb8e
+DESCRIPTION:Free\n\nJoin us for the next chapter of Distilled: An Artist Se
+ ries featuring August's artist\, Bradley Eiland.\nDistilled comes from the
+  idea of extracting the essence of something — just as spirits are disti
+ lled\, artists distill their experiences\, influences\, and perspectives i
+ nto creative work. This opening gallery night marks the beginning of Bradl
+ ey's month-long installation\, with her work on display…\n\nTimes\, the 
+ live map and the app: https://30anow.github.io/e/be5cdb3e-1ae2-4f81-85ce-9
+ 6d6daf0bb8e
 URL:https://30anow.github.io/e/be5cdb3e-1ae2-4f81-85ce-96d6daf0bb8e?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:04895d93-2576-4389-bacc-733ff5049c45@30anow.github.io
-DTSTAMP:20261111T123856Z
+DTSTAMP:20261111T151239Z
 DTSTART:20261120T000000Z
 DTEND:20261120T020000Z
 SUMMARY:Meat + Martinis: A Dinner Series
@@ -34,7 +40,7 @@ URL:https://30anow.github.io/e/04895d93-2576-4389-bacc-733ff5049c45?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:b08b9d36-ce8d-40ac-9e2e-3cae14af13b8@30anow.github.io
-DTSTAMP:20261111T123856Z
+DTSTAMP:20261111T151239Z
 DTSTART:20261204T000000Z
 DTEND:20261204T020000Z
 SUMMARY:Meat + Martinis: A Dinner Series
@@ -45,7 +51,7 @@ URL:https://30anow.github.io/e/b08b9d36-ce8d-40ac-9e2e-3cae14af13b8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:786f978d-b414-44f0-bc4e-d478f1833c68@30anow.github.io
-DTSTAMP:20261111T123856Z
+DTSTAMP:20261111T151239Z
 DTSTART:20261210T000000Z
 DTEND:20261210T020000Z
 SUMMARY:Distilled: An Artist Series
