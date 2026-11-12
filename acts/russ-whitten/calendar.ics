@@ -9,16 +9,4 @@ X-WR-CALDESC:Russ Whitten's shows on 30A\, as 30A Now lists them\, kept up
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:83960480-bd05-4422-b3c1-68081633972a@30anow.github.io
-DTSTAMP:20261112T182230Z
-DTSTART:20261112T153000Z
-DTEND:20261112T183000Z
-SUMMARY:Russ Whitten
-LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
-DESCRIPTION:Catch Russ Whitten live from 9:30AM-12:30pm!\n\nTimes\, the liv
- e map and the app: https://30anow.github.io/e/83960480-bd05-4422-b3c1-6808
- 1633972a
-URL:https://30anow.github.io/e/83960480-bd05-4422-b3c1-68081633972a?s=cal
-END:VEVENT
 END:VCALENDAR
