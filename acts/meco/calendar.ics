@@ -11,24 +11,34 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:3162fd99-12a9-423b-abe5-82de6e972ee4@30anow.github.io
-DTSTAMP:20261112T160123Z
+DTSTAMP:20261112T173534Z
 DTSTART:20261118T000000Z
 DTEND:20261118T030000Z
 SUMMARY:MECO
 LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/31
- 62fd99-12a9-423b-abe5-82de6e972ee4
+DESCRIPTION:Free\n\nLive music on stage from 6 – 9pm at The Bait Shack. P
+ erformance by MECO: Chris Alvarado\, Scott Rockwood\, Matt Miller & John R
+ einlie No cover! See monthly music/event lineup below. Stinky’s Bait Sha
+ ck is a longtime favorite bar\, bait shop and hangout located next to Stin
+ ky’s Fish Camp restaurant on the west side of…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/3162fd99-12a9-423b-abe5-82de6e972
+ ee4
 URL:https://30anow.github.io/e/3162fd99-12a9-423b-abe5-82de6e972ee4?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:5f6e5a4e-c3f4-489f-8c01-874f84671943@30anow.github.io
-DTSTAMP:20261112T160123Z
+DTSTAMP:20261112T173534Z
 DTSTART:20261125T000000Z
 DTEND:20261125T030000Z
 SUMMARY:MECO
 LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/5f
- 6e5a4e-c3f4-489f-8c01-874f84671943
+DESCRIPTION:Free\n\nLive music on stage from 6 – 9pm at The Bait Shack. P
+ erformance by MECO: Chris Alvarado\, Scott Rockwood\, Matt Miller & John R
+ einlie No cover! See monthly music/event lineup below. Stinky’s Bait Sha
+ ck is a longtime favorite bar\, bait shop and hangout located next to Stin
+ ky’s Fish Camp restaurant on the west side of…\n\nTimes\, the live map
+  and the app: https://30anow.github.io/e/5f6e5a4e-c3f4-489f-8c01-874f84671
+ 943
 URL:https://30anow.github.io/e/5f6e5a4e-c3f4-489f-8c01-874f84671943?s=cal
 END:VEVENT
 END:VCALENDAR
