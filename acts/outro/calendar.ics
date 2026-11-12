@@ -11,28 +11,24 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:f68185c9-dec2-42ef-ae77-1666ea28ab3f@30anow.github.io
-DTSTAMP:20261112T134149Z
+DTSTAMP:20261112T160123Z
 DTSTART:20261113T000000Z
 DTEND:20261113T030000Z
 SUMMARY:Outro
 LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Free\n\nCatch Outro live from 6-9pm!\n\nTimes\, the live map an
- d the app: https://30anow.github.io/e/f68185c9-dec2-42ef-ae77-1666ea28ab3f
+DESCRIPTION:Catch Outro live from 6-9pm!\n\nTimes\, the live map and the ap
+ p: https://30anow.github.io/e/f68185c9-dec2-42ef-ae77-1666ea28ab3f
 URL:https://30anow.github.io/e/f68185c9-dec2-42ef-ae77-1666ea28ab3f?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:43eabe28-c941-401f-85ed-84e6c05f555b@30anow.github.io
-DTSTAMP:20261112T134149Z
+DTSTAMP:20261112T160123Z
 DTSTART:20261120T000000Z
 DTEND:20261120T030000Z
 SUMMARY:Outro
 LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Free\n\nOutro on stage from 6 – 9pm at The Bait Shack. No cov
- er! See monthly music/event lineup below. Stinky’s Bait Shack is a longt
- ime favorite bar\, bait shop and hangout located next to Stinky’s Fish C
- amp restaurant on the west side of Scenic 30A in South Walton\, Florida. T
- he Bait Shack opens early for coffee…\n\nTimes\, the live map and the ap
- p: https://30anow.github.io/e/43eabe28-c941-401f-85ed-84e6c05f555b
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/43
+ eabe28-c941-401f-85ed-84e6c05f555b
 URL:https://30anow.github.io/e/43eabe28-c941-401f-85ed-84e6c05f555b?s=cal
 END:VEVENT
 END:VCALENDAR
