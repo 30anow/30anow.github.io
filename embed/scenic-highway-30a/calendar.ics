@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Scenic Highway 30A on 30A Now
+X-WR-CALDESC:Every event at Scenic Highway 30A listed on 30A Now\, kept up 
+ to date: https://30anow.github.io/venues/scenic-highway-30a/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:e6827cca-c898-450a-936e-b542c7ba9083@30anow.github.io
+DTSTAMP:20261113T001823Z
+DTSTART:20261212T220000Z
+DTEND:20261213T000000Z
+SUMMARY:Photos with Santa in SEASIDE®
+LOCATION:Scenic Highway 30A\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nCapture the magic of the season with Photos with Santa 
+ in SEASIDE®’s enchanting Christmas Village for a festive\, picture-perf
+ ect experience where Santa himself will be waiting to hear your holiday wi
+ shes. The dates are December 12th through December 23rd from 4 PM – 6 PM
+ .\nThe photos are complimentary\, so bring the whole family and create las
+ ting memories in our winter wonderland. Don’t miss this…\n\nTimes\, th
+ e live map and the app: https://30anow.github.io/e/e6827cca-c898-450a-936e
+ -b542c7ba9083
+URL:https://30anow.github.io/e/e6827cca-c898-450a-936e-b542c7ba9083?s=cal
+END:VEVENT
+END:VCALENDAR
