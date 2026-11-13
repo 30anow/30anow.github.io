@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tim Roberts on 30A
+X-WR-CALDESC:Tim Roberts's shows on 30A\, as 30A Now lists them\, kept up t
+ o date: https://30anow.github.io/acts/tim-roberts/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:7a9428c3-ec9a-4b60-ac75-78e860fbc0bd@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261115T153000Z
+DTEND:20261115T183000Z
+SUMMARY:Tim Roberts
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:Catch Tim Roberts live from 9:30AM-12:30pm!\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/7a9428c3-ec9a-4b60-ac75-78e86
+ 0fbc0bd
+URL:https://30anow.github.io/e/7a9428c3-ec9a-4b60-ac75-78e860fbc0bd?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:0a59f6dc-e0cc-4521-952c-04523d372824@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261129T153000Z
+DTEND:20261129T183000Z
+SUMMARY:Tim Roberts
+LOCATION:Crackings\, 51 Uptown Grayton Cir\, Grayton Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/0a
+ 59f6dc-e0cc-4521-952c-04523d372824
+URL:https://30anow.github.io/e/0a59f6dc-e0cc-4521-952c-04523d372824?s=cal
+END:VEVENT
+END:VCALENDAR

@@ -10,8 +10,87 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
+UID:cce04164-1ee2-480d-9834-e30674031bf1@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261113T170000Z
+DTEND:20261113T190000Z
+SUMMARY:The Wildcat Whack: WTF (Weekly Taco Feature)
+LOCATION:Local Cantina\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Your lunch plans could use a little sweet heat. THE WILDCAT WHA
+ CK is this week’s WTF (Weekly Taco Feature)\, inspired by Ohio State’s
+  matchup with Northwestern.Here’s the lineup: fried chicken tossed in ou
+ r house-made\, agave-based hot honey sauce\, purple lime slaw\, chipotle l
+ ime ranch\, and queso fresco in a flour tortilla.Crunchy chicken. Tangy sl
+ aw. Creamy ranch. This taco came ready to play.Avai…\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/cce04164-1ee2-480d-9834-e3067
+ 4031bf1
+URL:https://30anow.github.io/e/cce04164-1ee2-480d-9834-e30674031bf1?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:45740a6c-ea53-4ff7-a56d-cf4adb6d3425@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261114T170000Z
+DTEND:20261114T190000Z
+SUMMARY:The Wildcat Whack: WTF (Weekly Taco Feature)
+LOCATION:Local Cantina\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Your lunch plans could use a little sweet heat. THE WILDCAT WHA
+ CK is this week’s WTF (Weekly Taco Feature)\, inspired by Ohio State’s
+  matchup with Northwestern.Here’s the lineup: fried chicken tossed in ou
+ r house-made\, agave-based hot honey sauce\, purple lime slaw\, chipotle l
+ ime ranch\, and queso fresco in a flour tortilla.Crunchy chicken. Tangy sl
+ aw. Creamy ranch. This taco came ready to play.Avai…\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/45740a6c-ea53-4ff7-a56d-cf4ad
+ b6d3425
+URL:https://30anow.github.io/e/45740a6c-ea53-4ff7-a56d-cf4adb6d3425?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:7b643bce-0317-49de-abb3-3210fce8f5c2@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261114T180000Z
+DTEND:20261114T200000Z
+SUMMARY:NWSL Semifinals Watch Party
+LOCATION:Local Cantina\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nA spot in the championship is on the line. We’ve got 
+ Saturday plans.\nJoin Watch Women Win at Local Cantina Grandview on Saturd
+ ay\, November 14 at noon to watch the Washington Spirit take on the Utah R
+ oyals.\nBring a friend\, come solo\, wear your team’s gear or pick a sid
+ e when you get here. Whether you’ve been watching all season or this is 
+ your first match\, you’re welcome here.\nLocal Cantina Grandv…\n\nTime
+ s\, the live map and the app: https://30anow.github.io/e/7b643bce-0317-49d
+ e-abb3-3210fce8f5c2
+URL:https://30anow.github.io/e/7b643bce-0317-49de-abb3-3210fce8f5c2?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:01281456-8607-4c35-b0a4-c48e739bcc41@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261115T170000Z
+DTEND:20261115T190000Z
+SUMMARY:The Wildcat Whack: WTF (Weekly Taco Feature)
+LOCATION:Local Cantina\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Your lunch plans could use a little sweet heat. THE WILDCAT WHA
+ CK is this week’s WTF (Weekly Taco Feature)\, inspired by Ohio State’s
+  matchup with Northwestern.Here’s the lineup: fried chicken tossed in ou
+ r house-made\, agave-based hot honey sauce\, purple lime slaw\, chipotle l
+ ime ranch\, and queso fresco in a flour tortilla.Crunchy chicken. Tangy sl
+ aw. Creamy ranch. This taco came ready to play.Avai…\n\nTimes\, the live
+  map and the app: https://30anow.github.io/e/01281456-8607-4c35-b0a4-c48e7
+ 39bcc41
+URL:https://30anow.github.io/e/01281456-8607-4c35-b0a4-c48e739bcc41?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:3973cd35-5610-4cdc-a954-1e6610a74e5f@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261116T170000Z
+DTEND:20261116T190000Z
+SUMMARY:The Wildcat Whack: WTF (Weekly Taco Feature)
+LOCATION:Local Cantina\, Seagrove\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/39
+ 73cd35-5610-4cdc-a954-1e6610a74e5f
+URL:https://30anow.github.io/e/3973cd35-5610-4cdc-a954-1e6610a74e5f?s=cal
+END:VEVENT
+BEGIN:VEVENT
 UID:0ad07a89-845c-43d5-9dd1-69c38eeb5254@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261117T013000Z
 DTEND:20261117T033000Z
 SUMMARY:Trivia Night
@@ -22,7 +101,7 @@ URL:https://30anow.github.io/e/0ad07a89-845c-43d5-9dd1-69c38eeb5254?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:2f2b3a9f-999f-4c12-8418-6be351ad0f8d@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261124T013000Z
 DTEND:20261124T033000Z
 SUMMARY:Trivia Night
@@ -33,7 +112,7 @@ URL:https://30anow.github.io/e/2f2b3a9f-999f-4c12-8418-6be351ad0f8d?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ed1e84c1-24b5-4467-8c25-436ce621d135@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261201T013000Z
 DTEND:20261201T033000Z
 SUMMARY:Trivia Night
@@ -44,7 +123,7 @@ URL:https://30anow.github.io/e/ed1e84c1-24b5-4467-8c25-436ce621d135?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:310cfcd6-7cfd-4d3b-bfd3-44475a793892@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261208T013000Z
 DTEND:20261208T033000Z
 SUMMARY:Trivia Night

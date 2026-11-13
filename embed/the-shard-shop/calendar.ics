@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:9f7b499f-12bd-48d5-b5f2-f03a5a4aa3f0@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261114T153000Z
 DTEND:20261114T223000Z
 SUMMARY:Shard Shop Locals Weekend
@@ -21,5 +21,16 @@ DESCRIPTION:Join us for our monthly local’s weekend! Locals and snowbirds
  h. Call 850-231-0544 to book your class now!\n\nTimes\, the live map and t
  he app: https://30anow.github.io/e/9f7b499f-12bd-48d5-b5f2-f03a5a4aa3f0
 URL:https://30anow.github.io/e/9f7b499f-12bd-48d5-b5f2-f03a5a4aa3f0?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:f77df61e-ffca-40c5-8e57-9752a53b4a7c@30anow.github.io
+DTSTAMP:20261113T152552Z
+DTSTART:20261212T153000Z
+DTEND:20261212T223000Z
+SUMMARY:Shard Shop Locals Weekend
+LOCATION:The Shard Shop\, Grayton Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f7
+ 7df61e-ffca-40c5-8e57-9752a53b4a7c
+URL:https://30anow.github.io/e/f77df61e-ffca-40c5-8e57-9752a53b4a7c?s=cal
 END:VEVENT
 END:VCALENDAR

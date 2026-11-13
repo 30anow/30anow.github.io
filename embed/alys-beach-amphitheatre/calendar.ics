@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:e4a087c7-3e2e-425f-8565-3a6c22473acb@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261113T200000Z
 DTEND:20261113T223000Z
 SUMMARY:Crafted:  Holiday Makers Market
@@ -28,7 +28,7 @@ URL:https://30anow.github.io/e/e4a087c7-3e2e-425f-8565-3a6c22473acb?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:a74e5eb2-fb06-4cb4-8833-a904e5e1fdae@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261114T160000Z
 DTEND:20261114T200000Z
 SUMMARY:Crafted:  Holiday Makers Market
@@ -45,22 +45,24 @@ URL:https://30anow.github.io/e/a74e5eb2-fb06-4cb4-8833-a904e5e1fdae?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:4bc919fa-64a0-459b-88da-bbc4dd2e6f8c@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261115T160000Z
 DTEND:20261115T200000Z
 SUMMARY:Crafted:  Holiday Makers Market
 LOCATION:Alys Beach Amphitheatre\, Alys Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Free\n\nAlys Beach Crafted returns November 11-14\, 2026\, cele
- brating a collection of fine talents that come together in collaboration\,
-  enriching the 30A lifestyle. Crafted features a weekend of events in Alys
-  Beach\, a gathering of renowned craftspeople from around the country shar
- ing the process\, the…\n\nTimes\, the live map and the app: https://30an
- ow.github.io/e/4bc919fa-64a0-459b-88da-bbc4dd2e6f8c
+DESCRIPTION:Free\n\nSunday\, November 15\, 2026\n10 AM - 2 PM\nAlys Beach A
+ mphitheatre\nJoin us in the Alys Beach Amphitheatre for the Alys Beach Cra
+ fted Holiday Makers Market on Friday\, November 13\, 2026\, from 2 - 4:30 
+ pm\; Saturday\, November 14 from 10 am - 2 pm\; and Sunday\, November 15 f
+ rom 10 am - 2 pm. This collection of specially selected artisans will show
+ case their craft\, their inspiration\, and their stories with…\n\nTimes\
+ , the live map and the app: https://30anow.github.io/e/4bc919fa-64a0-459b-
+ 88da-bbc4dd2e6f8c
 URL:https://30anow.github.io/e/4bc919fa-64a0-459b-88da-bbc4dd2e6f8c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:804fbc1d-d60b-4fcd-a102-24ae8718f606@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261127T150000Z
 DTEND:20261127T160000Z
 SUMMARY:Thanksgiving Turkey Burn
@@ -77,7 +79,7 @@ URL:https://30anow.github.io/e/804fbc1d-d60b-4fcd-a102-24ae8718f606?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:9f726946-8f3c-482f-a6fd-9a7c5eaae31f@30anow.github.io
-DTSTAMP:20261113T130023Z
+DTSTAMP:20261113T152552Z
 DTSTART:20261127T220000Z
 DTEND:20261128T003000Z
 SUMMARY:Alys in Winter Wonderland
