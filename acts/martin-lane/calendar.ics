@@ -10,23 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:74a8cd2a-a33b-4cb7-91c5-4e53643235f6@30anow.github.io
-DTSTAMP:20261113T012630Z
-DTSTART:20261113T000000Z
-DTEND:20261113T030000Z
-SUMMARY:Martin Lane
-LOCATION:North Beach Social\, 24200 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:Live music on stage at North Beach Social from 6-9pm. Spend the
-  afternoon or evening with friends and family on the bayside with live ent
- ertainment nightly. North Beach Social is a waterfront restaurant and bar 
- located at the foot of the 331 bridge on the Choctawhatchee Bay. A popular
-  South Walton gathering spot serving a…\n\nTimes\, the live map and the 
- app: https://30anow.github.io/e/74a8cd2a-a33b-4cb7-91c5-4e53643235f6
-URL:https://30anow.github.io/e/74a8cd2a-a33b-4cb7-91c5-4e53643235f6?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:60f92eda-5def-4b97-a92f-e8ad4038e5f4@30anow.github.io
-DTSTAMP:20261113T012630Z
+DTSTAMP:20261113T100406Z
 DTSTART:20261125T000000Z
 DTEND:20261125T030000Z
 SUMMARY:Martin Lane
