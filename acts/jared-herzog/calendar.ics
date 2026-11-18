@@ -10,23 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:ce0112f9-a30f-4b54-8111-a57ff7b6da8d@30anow.github.io
-DTSTAMP:20261118T023347Z
-DTSTART:20261118T000000Z
-DTEND:20261118T030000Z
-SUMMARY:Jared Herzog
-LOCATION:North Beach Social\, 24200 Hwy 331 S\, Santa Rosa Beach\, FL
-DESCRIPTION:Live music on stage at North Beach Social from 6-9pm. Spend the
-  afternoon or evening with friends and family on the bayside with live ent
- ertainment. North Beach Social is a beach restaurant and bar located at t
- he foot of the 331 bridge in Santa Rosa Beach on the Choctawhatchee Bay. A
-  popular South Walton gathering spot…\n\nTimes\, the live map and the ap
- p: https://30anow.github.io/e/ce0112f9-a30f-4b54-8111-a57ff7b6da8d
-URL:https://30anow.github.io/e/ce0112f9-a30f-4b54-8111-a57ff7b6da8d?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:30cbd0bb-6257-41fa-ba85-dd5d332d5f96@30anow.github.io
-DTSTAMP:20261118T023347Z
+DTSTAMP:20261118T104553Z
 DTSTART:20261121T153000Z
 DTEND:20261121T183000Z
 SUMMARY:Jared Herzog
@@ -37,7 +22,7 @@ URL:https://30anow.github.io/e/30cbd0bb-6257-41fa-ba85-dd5d332d5f96?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:cc97a67a-82b5-49dd-996f-8ae479cfb983@30anow.github.io
-DTSTAMP:20261118T023347Z
+DTSTAMP:20261118T104553Z
 DTSTART:20261127T220000Z
 DTEND:20261128T010000Z
 SUMMARY:Jared Herzog
@@ -53,7 +38,7 @@ URL:https://30anow.github.io/e/cc97a67a-82b5-49dd-996f-8ae479cfb983?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1f21eec2-0a34-44a5-b084-29ea65ee5427@30anow.github.io
-DTSTAMP:20261118T023347Z
+DTSTAMP:20261118T104553Z
 DTSTART:20261128T153000Z
 DTEND:20261128T183000Z
 SUMMARY:Jared Herzog
@@ -64,7 +49,7 @@ URL:https://30anow.github.io/e/1f21eec2-0a34-44a5-b084-29ea65ee5427?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:8b4d4434-730c-49d0-b611-119c12741d5b@30anow.github.io
-DTSTAMP:20261118T023347Z
+DTSTAMP:20261118T104553Z
 DTSTART:20261211T220000Z
 DTEND:20261212T010000Z
 SUMMARY:Jared Herzog
