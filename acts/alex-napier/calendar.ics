@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:c9626449-422c-4122-ac67-bd53bfad122b@30anow.github.io
-DTSTAMP:20261123T155300Z
+DTSTAMP:20261123T191704Z
 DTSTART:20261124T000000Z
 DTEND:20261124T030000Z
 SUMMARY:Alex Napier - Main Stage
@@ -23,7 +23,7 @@ URL:https://30anow.github.io/e/c9626449-422c-4122-ac67-bd53bfad122b?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:2ef89f6d-3803-48dd-ba11-b68222c30fbb@30anow.github.io
-DTSTAMP:20261123T155300Z
+DTSTAMP:20261123T191704Z
 DTSTART:20261125T000000Z
 DTEND:20261125T030000Z
 SUMMARY:Alex Napier - Main Stage
@@ -35,19 +35,19 @@ URL:https://30anow.github.io/e/2ef89f6d-3803-48dd-ba11-b68222c30fbb?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:78f664ae-5434-4a27-9bb6-6880beeb83c7@30anow.github.io
-DTSTAMP:20261123T155300Z
+DTSTAMP:20261123T191704Z
 DTSTART:20261126T000000Z
 DTEND:20261126T030000Z
 SUMMARY:Alex Napier - Main Stage
 LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
  L
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/78
- f664ae-5434-4a27-9bb6-6880beeb83c7
+DESCRIPTION:Catch Alex Napier live from 6-9PM!\n\nTimes\, the live map and 
+ the app: https://30anow.github.io/e/78f664ae-5434-4a27-9bb6-6880beeb83c7
 URL:https://30anow.github.io/e/78f664ae-5434-4a27-9bb6-6880beeb83c7?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:4ba2d9cc-07a9-4c1d-a12c-a5e420fd1270@30anow.github.io
-DTSTAMP:20261123T155300Z
+DTSTAMP:20261123T191704Z
 DTSTART:20261201T000000Z
 DTEND:20261201T030000Z
 SUMMARY:Alex Napier - Main Stage
@@ -60,5 +60,113 @@ DESCRIPTION:Live music at Old Florida Fish House featuring Alex Napier Mond
  he twinkling lights. Enjoy incredible views…\n\nTimes\, the live map and
   the app: https://30anow.github.io/e/4ba2d9cc-07a9-4c1d-a12c-a5e420fd1270
 URL:https://30anow.github.io/e/4ba2d9cc-07a9-4c1d-a12c-a5e420fd1270?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:9092deb5-23e9-4382-96e0-e28221b7f019@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261202T000000Z
+DTEND:20261202T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/90
+ 92deb5-23e9-4382-96e0-e28221b7f019
+URL:https://30anow.github.io/e/9092deb5-23e9-4382-96e0-e28221b7f019?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:4943784a-41d0-42ec-a023-f7607613ebe5@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261203T000000Z
+DTEND:20261203T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/49
+ 43784a-41d0-42ec-a023-f7607613ebe5
+URL:https://30anow.github.io/e/4943784a-41d0-42ec-a023-f7607613ebe5?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:536eff29-55c0-4139-8521-c6bcc80e71fc@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261209T000000Z
+DTEND:20261209T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/53
+ 6eff29-55c0-4139-8521-c6bcc80e71fc
+URL:https://30anow.github.io/e/536eff29-55c0-4139-8521-c6bcc80e71fc?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:46b3d236-177c-42d6-b5f3-11d4e7317e86@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261210T000000Z
+DTEND:20261210T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/46
+ b3d236-177c-42d6-b5f3-11d4e7317e86
+URL:https://30anow.github.io/e/46b3d236-177c-42d6-b5f3-11d4e7317e86?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:e0632672-9af8-4695-80ce-e7571d3d21e9@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261214T233000Z
+DTEND:20261215T023000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e0
+ 632672-9af8-4695-80ce-e7571d3d21e9
+URL:https://30anow.github.io/e/e0632672-9af8-4695-80ce-e7571d3d21e9?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:72d684cf-a364-4df9-adb9-783a28abf333@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261216T000000Z
+DTEND:20261216T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/72
+ d684cf-a364-4df9-adb9-783a28abf333
+URL:https://30anow.github.io/e/72d684cf-a364-4df9-adb9-783a28abf333?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:f360afe7-f453-4f61-9bb5-87f300ca170e@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261217T000000Z
+DTEND:20261217T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/f3
+ 60afe7-f453-4f61-9bb5-87f300ca170e
+URL:https://30anow.github.io/e/f360afe7-f453-4f61-9bb5-87f300ca170e?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:aa9aabc8-32b1-468e-9954-6dfc3987bcd6@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261221T233000Z
+DTEND:20261222T023000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/aa
+ 9aabc8-32b1-468e-9954-6dfc3987bcd6
+URL:https://30anow.github.io/e/aa9aabc8-32b1-468e-9954-6dfc3987bcd6?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:86ec658b-a713-4db4-aa39-03c7f9d58cb5@30anow.github.io
+DTSTAMP:20261123T191704Z
+DTSTART:20261223T000000Z
+DTEND:20261223T030000Z
+SUMMARY:Alex Napier-Main Stage
+LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
+ L
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/86
+ ec658b-a713-4db4-aa39-03c7f9d58cb5
+URL:https://30anow.github.io/e/86ec658b-a713-4db4-aa39-03c7f9d58cb5?s=cal
 END:VEVENT
 END:VCALENDAR
