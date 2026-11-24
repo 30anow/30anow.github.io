@@ -12,13 +12,15 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:29ce5885-60af-4540-9572-1d63297a0083@30anow.github.io
-DTSTAMP:20261124T154504Z
+DTSTAMP:20261124T185543Z
 DTSTART:20261126T160000Z
 DTEND:20261126T210000Z
 SUMMARY:Thanksgiving Day Buffet
 LOCATION:The Lakehouse at WaterColor\, WaterColor\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/29
- ce5885-60af-4540-9572-1d63297a0083
+DESCRIPTION:Enjoy a traditional Thanksgiving spread and all the classic tri
+ mmings. Reservations Required: WCISocialEvents@stjoe.com.\n\nTimes\, the l
+ ive map and the app: https://30anow.github.io/e/29ce5885-60af-4540-9572-1d
+ 63297a0083
 URL:https://30anow.github.io/e/29ce5885-60af-4540-9572-1d63297a0083?s=cal
 END:VEVENT
 END:VCALENDAR

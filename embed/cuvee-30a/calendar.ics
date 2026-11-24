@@ -11,13 +11,19 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:cd4cf600-a4f4-4a74-b2c1-eabfc3f9d21b@30anow.github.io
-DTSTAMP:20261124T154504Z
+DTSTAMP:20261124T185543Z
 DTSTART:20261126T170000Z
 DTEND:20261126T210000Z
 SUMMARY:Thanksgiving Day
 LOCATION:Cuvee 30A\, Inlet Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/cd
- 4cf600-a4f4-4a74-b2c1-eabfc3f9d21b
+DESCRIPTION:You’re invited to Chef Tim Creehan’s annual holiday traditi
+ on featuring signature Louisiana Fried Turkey with home-made gravy\, Roast
+ ed Pork Loin\, and all the holiday trimmings. Open Thanksgiving Day\, 11-3
+ pm Thursday November 26\, 2026. Cuvee 30A located at 30Avenue in Inlet Bea
+ ch\, Florida\, reservations strongly recommended. For early access to excl
+ usive events and holiday reservations before they…\n\nTimes\, the live m
+ ap and the app: https://30anow.github.io/e/cd4cf600-a4f4-4a74-b2c1-eabfc3f
+ 9d21b
 URL:https://30anow.github.io/e/cd4cf600-a4f4-4a74-b2c1-eabfc3f9d21b?s=cal
 END:VEVENT
 END:VCALENDAR

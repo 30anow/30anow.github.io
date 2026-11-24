@@ -9,4 +9,15 @@ X-WR-CALDESC:Ronni Kay's shows on 30A\, as 30A Now lists them\, kept up to
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:3aa3a53a-6d04-455d-8b2b-c867f3e23a7e@30anow.github.io
+DTSTAMP:20261124T185543Z
+DTSTART:20261224T010000Z
+DTEND:20261224T040000Z
+SUMMARY:Ronni Kay
+LOCATION:Shades Bar & Grill\, Inlet Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/3a
+ a3a53a-6d04-455d-8b2b-c867f3e23a7e
+URL:https://30anow.github.io/e/3aa3a53a-6d04-455d-8b2b-c867f3e23a7e?s=cal
+END:VEVENT
 END:VCALENDAR

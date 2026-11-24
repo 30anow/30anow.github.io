@@ -10,25 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:43859ba6-8daa-4956-b8c5-4f364e0a6726@30anow.github.io
-DTSTAMP:20261124T154504Z
-DTSTART:20261124T160000Z
-DTEND:20261124T180000Z
-SUMMARY:Thanksgiving Dinner Preorders
-LOCATION:Gallion's\, Rosemary Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Bring home a Thanksgiving feast from Gallion’s! Each heat-and
- -serve package feeds up to six guests and includes a 12-pound smoked turke
- y\, traditional sides\, dinner rolls\, gravy\, cranberry sauce and your ch
- oice of pumpkin or pecan pie. Quantities are limited. Order online for pic
- kup Wednesday\, November 25\, from 2-4 p.m. Please collect your order at t
- he pickup time selected when booking.\nCall 850-3…\n\nTimes\, the live m
- ap and the app: https://30anow.github.io/e/43859ba6-8daa-4956-b8c5-4f364e0
- a6726
-URL:https://30anow.github.io/e/43859ba6-8daa-4956-b8c5-4f364e0a6726?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:e34c1a9e-c15c-4d36-b505-40cc0049eb5d@30anow.github.io
-DTSTAMP:20261124T154504Z
+DTSTAMP:20261124T185543Z
 DTSTART:20261125T200000Z
 DTEND:20261125T220000Z
 SUMMARY:Thanksgiving Dinner Pickup

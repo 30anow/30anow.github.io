@@ -12,26 +12,36 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:df631544-7fc5-4d1e-b994-8fdd6102b808@30anow.github.io
-DTSTAMP:20261124T154504Z
+DTSTAMP:20261124T185543Z
 DTSTART:20261126T180000Z
 DTEND:20261126T200000Z
 SUMMARY:Thanksgiving
 LOCATION:The Perfect Pig – Watercolor\, WaterColor\, Santa Rosa Beach\, F
  L
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/df
- 631544-7fc5-4d1e-b994-8fdd6102b808
+DESCRIPTION:THANKSGIVING AT THE PERFECT PIG – WATERCOLOR! Let us take car
+ e of the cooking this Thanksgiving! Join us at The Perfect Pig in WaterCol
+ or for a delicious holiday meal filled with all your Thanksgiving favorite
+ s. Reservations are still available\, but spots are filling up! Give us a 
+ call today to reserve your table and spend less time in the kitchen and mo
+ re time enjoying the holiday with family an…\n\nTimes\, the live map and
+  the app: https://30anow.github.io/e/df631544-7fc5-4d1e-b994-8fdd6102b808
 URL:https://30anow.github.io/e/df631544-7fc5-4d1e-b994-8fdd6102b808?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:26c6856c-4a32-4c43-816d-14ef92841128@30anow.github.io
-DTSTAMP:20261124T154504Z
+DTSTAMP:20261124T185543Z
 DTSTART:20261126T203000Z
 DTEND:20261126T223000Z
 SUMMARY:Thanksgiving
 LOCATION:The Perfect Pig – Watercolor\, WaterColor\, Santa Rosa Beach\, F
  L
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/26
- c6856c-4a32-4c43-816d-14ef92841128
+DESCRIPTION:THANKSGIVING AT THE PERFECT PIG – WATERCOLOR! Let us take car
+ e of the cooking this Thanksgiving! Join us at The Perfect Pig in WaterCol
+ or for a delicious holiday meal filled with all your Thanksgiving favorite
+ s. Reservations are still available\, but spots are filling up! Give us a 
+ call today to reserve your table and spend less time in the kitchen and mo
+ re time enjoying the holiday with family an…\n\nTimes\, the live map and
+  the app: https://30anow.github.io/e/26c6856c-4a32-4c43-816d-14ef92841128
 URL:https://30anow.github.io/e/26c6856c-4a32-4c43-816d-14ef92841128?s=cal
 END:VEVENT
 END:VCALENDAR
