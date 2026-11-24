@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:34f56378-d504-4ed9-ac64-a3d2ed3b10a2@30anow.github.io
-DTSTAMP:20261123T220430Z
+DTSTAMP:20261124T005243Z
 DTSTART:20261124T160000Z
 DTEND:20261124T190000Z
 SUMMARY:Showcase of Homes | 43 Fairwind Ln. & 29 N. Sea Garden St.
@@ -25,7 +25,7 @@ URL:https://30anow.github.io/e/34f56378-d504-4ed9-ac64-a3d2ed3b10a2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:13fbba2b-2f1a-4147-abc4-f2277bd61068@30anow.github.io
-DTSTAMP:20261123T220430Z
+DTSTAMP:20261124T005243Z
 DTSTART:20261125T223000Z
 DTEND:20261126T000000Z
 SUMMARY:Cooking Demo for Owners & Rental Guests
@@ -42,7 +42,7 @@ URL:https://30anow.github.io/e/13fbba2b-2f1a-4147-abc4-f2277bd61068?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1a73984c-99a5-445a-9517-15592526fbd2@30anow.github.io
-DTSTAMP:20261123T220430Z
+DTSTAMP:20261124T005243Z
 DTSTART:20261128T160000Z
 DTEND:20261128T190000Z
 SUMMARY:Showcase of Homes | 43 Fairwind Ln. & 185 Elbow Beach Rd.
@@ -53,5 +53,22 @@ DESCRIPTION:Join us November 28 from 10 AM–1 PM for a Showcase of Homes a
  ve map and the app: https://30anow.github.io/e/1a73984c-99a5-445a-9517-155
  92526fbd2
 URL:https://30anow.github.io/e/1a73984c-99a5-445a-9517-15592526fbd2?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:464ec739-fb13-42d3-aaaa-630586355298@30anow.github.io
+DTSTAMP:20261124T005243Z
+DTSTART:20261223T223000Z
+DTEND:20261224T000000Z
+SUMMARY:Cooking Demo for Owners & Rental Guests
+LOCATION:Alys Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:$25\n\nStep into the kitchen with the Alys Beach culinary team 
+ for a new monthly series of intimate cooking demonstrations at The Summerh
+ ouse.\nArrive at 4:30 PM and enjoy cocktails available for purchase from t
+ he bar before the demonstration begins at 4:45 PM. Guests will enjoy a tas
+ ting of the featured preparations\, and each attendee will receive a recip
+ e card to take home.\nLimited to 16 guests. Exclus…\n\nTimes\, the live 
+ map and the app: https://30anow.github.io/e/464ec739-fb13-42d3-aaaa-630586
+ 355298
+URL:https://30anow.github.io/e/464ec739-fb13-42d3-aaaa-630586355298?s=cal
 END:VEVENT
 END:VCALENDAR
