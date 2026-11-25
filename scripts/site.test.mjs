@@ -2787,26 +2787,28 @@ describe('the act page’s door into the app', () => {
   const now = noonOn('2026-09-08');
   const act = actPages([row({ title: 'Jared Herzog' }), row({ title: 'Jared Herzog', venue: 'Crackings' })], now)[0];
 
-  it('opens the feed, which every bundle has, until the store’s binary has the act route', () => {
-    // Flip ACT_ROUTE_IN_BINARY when 1.2.0 is in the store, and this line with it.
-    assert.equal(ACT_ROUTE_IN_BINARY, false);
-    // The feed as these pages hand it over: tagged, so the app does not
-    // take the tap for its widget's (FEED_APP_LINK; its own tests are below).
-    assert.equal(actAppArgument('jared-herzog'), 'thirtyanow://feed?s=web');
+  it('names the act, now that the store’s binary has the route (25 Nov 2026)', () => {
+    // 1.2.0 reached the App Store on 25 Nov 2026 with /act/<name> in the
+    // bundle it ships with, so the switch is on. Until that day this test
+    // held the feed in the act's place, for the reason in the comment above.
+    assert.equal(ACT_ROUTE_IN_BINARY, true);
+    assert.equal(actAppArgument('jared-herzog'), 'thirtyanow://act/jared-herzog');
+    // The feed is still what a page hands over if the switch is ever off
+    // again: tagged, so the app does not take the tap for its widget's.
     assert.equal(actAppArgument('jared-herzog', false), FEED_APP_LINK);
     const html = renderAct(act, now).html;
     // Safari's banner (and its no-script copy) and the Open button.
-    assert.equal((html.match(/app-argument=thirtyanow:\/\/feed\?s=web"/g) || []).length, 1);
-    assert.ok(html.includes(bannerMeta(FEED_APP_LINK)));
-    assert.match(html, /<a class="btn" id="open" href="[^"]+" data-app="thirtyanow:\/\/feed\?s=web">Open in 30A Now<\/a>/);
-    assert.doesNotMatch(html, /thirtyanow:\/\/act\//);
+    assert.equal((html.match(/app-argument=thirtyanow:\/\/act\/jared-herzog"/g) || []).length, 1);
+    assert.ok(html.includes(bannerMeta('thirtyanow://act/jared-herzog')));
+    assert.match(html, /<a class="btn" id="open" href="[^"]+" data-app="thirtyanow:\/\/act\/jared-herzog">Open in 30A Now<\/a>/);
+    assert.doesNotMatch(html, /thirtyanow:\/\/feed/);
     // The page between shows hands out the same.
     const quiet = renderActQuiet({ slug: 'jared-herzog', name: 'Jared Herzog' });
-    assert.match(quiet, /data-app="thirtyanow:\/\/feed\?s=web"/);
-    assert.doesNotMatch(quiet, /thirtyanow:\/\/act\//);
-    // The same argument the acts index and /tonight/ carry.
+    assert.match(quiet, /data-app="thirtyanow:\/\/act\/jared-herzog"/);
+    assert.doesNotMatch(quiet, /thirtyanow:\/\/feed/);
+    // The acts index is a list, not an act: it still opens the feed, as /tonight/ does.
     assert.match(renderActsIndex([act], now).html, /data-app="thirtyanow:\/\/feed\?s=web"/);
-    // The web app is not a binary: its link names the act, as before.
+    // The web app's own link names the act, as it always has.
     assert.match(html, /<a class="live" href="\/act\/jared-herzog\?s=seo-act">/);
     // The venue page's route has been in the binary since 1.0.0.
     const venue = venuePages([row(), row(), row()], now)[0];
@@ -2840,9 +2842,16 @@ describe('the feed link these pages hand the app is not the widget’s (10 Oct 2
   // widget's own link, and any link that opens the feed.
   const WIDGET_OWN_LINK = /^thirtyanow:\/\/\/?feed\/?$/i;
   const WIDGET_FEED_LINK = /^thirtyanow:\/\/\/?feed\/?(?:[?#]|$)/i;
+  // /tonight/ and the acts index. An act's page and its page between
+  // shows handed the feed over too until 25 Nov 2026, when the store's
+  // binary got the act route (ACT_ROUTE_IN_BINARY): they name the act
+  // now, and the last test here holds that their link is not the
+  // widget's either.
   const feedPages = () => ({
     tonight: renderTonight(rows, venues, now).html,
     'acts index': renderActsIndex([act], now).html,
+  });
+  const actPagesHtml = () => ({
     act: renderAct(act, now).html,
     'act between shows': renderActQuiet({ slug: 'jared-herzog', name: 'Jared Herzog' }),
   });
@@ -2856,7 +2865,7 @@ describe('the feed link these pages hand the app is not the widget’s (10 Oct 2
     assert.match(FEED_APP_LINK, /^thirtyanow:\/\/feed\?s=[\w.-]+$/);
   });
 
-  it('is what the Open button and the banner carry on /tonight/, the acts index and an act page', () => {
+  it('is what the Open button and the banner carry on /tonight/ and the acts index', () => {
     for (const [name, html] of Object.entries(feedPages())) {
       assert.equal(/id="open" href="[^"]*" data-app="([^"]*)"/.exec(html)[1], FEED_APP_LINK, name);
       assert.ok(html.includes(bannerMeta(FEED_APP_LINK)), name);
@@ -2883,6 +2892,17 @@ describe('the feed link these pages hand the app is not the widget’s (10 Oct 2
       assert.equal(banner(html, `?from=${SAM}`), `thirtyanow://feed?s=web&from=${SAM}`, name);
       assert.equal(WIDGET_OWN_LINK.test(openLink(html, `?from=${SAM}`)), false, name);
       assert.equal(WIDGET_FEED_LINK.test(openLink(html, `?from=${SAM}`)), true, name);
+    }
+  });
+
+  it('an act page names the act, which is not the widget’s link or the feed’s (25 Nov 2026)', () => {
+    for (const [name, html] of Object.entries(actPagesHtml())) {
+      assert.equal(openLink(html, ''), 'thirtyanow://act/jared-herzog', name);
+      assert.equal(banner(html, ''), 'thirtyanow://act/jared-herzog', name);
+      assert.equal(WIDGET_OWN_LINK.test(openLink(html, '')), false, name);
+      assert.equal(WIDGET_FEED_LINK.test(openLink(html, '')), false, name);
+      // The visitor's own tag stays off the link here too.
+      assert.equal(openLink(html, '?s=share-act&ref=the-red-bar'), 'thirtyanow://act/jared-herzog', name);
     }
   });
 

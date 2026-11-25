@@ -1813,8 +1813,13 @@ export function shareFooter(page) {
  * true once the store's binary was built with the route - 1.2.0, the
  * step is in docs/app-store-checklist.md in the app repo ("A new
  * binary") - and the test beside it says what changes.
+ *
+ * True since 25 Nov 2026: 1.2.0 reached the App Store that day, built
+ * with the route in its bundle and with the associated domain, so an
+ * act page's banner and its Open button now name the act. A phone still
+ * on 1.1.0 has had the route over the air since October.
  */
-export const ACT_ROUTE_IN_BINARY = false;
+export const ACT_ROUTE_IN_BINARY = true;
 
 /** What an act page hands the installed app: the act's own screen once every binary has it, the feed until then (tagged: FEED_APP_LINK). */
 export function actAppArgument(slug, inBinary = ACT_ROUTE_IN_BINARY) {
