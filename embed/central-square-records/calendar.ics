@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Central Square Records on 30A Now
+X-WR-CALDESC:Every event at Central Square Records listed on 30A Now\, kept
+  up to date: https://30anow.github.io/venues/central-square-records/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:f9b6af00-517a-4f0d-aab3-d4e15b910531@30anow.github.io
+DTSTAMP:20261125T180118Z
+DTSTART:20261127T140000Z
+DTEND:20261127T160000Z
+SUMMARY:Black Friday/Record Store Day
+LOCATION:Central Square Records\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:Celebrate Record Store Day/Black Friday with Central Square Rec
+ ords in Seaside\, on November 27th\, starting at 8am! There will be Exclus
+ ive Vinyl Releases at the ready\, from such artists as Noah Kahan\, the Gr
+ ateful Dead\, Billy Joel\, KATSEYE\, Prince\, TV Girl\, Ween\, & many more
+ .\n\nTimes\, the live map and the app: https://30anow.github.io/e/f9b6af00
+ -517a-4f0d-aab3-d4e15b910531
+URL:https://30anow.github.io/e/f9b6af00-517a-4f0d-aab3-d4e15b910531?s=cal
+END:VEVENT
+END:VCALENDAR
