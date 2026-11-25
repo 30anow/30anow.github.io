@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Sundog Books on 30A Now
+X-WR-CALDESC:Every event at Sundog Books listed on 30A Now\, kept up to dat
+ e: https://30anow.github.io/venues/sundog-books/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:01586184-2271-4821-a4af-aba762a8cdad@30anow.github.io
+DTSTAMP:20261125T004803Z
+DTSTART:20261213T013000Z
+DTEND:20261213T033000Z
+SUMMARY:Sundog Books Christmas Event
+LOCATION:Sundog Books\, Seaside\, Santa Rosa Beach\, FL
+DESCRIPTION:$5 (from listing)\n\nGood grief: It’s Christmas at Sundog Boo
+ ks! Join us at Sundog on Saturday\, December 12th at 7:30 PM for a showing
+  of the Charlie Brown Christmas Special projected onto the shelves of the 
+ bookstore. Tickets are $5 and include the movie showing\, popcorn\, and ho
+ t cocoa!\n\nTimes\, the live map and the app: https://30anow.github.io/e/0
+ 1586184-2271-4821-a4af-aba762a8cdad
+URL:https://30anow.github.io/e/01586184-2271-4821-a4af-aba762a8cdad?s=cal
+END:VEVENT
+END:VCALENDAR
