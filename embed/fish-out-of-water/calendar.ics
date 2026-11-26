@@ -10,24 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:52c41f61-a5b4-49f2-910e-6f4261507ee8@30anow.github.io
-DTSTAMP:20261126T174526Z
-DTSTART:20261126T170000Z
-DTEND:20261126T190000Z
-SUMMARY:Thanksgiving Day
-LOCATION:Fish Out of Water\, 34 Goldenrod Cir\, WaterColor\, FL
-DESCRIPTION:11 AM–9 PM | There’s not a better day than one with turkey
-  and dressing. Thanksgiving featured plates are available all day for purc
- hase along with All-Day à la carte menu. Enjoy your day with family and 
- let us do all the work for you!  Reservations are not accepted\; seating 
- is offered on a first-come\, first-served basis.\n\nTimes\, the live map a
- nd the app: https://30anow.github.io/e/52c41f61-a5b4-49f2-910e-6f4261507ee
- 8
-URL:https://30anow.github.io/e/52c41f61-a5b4-49f2-910e-6f4261507ee8?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:a8f2ca99-31a1-4b1a-9c57-1320760132bb@30anow.github.io
-DTSTAMP:20261126T174526Z
+DTSTAMP:20261126T194135Z
 DTSTART:20261127T140000Z
 DTEND:20261127T180000Z
 SUMMARY:Breakfast with Santa
@@ -42,7 +26,7 @@ URL:https://30anow.github.io/e/a8f2ca99-31a1-4b1a-9c57-1320760132bb?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:637f5ce1-3780-40f8-b1e2-d76f04ceb05b@30anow.github.io
-DTSTAMP:20261126T174526Z
+DTSTAMP:20261126T194135Z
 DTSTART:20261225T230000Z
 DTEND:20261226T030000Z
 SUMMARY:Christmas Day Dinner
