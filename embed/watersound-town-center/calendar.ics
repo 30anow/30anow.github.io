@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:45a7e13a-1582-452a-8036-38bd0499f2ce@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261201T191500Z
 DTEND:20261201T211500Z
 SUMMARY:Words on Wheels
@@ -22,37 +22,29 @@ URL:https://30anow.github.io/e/45a7e13a-1582-452a-8036-38bd0499f2ce?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:d4afb5f3-d03d-4ea0-8895-006db758026a@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261204T220000Z
 DTEND:20261205T020000Z
 SUMMARY:First Friday Concert Series + Art Bazaar
 LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
-DESCRIPTION:Free\n\nCome out to the Art Bazaar taking place Friday Dec 4 at
-  4pm at The Pavilion in Watersound.. featuring local artists and makers. T
- hen\, Michelle Malone & The Hot Toddies perform at The Pavilion stage from
-  6:00pm til 8:00pm. Bring chairs and blankets. Bring your crew\, a chair a
- nd your dancing shoes for this free\,…\n\nTimes\, the live map and the a
- pp: https://30anow.github.io/e/d4afb5f3-d03d-4ea0-8895-006db758026a
+DESCRIPTION:Free\n\nTimes\, the live map and the app: https://30anow.github
+ .io/e/d4afb5f3-d03d-4ea0-8895-006db758026a
 URL:https://30anow.github.io/e/d4afb5f3-d03d-4ea0-8895-006db758026a?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e7feb943-0e53-4908-84e1-ac339c6e807c@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261205T000000Z
 DTEND:20261205T020000Z
 SUMMARY:First Friday Concert Series: Michelle Malone & The Hot Toddies
 LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
-DESCRIPTION:Michelle Malone & The Hot Toddies at The Pavilion stage on Frid
- ay December 4 from 6:00pm til 8:00pm. Come early to explore the Art Bazaar
- \, featuring local artists and makers\, starting at 4 p.m. Bring chairs an
- d blankets. The First Friday Concert Series returns on the first Friday of
-  each month\, featuring an exciting lineup…\n\nTimes\, the live map and 
- the app: https://30anow.github.io/e/e7feb943-0e53-4908-84e1-ac339c6e807c
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/e7
+ feb943-0e53-4908-84e1-ac339c6e807c
 URL:https://30anow.github.io/e/e7feb943-0e53-4908-84e1-ac339c6e807c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:713c4933-aea4-4ae2-86ae-936e6da6f681@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261205T233000Z
 DTEND:20261206T020000Z
 SUMMARY:Holiday Movie Night
@@ -63,7 +55,7 @@ URL:https://30anow.github.io/e/713c4933-aea4-4ae2-86ae-936e6da6f681?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:0c7c05b9-b428-4890-bab3-06de91b91805@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261208T191500Z
 DTEND:20261208T211500Z
 SUMMARY:Words on Wheels
@@ -74,7 +66,7 @@ URL:https://30anow.github.io/e/0c7c05b9-b428-4890-bab3-06de91b91805?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:e4661375-16d7-4a87-a493-a3c0d5b24baa@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261210T220000Z
 DTEND:20261211T000000Z
 SUMMARY:Santa Claus
@@ -90,7 +82,7 @@ URL:https://30anow.github.io/e/e4661375-16d7-4a87-a493-a3c0d5b24baa?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:1466f835-8222-4232-b190-2a92d6b099c0@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261215T191500Z
 DTEND:20261215T211500Z
 SUMMARY:Words on Wheels
@@ -101,23 +93,18 @@ URL:https://30anow.github.io/e/1466f835-8222-4232-b190-2a92d6b099c0?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:94834717-0c0e-4a34-8a85-59c85d950c5c@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261216T000000Z
 DTEND:20261216T020000Z
 SUMMARY:Kids Night Out
 LOCATION:Watersound Town Center\, WaterSound\, Santa Rosa Beach\, FL
-DESCRIPTION:Kids’ Night Out is back at The Pavilion at Watersound Town Ce
- nter! Come out for evenings of family fun featuring activities\, music and
-  plenty of entertainment for the kids. From games and creative activities 
- to music and more\, there’s something to keep little ones smiling while 
- parents relax and enjoy the evening. Free & open…\n\nTimes\, the live ma
- p and the app: https://30anow.github.io/e/94834717-0c0e-4a34-8a85-59c85d95
- 0c5c
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/94
+ 834717-0c0e-4a34-8a85-59c85d950c5c
 URL:https://30anow.github.io/e/94834717-0c0e-4a34-8a85-59c85d950c5c?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f473cf03-7aee-46b8-845a-52406c090188@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261217T220000Z
 DTEND:20261218T000000Z
 SUMMARY:Santa Claus
@@ -133,7 +120,7 @@ URL:https://30anow.github.io/e/f473cf03-7aee-46b8-845a-52406c090188?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:c4623a09-a17c-4f20-a5fb-25966eb45902@30anow.github.io
-DTSTAMP:20261126T194135Z
+DTSTAMP:20261126T201520Z
 DTSTART:20261222T191500Z
 DTEND:20261222T211500Z
 SUMMARY:Words on Wheels
