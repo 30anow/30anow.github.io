@@ -11,19 +11,19 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:ae3bb1e6-0525-4660-bde6-3db8f9d64bb2@30anow.github.io
-DTSTAMP:20261126T150157Z
+DTSTAMP:20261126T174526Z
 DTSTART:20261127T230000Z
 DTEND:20261128T030000Z
 SUMMARY:Russ Whitten - Lakeside
 LOCATION:Old Florida Fish House\, 33 Heron's Watch Way\, Seagrove Beach\, F
  L
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ae
- 3bb1e6-0525-4660-bde6-3db8f9d64bb2
+DESCRIPTION:Catch Russ Whitten live from 5-9PM!\n\nTimes\, the live map and
+  the app: https://30anow.github.io/e/ae3bb1e6-0525-4660-bde6-3db8f9d64bb2
 URL:https://30anow.github.io/e/ae3bb1e6-0525-4660-bde6-3db8f9d64bb2?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:7d740433-b0bc-453c-9504-11e02265806d@30anow.github.io
-DTSTAMP:20261126T150157Z
+DTSTAMP:20261126T174526Z
 DTSTART:20261129T230000Z
 DTEND:20261130T030000Z
 SUMMARY:Russ Whitten - Lakeside
