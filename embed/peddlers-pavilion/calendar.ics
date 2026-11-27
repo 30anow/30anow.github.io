@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:d1c0a0db-a8e8-40fe-abe4-45678887f3a6@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261128T000000Z
 DTEND:20261128T033000Z
 SUMMARY:Nate Kelly
@@ -23,18 +23,19 @@ URL:https://30anow.github.io/e/d1c0a0db-a8e8-40fe-abe4-45678887f3a6?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:ba887d53-899a-4e37-96d3-26d9368a43c8@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261129T000000Z
 DTEND:20261129T033000Z
 SUMMARY:Jared Herzog
 LOCATION:Peddlers Pavilion\, Rosemary Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/ba
- 887d53-899a-4e37-96d3-26d9368a43c8
+DESCRIPTION:Catch Jared Herzog live from 6:00 PM to 9:30 PM!\n\nTimes\, the
+  live map and the app: https://30anow.github.io/e/ba887d53-899a-4e37-96d3-
+ 26d9368a43c8
 URL:https://30anow.github.io/e/ba887d53-899a-4e37-96d3-26d9368a43c8?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:77baf4e6-b892-4320-999c-2ee8d4c0012b@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261129T150000Z
 DTEND:20261129T190000Z
 SUMMARY:Peddlers Pavilion Farmers Market
@@ -50,7 +51,7 @@ URL:https://30anow.github.io/e/77baf4e6-b892-4320-999c-2ee8d4c0012b?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:f0dd3812-b61c-4420-94c2-2d3890fe2445@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261206T150000Z
 DTEND:20261206T190000Z
 SUMMARY:Peddlers Pavilion Farmers Market
@@ -66,7 +67,7 @@ URL:https://30anow.github.io/e/f0dd3812-b61c-4420-94c2-2d3890fe2445?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:17b0ca06-301b-47b5-8d14-0242a54f7f12@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261212T160000Z
 DTEND:20261212T230000Z
 SUMMARY:Holiday Market
@@ -77,7 +78,7 @@ URL:https://30anow.github.io/e/17b0ca06-301b-47b5-8d14-0242a54f7f12?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:3bce1894-42c2-452e-906e-2a6a1db60624@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261213T150000Z
 DTEND:20261213T190000Z
 SUMMARY:Peddlers Pavilion Farmers Market
@@ -93,7 +94,7 @@ URL:https://30anow.github.io/e/3bce1894-42c2-452e-906e-2a6a1db60624?s=cal
 END:VEVENT
 BEGIN:VEVENT
 UID:339d8271-e10c-4e12-8d12-bfe1d8c26a0f@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261220T150000Z
 DTEND:20261220T190000Z
 SUMMARY:Peddlers Pavilion Farmers Market
@@ -106,5 +107,32 @@ DESCRIPTION:Free\n\nGrab a friend and enjoy your morning coffee at Peddlers
  age…\n\nTimes\, the live map and the app: https://30anow.github.io/e/339
  d8271-e10c-4e12-8d12-bfe1d8c26a0f
 URL:https://30anow.github.io/e/339d8271-e10c-4e12-8d12-bfe1d8c26a0f?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:4a2b2522-75b3-427f-b0d7-11a427f4ec70@30anow.github.io
+DTSTAMP:20261127T173000Z
+DTSTART:20261227T000000Z
+DTEND:20261227T033000Z
+SUMMARY:Weston Hine
+LOCATION:Peddlers Pavilion\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/4a
+ 2b2522-75b3-427f-b0d7-11a427f4ec70
+URL:https://30anow.github.io/e/4a2b2522-75b3-427f-b0d7-11a427f4ec70?s=cal
+END:VEVENT
+BEGIN:VEVENT
+UID:10fc7cd2-3cbc-4e75-a472-cb05f8c205d0@30anow.github.io
+DTSTAMP:20261127T173000Z
+DTSTART:20261227T150000Z
+DTEND:20261227T190000Z
+SUMMARY:Peddlers Pavilion Farmers Market
+LOCATION:Peddlers Pavilion\, Rosemary Beach\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nGrab a friend and enjoy your morning coffee at Peddlers
+  Pavilion Farmers Market on Sundays from 9:00am to 1:00pm. The open-air ma
+ rket is located at Peddlers Pavilion in Seacrest Beach and features fresh 
+ produce\, prepared foods\, seafood\, fresh flowers\, and products from man
+ y amazing local small businesses! Enjoy live music and grab an adult bever
+ age…\n\nTimes\, the live map and the app: https://30anow.github.io/e/10f
+ c7cd2-3cbc-4e75-a472-cb05f8c205d0
+URL:https://30anow.github.io/e/10fc7cd2-3cbc-4e75-a472-cb05f8c205d0?s=cal
 END:VEVENT
 END:VCALENDAR

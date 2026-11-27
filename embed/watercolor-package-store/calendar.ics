@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//30A Now//Calendar feed//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:WaterColor Package Store on 30A Now
+X-WR-CALDESC:Every event at WaterColor Package Store listed on 30A Now\, ke
+ pt up to date: https://30anow.github.io/venues/watercolor-package-store/
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:8ac88036-c71d-43fe-9820-f6bdd05b6d76@30anow.github.io
+DTSTAMP:20261127T173000Z
+DTSTART:20261227T140000Z
+DTEND:20261228T030000Z
+SUMMARY:Bubbles Sip N' Shop
+LOCATION:WaterColor Package Store\, WaterColor\, Santa Rosa Beach\, FL
+DESCRIPTION:Free\n\nCelebrate the season in sparkling style! Stop by WaterC
+ olor Package Store on December 27th from 8AM – 9PM for a complimentary b
+ ubble tasting (adults 21+) and house-made chocolate truffles. Plus\, enjoy
+  25% OFF all wine and champagne bottle purchases all day. Live music by We
+ ston Hines from 3–6 PM…\n\nTimes\, the live map and the app: https://3
+ 0anow.github.io/e/8ac88036-c71d-43fe-9820-f6bdd05b6d76
+URL:https://30anow.github.io/e/8ac88036-c71d-43fe-9820-f6bdd05b6d76?s=cal
+END:VEVENT
+END:VCALENDAR

@@ -10,25 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:804fbc1d-d60b-4fcd-a102-24ae8718f606@30anow.github.io
-DTSTAMP:20261127T145633Z
-DTSTART:20261127T150000Z
-DTEND:20261127T160000Z
-SUMMARY:Thanksgiving Turkey Burn
-LOCATION:Alys Beach Amphitheatre\, Alys Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:$20\n\nWork off the Thanksgiving feast with a high-energy morni
- ng workout led by ZUMA’s Head Fitness Professional\, Kyle Higginbotham.\
- nSet in the Alys Beach Amphitheatre\, this full-body HIIT circuit will com
- bine bodyweight exercises\, strength\, cardio and plenty of movement to ge
- t you energized for the weekend ahead. No equipment necessary—just bring
-  your mat and come ready to move.\nPresented the Merchant…\n\nTimes\, th
- e live map and the app: https://30anow.github.io/e/804fbc1d-d60b-4fcd-a102
- -24ae8718f606
-URL:https://30anow.github.io/e/804fbc1d-d60b-4fcd-a102-24ae8718f606?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:9f726946-8f3c-482f-a6fd-9a7c5eaae31f@30anow.github.io
-DTSTAMP:20261127T145633Z
+DTSTAMP:20261127T173000Z
 DTSTART:20261127T220000Z
 DTEND:20261128T003000Z
 SUMMARY:Alys in Winter Wonderland
