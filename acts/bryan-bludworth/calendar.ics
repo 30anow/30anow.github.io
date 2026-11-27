@@ -9,15 +9,4 @@ X-WR-CALDESC:Bryan Bludworth's shows on 30A\, as 30A Now lists them\, kept
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:442bcc46-bda8-41eb-a0b8-795b39c32384@30anow.github.io
-DTSTAMP:20261127T192958Z
-DTSTART:20261225T220000Z
-DTEND:20261226T020000Z
-SUMMARY:Bryan Bludworth
-LOCATION:AJ's Grayton Beach\, 63 DeFuniak St\, Grayton Beach\, FL
-DESCRIPTION:Times\, the live map and the app: https://30anow.github.io/e/44
- 2bcc46-bda8-41eb-a0b8-795b39c32384
-URL:https://30anow.github.io/e/442bcc46-bda8-41eb-a0b8-795b39c32384?s=cal
-END:VEVENT
 END:VCALENDAR
