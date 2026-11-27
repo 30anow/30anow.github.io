@@ -9,21 +9,4 @@ X-WR-CALDESC:Thanksgiving's shows on 30A\, as 30A Now lists them\, kept up
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:91d3fa89-749c-4ef8-8384-13e45452f8ba@30anow.github.io
-DTSTAMP:20261127T003849Z
-DTSTART:20261127T003000Z
-DTEND:20261127T023000Z
-SUMMARY:Thanksgiving
-LOCATION:Redd's Pub\, 3906 Hwy 98 W\, Santa Rosa Beach\, FL
-DESCRIPTION:A true local gem\, Redd’s Pub delivers an experience that’s
-  become a South Walton tradition. Redd\, the Singing Bartender\, still tak
- es center stage most nights\, performing her signature one-woman show whil
- e greeting guests\, taking requests and serving up crowd favorites like sl
- ow-cooked ribs\, brisket nachos and Southern comfort food. Equal parts nei
- ghborhood pub\, live music venue and community gath…\n\nTimes\, the live
-  map and the app: https://30anow.github.io/e/91d3fa89-749c-4ef8-8384-13e45
- 452f8ba
-URL:https://30anow.github.io/e/91d3fa89-749c-4ef8-8384-13e45452f8ba?s=cal
-END:VEVENT
 END:VCALENDAR
