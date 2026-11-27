@@ -10,25 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:26c6856c-4a32-4c43-816d-14ef92841128@30anow.github.io
-DTSTAMP:20261126T201520Z
-DTSTART:20261126T203000Z
-DTEND:20261126T223000Z
-SUMMARY:Thanksgiving
-LOCATION:The Perfect Pig – Watercolor\, WaterColor\, Santa Rosa Beach\, F
- L
-DESCRIPTION:THANKSGIVING AT THE PERFECT PIG – WATERCOLOR! Let us take car
- e of the cooking this Thanksgiving! Join us at The Perfect Pig in WaterCol
- or for a delicious holiday meal filled with all your Thanksgiving favorite
- s. Reservations are still available\, but spots are filling up! Give us a 
- call today to reserve your table and spend less time in the kitchen and mo
- re time enjoying the holiday with family an…\n\nTimes\, the live map and
-  the app: https://30anow.github.io/e/26c6856c-4a32-4c43-816d-14ef92841128
-URL:https://30anow.github.io/e/26c6856c-4a32-4c43-816d-14ef92841128?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:91d3fa89-749c-4ef8-8384-13e45452f8ba@30anow.github.io
-DTSTAMP:20261126T201520Z
+DTSTAMP:20261127T003849Z
 DTSTART:20261127T003000Z
 DTEND:20261127T023000Z
 SUMMARY:Thanksgiving

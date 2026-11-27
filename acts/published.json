@@ -277,7 +277,8 @@
   },
   {
     "slug": "thanksgiving",
-    "name": "Thanksgiving"
+    "name": "Thanksgiving",
+    "near": true
   },
   {
     "slug": "tim-roberts",
