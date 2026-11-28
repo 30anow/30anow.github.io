@@ -10,16 +10,4 @@ X-WR-CALDESC:Rhino Jockeys + Matt Miller's shows on 30A\, as 30A Now lists
 X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:28e6b0a4-f38c-4caf-949f-eeab76617057@30anow.github.io
-DTSTAMP:20261128T025531Z
-DTSTART:20261128T010000Z
-DTEND:20261128T040000Z
-SUMMARY:Rhino Jockeys + Matt Miller
-LOCATION:Stinky's Bait Shack\, 5994 W County Hwy 30A\, Dune Allen\, FL
-DESCRIPTION:Free\n\nCatch Rhino Jockeys + Matt Miller live from 7-10pm!\n\n
- Times\, the live map and the app: https://30anow.github.io/e/28e6b0a4-f38c
- -4caf-949f-eeab76617057
-URL:https://30anow.github.io/e/28e6b0a4-f38c-4caf-949f-eeab76617057?s=cal
-END:VEVENT
 END:VCALENDAR
