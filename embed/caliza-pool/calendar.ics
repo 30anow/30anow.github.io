@@ -10,23 +10,8 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:8ac01f4b-9354-401c-9a25-ef2e71983d56@30anow.github.io
-DTSTAMP:20261127T211108Z
-DTSTART:20261127T200000Z
-DTEND:20261127T220000Z
-SUMMARY:Make Your Own Squishy
-LOCATION:Caliza Pool\, Alys Beach\, Santa Rosa Beach\, FL
-DESCRIPTION:Get creative at the Squishy Bar! Choose your favorite colors\, 
- mix and match fun designs\, and create a squishy all your own. A playful l
- ittle keepsake to take home—and the perfect companion for poolside adven
- tures.\n**Exclusively available to Alys Beach Homeowners and Rental Guests
- .\n\nTimes\, the live map and the app: https://30anow.github.io/e/8ac01f4b
- -9354-401c-9a25-ef2e71983d56
-URL:https://30anow.github.io/e/8ac01f4b-9354-401c-9a25-ef2e71983d56?s=cal
-END:VEVENT
-BEGIN:VEVENT
 UID:df31e6f8-36e6-4ddb-8684-8725c0bd1c92@30anow.github.io
-DTSTAMP:20261127T211108Z
+DTSTAMP:20261128T000559Z
 DTSTART:20261128T160000Z
 DTEND:20261128T180000Z
 SUMMARY:Sweets with Santa for Owners & Rental Guests
